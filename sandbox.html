@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Sandbox Dialectics</title>
+<!-- Sandbox Dialectics for the Action Summation Sheet. One self-contained file: hand-written HTML/CSS/SVG/Canvas/JS.
+     No libraries, CDNs, web fonts or network calls. Stores only localStorage key "summpub.sandbox". -->
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{color-scheme:dark;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--bg:#000;--panel:#0b0b0b;--ink:#f2f2f2;--mute:#a6a6a6;--gridl:#3a3a3a}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:16px/1.5 var(--mono);color:var(--ink);background:var(--bg)}
+/* Look B: static scanlines on the page + a slow sweep. Both sit BEHIND the content layer;
+   cards get their own scanline layer (card::after) that stops at the diagram panels. */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px)}
+body::after{content:"";position:fixed;left:0;right:0;top:-20vh;height:20vh;pointer-events:none;z-index:0;background:linear-gradient(transparent,rgba(255,255,255,.05),transparent);animation:sweep 7s linear infinite}
+@keyframes sweep{to{transform:translateY(140vh)}}
+main{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 12px 24px}
+.top{border-bottom:3px double var(--ink);padding-bottom:8px;margin-bottom:12px}
+h1{font-size:17px;text-transform:uppercase;letter-spacing:.04em;margin:2px 0 4px}
+h1::before{content:"> "}
+.cur{animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.k{font-size:12px;color:var(--mute);letter-spacing:.1em;text-transform:uppercase}
+.note{font-size:13px;color:var(--mute);margin:4px 0}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+button,.btn{font:inherit;border-radius:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:6px 10px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;border:2px solid var(--ink);background:#000;color:var(--ink);cursor:pointer;text-decoration:none;text-align:center;line-height:1.2}
+.btn>.t::before{content:"["}.btn>.t::after{content:"]"}.btn>.t{display:block}
+.btn.solid{background:var(--ink);color:#000}
+.btn:disabled,.btn[aria-disabled=true]{color:var(--mute);border:1px dashed var(--mute);cursor:not-allowed}
+.btn.big{min-height:52px;font-size:14px;font-weight:700}
+.addbar{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 4px}
+.addbar .btn{font-size:13px;letter-spacing:.02em;padding:6px 4px}
+.addbar .btn:last-child{grid-column:1/-1}
+@media (min-width:700px){.addbar{grid-template-columns:repeat(5,1fr)}.addbar .btn:last-child{grid-column:auto}}
+#stack{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:14px;align-items:start}
+@media (min-width:900px){#stack{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.card{position:relative;background:var(--panel);border:2px solid var(--ink);box-shadow:4px 4px 0 0 var(--gridl);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);padding:12px;min-width:0}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px)}
+.card.flash{animation:flash .6s}
+@keyframes flash{from{box-shadow:0 0 0 4px var(--ink)}}
+.ctype{font-size:12px;color:var(--mute);letter-spacing:.1em;text-transform:uppercase}
+.ttl{width:100%;font:inherit;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:#000;color:var(--ink);border:0;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);border-radius:0;padding:8px 10px;min-height:44px;margin:4px 0 8px}
+.tools{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.tools .btn{flex:1 1 0;padding:4px 2px;font-size:12px}
+label,.lbl{display:block;font-weight:700;font-size:14px;margin:8px 0 4px}
+label::before,.lbl::before{content:"// ";color:var(--mute)}
+input[type=text],input[type=number],input[type=date],textarea,select{width:100%;font:inherit;font-size:16px;background:#000;color:var(--ink);caret-color:var(--ink);border:0;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);border-radius:0;padding:8px 10px;min-height:44px}
+textarea{min-height:88px;resize:vertical}
+select{-webkit-appearance:none;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 12px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:32px}
+::placeholder{color:#8c8c8c;opacity:1}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.two label{font-size:13px}
+/* diagram panel: Look A grid inside, above the card scanlines */
+.panel{position:relative;z-index:3;background-color:#000;background-image:linear-gradient(var(--gridl) 1px,transparent 1px),linear-gradient(90deg,var(--gridl) 1px,transparent 1px);background-size:24px 24px;border:1px solid var(--ink);outline:3px double var(--ink);outline-offset:3px;margin:14px 4px 12px;padding:8px}
+.panel svg{display:block;width:100%;height:auto;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.panel.drag svg{cursor:ew-resize}
+.panel.jolt{animation:jolt .5s}
+@keyframes jolt{20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+.rng{position:relative;z-index:3;background:#000;padding:0 2px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;margin:2px 0 0;cursor:pointer;touch-action:pan-y}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--ink)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:40px;height:40px;margin-top:-19px;background:#000;border:2px solid var(--ink);border-radius:0;box-shadow:inset 0 0 0 6px #000,inset 0 0 0 8px var(--ink)}
+input[type=range]::-moz-range-track{height:2px;background:var(--ink)}
+input[type=range]::-moz-range-thumb{width:36px;height:36px;background:#000;border:2px solid var(--ink);border-radius:0}
+input[type=range]:disabled{cursor:not-allowed;opacity:1}
+input[type=range]:disabled::-webkit-slider-thumb{border:1px dashed var(--mute);box-shadow:none}
+.ends{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--mute);letter-spacing:.04em}
+.ends span:last-child{text-align:right}
+.state{font-size:14px;border-top:3px double var(--ink);margin-top:10px;padding-top:8px}
+.state b{text-transform:uppercase;letter-spacing:.04em}
+.sec{border:2px solid var(--ink);border-left-width:6px;padding:4px 10px 10px;margin:10px 0;background:#000;min-width:0}
+.sec legend{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:0 6px;background:#000}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.row .btn{flex:1 1 auto}
+.chips{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.chip{display:flex;align-items:stretch;border:2px solid var(--ink);background:#000;font-size:13px}
+.chip span{flex:1;padding:6px 8px;min-width:0;overflow-wrap:anywhere}
+.chip span b{text-transform:uppercase;letter-spacing:.04em}
+.chip.on{background:var(--ink);color:#000}
+.chip.in{border-style:dashed}
+.chip .x{border:0;border-left:2px solid currentColor;background:transparent;color:inherit;min-width:44px;min-height:44px;font-size:18px;cursor:pointer}
+.linkpanel{border:2px dashed var(--ink);padding:8px 10px 10px;margin-top:10px;background:#000}
+.linkpanel p{font-size:14px;margin:8px 0}
+.stages{list-style:none;margin:8px 0 0;padding:0}
+.stages li{border-left:2px solid var(--ink);padding:4px 0 8px 10px;margin:0 0 8px}
+.stages .tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.stages li.derived{border-left-style:dashed}
+.stages .r2{display:grid;grid-template-columns:1fr 44px 44px 44px;gap:4px;margin-top:4px}
+.stages .r2 .btn{padding:0;min-width:44px}
+canvas.spiral{display:block;width:100%;height:300px;touch-action:pan-y;cursor:grab;background:#000}
+canvas.spiral:focus-visible{outline-offset:-4px;box-shadow:none}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;padding:6px 2px 0}
+.ctl{display:flex;gap:6px;margin-top:8px}.ctl .btn{flex:1}
+#empty{border:2px dashed var(--ink);padding:14px;margin-top:14px;background:var(--panel);position:relative}
+#empty ul{margin:6px 0 12px;padding-left:20px;font-size:14px}
+.bar{position:sticky;bottom:0;z-index:20;background:#000;border-top:3px double var(--ink);padding:8px 12px calc(8px + env(safe-area-inset-bottom));display:flex;gap:6px}
+.bar .btn{flex:1;min-height:48px;padding:4px}
+#toast{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:40;max-width:560px;margin:0 auto;background:var(--ink);color:#000;border:2px solid var(--ink);box-shadow:4px 4px 0 #3a3a3a;display:flex;align-items:center;gap:8px;padding:6px 6px 6px 12px;font-size:14px}
+#toast[hidden]{display:none}
+#toast .btn{background:#000;color:var(--ink)}
+#toast span{flex:1}
+dialog{background:var(--panel);color:var(--ink);border:2px solid var(--ink);border-radius:0;padding:14px;width:min(94vw,640px);max-height:90vh;box-shadow:6px 6px 0 #3a3a3a}
+dialog::backdrop{background:rgba(0,0,0,.85)}
+dialog h2{font-size:15px;text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;padding-bottom:6px;border-bottom:3px double var(--ink)}
+dialog h2::before{content:"> "}
+dialog img{display:block;width:100%;height:auto;border:1px solid var(--ink);max-height:52vh;object-fit:contain;object-position:top;background:#000}
+dialog textarea{min-height:44vh;font-size:13px;line-height:1.45;white-space:pre-wrap}
+dialog .row .btn{flex:1 1 40%}
+:focus{outline:none}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;box-shadow:0 0 0 2px #000,0 0 0 7px rgba(242,242,242,.35)}
+@media (prefers-reduced-motion:reduce){body::after{display:none;animation:none}.cur{animation:none}.card.flash,.panel.jolt{animation:none}}
+@media print{
+ body{background:#fff;color:#000}body::before,body::after,.card::after{display:none}
+ .addbar,.bar,.tools,#toast,.linkpanel,.rng,.ends,.row,.ctl,.chip .x,#empty .btn,dialog,.stages .r2 .btn,.addstage{display:none!important}
+ .card,#empty{background:#fff;color:#000;border-color:#000;box-shadow:none;clip-path:none;break-inside:avoid;page-break-inside:avoid}
+ .panel{background:#fff;outline-color:#000;border-color:#000}
+ .panel svg,canvas.spiral{filter:invert(1)}
+ .ttl,input,textarea,select,.sec,.chip,.sec legend{background:#fff!important;color:#000!important;border-color:#000!important}
+ .chip.on{background:#fff;color:#000}
+ .k,.note,.ctype,.stages .tag,label::before,.lbl::before{color:#333}
+ .top{border-color:#000}#stack{display:block}#stack>*{margin-bottom:12px}
+}
+</style></head>
+<body>
+<main>
+ <header class="top">
+  <div class="k">Summation · sandbox</div>
+  <h1>Sandbox dialectics<span class="cur" aria-hidden="true">_</span></h1>
+  <p class="note">Add elements, move them, link them together. Everything stays on this device.</p>
+ </header>
+ <div class="addbar" role="group" aria-label="Add an element">
+  <button type="button" class="btn big" data-add="contra"><span class="t">+ Contradiction</span></button>
+  <button type="button" class="btn big" data-add="slider"><span class="t">+ Slider</span></button>
+  <button type="button" class="btn big" data-add="qq"><span class="t">+ Quantity→Quality</span></button>
+  <button type="button" class="btn big" data-add="spiral"><span class="t">+ Spiral</span></button>
+  <button type="button" class="btn big" data-add="note"><span class="t">+ Note</span></button>
+ </div>
+ <section id="empty" aria-labelledby="emptyH" hidden>
+  <h2 id="emptyH" class="k" style="margin:0 0 6px">The sandbox is empty</h2>
+  <ul>
+   <li><b>Contradiction</b>: two aspects, which one is principal, and secondary contradictions that push on it.</li>
+   <li><b>Slider</b>: a balance of two opposing forces.</li>
+   <li><b>Quantity→quality</b>: an amount building toward a nodal point, then a leap.</li>
+   <li><b>Spiral</b>: stages of affirmation, negation and negation of the negation.</li>
+   <li><b>[LINK]</b> on any element connects it to another, so one change moves the other.</li>
+  </ul>
+  <button type="button" class="btn solid big" id="loadEx" style="width:100%"><span class="t">Load example</span></button>
+  <p class="note">The example is made up and generic. You can delete it all with [CLEAR].</p>
+ </section>
+ <div id="stack"></div>
+</main>
+<div class="bar" role="group" aria-label="Sandbox actions">
+ <button type="button" class="btn" id="expImg"><span class="t">Export image</span></button>
+ <button type="button" class="btn" id="expTxt"><span class="t">Export text</span></button>
+ <button type="button" class="btn" id="clr"><span class="t">Clear sandbox</span></button>
+</div>
+<div id="toast" role="status" hidden><span id="toastMsg"></span><button type="button" class="btn" id="undo"><span class="t">Undo</span></button></div>
+<div id="live" class="sr" aria-live="polite" aria-atomic="true"></div>
+
+<dialog id="dlgImg" aria-labelledby="dlgImgH">
+ <h2 id="dlgImgH">Export image</h2>
+ <img id="pngPrev" alt="Exported image of the sandbox">
+ <p class="note" id="pngNote">On iPhone: tap Share, or long-press the image and choose Save to Photos.</p>
+ <div class="row">
+  <button type="button" class="btn solid" id="pngShare" hidden><span class="t">Share image</span></button>
+  <a class="btn" id="pngDl" download="sandbox.png" href="#"><span class="t">Download PNG</span></a>
+  <button type="button" class="btn" data-close><span class="t">Close</span></button>
+ </div>
+</dialog>
+<dialog id="dlgTxt" aria-labelledby="dlgTxtH">
+ <h2 id="dlgTxtH">Export text</h2>
+ <label for="txtOut">Plain-text summary</label>
+ <textarea id="txtOut" readonly></textarea>
+ <div class="row">
+  <button type="button" class="btn solid" id="txtCopy"><span class="t">Copy</span></button>
+  <a class="btn" id="txtDl" download="sandbox.txt" href="#"><span class="t">Download .txt</span></a>
+  <button type="button" class="btn" id="txtShare" hidden><span class="t">Share</span></button>
+  <button type="button" class="btn" data-close><span class="t">Close</span></button>
+ </div>
+ <p class="note" id="txtNote" role="status"></p>
+</dialog>
+<dialog id="dlgClr" aria-labelledby="dlgClrH">
+ <h2 id="dlgClrH">Clear the sandbox?</h2>
+ <p>This deletes every element and link in the sandbox on this device. Export first if you want to keep it. It can't be undone.</p>
+ <div class="row">
+  <button type="button" class="btn solid" id="clrYes"><span class="t">Yes, clear it</span></button>
+  <button type="button" class="btn" data-close><span class="t">Keep it</span></button>
+ </div>
+</dialog>
+<script>
+"use strict";
+/* ---------- state ---------- */
+const KEY="summpub.sandbox";
+const $=(s,r=document)=>r.querySelector(s);
+const RM=matchMedia("(prefers-reduced-motion: reduce)");
+const NS="http://www.w3.org/2000/svg";
+const MONO="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace";
+const STAGE=["Affirmation","Negation","Negation of the negation"];
+const TYPES={contra:"Contradiction",slider:"Slider",qq:"Quantity→quality",spiral:"Spiral",note:"Note"};
+const TYPELONG={contra:"Contradiction",slider:"Balance of two forces",qq:"Quantity into quality",spiral:"Negation of the negation spiral",note:"Note"};
+const blank=()=>({v:1,seq:0,cards:[],links:[]});
+function loadState(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.cards)&&Array.isArray(s.links))return Object.assign(blank(),s)}catch(e){}return blank()}
+let S=loadState();
+let saveT;
+function save(){clearTimeout(saveT);saveT=setTimeout(saveNow,250)}
+function saveNow(){clearTimeout(saveT);try{if(!S.cards.length)localStorage.removeItem(KEY);else localStorage.setItem(KEY,JSON.stringify(S,(k,v)=>k==="_u"?undefined:v))}catch(e){say("Could not autosave: storage is full or blocked.")}}
+addEventListener("pagehide",saveNow);
+document.addEventListener("visibilitychange",()=>{if(document.hidden)saveNow()});
+const nid=p=>p+(++S.seq).toString(36);
+const clamp=(v,a=0,b=100)=>Math.max(a,Math.min(b,v));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sh=(s,n)=>{s=String(s||"").trim().split(/\n/)[0];return s.length>n?s.slice(0,n-1)+"…":s};
+const cardBy=id=>S.cards.find(c=>c.id===id);
+function lab(c,s){const v=String(c[s]||"").trim();return v||(c.type==="slider"?"Force ":"Aspect ")+s.toUpperCase()}
+const titleOf=c=>String(c.title||"").trim()||TYPES[c.type];
+function mk(type){const n=S.cards.filter(c=>c.type===type).length+1;
+ const c={id:nid("c"),type,title:TYPES[type]+" "+n};
+ if(type==="contra")Object.assign(c,{a:"",b:"",w:50,sec:[]});
+ if(type==="slider")Object.assign(c,{a:"",b:"",w:50});
+ if(type==="qq")Object.assign(c,{what:"",n:0,thr:10,quality:""});
+ if(type==="spiral")Object.assign(c,{stages:[]});
+ if(type==="note")Object.assign(c,{text:""});
+ return c}
+const qmax=q=>Math.max(+q.thr+Math.ceil(q.thr*0.25),+q.thr+2);
+
+/* ---------- words ---------- */
+function strength(diff){return diff===0?"":diff<=5?"barely":diff<=15?"slightly":diff<=30?"clearly":"overwhelmingly"}
+function balWords(c,eff){const A=lab(c,"a"),B=lab(c,"b"),d=Math.abs(eff-50);
+ if(eff===50)return`Balanced: neither “${A}” nor “${B}” is ${c.type==="slider"?"stronger":"principal"} (at the flip point, 50 to 50).`;
+ const p=eff>50?B:A,s=eff>50?A:B,ps=Math.max(eff,100-eff);
+ const noun=c.type==="slider"?"the stronger force":"the principal aspect",noun2=c.type==="slider"?"the weaker force":"the secondary aspect";
+ return`“${p}” is ${noun}, ${strength(d)} (${ps} to ${100-ps}); “${s}” is ${noun2}.`}
+function infWords(c,s){const v=+s.inf||0;if(!v)return"no influence";return`pushes toward “${v>0?lab(c,"b"):lab(c,"a")}” by ${Math.abs(v)}`}
+function vt(c,v){if(v===50)return"balanced, 50 percent each";return`${v>50?lab(c,"b"):lab(c,"a")} ${c.type==="slider"?"stronger":"principal"}, ${Math.max(v,100-v)} percent`}
+
+/* ---------- links ---------- */
+const isBal=t=>t==="contra"||t==="slider";
+function kindFor(src,tgt){const s=src.type,t=tgt.type;
+ if(s==="qq"&&isBal(t))return"flip";if((s==="qq"||isBal(s))&&t==="spiral")return"stage";
+ if(isBal(s)&&t==="qq")return"drive";if(isBal(s)&&isBal(t))return"push";return"rel"}
+const SHORT={flip:"leap flips principal aspect",stage:"adds a spiral stage",drive:"sets the amount",push:"pushes the balance",rel:"related (no effect)"};
+function linkText(kind,src,tgt){const s=`“${titleOf(src)}”`,t=`“${titleOf(tgt)}”`;
+ return({flip:`When ${s} reaches its nodal point, the leap flips which ${tgt.type==="slider"?"force is stronger":"aspect is principal"} in ${t}. Drop back below the nodal point and it flips back.`,
+  stage:src.type==="qq"?`When ${s} leaps, its new quality appears as the newest stage of ${t}.`:`${s}'s current ${src.type==="slider"?"stronger force":"principal aspect"} appears as the newest stage of ${t}, and updates as you move it.`,
+  drive:`${s}'s share of “${lab(src,"b")}” sets the amount in ${t} (100% = top of its scale).`,
+  push:`${s} acts like a secondary contradiction on ${t}: its lean toward “${lab(src,"b")}” or “${lab(src,"a")}” pushes ${t}'s balance the same way, at 40% strength.`,
+  rel:`${s} is marked as related to ${t}. No automatic effect.`})[kind]}
+function linkErr(src,tgt){if(!tgt)return"Pick an element to link to.";
+ if(S.links.some(L=>(L.from===src.id&&L.to===tgt.id)||(L.from===tgt.id&&L.to===src.id)))return"These two are already linked.";
+ const k=kindFor(src,tgt);if(k==="drive"&&S.links.some(L=>L.to===tgt.id&&L.kind==="drive"))return`“${titleOf(tgt)}” already has an amount set by another link.`;
+ return""}
+
+/* ---------- derive: everything computed from state, nothing stored ---------- */
+function derive(){const D={};
+ S.cards.forEach(c=>{const d=D[c.id]={c,in:[],out:[]};
+  if(c.type==="contra"){d.secSum=c.sec.reduce((t,s)=>t+(+s.inf||0),0);d.base=clamp(+c.w+d.secSum)}
+  if(c.type==="slider")d.base=+c.w});
+ S.links.forEach(L=>{if(D[L.from]&&D[L.to]){D[L.from].out.push(L);D[L.to].in.push(L)}});
+ S.cards.forEach(c=>{const d=D[c.id];if(d.base==null)return;d.push=0;d.pushers=[];
+  d.in.forEach(L=>{if(L.kind==="push"){const v=Math.round((D[L.from].base-50)*0.4);d.push+=v;d.pushers.push([L.from,v])}});d.eff0=clamp(d.base+d.push)});
+ S.cards.forEach(c=>{if(c.type!=="qq")return;const d=D[c.id];d.max=qmax(c);const dr=d.in.find(L=>L.kind==="drive");d.driver=dr?dr.from:null;
+  d.n=dr?Math.round(D[dr.from].eff0/100*d.max):clamp(+c.n,0,d.max);d.leap=d.n>=+c.thr;d.near=!d.leap&&d.n>=Math.ceil(c.thr*0.8)});
+ S.cards.forEach(c=>{const d=D[c.id];if(d.eff0==null)return;d.flippers=d.in.filter(L=>L.kind==="flip"&&D[L.from].leap).map(L=>L.from);
+  d.eff=d.flippers.length%2?100-d.eff0:d.eff0;d.princ=d.eff>50?"b":d.eff<50?"a":null});
+ S.cards.forEach(c=>{if(c.type!=="spiral")return;const d=D[c.id];d.nodes=c.stages.map(s=>({t:String(s.t||"").trim()||"(untitled stage)",date:s.d||""}));
+  d.in.filter(L=>L.kind==="stage").forEach(L=>{const s=D[L.from],sc=s.c;
+   if(sc.type==="qq"){if(s.leap)d.nodes.push({t:"Leap: "+(String(sc.quality||"").trim()||"new quality"),from:sc.id})}
+   else d.nodes.push({t:s.princ?lab(sc,s.princ)+(sc.type==="slider"?" stronger":" principal"):"Balanced: "+lab(sc,"a")+" / "+lab(sc,"b"),from:sc.id})})});
+ return D}
+
+/* ---------- small DOM helpers ---------- */
+function h(tag,at,...kids){const e=document.createElement(tag);for(const k in at||{}){const v=at[k];if(v==null||v===false)continue;
+ if(k==="class")e.className=v;else if(k==="text")e.textContent=v;else if(k.slice(0,2)==="on")e.addEventListener(k.slice(2),v);else if(k==="value")e.value=v;else e.setAttribute(k,v===true?"":v)}
+ kids.flat().forEach(x=>x!=null&&e.append(x));return e}
+const btn=(text,at)=>h("button",Object.assign({type:"button",class:"btn"},at),h("span",{class:"t"},text));
+let liveT;function say(m){if(!m)return;const L=$("#live");L.textContent="";clearTimeout(liveT);liveT=setTimeout(()=>L.textContent=m,40)}
+
+/* ---------- SVG drawings (string-built; also serialized for the PNG export) ---------- */
+const INK="#f2f2f2",MUTE="#a6a6a6";
+function svgOpen(id,w,hgt,title){return`<svg xmlns="${NS}" viewBox="0 0 ${w} ${hgt}" width="${w}" height="${hgt}" font-family="${MONO}" role="img" aria-label="${esc(title)}"><defs><pattern id="h${id}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#000"/><line x1="0" y1="0" x2="0" y2="6" stroke="${INK}" stroke-width="2"/></pattern><marker id="m${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${INK}"/></marker></defs>`}
+const T=(x,y,s,txt,o={})=>`<text x="${x}" y="${y}" font-size="${s}" fill="${o.fill||INK}"${o.a?` text-anchor="${o.a}"`:""}${o.b?` font-weight="700"`:""}${o.ls?` letter-spacing="${o.ls}"`:""}>${esc(txt)}</text>`;
+function wrap2(txt,n){const w=String(txt).split(/\s+/),L=[""];w.forEach(x=>{const c=L[L.length-1];if((c+" "+x).trim().length<=n)L[L.length-1]=(c+" "+x).trim();else L.push(x)});
+ const out=L.slice(0,2).map(s=>s.slice(0,n));if(L.length>2)out[1]=out[1].slice(0,n-1)+"…";return out}
+// seesaw: pivot (cx,cy), half length, eff = share of aspect B (0-100), scale k, optional ghost (the balance before pushes)
+function seesaw(id,cx,cy,half,eff,k,ghost){const ang=(eff-50)/50*14;let s="";
+ if(ghost!=null&&ghost!==eff){const ga=(ghost-50)/50*14;s+=`<line x1="${cx-half}" y1="${cy}" x2="${cx+half}" y2="${cy}" stroke="${INK}" stroke-width="1" stroke-dasharray="3 3" transform="rotate(${ga.toFixed(2)} ${cx} ${cy})"/>`}
+ const sa=(22+(100-eff)*0.32)*k,sb=(22+eff*0.32)*k;
+ const fa=eff<50?INK:`url(#h${id})`,fb=eff>50?INK:`url(#h${id})`;
+ s+=`<g transform="rotate(${ang.toFixed(2)} ${cx} ${cy})"><line x1="${cx-half}" y1="${cy}" x2="${cx+half}" y2="${cy}" stroke="${INK}" stroke-width="${(2.5*k+.5).toFixed(1)}"/>`+
+  `<rect x="${cx-half+2}" y="${(cy-sa).toFixed(1)}" width="${sa.toFixed(1)}" height="${sa.toFixed(1)}" fill="${fa}" stroke="${INK}" stroke-width="${eff<50?0:1.5}"/>`+
+  `<rect x="${(cx+half-2-sb).toFixed(1)}" y="${(cy-sb).toFixed(1)}" width="${sb.toFixed(1)}" height="${sb.toFixed(1)}" fill="${fb}" stroke="${INK}" stroke-width="${eff>50?0:1.5}"/></g>`+
+  `<polygon points="${cx},${cy+2} ${cx-13*k},${cy+26*k} ${cx+13*k},${cy+26*k}" fill="#000" stroke="${INK}" stroke-width="2"/><line x1="${cx-28*k}" y1="${cy+26*k}" x2="${cx+28*k}" y2="${cy+26*k}" stroke="${INK}" stroke-width="2"/>`;
+ return s}
+function svgContra(c,d){const id=c.id,W=360,A=lab(c,"a"),B=lab(c,"b"),eff=d.eff,ns=c.sec.length,rows=Math.ceil(ns/2);
+ const flip=d.flippers.length>0,yN=flip?248:222,yS=yN+(ns?16:0),H=ns?yS+20+rows*112:yN;let s="";
+ s+=T(W/2,16,11,`${sh(A,12)} ${100-eff} · ${eff} ${sh(B,12)}`,{a:"middle"});
+ s+=T(34,34,10,eff<50?"PRINCIPAL":eff>50?"secondary":"",{b:eff<50});s+=T(326,34,10,eff>50?"PRINCIPAL":eff<50?"secondary":"",{a:"end",b:eff>50});
+ const moved=+c.w!==eff;
+ s+=seesaw(id,180,92,130,eff,1,moved?+c.w:null);
+ // scale: where the balance sits; zones either side of the flip line; ghost = what you set before pushes
+ const X=v=>24+v*3.12,y0=134;
+ s+=`<rect x="24" y="${y0}" width="312" height="30" fill="#000" stroke="${INK}" stroke-width="2"/>`;
+ if(eff!==50)s+=`<rect x="${eff<50?24:180}" y="${y0}" width="156" height="30" fill="url(#h${id})" opacity=".55"/>`;
+ for(let i=1;i<10;i++)if(i!==5)s+=`<line x1="${X(i*10)}" y1="${y0+22}" x2="${X(i*10)}" y2="${y0+30}" stroke="${INK}" stroke-width="1"/>`;
+ s+=`<line x1="180" y1="${y0-6}" x2="180" y2="${y0+36}" stroke="${INK}" stroke-width="2" stroke-dasharray="4 3"/>`+T(180,y0+48,10,"FLIP",{a:"middle",ls:".1em"});
+ if(moved){s+=`<rect x="${X(+c.w)-4}" y="${y0+2}" width="8" height="26" fill="#000" stroke="${INK}" stroke-width="1.5" stroke-dasharray="2 2"/>`;
+  if(Math.abs(X(eff)-X(+c.w))>16)s+=`<line x1="${X(+c.w)+(eff>+c.w?5:-5)}" y1="${y0+15}" x2="${X(eff)+(eff>+c.w?-8:8)}" y2="${y0+15}" stroke="${INK}" stroke-width="2" marker-end="url(#m${id})"/>`}
+ s+=`<rect x="${X(eff)-6}" y="${y0-4}" width="12" height="38" fill="${INK}" stroke="#000" stroke-width="2"/>`;
+ s+=T(24,y0+48,10,"◂ A PRINCIPAL",{fill:MUTE,ls:".06em"})+T(336,y0+48,10,"B PRINCIPAL ▸",{a:"end",fill:MUTE,ls:".06em"});
+ wrap2(A,20).forEach((l,i)=>s+=T(24,y0+64+i*14,12,l,{b:1}));wrap2(B,20).forEach((l,i)=>s+=T(336,y0+64+i*14,12,l,{a:"end",b:1}));
+ if(flip){const f=cardBy(d.flippers[0]);s+=`<rect x="24" y="${yN-28}" width="312" height="20" fill="${INK}"/>`+T(180,yN-14,10,`⇄ FLIPPED BY THE LEAP IN “${sh(titleOf(f),18)}”`,{a:"middle",fill:"#000",b:1})}
+ if(ns){s+=T(24,yS+4,10,`SECONDARY CONTRADICTIONS (${ns}) · NET PUSH ${d.secSum>0?"+":""}${d.secSum}`,{fill:MUTE,ls:".04em"});
+  c.sec.forEach((q,k)=>{const row=Math.floor(k/2),cx=k%2?268:92,ry=yS+20+row*112,inf=+q.inf||0;
+   // linked line from this secondary seesaw, up the margin, into the principal scale (thicker = stronger push)
+   if(inf){const left=inf<0,mx=left?9-(k%4)*2:351+(k%4)*2,hy=ry-3-(k%2)*2,sw=1+Math.abs(inf)/7;
+    s+=`<polyline points="${cx},${ry} ${cx},${hy} ${mx},${hy} ${mx},${y0+15} ${left?20:340},${y0+15}" fill="none" stroke="${INK}" stroke-width="${sw.toFixed(1)}"${Math.abs(inf)<8?` stroke-dasharray="3 3"`:""} marker-end="url(#m${id})"/>`}
+   s+=`<rect x="${cx-80}" y="${ry}" width="160" height="104" fill="#000" stroke="${INK}" stroke-width="1"/>`;
+   s+=T(cx-74,ry+14,10,"S"+(k+1),{b:1})+T(cx+74,ry+14,9,"own "+(100-q.w)+"/"+q.w,{a:"end",fill:MUTE});
+   s+=seesaw(id,cx,ry+44,58,+q.w,0.55);
+   s+=T(cx,ry+80,10,sh(q.a||"Aspect A",10)+" / "+sh(q.b||"Aspect B",10),{a:"middle"});
+   s+=T(cx,ry+97,11,inf?(inf<0?"◂ PUSH A "+(-inf):"PUSH B "+inf+" ▸"):"NO INFLUENCE",{a:"middle",b:!!inf})})}
+ return svgOpen(id,W,H,`${titleOf(c)}: ${balWords(c,eff)}`)+s+"</svg>"}
+function svgSlider(c,d){const id=c.id,W=360,H=d.flippers.length?184:168,eff=d.eff,A=lab(c,"a"),B=lab(c,"b"),X=v=>24+v*3.12,kx=X(eff);let s="";
+ s+=T(W/2,16,11,`${sh(A,12)} ${100-eff} · ${eff} ${sh(B,12)}`,{a:"middle"});
+ const la=Math.max(12,(100-eff)*1.25),lb=Math.max(12,eff*1.25);
+ s+=T(24,40,10,eff<50?"STRONGER":"weaker",{b:eff<50})+T(336,40,10,eff>50?"STRONGER":"weaker",{a:"end",b:eff>50});
+ s+=`<line x1="${kx}" y1="62" x2="${clamp(kx-la,16,344)}" y2="62" stroke="${INK}" stroke-width="${eff<50?6:3}" marker-end="url(#m${id})"/>`;
+ s+=`<line x1="${kx}" y1="62" x2="${clamp(kx+lb,16,344)}" y2="62" stroke="${INK}" stroke-width="${eff>50?6:3}" marker-end="url(#m${id})"/>`;
+ s+=`<line x1="24" y1="96" x2="336" y2="96" stroke="${INK}" stroke-width="2"/><line x1="180" y1="80" x2="180" y2="112" stroke="${INK}" stroke-width="2" stroke-dasharray="4 3"/>`+T(180,124,9,"EVEN",{a:"middle",ls:".1em"});
+ if(+c.w!==eff)s+=`<rect x="${X(+c.w)-5}" y="88" width="10" height="16" fill="#000" stroke="${INK}" stroke-dasharray="2 2"/>`;
+ s+=`<rect x="${kx-8}" y="84" width="16" height="24" fill="${INK}" stroke="#000" stroke-width="2"/>`;
+ wrap2(A,20).forEach((l,i)=>s+=T(24,142+i*14,12,l,{b:1}));wrap2(B,20).forEach((l,i)=>s+=T(336,142+i*14,12,l,{a:"end",b:1}));
+ if(d.flippers.length)s+=T(180,180,10,"⇄ FLIPPED BY A LEAP",{a:"middle",b:1});
+ return svgOpen(id,W,H,`${titleOf(c)}: ${balWords(c,eff)}`)+s+"</svg>"}
+function svgQQ(c,d){const id=c.id,W=360,H=176,max=d.max,thr=+c.thr,n=d.n,unit=String(c.what||"").trim()||"units";let s="";
+ if(d.leap){s+=`<rect x="0" y="0" width="${W}" height="${H}" fill="${INK}"/>`;
+  s+=`<rect x="20" y="16" width="320" height="44" fill="#000"/>`+T(180,45,18,"[ NEW QUALITY ]",{a:"middle",b:1,ls:".15em"});
+  wrap2(String(c.quality||"").trim()||"(write what the new quality is)",30).forEach((l,i)=>s+=T(180,92+i*20,15,l,{a:"middle",b:1,fill:"#000"}));
+  s+=T(180,152,12,`${n} ${sh(unit,16)} · nodal point ${thr} passed: LEAP`,{a:"middle",fill:"#000"});
+  return svgOpen(id,W,H,`${titleOf(c)}: leap. New quality: ${String(c.quality||"").trim()||"not written yet"}`)+s+"</svg>"}
+ s+=T(24,46,36,String(n),{b:1})+T(24+String(n).length*22+8,46,13,`/ ${thr} ${sh(unit,18)}`,{fill:MUTE});
+ const cells=Math.min(max,30),cw=312/cells,X=v=>24+v/max*312;
+ for(let i=0;i<cells;i++){const on=(i+1)*max/cells<=n+1e-9;s+=`<rect x="${(24+i*cw+1).toFixed(1)}" y="84" width="${(cw-2).toFixed(1)}" height="36" fill="${on?INK:"#000"}" stroke="${INK}" stroke-width="1"/>`}
+ s+=`<line x1="${X(thr).toFixed(1)}" y1="72" x2="${X(thr).toFixed(1)}" y2="132" stroke="${INK}" stroke-width="${d.near?3:2}" stroke-dasharray="5 3"/>`;
+ const tx=clamp(X(thr),80,280);s+=`<rect x="${(tx-58).toFixed(1)}" y="60" width="116" height="14" fill="#000"/>`+T(tx.toFixed(1),71,10,"NODAL POINT · "+thr,{a:"middle",ls:".05em"});
+ s+=T(24,150,13,d.near?"APPROACHING THE NODAL POINT":"ACCUMULATING",{b:1,ls:".05em"});
+ s+=T(24,168,12,`${thr-n} more to the leap · ${Math.round(n/thr*100)}% of the way`,{fill:MUTE});
+ return svgOpen(id,W,H,`${titleOf(c)}: ${n} of ${thr} ${unit}. ${d.near?"Approaching the nodal point.":"Accumulating."}`)+s+"</svg>"}
+
+/* ---------- spiral (canvas) ---------- */
+const STEP=2*Math.PI/3,RISE=1,VIEW0={yaw:-0.5,pitch:0.32};
+const V={};// per spiral card view state, not stored: {yaw,pitch,sel}
+function world(u){const turns=u/3,ang=u*STEP,r=1+0.18*turns;return[r*Math.cos(ang),turns*RISE,r*Math.sin(ang)]}
+function projector(W,H,n,v,flat){const last=Math.max(0,n-1),levels=Math.max(1,last/3);
+ if(flat){const R=Math.min(W,H)*0.42,rr=u=>R*(0.22+0.78*u/Math.max(last,3));return{node:u=>{const a=u*STEP-Math.PI/2;return{x:W/2+rr(u)*Math.cos(a),y:H/2+rr(u)*Math.sin(a),z:-1,f:1}}}}
+ const pw=([x,y,z])=>{y-=levels*RISE/2;let X=x*Math.cos(v.yaw)-z*Math.sin(v.yaw),Z=x*Math.sin(v.yaw)+z*Math.cos(v.yaw);let Y=y*Math.cos(v.pitch)-Z*Math.sin(v.pitch);Z=y*Math.sin(v.pitch)+Z*Math.cos(v.pitch);
+  const s=Math.min(W,H)*0.30*(1.9/Math.max(1.9,levels*0.75+1)),f=4/(4+Z);return{x:W/2+X*s*1.15*f,y:H/2-Y*s*f,z:Z,f}};
+ return{node:u=>pw(world(u)),pw}}
+function drawSpiral(g,W,H,N,v,flat,sc){sc=sc||1;
+ g.fillStyle="#000";g.fillRect(0,0,W,H);g.lineCap="round";g.strokeStyle=INK;g.fillStyle=INK;
+ const F=(sz,b)=>(b?"700 ":"")+sz+"px "+MONO;
+ if(!N.length){g.fillStyle=MUTE;g.font=F(13*sc);g.textAlign="center";g.textBaseline="middle";g.fillText("Add stages to grow the spiral",W/2,H/2);return}
+ const last=N.length-1,Pj=projector(W,H,N.length,v,flat),P=Pj.node;
+ g.lineWidth=1*sc;g.setLineDash([3*sc,4*sc]);
+ for(let i=0;i+3<=last;i++){const a=P(i),b=P(i+3);g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.stroke()}
+ if(!flat){g.setLineDash([2*sc,4*sc]);const a0=Pj.pw([0,-0.3,0]),a1=Pj.pw([0,last/3*RISE+0.4,0]);g.beginPath();g.moveTo(a0.x,a0.y);g.lineTo(a1.x,a1.y);g.stroke();
+  g.setLineDash([]);g.beginPath();for(let k=0;k<=48;k++){const a=k/48*2*Math.PI,p=Pj.pw([1.25*Math.cos(a),-0.3,1.25*Math.sin(a)]);k?g.lineTo(p.x,p.y):g.moveTo(p.x,p.y)}g.stroke()}
+ g.setLineDash([]);const segs=Math.max(1,last*16);let pv=P(0);
+ for(let k=1;k<=segs;k++){const p=P(k/segs*last);g.lineWidth=(flat?2:p.z>0?1:2.5)*sc;g.beginPath();g.moveTo(pv.x,pv.y);g.lineTo(p.x,p.y);g.stroke();pv=p}
+ const L=N.map((n,i)=>({i,n,p:P(i)})).sort((a,b)=>b.p.z-a.p.z);g.textBaseline="middle";
+ L.forEach(({i,n,p})=>{const s=(i===v.sel?9:6)*p.f*sc,k=i%3;g.lineWidth=2*sc;g.strokeStyle=INK;g.setLineDash(n.from?[3*sc,2*sc]:[]);
+  g.beginPath();if(k===0)g.rect(p.x-s,p.y-s,2*s,2*s);else if(k===1)g.arc(p.x,p.y,s,0,7);else{g.moveTo(p.x,p.y-s*1.3);g.lineTo(p.x+s*1.3,p.y);g.lineTo(p.x,p.y+s*1.3);g.lineTo(p.x-s*1.3,p.y);g.closePath()}
+  g.fillStyle=(k===1||n.from)?"#000":INK;g.fill();g.stroke();g.setLineDash([]);
+  if(i===v.sel){g.beginPath();g.arc(p.x,p.y,s+8*sc,0,7);g.stroke()}
+  if(i===v.sel||p.z<0.2){const t=i===v.sel?sh(n.t,28):sh(n.t,14);g.font=F((i===v.sel?12:11)*sc,i===v.sel);const w=g.measureText(t).width;
+   const right=p.x<W*0.6;let x=right?p.x+s+10*sc:p.x-s-10*sc;if(right&&x+w>W-4)x=W-4-w;if(!right&&x-w<4)x=4+w;
+   const bx=right?x-3:x-w-3;g.fillStyle="#000";g.fillRect(bx,p.y-9*sc,w+6,18*sc);if(i===v.sel){g.strokeStyle=INK;g.lineWidth=1;g.strokeRect(bx,p.y-9*sc,w+6,18*sc)}
+   g.fillStyle=INK;g.textAlign=right?"left":"right";g.fillText(t,x,p.y)}});
+ g.textAlign="left";g.font=F(10*sc);g.fillStyle=INK;if(!flat)for(let l=0;l<=Math.floor(last/3);l++){const p=P(3*l);g.fillText("L"+(l+1),6,p.y)}}
+
+/* ---------- render ---------- */
+const U={};// card id -> update(d,D)
+let prevD=null;
+function render(focusId){
+ const st=$("#stack");st.textContent="";Object.keys(U).forEach(k=>delete U[k]);
+ $("#empty").hidden=S.cards.length>0;["#clr","#expImg","#expTxt"].forEach(s=>$(s).disabled=!S.cards.length);
+ S.cards.forEach((c,i)=>st.append(buildCard(c,i)));
+ sizeSpirals();refresh(true);
+ if(focusId){const f=document.getElementById(focusId);if(f){f.focus({preventScroll:true});f.scrollIntoView({block:"center",behavior:RM.matches?"auto":"smooth"})}}}
+function refresh(quiet){const D=derive(),msgs=[];
+ S.cards.forEach(c=>{const d=D[c.id];U[c.id]&&U[c.id](d,D);
+  const p=prevD&&prevD[c.id];if(quiet||!p)return;
+  if(c.type==="qq"&&p.leap!==d.leap){msgs.push(d.leap?`Leap in “${titleOf(c)}”: quantity has turned into quality.${String(c.quality||"").trim()?" New quality: "+c.quality+".":""}`:`“${titleOf(c)}” dropped back below the nodal point.`);
+   if(d.leap&&!RM.matches){const pn=$(`#viz-${c.id}`);if(pn){pn.classList.remove("jolt");void pn.offsetWidth;pn.classList.add("jolt")}}}
+  if(isBal(c.type)&&p.princ!==d.princ)msgs.push(d.princ?`In “${titleOf(c)}”, “${lab(c,d.princ)}” is now ${c.type==="slider"?"the stronger force":"the principal aspect"}.`:`“${titleOf(c)}” is balanced at the flip point.`)});
+ prevD=D;if(msgs.length)say(msgs.join(" "));save()}
+
+function chipsFor(c,D,box){const d=D[c.id],items=[];
+ const st=(src,L)=>src.type==="qq"&&(L.kind==="flip"||L.kind==="stage")?(D[src.id].leap?" · ACTIVE NOW":" · waiting for the leap"):"";
+ d.out.forEach(L=>{const t=cardBy(L.to);items.push({L,out:1,other:t,txt:`→ Linked to: ${titleOf(t)}`,sub:SHORT[L.kind]+st(c,L),on:c.type==="qq"&&d.leap&&L.kind!=="rel"})});
+ d.in.forEach(L=>{const f=cardBy(L.from);items.push({L,out:0,other:f,txt:`← From: ${titleOf(f)}`,sub:SHORT[L.kind]+st(f,L),on:f.type==="qq"&&D[f.id].leap&&L.kind!=="rel"})});
+ const sig=JSON.stringify(items.map(x=>[x.L.id,x.txt,x.sub,x.on]));if(box.dataset.sig===sig)return;box.dataset.sig=sig;box.textContent="";
+ items.forEach(x=>box.append(h("div",{class:"chip"+(x.on?" on":"")+(x.out?"":" in")},h("span",{},h("b",{text:x.txt}),document.createTextNode(" · "+x.sub)),
+  h("button",{type:"button",class:"x","aria-label":`Remove link ${x.out?"to":"from"} ${titleOf(x.other)}`,onclick:()=>{S.links=S.links.filter(L=>L.id!==x.L.id);render(`lnk-${c.id}`);say(`Link between “${titleOf(c)}” and “${titleOf(x.other)}” removed.`)}},"×"))))}
+
+function buildCard(c,i){const id=c.id,n=S.cards.length,nm=titleOf(c);
+ const card=h("article",{class:"card",id:"card-"+id,"aria-labelledby":"ct-"+id,"data-type":c.type});
+ const ctype=h("h2",{class:"ctype",id:"ct-"+id,style:"margin:0;font-weight:400"},`// ${String(i+1).padStart(2,"0")} · ${TYPELONG[c.type]}`);
+ const ttl=h("input",{type:"text",class:"ttl",id:"ttl-"+id,value:c.title,"aria-label":`Title of element ${i+1}, ${TYPELONG[c.type]}`,autocomplete:"off",oninput:e=>{c.title=e.target.value;refresh()}});
+ const tools=h("div",{class:"tools",role:"group","aria-label":`Tools for ${nm}`},
+  btn("▲",{id:"up-"+id,"aria-label":`Move ${nm} up`,disabled:i===0,onclick:()=>move(c,-1)}),
+  btn("▼",{id:"dn-"+id,"aria-label":`Move ${nm} down`,disabled:i===n-1,onclick:()=>move(c,1)}),
+  btn("Dup",{id:"dup-"+id,"aria-label":`Duplicate ${nm}`,onclick:()=>dup(c)}),
+  btn("Link",{id:"lnk-"+id,"aria-label":`Link ${nm} to another element`,"aria-expanded":"false","aria-controls":"lp-"+id,onclick:e=>toggleLink(c,e.currentTarget)}),
+  btn("Del",{id:"del-"+id,"aria-label":`Delete ${nm}`,onclick:()=>del(c)}));
+ const body=h("div",{class:"body"});card.append(ctype,ttl,tools,body);
+ ({contra:bodyContra,slider:bodySlider,qq:bodyQQ,spiral:bodySpiral,note:bodyNote})[c.type](c,body);
+ const lp=h("div",{class:"linkpanel",id:"lp-"+id,hidden:true});const chips=h("div",{class:"chips"});card.append(lp,chips);
+ const own=U[id];U[id]=(d,D)=>{own&&own(d,D);chipsFor(c,D,chips)};
+ return card}
+
+function balanceBlock(c,body){const id=c.id,sl=c.type==="slider";
+ const fa=h("input",{type:"text",id:`a-${id}`,value:c.a,placeholder:sl?"e.g. Spontaneity":"e.g. Our demand",autocomplete:"off",oninput:e=>{c.a=e.target.value;refresh()}});
+ const fb=h("input",{type:"text",id:`b-${id}`,value:c.b,placeholder:sl?"e.g. Organization":"e.g. The other side",autocomplete:"off",oninput:e=>{c.b=e.target.value;refresh()}});
+ body.append(h("div",{class:"two"},h("div",{},h("label",{for:`a-${id}`},sl?"Force A":"Aspect A"),fa),h("div",{},h("label",{for:`b-${id}`},sl?"Force B":"Aspect B"),fb)));
+ const viz=h("div",{class:"panel drag",id:`viz-${id}`});body.append(viz);
+ const r=h("input",{type:"range",id:`r-${id}`,min:0,max:100,step:1,value:c.w,"aria-describedby":`st-${id}`,oninput:e=>{c.w=+e.target.value;refresh()}});
+ const ends=h("div",{class:"ends","aria-hidden":"true"},h("span"),h("span"));
+ const stt=h("div",{class:"state",id:`st-${id}`});
+ body.append(h("label",{for:`r-${id}`,class:"lbl"},sl?"Balance of the two forces":"Which aspect is principal"),h("div",{class:"rng"},r),ends,stt);
+ // tap or drag sideways on the diagram toward the side you want heavier; vertical swipes still scroll (touch-action: pan-y)
+ let drg=null;const setFrom=e=>{const svg=viz.querySelector("svg");if(!svg)return;const b=svg.getBoundingClientRect();const v=Math.round(clamp(((e.clientX-b.left)/b.width*360-24)/3.12));if(v!==+c.w){c.w=v;refresh()}};
+ const inTop=e=>{const svg=viz.querySelector("svg");if(!svg)return false;const b=svg.getBoundingClientRect();return(e.clientY-b.top)/b.height*svg.viewBox.baseVal.height<200};
+ viz.addEventListener("pointerdown",e=>{if(!inTop(e))return;drg={x:e.clientX,y:e.clientY,go:e.pointerType==="mouse"};if(drg.go){viz.setPointerCapture(e.pointerId);setFrom(e)}});
+ viz.addEventListener("pointermove",e=>{if(!drg)return;const dx=Math.abs(e.clientX-drg.x),dy=Math.abs(e.clientY-drg.y);if(!drg.go&&dx>8&&dx>dy){drg.go=true;try{viz.setPointerCapture(e.pointerId)}catch(_){}}if(drg.go)setFrom(e)});
+ viz.addEventListener("pointerup",e=>{if(drg&&!drg.go&&Math.abs(e.clientX-drg.x)<6&&Math.abs(e.clientY-drg.y)<6)setFrom(e);drg=null});
+ viz.addEventListener("pointercancel",()=>drg=null);
+ return{viz,r,stt,ea:ends.firstChild,eb:ends.lastChild,
+  upd:d=>{r.value=c.w;r.setAttribute("aria-valuetext",vt(c,+c.w));ends.firstChild.textContent="◂ "+sh(lab(c,"a"),16);ends.lastChild.textContent=sh(lab(c,"b"),16)+" ▸"}}}
+
+function bodyContra(c,body){const id=c.id,B=balanceBlock(c,body),SU=[];
+ const addS=btn("+ Secondary contradiction",{id:`adds-${id}`,style:"width:100%;margin-top:10px",onclick:()=>addSec(c)});
+ body.append(addS);
+ c.sec.forEach((s,k)=>{const sid=s.id,N=`S${k+1}`;
+  const ia=h("input",{type:"text",id:`sa-${sid}`,value:s.a,placeholder:"Aspect A",autocomplete:"off",oninput:e=>{s.a=e.target.value;refresh()}});
+  const ib=h("input",{type:"text",id:`sb-${sid}`,value:s.b,placeholder:"Aspect B",autocomplete:"off",oninput:e=>{s.b=e.target.value;refresh()}});
+  const rw=h("input",{type:"range",id:`sw-${sid}`,min:0,max:100,step:1,value:s.w,oninput:e=>{s.w=+e.target.value;refresh()}});
+  const ri=h("input",{type:"range",id:`si-${sid}`,min:-30,max:30,step:1,value:s.inf,oninput:e=>{s.inf=+e.target.value;refresh()}});
+  const lw=h("label",{for:`sw-${sid}`}),li=h("label",{for:`si-${sid}`});
+  body.append(h("fieldset",{class:"sec",id:`sec-${sid}`},h("legend",{},`${N} · Secondary contradiction`),
+   h("div",{class:"two"},h("div",{},h("label",{for:`sa-${sid}`},"Aspect A"),ia),h("div",{},h("label",{for:`sb-${sid}`},"Aspect B"),ib)),
+   lw,h("div",{class:"rng"},rw),li,h("div",{class:"rng"},ri),
+   h("div",{class:"ends","aria-hidden":"true"},h("span",{text:"◂ push toward A"}),h("span",{text:"push toward B ▸"})),
+   h("div",{class:"row"},btn("⇅ Promote to principal",{id:`pro-${sid}`,"aria-label":`Promote ${N} to principal contradiction; the two swap places`,onclick:()=>promote(c,s,k)}),
+    btn("Remove",{id:`srm-${sid}`,"aria-label":`Remove secondary contradiction ${N}`,onclick:()=>{c.sec.splice(k,1);render(`adds-${id}`);say(`Secondary contradiction ${N} removed from “${titleOf(c)}”.`)}}))));
+  SU.push(()=>{const sa=String(s.a||"").trim()||"Aspect A",sb=String(s.b||"").trim()||"Aspect B";
+   lw.textContent=`${N} own balance: ${100-s.w} / ${s.w}`;rw.setAttribute("aria-valuetext",+s.w===50?"balanced, 50 percent each":`${+s.w>50?sb:sa} principal, ${Math.max(s.w,100-s.w)} percent`);
+   li.textContent=`${N} influence on the principal contradiction: ${s.inf>0?"+":""}${s.inf}`;ri.setAttribute("aria-valuetext",infWords(c,s))})});
+ U[id]=d=>{B.viz.innerHTML=svgContra(c,d);B.upd(d);
+  const parts=[];if(d.secSum)parts.push(`secondary contradictions push ${d.secSum>0?"+":""}${d.secSum}`);if(d.push)parts.push(`linked elements push ${d.push>0?"+":""}${d.push}`);if(d.flippers.length)parts.push("then a leap flipped it");
+  B.stt.textContent="";B.stt.append(h("b",{text:d.princ?"Principal aspect: "+lab(c,d.princ):"Balanced"}),h("br"),balWords(c,d.eff)+(parts.length?` You set ${100-c.w}/${c.w}; ${parts.join(", ")}.`:` ${Math.abs(d.eff-50)} points from the flip.`));
+  SU.forEach(f=>f())}}
+function bodySlider(c,body){const B=balanceBlock(c,body);
+ U[c.id]=d=>{B.viz.innerHTML=svgSlider(c,d);B.upd(d);B.stt.textContent="";
+  B.stt.append(h("b",{text:d.princ?"Stronger: "+lab(c,d.princ):"Even"}),h("br"),balWords(c,d.eff)+(d.push?` Linked elements push ${d.push>0?"+":""}${d.push}.`:"")+(d.flippers.length?" Flipped by a leap.":""))}}
+function bodyQQ(c,body){const id=c.id;
+ const what=h("input",{type:"text",id:`qw-${id}`,value:c.what,placeholder:"e.g. signatures",autocomplete:"off",oninput:e=>{c.what=e.target.value;refresh()}});
+ const thr=h("input",{type:"number",id:`qt-${id}`,value:c.thr,min:1,max:9999,inputmode:"numeric",oninput:e=>{const v=Math.round(+e.target.value);if(v>=1&&v<=9999){c.thr=v;refresh()}}});
+ body.append(h("div",{class:"two"},h("div",{},h("label",{for:`qw-${id}`},"What accumulates"),what),h("div",{},h("label",{for:`qt-${id}`},"Nodal point"),thr)));
+ const viz=h("div",{class:"panel",id:`viz-${id}`});body.append(viz);
+ const r=h("input",{type:"range",id:`r-${id}`,min:0,max:qmax(c),step:1,value:c.n,"aria-describedby":`st-${id}`,oninput:e=>{c.n=+e.target.value;refresh()}});
+ const minus=btn("−1",{id:`qm-${id}`,"aria-label":"Decrease the amount by 1",onclick:()=>{c.n=Math.max(0,+c.n-1);refresh()}});
+ const plus=btn("+1",{id:`qp-${id}`,"aria-label":"Increase the amount by 1",onclick:()=>{c.n=Math.min(qmax(c),+c.n+1);refresh()}});
+ const lq=h("label",{for:`r-${id}`,class:"lbl"},"Amount"),stt=h("div",{class:"state",id:`st-${id}`});
+ const ql=h("input",{type:"text",id:`qq-${id}`,value:c.quality,placeholder:"e.g. The drive becomes a committee",autocomplete:"off",oninput:e=>{c.quality=e.target.value;refresh()}});
+ body.append(lq,h("div",{class:"rng"},r),h("div",{class:"ctl"},minus,plus),stt,h("label",{for:`qq-${id}`},"New quality after the leap"),ql);
+ U[id]=d=>{viz.innerHTML=svgQQ(c,d);r.max=d.max;r.value=d.n;const drv=d.driver&&cardBy(d.driver);[r,minus,plus].forEach(x=>x.disabled=!!drv);
+  const unit=String(c.what||"").trim()||"units",state=d.leap?"leap, new quality":d.near?"approaching the nodal point":"accumulating";
+  r.setAttribute("aria-valuetext",`${d.n} of ${c.thr} ${unit}, ${state}`);lq.textContent=drv?`Amount (set by “${titleOf(drv)}”)`:"Amount";
+  stt.textContent="";stt.append(h("b",{text:d.leap?"Leap · new quality":d.near?"Approaching the nodal point":"Accumulating"}),h("br"),
+   d.leap?`${d.n} ${unit}: past the nodal point of ${c.thr}. Quantity has turned into quality.${String(c.quality||"").trim()?"":" Write the new quality below."}`:`${d.n} of ${c.thr} ${unit}. ${c.thr-d.n} more to the leap.`)}}
+function bodySpiral(c,body){const id=c.id,v=V[id]||(V[id]={yaw:VIEW0.yaw,pitch:VIEW0.pitch,sel:-1}),flat=RM.matches;
+ const cv=h("canvas",{class:"spiral",id:`cv-${id}`,tabindex:0,role:"img","aria-roledescription":flat?"spiral":"rotatable 3D spiral","aria-describedby":`sst-${id} skh-${id}`});
+ const legend=h("div",{class:"legend","aria-hidden":"true"},h("span",{text:"■ Affirmation"}),h("span",{text:"○ Negation"}),h("span",{text:"◆ Negation of the negation"}),h("span",{text:"┆ dashed = from a link"}));
+ const sst=h("div",{class:"state",id:`sst-${id}`});
+ body.append(h("div",{class:"panel",id:`viz-${id}`},cv,legend),
+  h("div",{class:"ctl"},btn("◂ Prev",{id:`sp-${id}`,"aria-label":"Previous stage",onclick:()=>go(-1)}),btn("Next ▸",{id:`sn-${id}`,"aria-label":"Next stage",onclick:()=>go(1)}),
+   btn("Reset",{id:`sr-${id}`,"aria-label":"Reset the spiral view",onclick:()=>{v.yaw=VIEW0.yaw;v.pitch=VIEW0.pitch;draw()}})),sst,
+  h("p",{class:"note",id:`skh-${id}`},flat?"Reduced motion: flat, still view. Prev/Next or N/P step through the stages.":"Drag sideways to turn it. With the spiral focused: arrow keys turn it, N/P or Enter step through stages, 0 resets."));
+ const list=h("ol",{class:"stages","aria-label":"Stages, oldest first"});body.append(h("div",{class:"lbl"},"Stages (oldest first)"),list);
+ c.stages.forEach((s,k)=>{const ti=h("input",{type:"text",id:`stt-${s.id}`,value:s.t,placeholder:"What happened",autocomplete:"off","aria-label":`Stage ${k+1}, ${STAGE[k%3]}: text`,oninput:e=>{s.t=e.target.value;refresh()}});
+  const di=h("input",{type:"date",id:`std-${s.id}`,value:s.d||"","aria-label":`Stage ${k+1} date (optional)`,oninput:e=>{s.d=e.target.value;refresh()}});
+  const mv=(dl,f)=>{c.stages.splice(k+dl,0,c.stages.splice(k,1)[0]);render(f);say(`Stage moved to position ${k+dl+1}, now ${STAGE[(k+dl)%3]}.`)};
+  list.append(h("li",{},h("div",{class:"tag"},`L${Math.floor(k/3)+1} · ${STAGE[k%3]}`),ti,h("div",{class:"r2"},di,
+   btn("▲",{"aria-label":`Move stage ${k+1} up`,disabled:k===0,id:`stu-${s.id}`,onclick:()=>mv(-1,`stu-${s.id}`)}),
+   btn("▼",{"aria-label":`Move stage ${k+1} down`,disabled:k===c.stages.length-1,id:`stv-${s.id}`,onclick:()=>mv(1,`stv-${s.id}`)}),
+   btn("×",{"aria-label":`Delete stage ${k+1}`,id:`stx-${s.id}`,onclick:()=>{c.stages.splice(k,1);render(`ns-${id}`);say(`Stage ${k+1} deleted.`)}}))))});
+ const derivedBox=h("div");body.append(derivedBox);
+ const nt=h("input",{type:"text",id:`ns-${id}`,placeholder:"e.g. First open meeting",autocomplete:"off"});
+ const nd=h("input",{type:"date",id:`nd-${id}`,"aria-label":"Date of the new stage (optional)"});
+ const add=()=>{const t=nt.value.trim();if(!t){nt.focus();say("Write the stage first.");return}c.stages.push({id:nid("t"),t,d:nd.value||""});v.sel=-1;render(`ns-${id}`);const k=c.stages.length-1;say(`Stage ${k+1} added as ${STAGE[k%3]}, level ${Math.floor(k/3)+1}.`)};
+ nt.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();add()}});
+ body.append(h("div",{class:"addstage"},h("label",{for:`ns-${id}`},"Add a stage"),nt,h("div",{class:"two",style:"margin-top:6px"},nd,btn("+ Stage",{id:`as-${id}`,onclick:add}))));
+ let N=[],Wc=0,Hc=0;const g=cv.getContext("2d");
+ function draw(){if(!Wc)return;const dpr=Math.min(2,devicePixelRatio||1);g.setTransform(dpr,0,0,dpr,0,0);drawSpiral(g,Wc,Hc,N,v,flat)}
+ cv._size=()=>{const b=cv.getBoundingClientRect();if(!b.width)return;const dpr=Math.min(2,devicePixelRatio||1);Wc=b.width;Hc=b.height;cv.width=Math.round(Wc*dpr);cv.height=Math.round(Hc*dpr);draw()};
+ function describe(){const n=N[v.sel];sst.textContent="";
+  if(!n){sst.textContent="No stages yet. The first one you add is the affirmation.";cv.setAttribute("aria-label","Empty spiral");return}
+  const k=v.sel%3,lvl=Math.floor(v.sel/3)+1;
+  sst.append(h("b",{text:STAGE[k]}),` · level ${lvl} · stage ${v.sel+1} of ${N.length}`,h("br"),`${n.t}${n.date?` (${n.date})`:""}${n.from?`, linked from “${titleOf(cardBy(n.from))}”`:""}.${v.sel>=3?` Returns to the angle of “${N[v.sel-3].t}”, one level higher.`:""}`);
+  cv.setAttribute("aria-label",`Spiral of ${N.length} stages over ${Math.ceil(N.length/3)} levels. Selected: ${n.t}, ${STAGE[k]}, level ${lvl}.`)}
+ function go(dl){if(!N.length)return;v.sel=(v.sel+dl+N.length)%N.length;draw();describe();say(sst.textContent)}
+ cv.addEventListener("keydown",e=>{const K={ArrowLeft:[-.15,0],ArrowRight:[.15,0],ArrowUp:[0,.1],ArrowDown:[0,-.1]}[e.key];
+  if(K&&!flat){e.preventDefault();v.yaw+=K[0];v.pitch=clamp(v.pitch+K[1],-1.2,1.2);draw()}
+  else if(/^[nN]$/.test(e.key)||e.key==="Enter"){e.preventDefault();go(1)}else if(/^[pP]$/.test(e.key)){e.preventDefault();go(-1)}
+  else if(e.key==="0"){e.preventDefault();v.yaw=VIEW0.yaw;v.pitch=VIEW0.pitch;draw()}});
+ let dr=null;// drawing happens only on input, never in a loop
+ cv.addEventListener("pointerdown",e=>{dr={x:e.clientX,y:e.clientY,yaw:v.yaw,pitch:v.pitch,moved:0,m:e.pointerType==="mouse"};if(dr.m&&!flat)cv.setPointerCapture(e.pointerId)});
+ cv.addEventListener("pointermove",e=>{if(!dr)return;const dx=e.clientX-dr.x,dy=e.clientY-dr.y;dr.moved=Math.max(dr.moved,Math.abs(dx)+Math.abs(dy));if(flat)return;
+  if(!dr.m&&!dr.cap&&Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy)){dr.cap=1;try{cv.setPointerCapture(e.pointerId)}catch(_){}}
+  if(dr.m||dr.cap){v.yaw=dr.yaw+dx*0.01;if(dr.m)v.pitch=clamp(dr.pitch+dy*0.006,-1.2,1.2);draw()}});
+ cv.addEventListener("pointerup",e=>{if(dr&&dr.moved<6&&N.length){const b=cv.getBoundingClientRect(),x=e.clientX-b.left,y=e.clientY-b.top,P=projector(Wc,Hc,N.length,v,flat).node;
+   let best=-1,bd=30*30;N.forEach((_,i)=>{const p=P(i),dd=(p.x-x)**2+(p.y-y)**2;if(dd<bd){bd=dd;best=i}});if(best>=0){v.sel=best;draw();describe();say(sst.textContent)}}dr=null});
+ cv.addEventListener("pointercancel",()=>dr=null);
+ U[id]=d=>{N=d.nodes;if(v.sel<0||v.sel>=N.length)v.sel=N.length-1;draw();describe();
+  const der=N.map((n,i)=>[n,i]).filter(([n])=>n.from),sig=JSON.stringify(der.map(([n,i])=>[n.t,i]));
+  if(derivedBox.dataset.sig!==sig){derivedBox.dataset.sig=sig;derivedBox.textContent="";
+   if(der.length){const ol=h("ol",{class:"stages","aria-label":"Stages added by links"});der.forEach(([n,i])=>ol.append(h("li",{class:"derived"},h("div",{class:"tag"},`L${Math.floor(i/3)+1} · ${STAGE[i%3]} · from link: ${titleOf(cardBy(n.from))}`),h("div",{text:n.t}))));derivedBox.append(ol)}}}}
+function bodyNote(c,body){const id=c.id;body.append(h("label",{for:`nt-${id}`},"Note"),h("textarea",{id:`nt-${id}`,value:c.text,placeholder:"Anything to remember about this analysis",oninput:e=>{c.text=e.target.value;save()}}))}
+function sizeSpirals(){document.querySelectorAll("canvas.spiral").forEach(cv=>cv._size&&cv._size())}
+let rzT;addEventListener("resize",()=>{clearTimeout(rzT);rzT=setTimeout(sizeSpirals,150)});
+RM.addEventListener&&RM.addEventListener("change",()=>render());
+
+/* ---------- actions ---------- */
+function add(type){const c=mk(type);S.cards.push(c);render("ttl-"+c.id);if(!RM.matches){const el=$("#card-"+c.id);el&&el.classList.add("flash")}
+ say(`${TYPELONG[type]} added as element ${S.cards.length}. Its title field is focused.`)}
+document.querySelectorAll("[data-add]").forEach(b=>b.addEventListener("click",()=>add(b.dataset.add)));
+function move(c,dl){const i=S.cards.indexOf(c),j=i+dl;if(j<0||j>=S.cards.length)return;S.cards.splice(j,0,S.cards.splice(i,1)[0]);
+ const f=dl<0?(j===0?`dn-${c.id}`:`up-${c.id}`):(j===S.cards.length-1?`up-${c.id}`:`dn-${c.id}`);render(f);say(`“${titleOf(c)}” moved to position ${j+1} of ${S.cards.length}.`)}
+function dup(c){const x=JSON.parse(JSON.stringify(c));x.id=nid("c");x.title=titleOf(c)+" (copy)";(x.sec||[]).forEach(s=>s.id=nid("s"));(x.stages||[]).forEach(s=>s.id=nid("t"));
+ S.cards.splice(S.cards.indexOf(c)+1,0,x);render("ttl-"+x.id);say(`Duplicated as “${x.title}”. Links are not copied.`)}
+let undoBuf=null,toastT;
+function del(c){const i=S.cards.indexOf(c),links=S.links.filter(L=>L.from===c.id||L.to===c.id);undoBuf={c,i,links};
+ S.cards.splice(i,1);S.links=S.links.filter(L=>!links.includes(L));const nx=S.cards[Math.min(i,S.cards.length-1)];
+ render(nx?"ttl-"+nx.id:null);toast(`Deleted “${titleOf(c)}”${links.length?` and ${links.length} link${links.length>1?"s":""}`:""}.`);if(!nx)$("#undo").focus()}
+function toast(m){$("#toastMsg").textContent=m;$("#toast").hidden=false;say(m+" Undo is available for 8 seconds.");clearTimeout(toastT);toastT=setTimeout(()=>{$("#toast").hidden=true;undoBuf=null},8000)}
+$("#undo").addEventListener("click",()=>{if(!undoBuf)return;const{c,i,links}=undoBuf;S.cards.splice(Math.min(i,S.cards.length),0,c);S.links.push(...links);undoBuf=null;clearTimeout(toastT);$("#toast").hidden=true;render("ttl-"+c.id);say(`Restored “${titleOf(c)}”.`)});
+function addSec(c){const d=derive()[c.id],toward=d.eff>50?-1:1;// default push: 10 toward the current secondary aspect, so the change is visible at once
+ const s={id:nid("s"),a:"",b:"",w:50,inf:10*toward};c.sec.push(s);render(`sa-${s.id}`);const d2=derive()[c.id];
+ say(`Secondary contradiction S${c.sec.length} added to “${titleOf(c)}”. It pushes toward “${lab(c,toward>0?"b":"a")}” by 10. The principal contradiction moved from ${100-d.eff}/${d.eff} to ${100-d2.eff}/${d2.eff}.`)}
+function promote(c,s,k){const o={a:c.a,b:c.b,w:c.w};c.a=s.a;c.b=s.b;c.w=s.w;s.a=o.a;s.b=o.b;s.w=o.w;s.inf=0;
+ render(`pro-${s.id}`);say(`Contradictions transformed. “${lab(c,"a")} / ${lab(c,"b")}” is now the principal contradiction of “${titleOf(c)}”. The former principal contradiction is now secondary S${k+1}, with no influence until you set it.`)}
+function toggleLink(c,b){const lp=$("#lp-"+c.id),close=()=>{lp.hidden=true;b.setAttribute("aria-expanded","false");b.focus()};
+ if(!lp.hidden){lp.hidden=true;b.setAttribute("aria-expanded","false");return}
+ lp.textContent="";lp.hidden=false;b.setAttribute("aria-expanded","true");const others=S.cards.filter(x=>x!==c);
+ if(!others.length){lp.append(h("p",{},"Add another element first, then link them."),btn("Close",{onclick:close}));return}
+ const sel=h("select",{id:`ls-${c.id}`},others.map(o=>h("option",{value:o.id},`${titleOf(o)} · ${SHORT[kindFor(c,o)]}`)));
+ const pick=others.find(o=>kindFor(c,o)!=="rel"&&!linkErr(c,o));if(pick)sel.value=pick.id;
+ const desc=h("p",{id:`ld-${c.id}`,"aria-live":"polite"});
+ const go=btn("Connect",{class:"btn solid",id:`lgo-${c.id}`,onclick:()=>{const t=cardBy(sel.value);if(linkErr(c,t))return;const k=kindFor(c,t);S.links.push({id:nid("l"),from:c.id,to:t.id,kind:k});render(`lnk-${c.id}`);say(`Linked. ${linkText(k,c,t)}`)}});
+ const upd=()=>{const t=cardBy(sel.value),er=linkErr(c,t);desc.textContent=er||linkText(kindFor(c,t),c,t);go.disabled=!!er};sel.addEventListener("change",upd);
+ lp.append(h("label",{for:`ls-${c.id}`},`Link “${titleOf(c)}” to`),sel,desc,h("div",{class:"row"},go,btn("Cancel",{onclick:close})));upd();sel.focus()}
+
+/* ---------- text export ---------- */
+function cardLines(c,D,i){const d=D[c.id],L=[],head=`[${i+1}] ${TYPELONG[c.type].toUpperCase()}: ${titleOf(c)}`;
+ if(c.type==="contra"){L.push(`Principal contradiction: “${lab(c,"a")}” vs “${lab(c,"b")}”`,`Balance as set: ${lab(c,"a")} ${100-c.w} / ${lab(c,"b")} ${c.w}`);
+  c.sec.forEach((s,k)=>{const sa=String(s.a||"").trim()||"Aspect A",sb=String(s.b||"").trim()||"Aspect B";
+   L.push(`Secondary contradiction S${k+1}: “${sa}” vs “${sb}”; own balance ${100-s.w}/${s.w} (${+s.w===50?"balanced":(+s.w>50?sb:sa)+" principal"}); influence: ${infWords(c,s)}`)});
+  if(c.sec.length)L.push(`Net push from secondary contradictions: ${d.secSum>0?"+":""}${d.secSum}`)}
+ if(c.type==="slider")L.push(`Forces: “${lab(c,"a")}” vs “${lab(c,"b")}”`,`Balance as set: ${lab(c,"a")} ${100-c.w} / ${lab(c,"b")} ${c.w}`);
+ if(isBal(c.type)){d.pushers.forEach(([f,v])=>L.push(`Pushed by “${titleOf(cardBy(f))}”: ${v>0?"+":""}${v} (toward ${v>0?lab(c,"b"):lab(c,"a")})`));
+  d.flippers.forEach(f=>L.push(`Flipped by the leap in “${titleOf(cardBy(f))}”`));L.push(`Result: ${balWords(c,d.eff)}`)}
+ if(c.type==="qq"){const unit=String(c.what||"").trim()||"units";
+  L.push(`What accumulates: ${unit}`,`Amount: ${d.n} of a nodal point of ${c.thr} (${Math.round(d.n/c.thr*100)}%)${d.driver?`, set by “${titleOf(cardBy(d.driver))}”`:""}`,
+   `State: ${d.leap?"LEAP. Quantity has turned into quality":d.near?"approaching the nodal point":"accumulating"}`,
+   `New quality after the leap: ${String(c.quality||"").trim()||"(not written)"}${d.leap?"":" (not reached yet)"}`)}
+ if(c.type==="spiral"){if(!d.nodes.length)L.push("No stages yet.");d.nodes.forEach((n,k)=>L.push(`L${Math.floor(k/3)+1} · ${STAGE[k%3]}: ${n.t}${n.date?` (${n.date})`:""}${n.from?` [from link: “${titleOf(cardBy(n.from))}”]`:""}`))}
+ if(c.type==="note"){const t=String(c.text||"").trim();(t?t.split(/\n/):["(empty)"]).forEach(l=>L.push(l))}
+ d.out.forEach(Lk=>L.push(`Linked to “${titleOf(cardBy(Lk.to))}”: ${SHORT[Lk.kind]}`));
+ return{head,L}}
+function textExport(){const D=derive(),out=["SANDBOX DIALECTICS","=".repeat(44),""];
+ S.cards.forEach((c,i)=>{const{head,L}=cardLines(c,D,i);out.push(head,...L.map(l=>"  "+l),"")});
+ if(S.links.length){out.push("LINKS","-".repeat(44));S.links.forEach(Lk=>{const f=cardBy(Lk.from),t=cardBy(Lk.to);if(f&&t)out.push(`  “${titleOf(f)}” → “${titleOf(t)}”: ${linkText(Lk.kind,f,t)}`)});out.push("")}
+ return out.join("\n")}
+let txtURL=null;
+$("#expTxt").addEventListener("click",()=>{const t=textExport();$("#txtOut").value=t;$("#txtNote").textContent="";
+ if(txtURL)URL.revokeObjectURL(txtURL);txtURL=URL.createObjectURL(new Blob([t],{type:"text/plain;charset=utf-8"}));const a=$("#txtDl");a.href=txtURL;a.download="sandbox.txt";
+ $("#txtShare").hidden=!navigator.share;openDlg("#dlgTxt",$("#txtCopy"))});
+$("#txtCopy").addEventListener("click",async()=>{const t=$("#txtOut").value;let ok=false;
+ try{await Promise.race([navigator.clipboard.writeText(t),new Promise((_,rej)=>setTimeout(()=>rej(new Error("clipboard timeout")),1500))]);ok=true}catch(e){const ta=$("#txtOut");ta.focus();ta.select();try{ok=document.execCommand("copy")}catch(_){}}
+ $("#txtNote").textContent=ok?"Copied to the clipboard.":"Could not copy automatically. The text is selected: use Copy from the menu."});
+$("#txtShare").addEventListener("click",async()=>{try{await navigator.share({text:$("#txtOut").value})}catch(e){}});
+
+/* Privacy: the PNG comes straight from canvas.toBlob (no tEXt/date chunks added), file names are fixed (sandbox.png / sandbox.txt),
+   neither export carries an automatic date or time, and nothing is uploaded anywhere. */
+/* ---------- image export: the whole sandbox drawn into one canvas (SVG diagrams are serialized into data: images, still offline) ---------- */
+function svgImage(str){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>rej(new Error("svg image failed"));im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(str)})}
+function wrapLines(g,text,maxW){const out=[];String(text).split("\n").forEach(par=>{let line="";
+ par.split(/(\s+)/).forEach(w=>{if(g.measureText(line+w).width>maxW&&line.trim()){out.push(line.trimEnd());line=w.trimStart()}else line+=w;
+  while(g.measureText(line).width>maxW){let k=line.length;while(k>1&&g.measureText(line.slice(0,k)).width>maxW)k--;out.push(line.slice(0,k));line=line.slice(k)}});out.push(line.trimEnd())});return out}
+async function buildPNG(){const D=derive(),W=1080,P=40,CW=W-2*P,IP=24,IW=CW-2*IP,F=(s,b)=>(b?"700 ":"")+s+"px "+MONO;
+ const mc=document.createElement("canvas").getContext("2d"),blocks=[];
+ for(let i=0;i<S.cards.length;i++){const c=S.cards[i],d=D[c.id],{head,L}=cardLines(c,D,i);let art=null,ah=0;
+  try{if(c.type==="contra"||c.type==="slider"||c.type==="qq"){const im=await svgImage(c.type==="contra"?svgContra(c,d):c.type==="slider"?svgSlider(c,d):svgQQ(c,d));ah=Math.round(IW*im.height/im.width);art=im}
+   else if(c.type==="spiral"&&d.nodes.length){ah=Math.round(IW*0.6);const oc=document.createElement("canvas");oc.width=IW;oc.height=ah;const v=V[c.id]||{yaw:VIEW0.yaw,pitch:VIEW0.pitch,sel:d.nodes.length-1};
+    drawSpiral(oc.getContext("2d"),IW,ah,d.nodes,{yaw:v.yaw,pitch:v.pitch,sel:clamp(v.sel,0,d.nodes.length-1)},RM.matches,1.6);art=oc}}catch(e){art=null;ah=0}
+  mc.font=F(22,1);const hl=wrapLines(mc,head,IW);mc.font=F(20);const bl=[].concat(...L.map(l=>wrapLines(mc,l,IW-12)));
+  blocks.push({hl,bl,art,ah,hgt:IP+hl.length*30+8+(art?ah+26:0)+bl.length*28+IP})}
+ mc.font=F(19);const linkL=[];S.links.forEach(Lk=>{const f=cardBy(Lk.from),t=cardBy(Lk.to);if(f&&t)linkL.push(...wrapLines(mc,`“${titleOf(f)}” → “${titleOf(t)}”: ${SHORT[Lk.kind]}`,CW-2*IP))});
+ const headH=128,linkH=linkL.length?2*IP+40+linkL.length*28+30:0,H=headH+blocks.reduce((t,b)=>t+b.hgt+30,0)+linkH+56;
+ const scale=W*H>16e6?Math.sqrt(16e6/(W*H)):1;// stay under iOS canvas size limits
+ const cv=document.createElement("canvas");cv.width=Math.floor(W*scale);cv.height=Math.floor(H*scale);const g=cv.getContext("2d");g.scale(scale,scale);
+ g.fillStyle="#000";g.fillRect(0,0,W,H);
+ g.fillStyle="rgba(255,255,255,.035)";for(let y=0;y<H;y+=3)g.fillRect(0,y,W,1);// scanlines, baked in
+ g.fillStyle=MUTE;g.font=F(18);g.fillText("SUMMATION · SANDBOX",P,50);
+ g.fillStyle=INK;g.font=F(32,1);g.fillText("> SANDBOX DIALECTICS_",P,94);g.fillRect(P,headH-16,CW,2);g.fillRect(P,headH-10,CW,2);
+ const frame=(x,y,w,hh)=>{const cut=18;g.fillStyle="#3a3a3a";g.beginPath();g.moveTo(x+6,y+6);g.lineTo(x+w+6-cut,y+6);g.lineTo(x+w+6,y+6+cut);g.lineTo(x+w+6,y+hh+6);g.lineTo(x+6,y+hh+6);g.closePath();g.fill();
+  g.fillStyle="#0b0b0b";g.beginPath();g.moveTo(x,y);g.lineTo(x+w-cut,y);g.lineTo(x+w,y+cut);g.lineTo(x+w,y+hh);g.lineTo(x,y+hh);g.closePath();g.fill();g.strokeStyle=INK;g.lineWidth=3;g.stroke()};
+ let y=headH+6;
+ blocks.forEach(b=>{frame(P,y,CW,b.hgt);let yy=y+IP+20;g.fillStyle=INK;g.font=F(22,1);b.hl.forEach(l=>{g.fillText(l,P+IP,yy);yy+=30});yy+=2;
+  if(b.art){g.fillStyle="#000";g.fillRect(P+IP,yy,IW,b.ah);g.drawImage(b.art,P+IP,yy,IW,b.ah);g.strokeStyle=INK;g.lineWidth=1.5;g.strokeRect(P+IP,yy,IW,b.ah);yy+=b.ah+30}
+  g.font=F(20);g.fillStyle=INK;b.bl.forEach(l=>{g.fillText(l,P+IP+6,yy);yy+=28});y+=b.hgt+30});
+ if(linkL.length){frame(P,y,CW,linkH-30);let yy=y+IP+22;g.fillStyle=INK;g.font=F(22,1);g.fillText("LINKS",P+IP,yy);yy+=36;g.font=F(19);linkL.forEach(l=>{g.fillText(l,P+IP,yy);yy+=28})}
+ g.fillStyle=MUTE;g.font=F(16);g.fillText("Made in Sandbox Dialectics · kept only on this device",P,H-22);
+ return new Promise((res,rej)=>{try{cv.toBlob(b=>b?res(b):rej(new Error("toBlob returned null")),"image/png")}catch(e){rej(e)}})}
+let pngURL=null,pngFile=null;
+$("#expImg").addEventListener("click",async()=>{const b=$("#expImg");b.disabled=true;b.firstChild.textContent="Rendering…";
+ let blob=null;try{blob=await buildPNG()}catch(e){console.warn("image export:",e.message)}b.disabled=false;b.firstChild.textContent="Export image";
+ if(!blob){say("Image export failed on this device. Export text still works.");return}
+ if(pngURL)URL.revokeObjectURL(pngURL);pngURL=URL.createObjectURL(blob);const name="sandbox.png";
+ try{pngFile=new File([blob],name,{type:"image/png"})}catch(e){pngFile=null}
+ $("#pngPrev").src=pngURL;const a=$("#pngDl");a.href=pngURL;a.download=name;
+ const canShare=!!(pngFile&&navigator.canShare&&navigator.canShare({files:[pngFile]}));$("#pngShare").hidden=!canShare;
+ openDlg("#dlgImg",canShare?$("#pngShare"):a);say("Image ready. Share it, download it, or long-press the preview to save it.")});
+$("#pngShare").addEventListener("click",async()=>{try{await navigator.share({files:[pngFile]})}catch(e){}});
+
+/* ---------- dialogs, clear, example, start ---------- */
+let lastFocus=null;
+function openDlg(sel,f){const d=$(sel);lastFocus=document.activeElement;d.showModal?d.showModal():d.setAttribute("open","");f&&f.focus()}
+document.querySelectorAll("dialog").forEach(d=>{d.addEventListener("close",()=>{if(lastFocus&&document.contains(lastFocus))lastFocus.focus()});d.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>d.close()))});
+$("#clr").addEventListener("click",()=>openDlg("#dlgClr",$("#dlgClr [data-close]")));
+$("#clrYes").addEventListener("click",()=>{S=blank();Object.keys(V).forEach(k=>delete V[k]);prevD=null;lastFocus=null;$("#dlgClr").close();render();saveNow();$("#loadEx").focus();say("Sandbox cleared.")});
+function example(){S=blank();
+ const c1=mk("contra");Object.assign(c1,{title:"Fight over safe staffing",a:"Workers' demand for safe staffing",b:"Management's push to cut costs",w:62,
+  sec:[{id:nid("s"),a:"Day shift",b:"Night shift",w:40,inf:-10},{id:nid("s"),a:"New hires' caution",b:"Veterans' confidence",w:65,inf:-6}]});S.cards.push(c1);
+ const q=mk("qq");Object.assign(q,{title:"Petition drive",what:"signatures",n:34,thr:40,quality:"The petition turns into an organized committee"});S.cards.push(q);
+ const s1=mk("slider");Object.assign(s1,{title:"How we work",a:"Spontaneity",b:"Organization",w:45});S.cards.push(s1);
+ const sp=mk("spiral");Object.assign(sp,{title:"Course of the campaign",stages:[["First lunch-break meeting","2026-03-02"],["Split over tactics","2026-04-10"],["United around one demand","2026-05-15"],["Petition launched","2026-06-01"]].map(([t,d])=>({id:nid("t"),t,d}))});S.cards.push(sp);
+ const nt=mk("note");Object.assign(nt,{title:"For the next meeting",text:"Sum up the petition drive.\nWho has not been talked to yet?"});S.cards.push(nt);
+ S.links.push({id:nid("l"),from:q.id,to:c1.id,kind:"flip"},{id:nid("l"),from:c1.id,to:sp.id,kind:"stage"})}
+$("#loadEx").addEventListener("click",()=>{example();prevD=null;render("ttl-"+S.cards[0].id);saveNow();say("Example loaded: five made-up elements and two links.")});
+render();
+</script>
+</body></html>

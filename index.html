@@ -294,17 +294,32 @@ body.driving *,body.driving *::before,body.driving *::after{transition:none!impo
 a.plink{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 8px;color:var(--ink);text-decoration:underline;text-underline-offset:3px;vertical-align:middle}
 p.plinkp{text-align:center;margin:-4px 0 12px}
 @media print{a.plink,p.plinkp{display:none!important}}
+
+/* ---- sandbox (patch_v8) ---- */
+.sbxrow{display:flex;align-items:center;gap:8px;margin-top:4px}.sbxrow .progtxt{flex:1;min-width:0;margin-top:0}
+header button#bSbx{flex:none}
+body.driving #bSbx,body.driving #sbx{display:none!important}
+#sbx{position:fixed;inset:0;z-index:55;background:#000;color:var(--ink);display:flex;flex-direction:column;font-family:var(--mono)}
+#sbx[hidden]{display:none}
+#sbx .sbxbar{display:flex;align-items:center;gap:10px;padding:calc(8px + env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) 8px max(12px,env(safe-area-inset-left));border-bottom:3px double var(--edge)}
+#sbx .sbxbar h2{margin:0;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+#sbxBack{box-sizing:border-box;min-height:44px;min-width:44px;padding:6px 10px;background:#000;color:var(--ink);border:2px solid var(--edge);border-radius:0;font:inherit;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+#sbxBack::before{content:"[";content:"[" / ""}#sbxBack::after{content:"]";content:"]" / ""}
+#sbx iframe{flex:1;width:100%;border:0;display:block;background:#000}
+body.sbxopen{overflow:hidden}
+@media print{#bSbx,#sbx{display:none!important}}
 </style>
 </head>
 <body>
 <header>
  <h1><span class="lbttl"><span class="lbp" aria-hidden="true">&gt; </span><span id="ttl" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0">Action Summation Sheet</span><span class="lbcur" aria-hidden="true">_</span></span><span style="white-space:nowrap;flex:none"><button id="bMus" type="button" class="muted" aria-label="Play music"><svg class="i-on" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path class="eq" d="M12 12v-2M15 14v-6M18 11v-1" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg><svg class="i-off" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path d="M12 7l6 6M18 7l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button> <button id="bList" aria-label="Saved summations">☰ Saved</button> <button id="bExport">Export</button></span></h1>
- <div class="qq" id="qq" role="progressbar" aria-label="Answered questions" aria-valuemin="0"><div class="cells" id="qqc" aria-hidden="true"></div><div class="leapl" aria-hidden="true">[ NEW QUALITY ]</div></div><div class="vh" id="qqlive" aria-live="polite" aria-atomic="true"></div><div class="progtxt" id="ptxt"></div>
+ <div class="qq" id="qq" role="progressbar" aria-label="Answered questions" aria-valuemin="0"><div class="cells" id="qqc" aria-hidden="true"></div><div class="leapl" aria-hidden="true">[ NEW QUALITY ]</div></div><div class="vh" id="qqlive" aria-live="polite" aria-atomic="true"></div><div class="sbxrow"><div class="progtxt" id="ptxt"></div><button id="bSbx" type="button">Sandbox</button></div>
 </header>
 <main id="main"></main>
 <nav class="bar"><button class="btn" id="bCollapse">Collapse all</button><button class="btn pri" id="bNext">Next section ↓</button></nav>
 <div id="print"></div>
 <button id="upd" type="button">New version ready. Tap to reload.</button>
+<div id="sbx" role="dialog" aria-modal="true" aria-labelledby="sbxH" hidden><div class="sbxbar"><button id="sbxBack" type="button" aria-label="Back to the sheet">&lt; Back</button><h2 id="sbxH">Sandbox</h2></div><iframe id="sbxF" title="Sandbox dialectics"></iframe></div>
 <div id="drive" role="dialog" aria-modal="true" aria-label="Driving mode"><div class="dsec" id="dSec"></div><div class="dq" id="dQ" tabindex="-1" aria-live="polite"></div><div class="dst" id="dSt" aria-live="polite"></div><div class="dheard" id="dHeard"></div>
 <div class="drow"><button type="button" class="go" id="dTap" hidden>Tap to keep going</button></div>
 <div class="drow"><button type="button" id="dRep">Repeat</button><button type="button" id="dSkip">Skip</button></div>
@@ -470,7 +485,8 @@ function clean(d,ref){const o={},bad=[];if(!isO(d))return o;ref=ref instanceof D
 function cleanRec(r,id){const n=Number(r&&r.created),u=Number(r&&r.updated);return{id,created:isFinite(n)&&n>0?n:Date.now(),updated:isFinite(u)&&u>0?u:Date.now(),d:clean(r&&r.d,new Date(isFinite(n)&&n>0?n:Date.now()))}}
 const LS="summpub.v1",LSC="summpub.cur";
 let db=load(),cur=localStorage.getItem(LSC);
-function load(){let j;try{j=JSON.parse(localStorage.getItem(LS))}catch(e){}const o={};if(isO(j))Object.keys(j).forEach(id=>{if(isO(j[id]))o[id]=cleanRec(j[id],id)});return o}
+if(load.mig){try{localStorage.setItem(LS,JSON.stringify(db))}catch(e){}}   // patch_v7: keep migrated dates without waiting for the next open
+function load(){let j;try{j=JSON.parse(localStorage.getItem(LS))}catch(e){}const o={};if(isO(j))Object.keys(j).forEach(id=>{if(isO(j[id])){o[id]=cleanRec(j[id],id);if(o[id].d.whenMig&&!(isO(j[id].d)&&j[id].d.whenMig))load.mig=1}});return o}
 function persist(){localStorage.setItem(LS,JSON.stringify(db));localStorage.setItem(LSC,cur)}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function blank(){return{id:uid(),created:Date.now(),updated:Date.now(),d:{}}}
@@ -765,8 +781,8 @@ $("#upd").onclick=()=>{persist();location.reload()};
 // Never plays before the user presses the music button (MUSIC_AUTOSTART=false). Paused (and fully suspended) before any speech recognition starts, on hidden/pagehide and in driving mode.
 // MUSIC_AUTOSTART=false: nothing ever starts the music except a press of the music button (never surprise audio, even if the saved choice was "on").
 const MUSIC_AUTOSTART=false;
-const MUSK=LS.replace(/v1$/,"music"),MVOL=0.05,MBPM=104,
- MEL=[0,9,67,9,3,71,12,6,74,18,6,74,24,12,76,36,12,74,48,9,71,57,3,67,60,4,74,64,4,74,68,4,74,72,12,71,84,12,67,96,4,62,100,4,62,104,4,62,108,4,62,112,4,62,116,4,62,120,12,67,138,6,62,144,18,67,162,6,67,168,9,67,177,3,67,180,6,62,186,3,64,189,3,66,192,12,67,204,12,67,222,6,71,228,6,67,234,3,69,237,3,71,240,12,74,252,12,74,264,9,71,273,3,71,276,9,67,285,3,71,288,9,74,297,3,71,300,12,69,312,24,69,336,12,76,348,12,74,360,12,69,372,12,71,384,6,74,390,6,71,402,6,74,408,6,71,414,3,69,417,3,71,420,12,67,432,12,71,456,9,62,465,3,64,468,6,67,474,6,67,480,9,71,489,3,71,492,6,74,498,6,74,504,6,69,510,3,69,513,3,69,516,12,64,528,18,69,546,6,62,552,18,67,570,6,67,576,18,71,594,6,71,600,24,74,624,9,67,633,3,71,636,6,74,642,6,74,648,12,76,660,12,74,672,9,71,681,3,67,684,4,74,688,4,74,692,4,74,696,6,71,708,6,67,720,12,62,732,12,67,744,9,71,753,3,67,756,4,74,760,4,74,764,4,74,768,6,71,780,6,67,792,12,62,804,12,67,816,12,62,828,12,67,840,12,62,852,12,67,864,12,67],BAS=[0,12,43,12,12,50,24,12,48,36,12,43,48,12,43,60,12,50,72,12,43,84,12,50,96,12,50,108,12,45,120,12,43,132,12,50,144,12,43,156,12,50,168,12,50,180,12,45,192,12,43,204,12,50,216,12,43,228,12,50,240,12,43,252,12,50,264,12,43,276,12,50,288,12,50,300,12,45,312,12,50,324,12,45,336,12,48,348,12,43,360,12,50,372,12,45,384,12,43,396,12,50,408,12,43,420,12,50,432,12,43,444,12,50,456,12,43,468,12,50,480,12,43,492,12,50,504,12,50,516,12,45,528,12,50,540,12,45,552,12,43,564,12,50,576,12,43,588,12,50,600,12,50,612,12,45,624,12,43,636,12,50,648,12,48,660,12,43,672,12,43,684,12,50,696,12,43,708,12,50,720,12,50,732,12,43,744,12,43,756,12,50,768,12,43,780,12,50,792,12,50,804,12,43,816,12,50,828,12,43,840,12,50,852,12,43,864,12,43],MLOOP=912;
+const MUSK=LS.replace(/v1$/,"music"),MVOL=0.05,MBPM=103,
+ MEL=[0,9,67,9,3,71,12,6,74,18,6,74,24,12,76,36,12,74,48,9,71,57,3,67,60,4,74,64,4,74,68,4,74,72,12,71,84,12,67,96,4,62,100,4,62,104,4,62,108,4,62,112,4,62,116,4,62,120,12,67,138,6,62,144,18,67,162,6,67,168,9,67,177,3,67,180,6,62,186,3,64,189,3,66,192,12,67,204,12,67,222,6,71,228,6,67,234,3,69,237,3,71,240,12,74,252,12,74,264,9,71,273,3,71,276,9,67,285,3,71,288,9,74,297,3,71,300,12,69,312,24,69,336,12,76,348,12,74,360,12,69,372,12,71,384,6,74,390,6,71,402,6,74,408,6,71,414,3,69,417,3,71,420,12,67,432,12,71,456,9,62,465,3,64,468,6,67,474,6,67,480,9,71,489,3,71,492,6,74,498,6,74,504,6,69,510,3,69,513,3,69,516,12,64,528,18,69,546,6,62,552,18,67,570,6,67,576,18,71,594,6,71,600,24,74,624,9,67,633,3,71,636,6,74,642,6,74,648,12,76,660,12,74,672,9,71,681,3,67,684,4,74,688,4,74,692,4,74,696,6,71,708,6,67,720,12,62,732,12,67,744,9,71,753,3,67,756,4,74,760,4,74,764,4,74,768,6,71,780,6,67,792,12,62,804,12,67,816,12,62,828,12,67,840,12,62,852,12,67,864,12,67],BAS=[96,12,50,108,12,50,120,12,43,132,12,43,144,12,43,156,12,43,168,12,52,180,12,50,192,12,43,204,12,43,216,12,43,228,12,43,240,12,50,252,12,50,264,12,43,276,12,52,288,12,43,300,12,45,312,12,50,324,12,50,336,12,48,348,12,43,360,12,50,372,12,43,384,12,43,396,12,43,408,12,47,420,12,52,432,12,47,444,12,47,456,12,43,468,12,43,480,12,43,492,12,43,504,12,45,516,12,52,528,12,45,540,12,50,552,12,43,564,12,43,576,12,43,588,12,43,600,12,50,612,12,50,624,12,43,636,12,43,648,12,52,660,12,43,672,12,43,684,12,43,696,12,43,708,12,43,720,12,50,732,12,43,744,12,43,756,12,43,768,12,43,780,12,43,792,12,50,804,12,43,816,12,50,828,12,43,840,12,50,852,12,43,864,12,43,876,12,43],MLOOP=912;
 const MUS={ac:null,g:null,on:localStorage.getItem(MUSK)!=="off",started:false,why:new Set(),ev:null,pos:0,base:0,timer:0,pp:Promise.resolve(),st:""};
 function musSession(t){try{if(navigator.audioSession&&navigator.audioSession.type!==t)navigator.audioSession.type=t}catch(e){}}
 function musEv(){const e=[];for(let i=0;i<MEL.length;i+=3)e.push([MEL[i],MEL[i+1],MEL[i+2],"square",.32]);for(let i=0;i<BAS.length;i+=3)e.push([BAS[i],BAS[i+1],BAS[i+2],"triangle",.75]);return e.sort((a,b)=>a[0]-b[0])}
@@ -777,8 +793,8 @@ function musInit(){if(MUS.ac)return true;const C=window.AudioContext||window.web
 function musNote(t,d,m,type,v){const ac=MUS.ac,o=ac.createOscillator(),g=ac.createGain(),f=440*Math.pow(2,(m-69)/12);o.type=type;o.frequency.value=f;
  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.006);g.gain.setValueAtTime(v,t+Math.max(.01,d*.78));g.gain.linearRampToValueAtTime(0,t+d*.92);
  o.connect(g);g.connect(MUS.g);o.start(t);o.stop(t+d)}
-function musTick(){const ac=MUS.ac;if(!ac||ac.state!=="running")return;if(!musWant()){ac.suspend().catch(()=>{});return}const u=60/MBPM/24;   // seconds per 48th of a 2/4 bar
- if(MUS.base<ac.currentTime-1){MUS.base=ac.currentTime+.05;MUS.pos=0}
+function musTick(){const ac=MUS.ac;if(!ac||ac.state!=="running")return;if(!musWant()){ac.suspend().catch(()=>{});return}const u=60/MBPM/12;   // seconds per unit (1/12 of a quarter note; patch_v7 tempo fix)
+ if(MUS.base+MUS.ev[MUS.pos][0]*u<ac.currentTime-1){MUS.base=ac.currentTime+.05;MUS.pos=0}
  while(MUS.base+MUS.ev[MUS.pos][0]*u<ac.currentTime+.3){const e=MUS.ev[MUS.pos];musNote(MUS.base+e[0]*u,e[1]*u,e[2],e[3],e[4]);if(++MUS.pos>=MUS.ev.length){MUS.pos=0;MUS.base+=MLOOP*u}}}
 const musWant=()=>MUS.on&&MUS.started&&!MUS.why.size;
 function musApply(){musUi();const ac=MUS.ac;if(!ac)return MUS.pp=Promise.resolve();const t=ac.currentTime,G=MUS.g.gain;
@@ -796,7 +812,24 @@ $("#bMus").onclick=()=>{if(MUS.started&&MUS.on)MUS.on=false;else{MUS.on=true;MUS
  try{localStorage.setItem(MUSK,MUS.on?"on":"off")}catch(e){}if(MUS.on)musInit();musApply()};
 document.addEventListener("visibilitychange",()=>{if(document.hidden)musPause("hidden");else musResume("hidden")});
 addEventListener("pagehide",()=>musPause("hidden"));addEventListener("pageshow",()=>{if(!document.hidden)musResume("hidden")});
+addEventListener("beforeprint",()=>musPause("print"));addEventListener("afterprint",()=>musResume("print"));
+try{const mqp=matchMedia("print"),h=e=>e.matches?musPause("print"):musResume("print");mqp.addEventListener?mqp.addEventListener("change",h):mqp.addListener(h)}catch(e){}   // Safari: print media query
 musUi();
+
+/* ---------- SANDBOX (patch_v8) ---------- */
+// Full-screen overlay holding sandbox.html (same origin). The rest of the page is inert while it is open; focus moves
+// into the sandbox and back to [SANDBOX] on close. No music interaction: the app's existing pause rules are unchanged.
+const SBX={open:false,inert:[]};
+function sbxFocus(){try{const d=$("#sbxF").contentDocument,h=d&&d.querySelector("h1");if(h){h.setAttribute("tabindex","-1");h.style.outline="none";h.style.boxShadow="none";h.focus()}else $("#sbxBack").focus()}catch(e){$("#sbxBack").focus()}}
+function sbxKeys(){try{const w=$("#sbxF").contentWindow;if(w.__sbxKeys)return;w.__sbxKeys=1;w.addEventListener("keydown",e=>{if(e.key==="Escape"&&!w.document.querySelector("dialog[open]")){e.preventDefault();sbxClose()}})}catch(e){}}
+function sbxOpen(){if(SBX.open||document.body.classList.contains("driving"))return;stopRec();SBX.open=true;const o=$("#sbx"),f=$("#sbxF");
+ SBX.inert=[...document.body.children].filter(x=>x!==o&&x.tagName!=="SCRIPT"&&!x.inert);SBX.inert.forEach(x=>{x.inert=true;x.setAttribute("aria-hidden","true")});
+ o.hidden=false;document.body.classList.add("sbxopen");
+ if(!f.getAttribute("src")){f.onload=()=>{sbxKeys();if(SBX.open)sbxFocus()};f.src="sandbox.html"}else{sbxKeys();sbxFocus()}}
+function sbxClose(){if(!SBX.open)return;SBX.open=false;$("#sbx").hidden=true;document.body.classList.remove("sbxopen");
+ SBX.inert.forEach(x=>{x.inert=false;x.removeAttribute("aria-hidden")});SBX.inert=[];$("#bSbx").focus()}
+$("#bSbx").onclick=sbxOpen;$("#sbxBack").onclick=sbxClose;
+document.addEventListener("keydown",e=>{if(SBX.open&&e.key==="Escape"){e.preventDefault();sbxClose()}});
 
 /* ---------- DIALECTICS (patch_dialectics) ---------- */
 const SVGNS="http://www.w3.org/2000/svg",RMQ=matchMedia("(prefers-reduced-motion: reduce)");
