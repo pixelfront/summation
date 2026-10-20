@@ -377,8 +377,8 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden){stopRec();
 const SAY={campaign:"Was this part of an ongoing campaign? Yes or no.",nonmono:"Which non-monopoly capitalists were involved?",mono:"Which monopoly capitalists were involved?",pc_pa:"Primary contradictions. The principal aspect.",pc_sa:"Primary contradictions. The secondary aspect.",sc_pa:"Secondary contradictions. The principal aspect.",sc_sa:"Secondary contradictions. The secondary aspect.",tacok:"Were the tactics used appropriate for our goals? Yes or no.",tactype:"What type of tactics were they?",tacexp:"Explain your answers about tactics."};
 const NUMW={one:1,first:1,two:2,second:2,three:3,third:3,four:4,fourth:4,five:5,fifth:5,six:6,sixth:6,seven:7,seventh:7};
 const norm=s=>String(s||"").toLowerCase().replace(/[’']/g,"").replace(/[^a-z0-9]+/g," ").trim();
-const CMD={stop:["stop","exit","quit","stop driving","stop driving mode","exit driving mode","end driving mode"],next:["next","skip","next question","skip it","skip question","skip this"],back:["back","go back","previous","previous question"],repeat:["repeat","say again","say that again","repeat that","repeat question","what","come again"],readback:["read back","read it back","what did i say"],undo:["undo","scratch that","clear","clear that","delete that"],help:["help","commands"]};
-const TRAIL=/\b(stop driving mode|exit driving mode|stop driving|stop|scratch that|repeat the question|repeat that|repeat)$/,TRAILRAW=/[\s,.;!?]*\b(stop driving mode|exit driving mode|stop driving|stop|scratch that|repeat the question|repeat that|repeat)[\s.!?]*$/i;
+const CMD={stop:["stop driving","stop driving mode","exit driving mode","end driving mode"],next:["next","skip","next question","skip it","skip question","skip this"],back:["back","go back","previous","previous question"],repeat:["repeat","say again","say that again","repeat that","repeat question","what","come again"],readback:["read back","read it back","what did i say"],undo:["undo","scratch that","clear","clear that","delete that"],help:["help","commands"]};
+const TRAIL=/\b(stop driving mode|exit driving mode|stop driving|go back|previous question|scratch that|repeat the question|repeat that|repeat)$/,TRAILRAW=/[\s,.;!?]*\b(stop driving mode|exit driving mode|stop driving|go back|previous question|scratch that|repeat the question|repeat that|repeat)[\s.!?]*$/i;
 const NEG=/ (not|no|never|isnt|wasnt|didnt|dont|doesnt|arent|werent|cant|cannot|nope|nah) /,UNSURE=/ (not sure|unsure|dont know|no idea|maybe|i guess|kind of|sort of) /;
 function dWake(){try{if(!DV||!navigator.wakeLock||(DV.lock&&!DV.lock.released))return;navigator.wakeLock.request("screen").then(l=>{if(DV)DV.lock=l;else l.release()}).catch(()=>{})}catch(e){}}
 function cmdOf(n){for(const k in CMD)if(CMD[k].includes(n))return k;return null}
@@ -397,10 +397,10 @@ function dListen(keep){if(!DV)return;dStopListen();$("#dTap").hidden=true;if(!ke
  r.continuous=true;r.interimResults=true;r.lang=navigator.language||"en-US";DV.rec=r;DV.heard=DV.acc;
  const fire=()=>{if(!DV||g!==DV.gen||DV.rec!==r)return;const t=DV.heard;dStopListen();dHandle(t)};
  r.onresult=e=>{const parts=[DV.acc];for(let i=0;i<e.results.length;i++)parts.push(e.results[i][0].transcript.trim());const t=parts.filter(Boolean).join(" ").replace(/\s+/g," ");DV.heard=t;got=!!t.trim();$("#dHeard").textContent=t;clearTimeout(DV.timer);const n=norm(t);
-  if(cmdOf(n)||TRAIL.test(n))DV.timer=setTimeout(fire,900);else if(/\bnext$/.test(n))DV.timer=setTimeout(fire,700);else if(!free)DV.timer=setTimeout(fire,1800)};
+  if(cmdOf(n)||TRAIL.test(n)||(!x&&/\bback$/.test(n)))DV.timer=setTimeout(fire,900);else if(/\bnext$/.test(n))DV.timer=setTimeout(fire,700);else if(!free)DV.timer=setTimeout(fire,1800)};
  r.onerror=e=>{if(!DV)return;if(e.error==="not-allowed"||e.error==="service-not-allowed")DV.denied=true;else if(e.error==="network")DV.net=true;else if(e.error==="audio-capture")DV.nomic=true};
  r.onend=()=>{if(!DV||g!==DV.gen||DV.rec!==r)return;DV.rec=null;clearTimeout(DV.timer);const n=norm(DV.heard);
-  if(n&&(!free||cmdOf(n)||TRAIL.test(n)||/\bnext$/.test(n)))return dHandle(DV.heard);
+  if(n&&(!free||cmdOf(n)||TRAIL.test(n)||(!x&&/\bback$/.test(n))||/\bnext$/.test(n)))return dHandle(DV.heard);
   if(n){DV.acc=DV.heard.trim();if(got)DV.restarts=0}
   if(DV.net){DV.net=false;DV.carry=DV.acc;return say("I lost the connection. Voice recognition needs a signal. Tap the green button to try again.",()=>dNeedTap("No connection. Tap to try again."))}
   if(DV.nomic)return dNeedTap("No microphone found. Tap to try again.");
@@ -419,16 +419,16 @@ function dAns(f){const v=D()[f.k];if(f.ty==="radio")return v==="Y"?"yes":v==="N"
  if(f.ty==="steps")return(v||[]).filter(s=>s.task).map(s=>s.task).join(". ")||"none";return v||"none"}
 function dAsk(){if(!DV)return;if(DV.i>=DV.q.length)return dEnd();const x=DV.q[DV.i],f=x.f;let pre="";
  if(x.si!==DV.lastSec){DV.lastSec=x.si;pre="Section "+(x.si+1)+". "+S[x.si].t+". ";if(S[x.si].f.some(f=>f.ty==="classes"))pre+="The class forces choices need the screen, so I'll skip those. Fill them in when you're parked. "}
- let t=dPrompt(x);if(filled(f,D()))t+=" Current answer: "+dAns(f)+". Say a new answer, or say next to keep it.";
+ let t=dPrompt(x);if(filled(f,D()))t+=" Current answer: "+dAns(f)+(f.ty==="steps"?". Say another task to add it, or say next to move on.":". Say a new answer, or say next to keep it.");
  dShow((x.si+1)+". "+S[x.si].t,SAY[f.k]||f.l);say(pre+t,dListen)}
-function dEnd(){DV.i=DV.q.length;dShow("Finished","You've reached the end. Your answers are saved.");say("That's the end of the sheet, and your answers are saved. The class forces section needs the screen, so fill it in when you're parked. Say back to go back, or stop to finish.",dListen)}
+function dEnd(){DV.i=DV.q.length;dShow("Finished","You've reached the end. Your answers are saved.");say("That's the end of the sheet, and your answers are saved. The class forces section needs the screen, so fill it in when you're parked. Say back to go back, or stop driving to finish.",dListen)}
 function dGo(dir){const d=D();let i=DV.i;DV.fails=0;DV.carry="";DV.sub=null;DV.subs=null;
  if(dir>0){do{i++}while(i<DV.q.length&&filled(DV.q[i].f,d))}else i=Math.max(0,Math.min(i,DV.q.length)-1);
  if(i>=DV.q.length)return dEnd();DV.i=i;dAsk()}
 function tokHit(toks,wd){return toks.some(t=>t===wd||(wd.length>=5&&t.length>=5&&t.slice(0,5)===wd.slice(0,5)))}
 function dNums(n){const o=[];n.split(" ").forEach(w=>{if(/^\d+$/.test(w))o.push(+w);else if(NUMW[w])o.push(NUMW[w])});return o}
-const normO=s=>norm(String(s).replace(/-/g,"")).replace(/\b(de|non) (?=[a-z]{4})/g,"$1");
-function dMatch(o,n){n=normO(n);const w=" "+n+" ",toks=n.split(" ");if(UNSURE.test(w))return null;
+const NW={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9},normO=s=>norm(String(s).replace(/-/g,"")).replace(/\b(de|non) (?=[a-z]{4})/g,"$1").replace(/\b(one|two|three|four|five|six|seven|eight|nine)\b/g,m=>NW[m]);
+function dMatch(o,n){n=normO(n).replace(/\bescalat\w*/g,"raised");const w=" "+n+" ",toks=n.split(" ");if(UNSURE.test(w))return null;
  if(o[0]==="Y"){const y=/ (yes|yeah|yep|yup|it was) /.test(w),no=NEG.test(w);return y&&!no?"Y":no&&!y?"N":null}
  if(NEG.test(w))return null;
  const nums=dNums(n);if(nums.length===1&&nums[0]>=1&&nums[0]<=o.length&&toks.length<=3)return o[nums[0]-1];
@@ -448,12 +448,13 @@ const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
 function dSave(f,raw){if(!norm(raw))return;if(DV.sub){const v=D()[f.k]||{};v[DV.sub+"_t"]=raw;v[DV.sub]=true;set(f.k,v)}else if(f.ty==="steps"){const a=(D().steps||[]).filter(s=>s.task||s.by);a.push({task:raw,by:""});set("steps",a)}else set(f.k,raw)}
 function dHandle(t){if(!DV)return;DV.restarts=0;const n=norm(t),c=cmdOf(n);
  if(c==="stop")return stopDrive(true);
- if(c==="help")return say("Say next to skip, back to go back, repeat to hear the question again, read back to hear your answer, scratch that to clear it, or stop to finish.",dListen);
- if(DV.i>=DV.q.length){if(c==="back")return dGo(-1);return say("Say back to go back, or stop to finish.",dListen)}
+ if(c==="help")return say("Say next to skip, back to go back, repeat to hear the question again, read back to hear your answer, scratch that to clear it, or stop driving to finish.",dListen);
+ if(DV.i>=DV.q.length){if(c==="back"||/\bback$/.test(n))return dGo(-1);return say("Say back to go back, or stop driving to finish.",dListen)}
  const f=DV.q[DV.i].f;
  const tm=!c&&n.match(TRAIL);
  if(tm){const tc=tm[1],before=t.trim().replace(TRAILRAW,"").trim(),freeQ=DV.sub||["text","area","steps"].includes(f.ty);
   if(tc.startsWith("stop")||tc.startsWith("exit")){if(before&&freeQ)dSave(f,cap(before.replace(/[\s,.]*\bnext[.!?]*$/i,"")));return stopDrive(true)}
+  if(tc==="go back"||tc==="previous question"){DV.carry="";return dGo(-1)}
   if(tc==="scratch that")return say("Cleared. Go ahead.",dListen);
   DV.carry=freeQ?before:"";if(DV.sub){DV.subs.unshift(DV.sub);DV.sub=null;return dSubNext()}return dAsk()}
  if(c==="next")return DV.sub?(DV.sub=null,dSubNext()):dGo(1);
@@ -477,7 +478,7 @@ function startDrive(){stopRec();try{AC=AC||new(window.AudioContext||window.webki
  speechSynthesis.cancel();DV={q:dQs(),i:-1,lastSec:-1,fails:0,sub:null,subs:null,gen:0,restarts:0,lock:null,rec:null,timer:0};
  $("#drive").classList.add("on");document.body.style.overflow="hidden";$("#dTap").hidden=true;dShow("Driving mode","Starting…");
  dWake();$("#dQ").focus();
- say("Driving mode. I'll read each unanswered question. Answer out loud. Say next to skip, back to go back, repeat to hear it again, or stop to finish. Keep your eyes on the road.",()=>dGo(1))}
+ say("Driving mode. I'll read each unanswered question. Answer out loud. Say next to skip, back to go back, repeat to hear it again, or stop driving to finish. Keep your eyes on the road.",()=>dGo(1))}
 function stopDrive(sp){if(!DV)return;const lock=DV.lock;dStopListen();DV.gen++;speechSynthesis.cancel();DV=null;
  if(sp){const u=new SpeechSynthesisUtterance("Driving mode off. Your answers are saved.");u.lang=navigator.language||"en-US";speechSynthesis.speak(u)}
  try{lock&&lock.release()}catch(e){}$("#drive").classList.remove("on");document.body.style.overflow="";persist();render();const db=document.querySelector(".drivebtn");db&&db.focus()}
@@ -489,7 +490,7 @@ $("#dStop").onclick=()=>{if(DV){const x=DV.q[DV.i],f=DV.sub?x&&x.f:x&&x.f,free=D
 $("#upd").onclick=()=>{persist();location.reload()};
 
 render();
-if("serviceWorker" in navigator&&location.protocol!=="file:"){const had=!!navigator.serviceWorker.controller;let shown=false;
+if("serviceWorker" in navigator&&location.protocol!=="file:"){const ctl=navigator.serviceWorker.controller,had=!!ctl&&ctl.scriptURL===new URL("sw.js",location.href).href;let shown=false;
  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had&&!shown){shown=true;$("#upd").classList.add("on")}});
  navigator.serviceWorker.register("sw.js").then(r=>{document.addEventListener("visibilitychange",()=>{if(!document.hidden)r.update().catch(()=>{})})}).catch(()=>{})}
 </script>

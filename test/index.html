@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Summ TEST">
+<meta name="theme-color" content="#8b1a1a">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>TEST - Action Summation Sheet</title>
+<style>
+:root{--red:#8b1a1a;--bg:#f6f4f1;--card:#fff;--ink:#1d1d1f;--mute:#6b6b70;--line:#ddd8d2}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font:17px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+header{position:sticky;top:0;z-index:5;background:var(--red);color:#fff;padding:calc(10px + env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 10px max(16px,env(safe-area-inset-left))}
+header h1{font-size:18px;margin:0;display:flex;justify-content:space-between;align-items:center;gap:8px}
+header button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:10px;padding:8px 12px;font-size:15px;min-height:44px}
+.prog{height:6px;background:rgba(255,255,255,.3);border-radius:3px;margin-top:10px;overflow:hidden}.prog i{display:block;height:100%;background:#fff;width:0;transition:width .3s}
+.progtxt{font-size:13px;opacity:.9;margin-top:4px}
+main{max-width:720px;margin:0 auto;padding:12px max(12px,env(safe-area-inset-right)) 12px max(12px,env(safe-area-inset-left))}
+details.sec{background:var(--card);border-radius:14px;margin:0 0 12px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
+details.sec>summary{list-style:none;padding:16px;font-weight:700;font-size:18px;display:flex;justify-content:space-between;align-items:center;min-height:56px;cursor:pointer}
+details.sec>summary::-webkit-details-marker{display:none}
+summary .badge{font-size:12px;font-weight:600;color:var(--mute);background:#eee;border-radius:10px;padding:3px 8px;white-space:nowrap}
+summary .badge.done{background:#e3f1e5;color:#24733a}
+.body{padding:0 16px 16px}
+.f{margin:0 0 18px}
+.f>label,.f>.lbl{display:block;font-weight:600;margin-bottom:4px}
+.hint{display:block;font-size:14px;color:var(--mute);margin:-2px 0 6px;font-style:italic}
+.tw{position:relative}
+input[type=text],input[type=date],textarea{width:100%;font:inherit;font-size:17px;padding:12px 52px 12px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+textarea{min-height:110px;resize:vertical}
+input:focus,textarea:focus{outline:none;border-color:var(--red)}
+.mic{position:absolute;right:4px;top:3px;width:44px;height:44px;border-radius:50%;border:0;background:#f1ecec;font-size:20px;display:flex;align-items:center;justify-content:center}
+.mic.rec{background:#d11;color:#fff;animation:pulse 1.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(221,17,17,.6)}70%{box-shadow:0 0 0 12px rgba(221,17,17,0)}100%{box-shadow:0 0 0 0 rgba(221,17,17,0)}}
+.tw.recording textarea,.tw.recording input{border-color:#d11;background:#fff7f7}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:8px 14px;border:1.5px solid var(--line);border-radius:22px;background:#fff;font-size:16px}
+.chip input:checked+span{background:var(--red);border-color:var(--red);color:#fff}
+.chip input:focus-visible+span{outline:2px solid #333}
+.classrow{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+.classrow .nm{font-weight:600;margin-bottom:8px}.classrow .sub{font-size:13px;color:var(--mute);margin:8px 0 4px}
+.chk{display:flex;gap:10px;align-items:flex-start;min-height:44px;padding:6px 0}
+.chk input[type=checkbox]{width:26px;height:26px;flex:none;accent-color:var(--red);margin-top:2px}
+.chk .tw{flex:1;margin-top:6px}
+.steprow{border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:10px}
+.steprow .tw{margin-bottom:8px}
+.btn{font:inherit;font-size:16px;min-height:46px;padding:10px 16px;border-radius:12px;border:1.5px solid var(--red);background:#fff;color:var(--red);font-weight:600}
+.btn.pri{background:var(--red);color:#fff}.btn.sm{min-height:44px;padding:6px 12px;font-size:14px}.btn.danger{border-color:#b00;color:#b00}
+blockquote{margin:0 0 16px;padding:14px;border-left:4px solid var(--red);background:#faf6f6;font-style:italic;border-radius:0 10px 10px 0}
+.note{font-size:14px;color:var(--mute);background:#fff8e6;border-radius:10px;padding:10px 12px;margin-bottom:12px}
+nav.bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;gap:8px;padding:10px max(12px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));z-index:5}
+nav.bar .btn{flex:1}
+.saved{font-size:12px;color:var(--mute);text-align:center;margin:4px 0 10px}
+dialog{border:0;border-radius:16px;padding:0;width:min(560px,94vw);max-height:85vh}
+dialog::backdrop{background:rgba(0,0,0,.4)}
+.dh{padding:16px;font-weight:700;font-size:18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.dbody{padding:12px 16px 16px;overflow:auto;max-height:70vh}
+.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+.item.cur{border-color:var(--red);border-width:2px}
+.item .t{font-weight:600}.item .m{font-size:13px;color:var(--mute)}.item .a{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:20px;font-size:15px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:20}
+.toast.on{opacity:1}
+#print{display:none}
+html{scroll-padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+body.typing nav.bar{display:none}
+details.sec{scroll-margin-top:calc(100px + env(safe-area-inset-top))}
+.drivebtn{width:100%;margin:0 0 12px}
+#upd{position:fixed;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:30;background:#222;color:#fff;border:0;border-radius:14px;padding:14px;font:inherit;font-size:16px;font-weight:600;display:none;min-height:52px}
+#upd.on{display:block}
+#drive{position:fixed;inset:0;z-index:40;background:#111;color:#fff;display:none;flex-direction:column;padding:calc(16px + env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left))}
+#drive .dq:focus{outline:none}
+#drive.on{display:flex}
+#drive .dsec{font-size:15px;opacity:.75;text-transform:uppercase;letter-spacing:.04em}
+#drive .dq{font-size:28px;line-height:1.25;font-weight:700;margin:10px 0 14px;flex:1;overflow:auto}
+#drive .dst{font-size:20px;font-weight:600;min-height:28px}
+#drive .dst.listen{color:#7ee08f}
+#drive .dheard{font-size:18px;opacity:.85;min-height:50px;max-height:22vh;overflow:auto;margin:8px 0 14px}
+#drive .drow{display:flex;gap:10px;margin-bottom:10px}
+#drive button{flex:1;min-height:72px;border-radius:16px;border:0;font:inherit;font-size:20px;font-weight:700;background:#333;color:#fff}
+#drive button.stop{background:#b00;min-height:max(130px,24vh);font-size:30px;letter-spacing:.03em}
+#drive .stopsub{display:block;font-size:17px;font-weight:600;opacity:.9;margin-top:4px}
+#drive button.go{background:#24733a}
+#drive button[hidden]{display:none}
+.copybig{width:100%;min-height:60px;font-size:19px;margin:4px 0 12px}.copybig.ok{background:#24733a;border-color:#24733a}
+.rbox{white-space:pre-wrap;word-wrap:break-word;font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#fafafa;border:1.5px solid var(--line);border-radius:10px;padding:14px;max-height:60vh;overflow:auto;-webkit-overflow-scrolling:touch;-webkit-user-select:text;user-select:text}
+/* print layout */
+@media print{
+ @page{size:letter;margin:.5in}
+ body{background:#fff;padding:0;font:11pt/1.35 Georgia,"Times New Roman",serif}
+ header,main,nav.bar,dialog,.toast{display:none!important}
+ #print{display:block}
+ .pp{page-break-after:always;break-after:page}.pp:last-child{page-break-after:auto}
+ .pp h2{font:bold 15pt Georgia,serif;border-bottom:2px solid #000;margin:0 0 8pt;padding-bottom:3pt}
+ .pq{margin:0 0 10pt}.pq b{display:block}.pq .h{font-style:italic;font-size:9.5pt;color:#333}
+ .pa{border:1px solid #888;min-height:.5in;padding:4pt 6pt;white-space:pre-wrap;margin-top:3pt}
+ .pa.l{min-height:.85in}
+ .pp:first-child .pa{min-height:.3in}.pp:first-child .pa.l{min-height:.6in}.pp:first-child .pq{margin-bottom:6pt}
+ .box{font-family:monospace}
+ table{width:100%;border-collapse:collapse}td,th{border:1px solid #888;padding:4pt;vertical-align:top;text-align:left}
+ .ctr{text-align:center;font-weight:bold}
+}
+@media screen{#print.preview{display:block;background:#fff;padding:16px}}
+</style>
+</head>
+<body><div style="background:#7a4500;color:#fff;text-align:center;font:600 14px system-ui;padding:calc(6px + env(safe-area-inset-top)) 6px 6px">Test version. Answers here are kept separate from the real app.</div>
+<header>
+ <h1><span id="ttl" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0">Action Summation Sheet</span><span style="white-space:nowrap;flex:none"><button id="bList" aria-label="Saved summations">☰ Saved</button> <button id="bExport">Export</button></span></h1>
+ <div class="prog"><i id="pbar"></i></div><div class="progtxt" id="ptxt"></div>
+</header>
+<main id="main"></main>
+<nav class="bar"><button class="btn" id="bCollapse">Collapse all</button><button class="btn pri" id="bNext">Next section ↓</button></nav>
+<div id="print"></div>
+<button id="upd" type="button">New version ready. Tap to reload.</button>
+<div id="drive" role="dialog" aria-modal="true" aria-label="Driving mode"><div class="dsec" id="dSec"></div><div class="dq" id="dQ" tabindex="-1" aria-live="polite"></div><div class="dst" id="dSt" aria-live="polite"></div><div class="dheard" id="dHeard"></div>
+<div class="drow"><button type="button" class="go" id="dTap" hidden>Tap to keep going</button></div>
+<div class="drow"><button type="button" id="dRep">Repeat</button><button type="button" id="dSkip">Skip</button></div>
+<div class="drow"><button type="button" class="stop" id="dStop" aria-label="Stop driving mode. Saves what you said.">STOP<span class="stopsub">Tap to save and exit</span></button></div></div>
+<div class="toast" id="toast"></div>
+
+<dialog id="dList"><div class="dh">Saved summations <button class="btn sm" onclick="dList.close()">Close</button></div>
+<div class="dbody"><button class="btn pri" style="width:100%;margin-bottom:12px" id="bNew">+ New summation</button><div id="list"></div></div></dialog>
+
+<dialog id="dExp"><div class="dh">Export / Share <button class="btn sm" onclick="dExp.close()">Close</button></div>
+<div class="dbody"><div class="grid2">
+<button class="btn pri" id="ePrint">🖨 Print / PDF</button><button class="btn" id="eShare">📤 Share text</button>
+<button class="btn" id="eCopy">📋 Copy text</button><button class="btn" id="eMd">⬇ Markdown</button>
+<button class="btn" id="eJson">⬇ JSON</button><button class="btn" id="eImp">⬆ Import JSON</button></div>
+<p class="hint" style="margin-top:12px">Print/PDF: on iPhone, tap Print, then pinch out on the preview (or tap Share → Save to Files) to save as PDF.</p>
+<input type="file" id="fImp" accept="application/json,.json" hidden></div></dialog>
+
+<script>
+"use strict";
+const STRATA=["Lower Strata","Middle Strata","Upper Strata"];
+// Schema mirrors the paper sheet, in order.
+const S=[
+{t:"The Action",f:[
+ {k:"name",ty:"text",l:"Name of the Action"},
+ {k:"when",ty:"text",l:"Date/Time & Location"},
+ {k:"orgs",ty:"text",l:"Organizers / Lead orgs"},
+ {k:"campaign",ty:"radio",l:"Part of an ongoing Campaign? (Y/N)",o:["Y","N"]},
+ {k:"issue",ty:"area",l:"What issue or contradiction was this action responding to?"}]},
+{t:"Class Forces",f:[
+ {k:"classes",ty:"classes",l:"Key Class forces involved (circle the primary, identify secondary)"},
+ {k:"nonmono",ty:"text",l:"Non-Monopoly Capitalists:"},
+ {k:"mono",ty:"text",l:"Monopoly Capitalists:"},
+ {k:"base",ty:"area",l:"Class character of the base of support?"},
+ {k:"ourside",ty:"area",l:"Class contradictions on our side?"}]},
+{t:"Political Line",f:[
+ {k:"line",ty:"radio",l:"What political line was advanced in the slogans, chants, demands, and speeches?",o:["Revolutionary","Reformist","Unclear"]},
+ {k:"massline",ty:"area",l:"How was the Mass Line applied (if at all) ?"}]},
+{t:"On Contradictions",f:[
+ {ty:"lbl",l:"What were the primary contradictions that emerged during planning and execution?"},
+ {k:"pc_pa",ty:"area",l:"PRIMARY CONTRADICTIONS — Principal Aspect"},
+ {k:"pc_sa",ty:"area",l:"PRIMARY CONTRADICTIONS — Secondary Aspect"},
+ {k:"sc_pa",ty:"area",l:"SECONDARY CONTRADICTIONS — Principal Aspect"},
+ {k:"sc_sa",ty:"area",l:"SECONDARY CONTRADICTIONS — Secondary Aspect"},
+ {k:"handled",ty:"area",l:"How were these contradictions handled?",h:"(Was there unity-struggle-unity? Was the principal contradiction correctly identified)"}]},
+{t:"Assessing our forces",f:[
+ {k:"impact",ty:"area",l:"How did this action impact the organizing forces?",h:"(Did we grow our organization or the mass orgs? Strengthen our cadre? Burnout, gain allies?)"},
+ {k:"advanced",ty:"area",l:"Were any new advanced elements identified?",h:"(Who stepped up? Took leadership, showed discipline, or capacity for political development)"}]},
+{t:"Evaluating our tactics",f:[
+ {k:"tacok",ty:"radio",l:"Were the tactics used appropriate for our goals? (Y/N)",o:["Y","N"]},
+ {k:"tactype",ty:"radio",l:"Circle one and explain below",o:["Militant","Symbolic","Disruptive","Legalist"]},
+ {k:"level",ty:"radio",l:"Level of struggle",o:["Raised the level of struggle","De-escalated the struggle"]},
+ {k:"tacexp",ty:"area",l:"Explain"}]},
+{t:"Impact and Execution",f:[
+ {k:"enemy",ty:"area",l:"How did the enemy respond?",h:"(Police repression, arrests, ignored us, surveillance, enemy agents)"},
+ {k:"logistics",ty:"area",l:"Were the logistics and discipline well executed?",h:"(E.g., timing, security, communication, handling of agents/provocateurs.)"}]},
+{t:"Outcomes and Lessons",f:[
+ {k:"gains",ty:"checks",l:"What immediate material gains (if any) were won?",o:[["demands","Demand(s) met:",1],["exposure","Exposure of the enemy"],["allies","Gained allies in the United Front:",1],["none","Cannot identify any immediate material gains"]]},
+ {k:"polgains",ty:"area",l:"Political Analysis — What were the political gains or losses?",h:"(Was there ideological clarity? Did people recognize our slogans and take them up as their own? Did we progress the campaign?)"}]},
+{t:"Mistakes",f:[
+ {k:"mistakes",ty:"area",l:"What mistakes were made?",h:"(and how do we correct them for next time?)"}]},
+{t:"Successful Methods to Hold Onto",f:[
+ {k:"worked",ty:"area",l:"What worked well? What should we continue to do, or do elsewhere?"}]},
+{t:"On Building the Strategic Alliance",f:[
+ {k:"natlib",ty:"area",l:"How did this action help build alliances with the movements for National Liberation? (if at all)"},
+ {k:"followup",ty:"area",l:"Follow-up plans for exercising and maintaining the unity we’ve won with the above elements?"}]},
+{t:"Next Steps",f:[
+ {k:"steps",ty:"steps",l:"What are our immediate next tasks or follow-ups?",h:"Needs done by: (date or person)"}]},
+{t:"Slogans & Chants",f:[
+ {k:"slogans",ty:"area",l:"What slogans should be carried, and which should be dropped (if any)?"},
+ {k:"chants",ty:"area",l:"Any new chants that were good? Any ultra-left or right-opportunist chants?"}]},
+{t:"Summating with the Masses",f:[
+ {ty:"quote",l:"“If we are not good at helping people grasp correct conclusions, our enemies will be glad to do it for us.”"},
+ {k:"summate",ty:"checks",l:"How do we plan on summating this action with the masses?",o:[["paper","Write an article for our paper"],["meet","Discuss at a meeting"],["stmt","Write and post a statement"],["oneonone","1 on 1 discussions"],["press","Press Conference"],["emerg","Hold Emergency Meeting"]]}]},
+{t:"In the Final Analysis...",f:[
+ {k:"final",ty:"area",l:"What were the principal and secondary contradictions? How did they develop?",h:"Which contradictions were internal to our forces? Which were external?"},
+ {k:"lineshown",ty:"radio",l:"Our political line was shown to be:",o:["Correct","In need of clarification","Incorrect"]},
+ {k:"massresp",ty:"checks",l:"How did the masses respond to our line?",o:[["accepted","Accepted & took it up"],["confused","Expressed confusion"],["opposed","Opposed it / Altered it"],["ignored","Ignored it"],["nodata","Insufficient data"]]}]},
+{t:"Report",report:1,f:[{ty:"report"}]}
+];
+const CLASSES=[["wc","Working Class",1],["pb","Petty-Bourgeoisie",1]];
+/* ---------- data cleanup: keeps a bad import or old data from breaking the app ---------- */
+const isO=x=>x&&typeof x==="object"&&!Array.isArray(x),str=x=>typeof x==="string"?x:typeof x==="number"?String(x):"";
+function clean(d){const o={};if(!isO(d))return o;S.forEach(s=>s.f.forEach(f=>{const k=f.k,v=d[k];if(!k||v==null)return;
+  if(f.ty==="text"||f.ty==="area"){if(typeof v==="string"||typeof v==="number")o[k]=String(v)}
+  else if(f.ty==="radio"){if(f.o.includes(v))o[k]=v}
+  else if(f.ty==="checks"){if(isO(v)){const c={};f.o.forEach(([id,,t])=>{if(v[id])c[id]=true;if(t&&v[id+"_t"]!=null)c[id+"_t"]=str(v[id+"_t"])});o[k]=c}}
+  else if(f.ty==="steps"){if(Array.isArray(v))o[k]=v.filter(isO).map(s=>({task:str(s.task),by:str(s.by)}))}
+  else if(f.ty==="classes"){if(isO(v)){const c={};CLASSES.forEach(([id])=>{const x=v[id];if(isO(x))c[id]={strata:Array.isArray(x.strata)?x.strata.filter(s=>STRATA.includes(s)):[],role:["Primary","Secondary"].includes(x.role)?x.role:null}});
+   ["nonmono","mono"].forEach(id=>{const x=v[id];if(isO(x)&&["Primary","Secondary"].includes(x.role))c[id]={role:x.role}});o[k]=c}}}));return o}
+function cleanRec(r,id){const n=Number(r&&r.created),u=Number(r&&r.updated);return{id,created:isFinite(n)&&n>0?n:Date.now(),updated:isFinite(u)&&u>0?u:Date.now(),d:clean(r&&r.d)}}
+const LS="summtest.v1",LSC="summtest.cur";
+let db=load(),cur=localStorage.getItem(LSC);
+function load(){let j;try{j=JSON.parse(localStorage.getItem(LS))}catch(e){}const o={};if(isO(j))Object.keys(j).forEach(id=>{if(isO(j[id]))o[id]=cleanRec(j[id],id)});return o}
+function persist(){localStorage.setItem(LS,JSON.stringify(db));localStorage.setItem(LSC,cur)}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function blank(){return{id:uid(),created:Date.now(),updated:Date.now(),d:{}}}
+if(!cur||!db[cur]){const b=blank();db[b.id]=b;cur=b.id;persist()}
+const D=()=>db[cur].d;
+const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),1800)}
+
+/* ---------- speech ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rec=null,recEl=null,recBtn=null,recBase="";
+function stopRec(){if(rec){try{rec.stop()}catch(e){}}}
+function startRec(el,btn){
+ if(rec){const same=recEl===el;stopRec();if(same)return}
+ rec=new SR();rec.continuous=true;rec.interimResults=true;rec.lang=navigator.language||"en-US";
+ recEl=el;recBtn=btn;recBase=el.value&&!/\s$/.test(el.value)?el.value+" ":el.value;
+ btn.classList.add("rec");btn.textContent="■";btn.setAttribute("aria-label","Stop dictation");btn.parentNode.classList.add("recording");
+ rec.onresult=e=>{let fin="",int="";for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)fin+=r[0].transcript;else int+=r[0].transcript}
+  if(fin){recBase+=fin.trim()+" "}el.value=recBase+int;el.dispatchEvent(new Event("input",{bubbles:true}))};
+ const r0=rec,wd=setTimeout(()=>{if(rec===r0&&!r0._on){try{r0.abort()}catch(e){}micOff(btn);rec=null;recEl=null;toast("Couldn't start the microphone")}},4000);r0.onstart=()=>{r0._on=true;clearTimeout(wd)};
+ rec.onerror=e=>{const m={"not-allowed":"Microphone permission denied","service-not-allowed":"Dictation isn't allowed. Check Settings.","audio-capture":"No microphone found","network":"Dictation needs a connection right now"}[e.error];if(m)toast(m);else if(e.error!=="no-speech"&&e.error!=="aborted")toast("Dictation error: "+e.error)};
+ rec.onend=()=>{clearTimeout(wd);micOff(btn);el.value=el.value.trimEnd();el.dispatchEvent(new Event("input",{bubbles:true}));rec=null;recEl=null};
+ try{rec.start()}catch(e){clearTimeout(wd);micOff(btn);toast("Could not start dictation");rec=null;recEl=null}
+}
+function micOff(btn){btn.classList.remove("rec");btn.textContent="🎤";btn.setAttribute("aria-label",btn._al||"Dictate");btn.parentNode.classList.remove("recording")}
+function tw(el,al){const w=document.createElement("div");w.className="tw";w.appendChild(el);if(al)el.setAttribute("aria-label",al);
+ if(SR){const b=document.createElement("button");b.type="button";b.className="mic";b.textContent="🎤";b._al=al?"Dictate: "+al:"Dictate";b.setAttribute("aria-label",b._al);b.onclick=()=>startRec(el,b);w.appendChild(b)}
+ else el.style.paddingRight="12px";return w}
+
+/* ---------- render ---------- */
+function mkText(val,area,ph,on,al){const e=document.createElement(area?"textarea":"input");if(!area)e.type="text";e.value=val||"";if(ph)e.placeholder=ph;e.oninput=()=>on(e.value);return tw(e,al)}
+function chip(type,name,label,checked,on){const l=document.createElement("label");l.className="chip";l.innerHTML=`<input type="${type}" name="${name}"><span>${esc(label)}</span>`;const i=l.firstChild;i.checked=!!checked;
+ if(type==="radio"){i.onclick=()=>{if(i.dataset.was==="1"){i.checked=false;on(null)}else on(label);document.querySelectorAll(`input[name="${name}"]`).forEach(x=>x.dataset.was=x.checked?"1":"")};i.dataset.was=checked?"1":""}else i.onchange=()=>on(i.checked);return l}
+function set(k,v){D()[k]=v;db[cur].updated=Date.now();save();updateReport()}
+let st;function save(){clearTimeout(st);st=setTimeout(()=>{persist();$("#savedtxt")&&($("#savedtxt").textContent="Saved "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"}));progress()},300)}
+function render(){
+ const m=$("#main");m.innerHTML="";const d=D();
+ if(!SR)m.insertAdjacentHTML("beforeend",`<div class="note">🎤 Voice input buttons aren't available in this browser. Tap a field and use the microphone key on the iPhone keyboard to dictate instead.</div>`);
+ m.insertAdjacentHTML("beforeend",`<div class="saved" id="savedtxt">Autosaves on this device</div>`);
+ if(SR&&window.speechSynthesis){const b=document.createElement("button");b.type="button";b.className="btn drivebtn";b.textContent="🚗 Driving mode (hands-free voice)";b.onclick=startDrive;m.appendChild(b)}
+ if(SR)m.insertAdjacentHTML("beforeend",`<p class="hint" style="text-align:center;margin:-4px 0 12px">Voice features use your phone's built-in speech recognition, which may send audio to Apple to turn it into text. This app itself sends nothing anywhere.</p>`);
+ S.forEach((sec,si)=>{
+  const det=document.createElement("details");det.className="sec";det.id="s"+si;if(si===0)det.open=true;
+  det.innerHTML=`<summary><span>${si+1}. ${esc(sec.t)}</span>${sec.report?"":`<span class="badge" id="b${si}"></span>`}</summary><div class="body"></div>`;
+  const body=det.querySelector(".body");
+  sec.f.forEach(f=>{const w=document.createElement("div");w.className="f";
+   const lab=`<span class="lbl">${esc(f.l)}</span>`+(f.h?`<span class="hint">${esc(f.h)}</span>`:"");
+   if(f.ty==="lbl"){w.innerHTML=`<span class="lbl">${esc(f.l)}</span>`}
+   else if(f.ty==="quote"){w.innerHTML=`<blockquote>${esc(f.l)}</blockquote>`}
+   else if(f.ty==="text"||f.ty==="area"){w.innerHTML=lab;w.appendChild(mkText(d[f.k],f.ty==="area",f.ty==="area"?"Type or tap 🎤 to dictate…":"",v=>set(f.k,v),f.l))}
+   else if(f.ty==="radio"){w.innerHTML=lab;const c=document.createElement("div");c.className="chips";c.setAttribute("role","radiogroup");c.setAttribute("aria-label",f.l);f.o.forEach(o=>c.appendChild(chip("radio",f.k,o,d[f.k]===o,v=>set(f.k,v))));w.appendChild(c)}
+   else if(f.ty==="checks"){w.innerHTML=lab;const v=d[f.k]||(d[f.k]={});
+    f.o.forEach(([id,lb,txt])=>{const r=document.createElement("label");r.className="chk";r.innerHTML=`<input type="checkbox"><span style="flex:1"><span>${esc(lb)}</span></span>`;const cb=r.firstChild;cb.checked=!!v[id];cb.onchange=()=>{v[id]=cb.checked;set(f.k,v)};
+     if(txt){const t=mkText(v[id+"_t"],false,"",x=>{v[id+"_t"]=x;if(x&&!v[id]){v[id]=true;cb.checked=true}set(f.k,v)},lb.replace(/:$/,"")+" details");t.onclick=e=>e.preventDefault();r.children[1].appendChild(t)}
+     w.appendChild(r)})}
+   else if(f.ty==="classes"){w.innerHTML=lab+`<span class="hint">Pick strata, then mark primary or secondary.</span>`;const v=d.classes||(d.classes={});
+    CLASSES.forEach(([id,nm])=>{const cv=v[id]||(v[id]={strata:[],role:null});const r=document.createElement("div");r.className="classrow";r.innerHTML=`<div class="nm">${nm}</div><div class="sub">Strata</div>`;
+     const c1=document.createElement("div");c1.className="chips";c1.setAttribute("role","group");c1.setAttribute("aria-label",nm+" strata");STRATA.forEach(s=>c1.appendChild(chip("checkbox",id+"st",s,cv.strata.includes(s),on=>{cv.strata=on?[...new Set([...cv.strata,s])]:cv.strata.filter(x=>x!==s);set("classes",v)})));r.appendChild(c1);
+     r.insertAdjacentHTML("beforeend",`<div class="sub">Role</div>`);const c2=document.createElement("div");c2.className="chips";c2.setAttribute("role","radiogroup");c2.setAttribute("aria-label",nm+" role");["Primary","Secondary"].forEach(s=>c2.appendChild(chip("radio",id+"role",s,cv.role===s,x=>{cv.role=x;set("classes",v)})));r.appendChild(c2);w.appendChild(r)});
+    // capitalist rows also get role markers
+    ["nonmono","mono"].forEach(id=>{v[id]=v[id]||{role:null}});w._caps=v}
+   else if(f.ty==="steps"){w.innerHTML=lab;const list=document.createElement("div");w.appendChild(list);
+    const draw=()=>{list.innerHTML="";const arr=d.steps||(d.steps=[]);if(!arr.length)arr.push({task:"",by:""});
+     arr.forEach((s,i)=>{const r=document.createElement("div");r.className="steprow";r.appendChild(mkText(s.task,true,"Task / follow-up",x=>{s.task=x;set("steps",arr)},"Task "+(i+1)));r.querySelector("textarea").style.minHeight="70px";
+      r.insertAdjacentHTML("beforeend",`<span class="hint">Needs done by: (date or person)</span>`);r.appendChild(mkText(s.by,false,"e.g. date / person",x=>{s.by=x;set("steps",arr)},"Task "+(i+1)+" needs done by"));
+      const del=document.createElement("button");del.className="btn sm danger";del.textContent="Remove";del.onclick=()=>{arr.splice(i,1);set("steps",arr);draw()};r.appendChild(del);list.appendChild(r)})};
+    draw();const add=document.createElement("button");add.className="btn";add.textContent="+ Add task";add.onclick=()=>{d.steps.push({task:"",by:""});set("steps",d.steps);draw();list.lastChild.querySelector("textarea").focus()};w.appendChild(add)}
+   else if(f.ty==="report"){w.innerHTML=`<span class="hint">Your answers as a plain-text report. Updates as you type; unanswered questions are left out.</span><button type="button" class="btn pri copybig" id="rCopy">📋 Copy report</button><div class="rbox" id="rBox" role="textbox" aria-readonly="true" aria-label="Report" tabindex="0"></div><button type="button" class="btn" id="rShare" style="width:100%;margin-top:10px">📤 Share report</button>`;
+    setTimeout(()=>{$("#rCopy").onclick=async()=>{const ok=await copyText(reportText());const b=$("#rCopy");b.textContent=ok?"✓ Copied!":"Copy failed – select text manually";b.classList.toggle("ok",ok);clearTimeout(b._t);b._t=setTimeout(()=>{b.textContent="📋 Copy report";b.classList.remove("ok")},2000)};
+     $("#rShare").onclick=async()=>{const t=reportText();if(navigator.share){try{await navigator.share({title:D().name||"Action Summation",text:t})}catch(e){}}else{const ok=await copyText(t);toast(ok?"Sharing not supported — copied instead":"Sharing not supported")}};updateReport()},0)}
+   body.appendChild(w)});
+  // capitalist role markers right after their text fields
+  if(si===1){[["nonmono",1],["mono",2]].forEach(([id,idx])=>{const fld=body.children[idx];const v=D().classes;const c=document.createElement("div");c.className="chips";c.style.marginTop="8px";c.setAttribute("role","radiogroup");c.setAttribute("aria-label",(id==="mono"?"Monopoly":"Non-monopoly")+" capitalists role");["Primary","Secondary"].forEach(s=>c.appendChild(chip("radio",id+"role",s,v[id].role===s,x=>{v[id].role=x;set("classes",v)})));fld.appendChild(c)})}
+  det.addEventListener("toggle",()=>{if(!det.open)stopRec();syncCollapse()});
+  m.appendChild(det)});
+ $("#ttl").textContent=d.name||"Action Summation Sheet";progress()}
+function filled(f,d){const v=d[f.k];if(!f.k)return null;if(f.ty==="classes")return Object.values(v||{}).some(c=>(c.strata&&c.strata.length)||c.role);
+ if(f.ty==="checks")return Object.entries(v||{}).some(([k,x])=>x&&!k.endsWith("_t"));if(f.ty==="steps")return(v||[]).some(s=>s.task||s.by);return!!(v&&String(v).trim())}
+function progress(){const d=D();let tot=0,done=0;S.forEach((s,i)=>{if(s.report)return;const fs=s.f.filter(f=>f.k);const n=fs.filter(f=>filled(f,d)).length;tot+=fs.length;done+=n;const b=$("#b"+i);if(b){b.textContent=n===fs.length?"✓ Done":`${n}/${fs.length}`;b.classList.toggle("done",n===fs.length)}});
+ updateReport();$("#pbar").style.width=(tot?done/tot*100:0)+"%";$("#ptxt").textContent=`${done} of ${tot} answered · ${Math.round(done/tot*100)}%`;$("#ttl").textContent=d.name||"Action Summation Sheet"}
+
+/* ---------- nav ---------- */
+$("#bNext").onclick=()=>{const all=[...document.querySelectorAll("details.sec")];let i=all.findIndex(x=>x.open);all.forEach(x=>x.open=false);i=(i+1)%all.length;all[i].open=true;requestAnimationFrame(()=>{const y=all[i].getBoundingClientRect().top+scrollY-$("header").offsetHeight-8;scrollTo({top:Math.max(0,y),behavior:"smooth"})});syncCollapse()};
+$("#bCollapse").onclick=()=>{const all=[...document.querySelectorAll("details.sec")];const anyOpen=all.some(x=>x.open);all.forEach(x=>x.open=!anyOpen);syncCollapse()};
+function syncCollapse(){const b=$("#bCollapse");if(b)b.textContent=[...document.querySelectorAll("details.sec")].some(x=>x.open)?"Collapse all":"Expand all"}
+
+/* ---------- list ---------- */
+function drawList(){const L=$("#list");L.innerHTML="";Object.values(db).sort((a,b)=>b.updated-a.updated).forEach(s=>{const it=document.createElement("div");it.className="item"+(s.id===cur?" cur":"");
+ it.innerHTML=`<div class="t">${esc(s.d.name||"Untitled action")}</div><div class="m">${esc(s.d.when||"")} · edited ${new Date(s.updated).toLocaleString()}</div><div class="a"><button class="btn sm pri">Open</button><button class="btn sm">Duplicate</button><button class="btn sm danger">Delete</button></div>`;
+ const [o,du,de]=it.querySelectorAll("button");
+ o.onclick=()=>{stopRec();cur=s.id;persist();render();dList.close();scrollTo(0,0)};
+ du.onclick=()=>{const c=JSON.parse(JSON.stringify(s));c.id=uid();c.created=c.updated=Date.now();c.d.name=(c.d.name||"Untitled action")+" (copy)";db[c.id]=c;persist();drawList();toast("Duplicated")};
+ de.onclick=()=>{if(!confirm(`Delete "${s.d.name||"Untitled action"}"? This can't be undone.`))return;delete db[s.id];if(cur===s.id){const r=Object.values(db)[0];if(r)cur=r.id;else{const b=blank();db[b.id]=b;cur=b.id}render()}persist();drawList()};
+ L.appendChild(it)})}
+$("#bList").onclick=()=>{stopRec();drawList();dList.showModal()};
+$("#bNew").onclick=()=>{const b=blank();db[b.id]=b;cur=b.id;persist();render();dList.close();scrollTo(0,0)};
+
+/* ---------- export ---------- */
+function ansText(f,d,md){const v=d[f.k];
+ if(f.ty==="text"||f.ty==="area")return v||"";if(f.ty==="radio")return f.o.map(o=>(v===o?"[x] ":"[ ] ")+o).join("  ");
+ if(f.ty==="checks")return f.o.map(([id,lb,t])=>((v||{})[id]?"[x] ":"[ ] ")+lb+(t&&(v||{})[id+"_t"]?" "+v[id+"_t"]:"")).join("\n");
+ if(f.ty==="classes"){const c=v||{};return CLASSES.map(([id,nm])=>{const x=c[id]||{strata:[]};return`${nm}: ${(x.strata||[]).join(", ")||"—"}${x.role?" ("+x.role+")":""}`}).join("\n")}
+ if(f.ty==="steps")return(v||[]).filter(s=>s.task||s.by).map((s,i)=>`${i+1}. ${s.task}${s.by?" — by: "+s.by:""}`).join("\n");return""}
+function capRole(id){const r=((D().classes||{})[id]||{}).role;return r?` (${r})`:""}
+function toText(md){const d=D();let o=md?`# Action Summation: ${d.name||"Untitled"}\n`:`ACTION SUMMATION SHEET\n`;
+ S.forEach((s,i)=>{o+=md?`\n## ${s.t}\n`:`\n=== ${s.t.toUpperCase()} ===\n`;s.f.forEach(f=>{if(f.ty==="lbl"){o+=`\n${f.l}\n`;return}if(f.ty==="quote"){o+=md?`\n> ${f.l}\n`:`\n${f.l}\n`;return}
+  let a=ansText(f,d,md);if(md)a=a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");if(f.k==="nonmono"||f.k==="mono")a+=capRole(f.k);o+=md?`\n**${f.l}**${f.h?" _"+f.h+"_":""}\n\n${a||"—"}\n`:`\n${f.l}\n${a||"—"}\n`})});return o}
+function dl(name,data,type){const b=new Blob([data],{type});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+const fname=()=>(D().name||"summation").replace(/[^\w-]+/g,"_").slice(0,40);
+$("#bExport").onclick=()=>{stopRec();dExp.showModal()};
+$("#eCopy").onclick=async()=>toast(await copyText(toText())?"Copied":"Copy failed");
+$("#eShare").onclick=async()=>{const t=toText();if(navigator.share){try{await navigator.share({title:D().name||"Action Summation",text:t})}catch(e){}}else{try{await navigator.clipboard.writeText(t);toast("Sharing not supported — copied instead")}catch(e){toast("Sharing not supported")}}};
+$("#eMd").onclick=()=>dl(fname()+".md",toText(true),"text/markdown");
+$("#eJson").onclick=()=>dl(fname()+".json",JSON.stringify(db[cur],null,2),"application/json");
+$("#eImp").onclick=()=>$("#fImp").click();
+$("#fImp").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{let j;try{j=JSON.parse(t)}catch(x){}const src=isO(j)?(isO(j.d)?j.d:j):null,d=src&&clean(src);if(!d||!Object.keys(d).length)return toast("Not a valid summation file");const s={id:uid(),created:Date.now(),updated:Date.now(),d};db[s.id]=s;cur=s.id;persist();render();dExp.close();toast("Imported")});e.target.value=""};
+function reportText(){const d=D(),L=[],has=v=>v&&String(v).trim();
+ L.push("ACTION SUMMATION REPORT");L.push((d.name||"Untitled action").trim());if(has(d.when))L.push(d.when.trim());L.push("");
+ S.forEach(sec=>{if(sec.report)return;const out=[];
+  sec.f.forEach(f=>{if(!f.k||f.k==="name"||f.k==="when")return;const v=d[f.k];let a="";
+   if(f.ty==="text"||f.ty==="area")a=has(v)?v.trim():"";
+   else if(f.ty==="radio")a=v||"";
+   else if(f.ty==="checks")a=f.o.filter(([id])=>(v||{})[id]).map(([id,lb,t])=>"• "+lb.replace(/:$/,"")+(t&&has(v[id+"_t"])?": "+v[id+"_t"].trim():"")).join("\n");
+   else if(f.ty==="classes")a=CLASSES.map(([id,nm])=>{const x=(v||{})[id]||{};if(!(x.strata&&x.strata.length)&&!x.role)return"";return"• "+nm+((x.strata||[]).length?" – "+x.strata.join(", "):"")+(x.role?" ("+x.role+")":"")}).filter(Boolean).join("\n");
+   else if(f.ty==="steps")a=(v||[]).filter(s=>has(s.task)||has(s.by)).map((s,i)=>`${i+1}. ${(s.task||"").trim()||"(task)"}${has(s.by)?" — by: "+s.by.trim():""}`).join("\n");
+   if(f.k==="nonmono"||f.k==="mono"){const r=capRole(f.k);if(r)a=(a||"—")+r}
+   if(a)out.push(f.l.replace(/:$/,"")+"\n"+a)});
+  if(out.length){L.push(sec.t.toUpperCase());L.push("-".repeat(Math.min(sec.t.length,40)));L.push(out.join("\n\n"));L.push("")}});
+ if(L.length<=4)L.push("(No answers yet.)");return L.join("\n").trim()+"\n"}
+function updateReport(){const b=document.getElementById("rBox");if(b)b.textContent=reportText()}
+async function copyText(t){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(t);return true}}catch(e){}
+ const ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.cssText="position:fixed;top:0;left:0;opacity:0;font-size:16px";document.body.appendChild(ta);
+ const r=document.createRange();r.selectNodeContents(ta);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);ta.setSelectionRange(0,t.length);let ok=false;try{ok=document.execCommand("copy")}catch(e){}ta.remove();sel.removeAllRanges();return ok}
+function box(on){return on?"☒":"☐"}
+function buildPrint(){const d=D(),P=x=>`<div class="pa${x.l?" l":""}">${esc(x.v)}</div>`;let h="";
+ const q=(f,big)=>`<div class="pq"><b>${esc(f.l)}</b>${f.h?`<span class="h">${esc(f.h)}</span>`:""}${P({v:ansText(f,d)+(f.k==="nonmono"||f.k==="mono"?capRole(f.k):""),l:big})}</div>`;
+ const F=k=>S.flatMap(s=>s.f).find(f=>f.k===k);
+ const radio=f=>`<div class="pq"><b>${esc(f.l)}</b>${f.o.map(o=>`${box(d[f.k]===o)} ${esc(o)}`).join(" &nbsp; ")}</div>`;
+ const checks=f=>`<div class="pq"><b>${esc(f.l)}</b>${f.o.map(([id,lb,t])=>`${box((d[f.k]||{})[id])} ${esc(lb)}${t?" <u>"+((d[f.k]||{})[id+"_t"]?esc(d[f.k][id+"_t"]):"&nbsp;".repeat(20))+"</u>":""}`).join("<br>")}</div>`;
+ const c=d.classes||{};const cls=CLASSES.map(([id,nm])=>{const x=c[id]||{strata:[]};return`${nm} (${STRATA.map(s=>(x.strata||[]).includes(s)?`<span style="font-weight:bold;text-decoration:underline">${s}</span>`:s).join(" | ")})${x.role?` — <span style="font-weight:bold">${esc(x.role.toUpperCase())}</span>`:""}`}).join("<br>");
+ h+=`<div class="pp"><h2>Action Summation Sheet</h2>${q(F("name"))}${q(F("when"))}${q(F("orgs"))}${radio(F("campaign"))}${q(F("issue"),1)}
+ <div class="pq"><b>Key Class forces involved (circle the primary, identify secondary)</b>${cls}</div>${q(F("nonmono"))}${q(F("mono"))}${q(F("base"),1)}${q(F("ourside"),1)}${radio(F("line"))}${q(F("massline"),1)}</div>`;
+ h+=`<div class="pp"><h2>On Contradictions (cont.)</h2><p><b>What were the primary contradictions that emerged during planning and execution?</b></p>
+ <table><tr><th></th><th class="ctr">PRIMARY CONTRADICTIONS</th><th class="ctr">SECONDARY CONTRADICTIONS</th></tr>
+ <tr><th>Principal Aspect</th><td style="height:1.6in;white-space:pre-wrap">${esc(d.pc_pa)}</td><td style="white-space:pre-wrap">${esc(d.sc_pa)}</td></tr>
+ <tr><th>Secondary Aspect</th><td style="height:1.6in;white-space:pre-wrap">${esc(d.pc_sa)}</td><td style="white-space:pre-wrap">${esc(d.sc_sa)}</td></tr></table><br>${q(F("handled"),1)}</div>`;
+ h+=`<div class="pp"><h2>Assessing our forces</h2>${q(F("impact"),1)}${q(F("advanced"),1)}<h2>Evaluating our tactics</h2>${radio(F("tacok"))}${radio(F("tactype"))}${radio(F("level"))}${q(F("tacexp"),1)}</div>`;
+ h+=`<div class="pp"><h2>Impact and Execution</h2>${q(F("enemy"),1)}${q(F("logistics"),1)}<h2>Outcomes and Lessons</h2>${checks(F("gains"))}<h2>Political Analysis</h2>${q(F("polgains"),1)}</div>`;
+ h+=`<div class="pp"><h2>Mistakes</h2>${q(F("mistakes"),1)}<h2>Successful Methods to Hold Onto</h2>${q(F("worked"),1)}<h2>On Building the Strategic Alliance</h2>${q(F("natlib"),1)}${q(F("followup"),1)}</div>`;
+ const steps=(d.steps||[]).filter(s=>s.task||s.by);
+ h+=`<div class="pp"><h2>Next Steps</h2><table><tr><th>What are our immediate next tasks or follow-ups?</th><th style="width:35%">Needs done by:<br><i>(date or person)</i></th></tr>${(steps.length?steps:[{},{},{}]).map(s=>`<tr><td style="height:.45in;white-space:pre-wrap">${esc(s.task)}</td><td>${esc(s.by)}</td></tr>`).join("")}</table><br>
+ <h2>Slogans &amp; Chants</h2>${q(F("slogans"),1)}${q(F("chants"),1)}</div>`;
+ h+=`<div class="pp"><p style="font-style:italic;font-size:13pt;text-align:center">“If we are not good at helping people grasp correct conclusions, our enemies will be glad to do it for us.”</p>${checks(F("summate"))}
+ <h2>In the Final Analysis...</h2>${q(F("final"),1)}${radio(F("lineshown"))}${checks(F("massresp"))}</div>`;
+ $("#print").innerHTML=h}
+$("#ePrint").onclick=()=>{buildPrint();dExp.close();setTimeout(()=>window.print(),100)};
+window.addEventListener("beforeprint",buildPrint);
+const isField=e=>e&&e.matches&&e.matches("input[type=text],input[type=date],textarea");
+document.addEventListener("focusin",e=>{if(isField(e.target))document.body.classList.add("typing")});
+document.addEventListener("focusout",e=>{if(isField(e.target))setTimeout(()=>{if(!isField(document.activeElement))document.body.classList.remove("typing")},50)});
+window.addEventListener("pagehide",()=>{stopRec();persist()});
+document.addEventListener("visibilitychange",()=>{if(document.hidden){stopRec();dPause();persist()}else if(DV&&DV.lock&&DV.lock.released){DV.lock=null}});
+/* ---------- driving mode (hands-free) ---------- */
+const SAY={campaign:"Was this part of an ongoing campaign? Yes or no.",nonmono:"Which non-monopoly capitalists were involved?",mono:"Which monopoly capitalists were involved?",pc_pa:"Primary contradictions. The principal aspect.",pc_sa:"Primary contradictions. The secondary aspect.",sc_pa:"Secondary contradictions. The principal aspect.",sc_sa:"Secondary contradictions. The secondary aspect.",tacok:"Were the tactics used appropriate for our goals? Yes or no.",tactype:"What type of tactics were they?",tacexp:"Explain your answers about tactics."};
+const NUMW={one:1,first:1,two:2,second:2,three:3,third:3,four:4,fourth:4,five:5,fifth:5,six:6,sixth:6,seven:7,seventh:7};
+const norm=s=>String(s||"").toLowerCase().replace(/[’']/g,"").replace(/[^a-z0-9]+/g," ").trim();
+const CMD={stop:["stop driving","stop driving mode","exit driving mode","end driving mode"],next:["next","skip","next question","skip it","skip question","skip this"],back:["back","go back","previous","previous question"],repeat:["repeat","say again","say that again","repeat that","repeat question","what","come again"],readback:["read back","read it back","what did i say"],undo:["undo","scratch that","clear","clear that","delete that"],help:["help","commands"]};
+const TRAIL=/\b(stop driving mode|exit driving mode|stop driving|go back|previous question|scratch that|repeat the question|repeat that|repeat)$/,TRAILRAW=/[\s,.;!?]*\b(stop driving mode|exit driving mode|stop driving|go back|previous question|scratch that|repeat the question|repeat that|repeat)[\s.!?]*$/i;
+const NEG=/ (not|no|never|isnt|wasnt|didnt|dont|doesnt|arent|werent|cant|cannot|nope|nah) /,UNSURE=/ (not sure|unsure|dont know|no idea|maybe|i guess|kind of|sort of) /;
+function dWake(){try{if(!DV||!navigator.wakeLock||(DV.lock&&!DV.lock.released))return;navigator.wakeLock.request("screen").then(l=>{if(DV)DV.lock=l;else l.release()}).catch(()=>{})}catch(e){}}
+function cmdOf(n){for(const k in CMD)if(CMD[k].includes(n))return k;return null}
+let DV=null,AC=null;
+function dQs(){const q=[];S.forEach((s,si)=>s.f.forEach(f=>{if(["text","area","radio","checks","steps"].includes(f.ty))q.push({f,si})}));return q}
+function dStatus(t,c){const e=$("#dSt");e.textContent=t;e.className="dst"+(c?" "+c:"")}
+function dShow(sec,q){$("#dSec").textContent=sec;$("#dQ").textContent=q;$("#dHeard").textContent=""}
+function beep(){try{if(!AC)return;const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=880;g.gain.value=.15;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.12)}catch(e){}}
+function say(t,cb){if(!DV)return;dStopListen();const g=++DV.gen;speechSynthesis.cancel();let done=false,w;const fin=()=>{if(done||!DV||g!==DV.gen)return;done=true;clearTimeout(w);cb&&cb()};
+ const u=new SpeechSynthesisUtterance(t);u.lang=navigator.language||"en-US";u.rate=1;u.onend=fin;u.onerror=fin;w=setTimeout(fin,2500+t.length*120);dStatus("Speaking…","");speechSynthesis.speak(u)}
+function dStopListen(){if(!DV)return;clearTimeout(DV.timer);const r=DV.rec;DV.rec=null;if(r){r.onend=null;r.onresult=null;r.onerror=null;try{r.abort()}catch(e){}}}
+function dNeedTap(m){if(!DV)return;if(DV.acc&&!DV.carry)DV.carry=DV.acc;dStopListen();DV.gen++;speechSynthesis.cancel();dStatus(m||"Not hearing anything.","");$("#dTap").hidden=false}
+function dListen(keep){if(!DV)return;dStopListen();$("#dTap").hidden=true;if(!keep){DV.acc=DV.carry||"";DV.carry=""}const g=DV.gen,x=DV.q[DV.i],ty=x&&!DV.sub?x.f.ty:"text";
+ const free=!x||DV.sub||["text","area","steps"].includes(ty);let r,got=false;
+ try{r=new SR()}catch(e){return dNeedTap("Voice input isn't available.")}
+ r.continuous=true;r.interimResults=true;r.lang=navigator.language||"en-US";DV.rec=r;DV.heard=DV.acc;
+ const fire=()=>{if(!DV||g!==DV.gen||DV.rec!==r)return;const t=DV.heard;dStopListen();dHandle(t)};
+ r.onresult=e=>{const parts=[DV.acc];for(let i=0;i<e.results.length;i++)parts.push(e.results[i][0].transcript.trim());const t=parts.filter(Boolean).join(" ").replace(/\s+/g," ");DV.heard=t;got=!!t.trim();$("#dHeard").textContent=t;clearTimeout(DV.timer);const n=norm(t);
+  if(cmdOf(n)||TRAIL.test(n)||(!x&&/\bback$/.test(n)))DV.timer=setTimeout(fire,900);else if(/\bnext$/.test(n))DV.timer=setTimeout(fire,700);else if(!free)DV.timer=setTimeout(fire,1800)};
+ r.onerror=e=>{if(!DV)return;if(e.error==="not-allowed"||e.error==="service-not-allowed")DV.denied=true;else if(e.error==="network")DV.net=true;else if(e.error==="audio-capture")DV.nomic=true};
+ r.onend=()=>{if(!DV||g!==DV.gen||DV.rec!==r)return;DV.rec=null;clearTimeout(DV.timer);const n=norm(DV.heard);
+  if(n&&(!free||cmdOf(n)||TRAIL.test(n)||(!x&&/\bback$/.test(n))||/\bnext$/.test(n)))return dHandle(DV.heard);
+  if(n){DV.acc=DV.heard.trim();if(got)DV.restarts=0}
+  if(DV.net){DV.net=false;DV.carry=DV.acc;return say("I lost the connection. Voice recognition needs a signal. Tap the green button to try again.",()=>dNeedTap("No connection. Tap to try again."))}
+  if(DV.nomic)return dNeedTap("No microphone found. Tap to try again.");
+  if(DV.denied)return dNeedTap("The microphone is blocked. Allow it for Safari in Settings, then tap.");
+  if(++DV.restarts>(free?20:8)){DV.restarts=0;return dNeedTap()}setTimeout(()=>{if(DV&&g===DV.gen)dListen(true)},250)};
+ const go=()=>{if(!DV||g!==DV.gen||DV.rec!==r)return;try{r.start();dStatus(free?"Listening… say “next” when you're done":"Listening…","listen")}catch(e){dNeedTap()}};
+ if(keep)go();else{beep();setTimeout(go,180)}}
+function dPrompt(x){const f=x.f;let t=SAY[f.k]||f.l;if(!/[.?!:)]$/.test(t))t+=".";
+ if(f.ty==="radio"&&f.o[0]!=="Y")t+=" Options: "+f.o.map((o,j)=>(j+1)+", "+o).join(". ")+".";
+ if(f.ty==="checks")t+=" Say the numbers that apply. "+f.o.map(([,lb],j)=>(j+1)+", "+lb.replace(/:$/,"")).join(". ")+".";
+ if(f.ty==="area"||f.ty==="text")t+=" Say next when you're done.";
+ if(f.ty==="steps")t+=" Say one task, then next.";
+ return t}
+function dAns(f){const v=D()[f.k];if(f.ty==="radio")return v==="Y"?"yes":v==="N"?"no":v||"none";
+ if(f.ty==="checks")return f.o.filter(([id])=>(v||{})[id]).map(([id,lb])=>lb.replace(/:$/,"")+(v[id+"_t"]?" "+v[id+"_t"]:"")).join(", ")||"none";
+ if(f.ty==="steps")return(v||[]).filter(s=>s.task).map(s=>s.task).join(". ")||"none";return v||"none"}
+function dAsk(){if(!DV)return;if(DV.i>=DV.q.length)return dEnd();const x=DV.q[DV.i],f=x.f;let pre="";
+ if(x.si!==DV.lastSec){DV.lastSec=x.si;pre="Section "+(x.si+1)+". "+S[x.si].t+". ";if(S[x.si].f.some(f=>f.ty==="classes"))pre+="The class forces choices need the screen, so I'll skip those. Fill them in when you're parked. "}
+ let t=dPrompt(x);if(filled(f,D()))t+=" Current answer: "+dAns(f)+(f.ty==="steps"?". Say another task to add it, or say next to move on.":". Say a new answer, or say next to keep it.");
+ dShow((x.si+1)+". "+S[x.si].t,SAY[f.k]||f.l);say(pre+t,dListen)}
+function dEnd(){DV.i=DV.q.length;dShow("Finished","You've reached the end. Your answers are saved.");say("That's the end of the sheet, and your answers are saved. The class forces section needs the screen, so fill it in when you're parked. Say back to go back, or stop driving to finish.",dListen)}
+function dGo(dir){const d=D();let i=DV.i;DV.fails=0;DV.carry="";DV.sub=null;DV.subs=null;
+ if(dir>0){do{i++}while(i<DV.q.length&&filled(DV.q[i].f,d))}else i=Math.max(0,Math.min(i,DV.q.length)-1);
+ if(i>=DV.q.length)return dEnd();DV.i=i;dAsk()}
+function tokHit(toks,wd){return toks.some(t=>t===wd||(wd.length>=5&&t.length>=5&&t.slice(0,5)===wd.slice(0,5)))}
+function dNums(n){const o=[];n.split(" ").forEach(w=>{if(/^\d+$/.test(w))o.push(+w);else if(NUMW[w])o.push(NUMW[w])});return o}
+const NW={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9},normO=s=>norm(String(s).replace(/-/g,"")).replace(/\b(de|non) (?=[a-z]{4})/g,"$1").replace(/\b(one|two|three|four|five|six|seven|eight|nine)\b/g,m=>NW[m]);
+function dMatch(o,n){n=normO(n).replace(/\bescalat\w*/g,"raised");const w=" "+n+" ",toks=n.split(" ");if(UNSURE.test(w))return null;
+ if(o[0]==="Y"){const y=/ (yes|yeah|yep|yup|it was) /.test(w),no=NEG.test(w);return y&&!no?"Y":no&&!y?"N":null}
+ if(NEG.test(w))return null;
+ const nums=dNums(n);if(nums.length===1&&nums[0]>=1&&nums[0]<=o.length&&toks.length<=3)return o[nums[0]-1];
+ let best=null,bs=0,tie=false;o.forEach(x=>{const on=normO(x);const s=w.includes(" "+on+" ")?100:on.split(" ").filter(t=>t.length>3&&tokHit(toks,t)).length;if(s>bs){bs=s;best=x;tie=false}else if(s===bs&&s>0)tie=true});
+ return bs>0&&!tie?best:null}
+function dMatchMany(o,n){n=normO(n);let w=" "+n+" ";const ids=new Set();if(UNSURE.test(w))return[];
+ const allLb=" "+o.map(x=>normO(x[1])).join(" ")+" ";if(n.split(" ").some(t=>NEG.test(" "+t+" ")&&!allLb.includes(" "+t+" ")))return[];
+ o.forEach(([id,lb])=>{const on=" "+normO(lb)+" ";if(w.includes(on)){ids.add(id);w=w.split(on).join(" ")}});
+ const toks=w.trim().split(/\s+/).filter(Boolean);dNums(toks.join(" ")).forEach(k=>{if(k>=1&&k<=o.length)ids.add(o[k-1][0])});
+ const words=o.map(([,lb])=>normO(lb).split(" ").filter(t=>t.length>3)),sim=(a,b)=>a===b||(a.length>=5&&b.length>=5&&a.slice(0,5)===b.slice(0,5));
+ o.forEach(([id],j)=>{if(words[j].some(wd=>!words.some((ws,k)=>k!==j&&ws.some(x=>sim(x,wd)))&&tokHit(toks,wd)))ids.add(id)});
+ return o.map(x=>x[0]).filter(id=>ids.has(id))}
+function dFail(){DV.fails++;if(DV.fails>=2)return say("Skipping that one for now.",()=>dGo(1));say("Sorry, I didn't catch that. "+dPrompt(DV.q[DV.i]),dListen)}
+function dClear(f){if(f.ty==="checks")set(f.k,{});else if(f.ty==="steps"){const a=(D().steps||[]).filter(s=>s.task||s.by);a.pop();set("steps",a)}else if(f.ty==="radio")set(f.k,null);else set(f.k,"")}
+function dSubNext(){const f=DV.q[DV.i].f,id=DV.subs&&DV.subs.shift();if(!id)return dGo(1);DV.sub=id;const lb=f.o.find(o=>o[0]===id)[1].replace(/:$/,"");dShow((DV.q[DV.i].si+1)+". "+S[DV.q[DV.i].si].t,lb);say("Details for "+lb+"? Say them, then next. Or just say next to skip.",dListen)}
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function dSave(f,raw){if(!norm(raw))return;if(DV.sub){const v=D()[f.k]||{};v[DV.sub+"_t"]=raw;v[DV.sub]=true;set(f.k,v)}else if(f.ty==="steps"){const a=(D().steps||[]).filter(s=>s.task||s.by);a.push({task:raw,by:""});set("steps",a)}else set(f.k,raw)}
+function dHandle(t){if(!DV)return;DV.restarts=0;const n=norm(t),c=cmdOf(n);
+ if(c==="stop")return stopDrive(true);
+ if(c==="help")return say("Say next to skip, back to go back, repeat to hear the question again, read back to hear your answer, scratch that to clear it, or stop driving to finish.",dListen);
+ if(DV.i>=DV.q.length){if(c==="back"||/\bback$/.test(n))return dGo(-1);return say("Say back to go back, or stop driving to finish.",dListen)}
+ const f=DV.q[DV.i].f;
+ const tm=!c&&n.match(TRAIL);
+ if(tm){const tc=tm[1],before=t.trim().replace(TRAILRAW,"").trim(),freeQ=DV.sub||["text","area","steps"].includes(f.ty);
+  if(tc.startsWith("stop")||tc.startsWith("exit")){if(before&&freeQ)dSave(f,cap(before.replace(/[\s,.]*\bnext[.!?]*$/i,"")));return stopDrive(true)}
+  if(tc==="go back"||tc==="previous question"){DV.carry="";return dGo(-1)}
+  if(tc==="scratch that")return say("Cleared. Go ahead.",dListen);
+  DV.carry=freeQ?before:"";if(DV.sub){DV.subs.unshift(DV.sub);DV.sub=null;return dSubNext()}return dAsk()}
+ if(c==="next")return DV.sub?(DV.sub=null,dSubNext()):dGo(1);
+ if(c==="back")return dGo(-1);
+ if(c==="repeat"){if(DV.sub){DV.subs.unshift(DV.sub);DV.sub=null;return dSubNext()}return dAsk()}
+ if(c==="readback")return say("Your answer: "+dAns(f)+".",dListen);
+ if(c==="undo"){dClear(f);return say(f.ty==="steps"?"Removed the last task.":"Cleared.",dAsk)}
+ const raw=cap(t.trim().replace(/[\s,.]*\bnext[.!?]*$/i,"").trim()),rn=norm(raw);
+ if(!rn)return dGo(1);
+ if(DV.sub){const v=D()[f.k]||{};v[DV.sub+"_t"]=raw;v[DV.sub]=true;DV.sub=null;set(f.k,v);return say("Got it.",dSubNext)}
+ if(f.ty==="text"){set(f.k,raw);return say("Got it: "+raw+".",()=>dGo(1))}
+ if(f.ty==="area"){set(f.k,raw);return say("Saved.",()=>dGo(1))}
+ if(f.ty==="steps"){const a=(D().steps||[]).filter(s=>s.task||s.by);a.push({task:raw,by:""});set("steps",a);return say("Added. Say another task, or just say next to move on.",dListen)}
+ if(f.ty==="radio"){const o=dMatch(f.o,raw);if(o==null)return dFail();set(f.k,o);return say("Marked "+(o==="Y"?"yes":o==="N"?"no":o)+".",()=>dGo(1))}
+ if(f.ty==="checks"){if(["none","nothing","none of them","no"].includes(rn)){if(f.o.some(o=>o[0]==="none")){const v={none:true};set(f.k,v);return say("Marked none.",()=>dGo(1))}return dGo(1)}
+  const ids=dMatchMany(f.o,raw);if(!ids.length)return dFail();const v=D()[f.k]||{};ids.forEach(id=>v[id]=true);set(f.k,v);
+  DV.subs=ids.filter(id=>f.o.find(o=>o[0]===id)[2]&&!v[id+"_t"]);
+  return say("Marked "+ids.map(id=>f.o.find(o=>o[0]===id)[1].replace(/:$/,"")).join(", and ")+".",dSubNext)}
+ dGo(1)}
+function startDrive(){stopRec();try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();AC.resume&&AC.resume()}catch(e){}
+ speechSynthesis.cancel();DV={q:dQs(),i:-1,lastSec:-1,fails:0,sub:null,subs:null,gen:0,restarts:0,lock:null,rec:null,timer:0};
+ $("#drive").classList.add("on");document.body.style.overflow="hidden";$("#dTap").hidden=true;dShow("Driving mode","Starting…");
+ dWake();$("#dQ").focus();
+ say("Driving mode. I'll read each unanswered question. Answer out loud. Say next to skip, back to go back, repeat to hear it again, or stop driving to finish. Keep your eyes on the road.",()=>dGo(1))}
+function stopDrive(sp){if(!DV)return;const lock=DV.lock;dStopListen();DV.gen++;speechSynthesis.cancel();DV=null;
+ if(sp){const u=new SpeechSynthesisUtterance("Driving mode off. Your answers are saved.");u.lang=navigator.language||"en-US";speechSynthesis.speak(u)}
+ try{lock&&lock.release()}catch(e){}$("#drive").classList.remove("on");document.body.style.overflow="";persist();render();const db=document.querySelector(".drivebtn");db&&db.focus()}
+function dPause(){if(DV)dNeedTap("Paused. Tap to keep going.")}
+$("#dTap").onclick=()=>{if(!DV)return;dWake();$("#dTap").hidden=true;DV.restarts=0;DV.gen++;DV.sub?(DV.subs=[DV.sub,...(DV.subs||[])],DV.sub=null,dSubNext()):dAsk()};
+$("#dRep").onclick=()=>{if(DV){dWake();$("#dTap").hidden=true;dAsk()}};
+$("#dSkip").onclick=()=>{if(!DV)return;dWake();$("#dTap").hidden=true;if(DV.sub){DV.sub=null;dSubNext()}else if(DV.i<DV.q.length)dGo(1)};
+$("#dStop").onclick=()=>{if(DV){const x=DV.q[DV.i],f=DV.sub?x&&x.f:x&&x.f,free=DV.sub||(f&&["text","area","steps"].includes(f.ty)),t=((DV.rec?DV.heard:DV.carry)||"").replace(TRAILRAW,"").replace(/[\s,.;!?]*\bnext[\s.!?]*$/i,"").trim();if(free&&f&&t)dSave(f,t)}stopDrive(true)};
+$("#upd").onclick=()=>{persist();location.reload()};
+
+render();
+if("serviceWorker" in navigator&&location.protocol!=="file:"){const ctl=navigator.serviceWorker.controller,had=!!ctl&&ctl.scriptURL===new URL("sw.js",location.href).href;let shown=false;
+ navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had&&!shown){shown=true;$("#upd").classList.add("on")}});
+ navigator.serviceWorker.register("sw.js").then(r=>{document.addEventListener("visibilitychange",()=>{if(!document.hidden)r.update().catch(()=>{})})}).catch(()=>{})}
+</script>
+</body></html>
