@@ -4,9 +4,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Summation">
-<meta name="theme-color" content="#8b1a1a">
+<meta name="theme-color" content="#000">
+<meta name="color-scheme" content="dark">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" href="icons/icon-192.png">
@@ -107,13 +108,198 @@ details.sec{scroll-margin-top:calc(100px + env(safe-area-inset-top))}
  .ctr{text-align:center;font-weight:bold}
 }
 @media screen{#print.preview{display:block;background:#fff;padding:16px}}
-.drivebtn,#drive{display:none!important}
+
+/* ===== LOOK B: black terminal + scanlines (dev/patch_lookb.py). System monospace only, no web fonts, no URLs. ===== */
+:root{--ink:#f2f2f2;--bg:#000;--panel:#0b0b0b;--card:#0b0b0b;--mute:#a6a6a6;--line:#f2f2f2;--red:#f2f2f2;--edge:#f2f2f2;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color-scheme:dark}
+*,*::before,*::after{border-radius:0!important}
+html{background:#000}
+body{font:16px/1.5 var(--mono);background:transparent;color:var(--ink)}
+button,input,textarea,select{font-family:var(--mono)}
+/* scanlines + sweep sit BEHIND all content (z-index:-1): they show on the page and through the translucent cards, never over text, inputs or diagrams */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px)}
+body::after{content:"";position:fixed;left:0;right:0;top:-20vh;height:20vh;pointer-events:none;z-index:-1;background:linear-gradient(transparent,rgba(255,255,255,.05),transparent);animation:lbsweep 7s linear infinite}
+@keyframes lbsweep{to{transform:translateY(140vh)}}
+header{background:var(--bg);color:var(--ink);border-bottom:3px double var(--edge)}
+header h1{font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+.lbttl{display:flex;min-width:0;flex:1 1 auto;align-items:baseline}
+.lbp{flex:none;white-space:pre}
+.lbcur{flex:none;animation:lbblink 1s steps(1) infinite}
+@keyframes lbblink{50%{opacity:0}}
+header button{background:var(--bg);color:var(--ink);border:2px solid var(--edge);font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:6px 8px;min-height:44px;min-width:44px}
+header button::before{content:"[";content:"[" / ""}
+header button::after{content:"]";content:"]" / ""}
+.prog{height:8px;background:transparent;border:1px solid var(--edge);padding:1px}
+.prog i{background:repeating-linear-gradient(90deg,var(--ink) 0 6px,transparent 6px 8px)}
+.progtxt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);opacity:1}
+.saved{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.hint{color:var(--mute);font-size:13px;font-style:normal}
+details.sec{background:rgba(255,255,255,.043);border:2px solid var(--edge);box-shadow:4px 4px 0 0 #3a3a3a;overflow:visible;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 18px,calc(100% + 4px) 18px,calc(100% + 4px) calc(100% + 4px),4px calc(100% + 4px),4px 100%,0 100%)}
+details.sec>summary{font-size:15px;text-transform:uppercase;letter-spacing:.04em;padding:14px;gap:8px}
+details.sec>summary::before{content:"\25B8";content:"\25B8" / "";flex:none}
+details.sec[open]>summary::before{content:"\25BE";content:"\25BE" / ""}
+details.sec>summary>span:first-of-type{margin-right:auto}
+details.sec[open]>summary{background:var(--ink);color:#000}
+summary .badge{background:transparent;color:var(--mute);border:1px solid var(--edge);font-weight:400}
+summary .badge.done{background:var(--ink);color:#000}
+details.sec[open]>summary .badge{color:#000;border-color:#000}
+details.sec[open]>summary .badge.done{background:#000;color:var(--ink)}
+.body{padding:14px}
+.f>label,.f>.lbl{font-weight:700;font-size:15px;margin-bottom:6px}
+.f>.lbl::before,.f>label::before{content:"// ";content:"// " / "";color:var(--mute)}
+.f>.lbl.date::before{content:"[DATE] ";content:"[DATE] " / ""}
+.f>.lbl.time::before{content:"[TIME] ";content:"[TIME] " / ""}
+input[type=text],input[type=date],input[type=time],textarea{font-family:var(--mono);font-size:16px;border:0;border-bottom:2px solid var(--edge);border-left:2px solid var(--edge);background:#000;color:var(--ink);caret-color:var(--ink);padding:11px 56px 11px 11px}
+input.dt{display:block;width:100%;max-width:100%;min-height:44px;padding:10px 11px;-webkit-appearance:none;appearance:none;line-height:1.4}
+input.dt::-webkit-date-and-time-value{text-align:left}
+.duew{margin:0 0 8px}
+::placeholder{color:#8c8c8c;opacity:1}
+textarea{min-height:96px}
+.mic{border:1px solid var(--edge);background:#000;color:var(--ink);font-size:11px;letter-spacing:.06em;min-width:44px;width:auto;height:44px;padding:0 6px}
+.mic.rec{background:var(--ink);color:#000;animation:lbpulse 1.2s infinite}
+@keyframes lbpulse{0%{box-shadow:0 0 0 0 rgba(242,242,242,.6)}70%{box-shadow:0 0 0 10px rgba(242,242,242,0)}100%{box-shadow:0 0 0 0 rgba(242,242,242,0)}}
+.tw.recording textarea,.tw.recording input{border-color:var(--ink);border-bottom-style:dashed;background:#000}
+.chip span{border:2px solid var(--edge);background:#000;color:var(--ink);font-size:14px;padding:6px 12px}
+.chip span::before{content:"[ ] ";content:"[ ] " / "";white-space:pre}
+.chip input:checked+span{background:var(--ink);border-color:var(--ink);color:#000}
+.chip input:checked+span::before{content:"[x] ";content:"[x] " / ""}
+.chk input[type=checkbox]{accent-color:var(--ink)}
+.classrow,.steprow,.item{border:1px solid #6e6e6e;background:transparent}
+.classrow .nm{font-weight:700}
+.classrow .sub{color:var(--mute);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.item.cur{border:3px double var(--ink)}
+.item .m{color:var(--mute)}
+.btn{font-size:15px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:#000;color:var(--ink);border:2px solid var(--edge);min-height:48px;padding:8px 10px}
+.btn.pri{background:var(--ink);color:#000;border-color:var(--ink)}
+.btn.sm{min-height:44px;font-size:13px;padding:6px 10px}
+.btn.danger{color:var(--ink);border:4px double var(--ink)}
+button:disabled,.btn:disabled{background:#000!important;color:var(--mute)!important;border:1px dashed var(--mute)!important;opacity:1!important}
+blockquote{border-left:4px solid var(--ink);background:transparent;color:var(--ink)}
+.note{background:#000;color:var(--mute);border:1px dashed var(--mute)}
+.prevtxt{border:1px dashed var(--mute);padding:8px 10px;white-space:pre-wrap;word-wrap:break-word;color:var(--ink);margin-bottom:4px}
+nav.bar{background:#000;border-top:3px double var(--edge)}
+dialog{background:var(--panel);color:var(--ink);border:2px solid var(--edge);box-shadow:4px 4px 0 0 #3a3a3a}
+dialog::backdrop{background:rgba(0,0,0,.75)}
+.dh{border-bottom:3px double var(--edge);text-transform:uppercase;letter-spacing:.04em;font-size:15px}
+.grid2 .btn{font-size:13px}
+.toast{background:#000;color:var(--ink);border:2px solid var(--edge);font-size:14px;letter-spacing:.04em}
+.copybig{font-size:17px}
+.copybig.ok{background:#000;color:var(--ink);border:4px double var(--ink)}
+.rbox{font:16px/1.5 var(--mono);background:#000;color:var(--ink);border:2px solid var(--edge)}
+#upd{background:var(--ink);color:#000;border:2px solid #000;outline:2px solid var(--ink);text-transform:uppercase;letter-spacing:.04em}
+/* driving mode: opaque full-screen layer, so no scanlines; STOP is a solid white slab with a black inner rule */
+#drive{z-index:60;background:#000;color:var(--ink);font-family:var(--mono)}
+#drive .dsec,#drive .dheard{opacity:1;color:var(--mute)}
+#drive button{background:#000;color:var(--ink);border:2px solid var(--edge);text-transform:uppercase;letter-spacing:.04em}
+#drive button.go{background:#000;color:var(--ink);border:4px double var(--ink)}
+#drive button.stop{flex:1 1 100%;width:100%;background:var(--ink);color:#000;border:0;min-height:max(calc(30vh + 4px),150px);font-size:34px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;outline:3px solid #000;outline-offset:-9px}
+#drive button.stop .stopsub{color:#000;opacity:1;font-size:17px;text-transform:uppercase}
+/* focus: 3px ink outline + halo; only drop :focus outline where :focus-visible covers it */
+:focus:not(:focus-visible){outline:none}
+:focus-visible,input:focus,textarea:focus{outline:3px solid var(--ink);outline-offset:2px;box-shadow:0 0 0 2px #000,0 0 0 7px rgba(242,242,242,.35)}
+.chip input:focus-visible+span{outline:3px solid var(--ink);outline-offset:2px;box-shadow:0 0 0 2px #000,0 0 0 7px rgba(242,242,242,.35)}
+details.sec>summary:focus-visible{outline:3px solid var(--ink);outline-offset:-5px;box-shadow:none}
+details.sec[open]>summary:focus-visible{outline-color:#000}
+#upd:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+#drive button.stop:focus-visible{outline:3px solid #000;outline-offset:-9px;box-shadow:0 0 0 3px #000,0 0 0 7px var(--ink)}
+@media (prefers-reduced-motion:reduce){body::after{display:none;animation:none}.lbcur,.mic.rec{animation:none}.prog i,.toast{transition:none}}
+@media screen{#print.preview{color:#000}}
+@media print{
+ :root{color-scheme:light}
+ html,body{background:#fff!important;color:#000!important}
+ body{font:11pt/1.35 Georgia,"Times New Roman",serif!important}
+ body::before,body::after{display:none!important;content:none!important;animation:none!important}
+ #print,#print *{color:#000!important;background:transparent!important}
+ #drive,#upd,.toast{display:none!important}
+}
+
+/* ===== DIALECTICS (dev/patch_dialectics.py): slider, quantity->quality meter, spiral ===== */
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.seg2{display:flex;gap:6px;margin:0 0 10px}
+.seg2 button{flex:1;min-height:44px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;border:2px solid var(--ink);background:#000;color:var(--ink);font-weight:700}
+.seg2 button::before{content:"[";content:"[" / ""}.seg2 button::after{content:"]";content:"]" / ""}
+.seg2 button[aria-pressed=true]{background:var(--ink);color:#000}
+/* diagram panels: opaque black + thin grid, so scanlines/sweep (behind content) never cross them */
+.dpanel{position:relative;background-color:#000;background-image:linear-gradient(#3a3a3a 1px,transparent 1px),linear-gradient(90deg,#3a3a3a 1px,transparent 1px);background-size:24px 24px;border:1px solid var(--ink);outline:3px double var(--ink);outline-offset:3px;margin:12px 4px 14px;padding:10px}
+/* 1. balance slider */
+.bal svg{display:block;width:100%;height:auto;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.bal svg text{font-family:var(--mono);fill:var(--ink)}
+.bal svg text.m{fill:var(--mute)}
+.bal input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;margin:6px 0 0;padding:0;border:0}
+.bal input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--ink)}
+.bal input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:44px;height:44px;margin-top:-21px;background:#000;border:2px solid var(--ink);box-shadow:inset 0 0 0 6px #000,inset 0 0 0 8px var(--ink)}
+.bal input[type=range]::-moz-range-track{height:2px;background:var(--ink)}
+.bal input[type=range]::-moz-range-thumb{width:40px;height:40px;background:#000;border:2px solid var(--ink)}
+.bal input[type=range]:focus-visible{outline:3px solid var(--ink);outline-offset:4px;box-shadow:none}
+.bal .ends{display:flex;justify-content:space-between;font-size:12px;color:var(--mute);letter-spacing:.06em}
+.bal .bst{font-size:14px;border-top:3px double var(--ink);margin-top:10px;padding-top:10px;min-height:3em}
+.bal .bunset{color:var(--mute)}
+.bal .anim .bm,.bal .anim .bfa,.bal .anim .bfb,.bal .anim .bdv{transition:all .25s ease-out}
+@media (prefers-reduced-motion:reduce){.bal .anim .bm,.bal .anim .bfa,.bal .anim .bfb,.bal .anim .bdv{transition:none}}
+/* 2. quantity -> quality meter (header) */
+.qq{margin-top:10px;position:relative}
+.qq .cells{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:1px;height:12px}
+.qq .cells i{display:block;border:1px solid var(--ink);background:#000}
+.qq .cells i.on{background:var(--ink)}
+.qq.near .cells{outline:1px dashed var(--ink);outline-offset:2px}
+.qq .leapl{display:none}
+.qq.q .cells{display:none}
+.qq.q .leapl{display:flex;height:20px;align-items:center;justify-content:center;background:var(--ink);color:#000;font-weight:700;font-size:12px;letter-spacing:.2em;border:2px solid var(--ink)}
+.progtxt .nodal{color:var(--mute)}
+@media (prefers-reduced-motion:no-preference){.qq.q.just{animation:lbjolt .5s steps(4)}}
+@keyframes lbjolt{25%{transform:translateX(-3px)}50%{transform:translateX(3px)}75%{transform:translateX(-1px)}}
+/* 3. spiral (Saved dialog) */
+.spv canvas{display:block;width:100%;height:300px;touch-action:pan-y;cursor:grab}
+/* same single frame as the slider panel; keyboard focus re-draws THAT frame solid (no second, inner frame) */
+.spv canvas:focus-visible{outline:none;box-shadow:none}
+.spv .dpanel:has(canvas:focus-visible){outline:3px solid var(--ink);box-shadow:0 0 0 9px rgba(242,242,242,.35)}
+.spv .legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;padding:6px 2px 0;color:var(--ink)}
+.spv .ctl{display:flex;gap:6px;margin:8px 0}
+.spv .ctl button{flex:1;min-height:44px}
+.spv .sst{font-size:14px;min-height:4.4em;border:1px solid #6e6e6e;padding:8px 10px;margin-bottom:8px}
+.spv .sst b{text-transform:uppercase}
+.spv ol{margin:0;padding:0 0 0 0;list-style:none;font-size:13px}
+.spv ol li{margin:0 0 6px}
+.spv ol button{width:100%;min-height:44px;text-align:left;background:#000;color:var(--ink);border:1px solid #6e6e6e;padding:6px 10px;font-size:13px}
+.spv ol button[aria-current=true]{border:3px double var(--ink)}
+.spv .msg{color:var(--mute);font-size:14px;margin:6px 0 10px}
+@media print{.qq,.bal,.spv{display:none!important}
+ .pbal{display:flex;border:1px solid #000;margin-top:3pt;font-size:9.5pt}
+ .pbal span{display:block;padding:3pt 4pt;border-right:1px solid #000;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+ .pbal span:last-child{border-right:0}
+ .pbal span.pr{font-weight:bold;border-bottom:3pt solid #000}}
+
+/* ---- music mute button (patch_music) ---- */
+header button#bMus{box-sizing:border-box;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;background:#000;color:#f2f2f2;border:2px solid #f2f2f2;border-radius:0}
+header button#bMus::before,header button#bMus::after{content:none}
+#bMus svg{width:20px;height:20px;display:block;overflow:visible}
+#bMus .i-off,#bMus.muted .i-on{display:none}#bMus.muted .i-off{display:block}
+#bMus.paused{color:#a6a6a6;border:1px dashed #a6a6a6}
+#bMus .eq{transform-box:fill-box;transform-origin:50% 50%}
+#bMus:not(.muted):not(.paused) .eq{animation:lbeq .9s steps(4) infinite alternate}
+@keyframes lbeq{from{transform:scaleY(1)}to{transform:scaleY(.25)}}
+@media (prefers-reduced-motion:reduce){#bMus .eq{animation:none!important}}
+body.driving #bMus{display:none!important}
+@media print{#bMus{display:none!important}}
+
+/* ---- driving mode in look B (patch_drive_lookb) ---- */
+body.driving::before,body.driving::after{display:none!important;content:none!important;animation:none!important}
+body.driving .lbcur,body.driving .qq,body.driving .qq *,body.driving .mic.rec,body.driving #bMus .eq{animation:none!important}
+body.driving *,body.driving *::before,body.driving *::after{transition:none!important}
+#drive,#drive .dq,#drive .dst,#drive .dst.listen{color:var(--ink)}
+#drive .dst.listen{font-weight:800}
+.drivebtn{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--ink)}
+.drivebtn svg{width:20px;height:20px;flex:none;color:#f2f2f2}
+
+/* ---- privacy link (patch_privacy) ---- */
+a.plink{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 8px;color:var(--ink);text-decoration:underline;text-underline-offset:3px;vertical-align:middle}
+p.plinkp{text-align:center;margin:-4px 0 12px}
+@media print{a.plink,p.plinkp{display:none!important}}
 </style>
 </head>
 <body>
 <header>
- <h1><span id="ttl" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0">Action Summation Sheet</span><span style="white-space:nowrap;flex:none"><button id="bList" aria-label="Saved summations">☰ Saved</button> <button id="bExport">Export</button></span></h1>
- <div class="prog"><i id="pbar"></i></div><div class="progtxt" id="ptxt"></div>
+ <h1><span class="lbttl"><span class="lbp" aria-hidden="true">&gt; </span><span id="ttl" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0">Action Summation Sheet</span><span class="lbcur" aria-hidden="true">_</span></span><span style="white-space:nowrap;flex:none"><button id="bMus" type="button" class="muted" aria-label="Play music"><svg class="i-on" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path class="eq" d="M12 12v-2M15 14v-6M18 11v-1" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg><svg class="i-off" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path d="M12 7l6 6M18 7l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button> <button id="bList" aria-label="Saved summations">☰ Saved</button> <button id="bExport">Export</button></span></h1>
+ <div class="qq" id="qq" role="progressbar" aria-label="Answered questions" aria-valuemin="0"><div class="cells" id="qqc" aria-hidden="true"></div><div class="leapl" aria-hidden="true">[ NEW QUALITY ]</div></div><div class="vh" id="qqlive" aria-live="polite" aria-atomic="true"></div><div class="progtxt" id="ptxt"></div>
 </header>
 <main id="main"></main>
 <nav class="bar"><button class="btn" id="bCollapse">Collapse all</button><button class="btn pri" id="bNext">Next section ↓</button></nav>
@@ -122,11 +308,11 @@ details.sec{scroll-margin-top:calc(100px + env(safe-area-inset-top))}
 <div id="drive" role="dialog" aria-modal="true" aria-label="Driving mode"><div class="dsec" id="dSec"></div><div class="dq" id="dQ" tabindex="-1" aria-live="polite"></div><div class="dst" id="dSt" aria-live="polite"></div><div class="dheard" id="dHeard"></div>
 <div class="drow"><button type="button" class="go" id="dTap" hidden>Tap to keep going</button></div>
 <div class="drow"><button type="button" id="dRep">Repeat</button><button type="button" id="dSkip">Skip</button></div>
-<div class="drow"><button type="button" class="stop" id="dStop" aria-label="Stop driving mode. Saves what you said.">STOP<span class="stopsub">Tap to save and exit</span></button></div></div>
+<div class="drow"><button type="button" class="stop" id="dStop">STOP<span class="stopsub">Tap to save and exit</span></button></div></div>
 <div class="toast" id="toast"></div>
 
 <dialog id="dList"><div class="dh">Saved summations <button class="btn sm" onclick="dList.close()">Close</button></div>
-<div class="dbody"><button class="btn pri" style="width:100%;margin-bottom:12px" id="bNew">+ New summation</button><div id="list"></div></div></dialog>
+<div class="dbody"><button class="btn pri" style="width:100%;margin-bottom:12px" id="bNew">+ New summation</button><button type="button" class="btn sm" id="bSort" style="width:100%;margin:-4px 0 12px"></button><div class="seg2" role="group" aria-label="View"><button type="button" id="vList" aria-pressed="true">List</button><button type="button" id="vSpiral" aria-pressed="false">Spiral</button></div><div id="spiralV" class="spv" hidden></div><div id="list"></div></div></dialog>
 
 <dialog id="dExp"><div class="dh">Export / Share <button class="btn sm" onclick="dExp.close()">Close</button></div>
 <div class="dbody"><div class="grid2">
@@ -143,7 +329,10 @@ const STRATA=["Lower Strata","Middle Strata","Upper Strata"];
 const S=[
 {t:"The Action",f:[
  {k:"name",ty:"text",l:"Name of the Action"},
- {k:"when",ty:"text",l:"Date/Time & Location"},
+ {k:"date",ty:"date",l:"Date"},
+ {k:"time",ty:"time",l:"Time (optional)",opt:1},
+ {k:"loc",ty:"text",l:"Location"},
+ {k:"when",ty:"legacy",l:"Date/Time & Location (previous text)",ol:"Date/Time & Location"},
  {k:"orgs",ty:"text",l:"Organizers / Lead orgs"},
  {k:"campaign",ty:"radio",l:"Part of an ongoing Campaign? (Y/N)",o:["Y","N"]},
  {k:"issue",ty:"area",l:"What issue or contradiction was this action responding to?"}]},
@@ -199,16 +388,86 @@ const S=[
 {t:"Report",report:1,f:[{ty:"report"}]}
 ];
 const CLASSES=[["wc","Working Class",1],["pb","Petty-Bourgeoisie",1]];
+/* ---------- dates (patch_lookb): stored ISO YYYY-MM-DD / HH:MM, read as LOCAL dates, shown in a fixed English format ---------- */
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],MONF=["january","february","march","april","may","june","july","august","september","october","november","december"],WDF=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+const pad2=n=>String(n).padStart(2,"0");
+function isoOf(y,m,d){if(!(y>=1000&&y<=9999&&m>=1&&m<=12&&d>=1&&d<=31))return"";const t=new Date(y,m-1,d);return t.getFullYear()===y&&t.getMonth()===m-1&&t.getDate()===d?y+"-"+pad2(m)+"-"+pad2(d):""}
+const isoD=t=>isoOf(t.getFullYear(),t.getMonth()+1,t.getDate());
+function parseIso(s){const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s||""));return m&&isoOf(+m[1],+m[2],+m[3])?new Date(+m[1],+m[2]-1,+m[3]):null}
+function fmtDate(s){const t=parseIso(s);return t?MON[t.getMonth()]+" "+t.getDate()+", "+t.getFullYear():""}
+function validTime(s){const m=/^(\d{1,2}):(\d{2})(?::\d{2}(?:\.\d+)?)?$/.exec(String(s||"").trim());return m&&+m[1]<24&&+m[2]<60?pad2(+m[1])+":"+m[2]:""}
+function fmtTime(s){const t=validTime(s);if(!t)return"";let h=+t.slice(0,2);const ap=h<12?"AM":"PM";h=h%12||12;return h+":"+t.slice(3)+" "+ap}
+// Old free-text 'when' that had no readable date (it was never moved into the date fields). Shown as its own line, never put into Location.
+function prevWhen(d,ref){const w=String(d.when||"").trim();if(!w)return"";try{if(parseLegacy(w,ref||new Date()))return""}catch(e){}return w}
+function whenLine(d){return[fmtDate(d.date),fmtTime(d.time),String(d.loc||"").trim()].filter(Boolean).join(" · ")}
+const byTxt=s=>[String(s.by||"").trim(),fmtDate(s.due)].filter(Boolean).join(", ");
+const day0=t=>new Date(t.getFullYear(),t.getMonth(),t.getDate());
+// No year given: the most recent date on or before the reference day (the sheet's created date, or today when spoken). Summations are written after the event.
+function pastYear(m,d,ref){const r=day0(ref);for(let Y=r.getFullYear();Y>r.getFullYear()-9;Y--){const v=isoOf(Y,m,d);if(v&&parseIso(v)<=r)return v}return""}
+const monIdx=s=>{s=s.toLowerCase().replace(/\./g,"").slice(0,3);return MONF.findIndex(m=>m.slice(0,3)===s)+1};
+const MRX="(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\\.?";
+// Old free-text "Date/Time & Location" -> {date,time,rest}, or null if no date can be read unambiguously.
+// Strict on purpose (QA B1): a month word only counts when written like a date (capitalised "March 2", "Mar 2, 2026", "2 March"),
+// sitting next to a day number, with only separators / a weekday / "on" before it and only separators / a time / "at", "from", "in" after it.
+// Numeric dates need a year (n/n/yy or n/n/yyyy, read as US month/day); a bare n/n like "3/4" is never a date. ISO yyyy-mm-dd is always accepted.
+const LG_PRE=b=>{b=b.replace(/\s+$/,"");return!b||/[,·•;|\-–—@(:]$/.test(b)||/(^|\s)(on|date|dated)$/i.test(b)||/(^|[\s,·(])(sun|mon|tues?|wed(nes)?|thu(rs?)?|fri|sat(ur)?)(day)?\.?,?$/i.test(b)};
+const LG_POST=a=>{a=a.replace(/^\s+/,"");return!a||/^[,·•;|\-–—@()]/.test(a)||/^(at|from|in|on|@)(\s|$)/i.test(a)||/^(\d{1,2}(:[0-5]\d)?\s*[ap]\.?\s?m\b|\d{1,2}:[0-5]\d\b|noon\b)/i.test(a)||/^\(?(sun|mon|tue|wed|thu|fri|sat)/i.test(a)};
+function parseLegacy(txt,ref){const src=String(txt||"");let s=src,date="",time="";const cut=(m)=>{s=s.slice(0,m.index)+"\u0000"+s.slice(m.index+m[0].length)};
+ const ctx=m=>LG_PRE(s.slice(0,m.index))&&LG_POST(s.slice(m.index+m[0].length)),cap=w=>/^[A-Z]/.test(w);
+ const D=[[/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/g,m=>isoOf(+m[1],+m[2],+m[3])],
+  [new RegExp("\\b"+MRX+"\\s+(\\d{1,2})(?:st|nd|rd|th)?\\b(?:,?\\s+(\\d{4})\\b)?","gi"),m=>cap(m[1])&&ctx(m)?(m[3]?isoOf(+m[3],monIdx(m[1]),+m[2]):pastYear(monIdx(m[1]),+m[2],ref)):""],
+  [new RegExp("\\b(\\d{1,2})(?:st|nd|rd|th)?\\s+(?:of\\s+)?"+MRX+"(?:,?\\s+(\\d{4})\\b)?","gi"),m=>cap(m[2])&&ctx(m)?(m[3]?isoOf(+m[3],monIdx(m[2]),+m[1]):pastYear(monIdx(m[2]),+m[1],ref)):""],
+  [/\b(\d{1,2})\/(\d{1,2})\/(\d{4}|\d{2})\b/g,m=>ctx(m)?isoOf(m[3].length===2?2000+ +m[3]:+m[3],+m[1],+m[2]):""]];
+ outer:for(const[re,fn]of D){for(const m of s.matchAll(re)){const v=fn(m);if(v){date=v;cut(m);break outer}}}
+ if(!date)return null;
+ const T=[[/\b(\d{1,2})(?::([0-5]\d))?\s*([ap])\.?\s?m\b\.?/i,m=>{const h=+m[1];return h>=1&&h<=12?pad2(h%12+(m[3].toLowerCase()==="p"?12:0))+":"+(m[2]||"00"):""}],
+  [/\b([01]?\d|2[0-3]):([0-5]\d)\b/,m=>pad2(+m[1])+":"+m[2]],[/\bnoon\b/i,()=>"12:00"]];
+ for(const[re,fn]of T){const m=re.exec(s);if(m){const v=fn(m);if(v){time=v;cut(m)}break}}
+ s=s.replace(/\b(sun|mon|tues?|wed(nes)?|thu(rs?)?|fri|sat(ur)?)(day)?\b\.?/gi,"\u0000");
+ const rest=s.split("\u0000").map(p=>p.replace(/^[\s·•,;:\-–—|@/]+|[\s·•,;:\-–—|@/]+$/g,"").replace(/^(at|on|from|in)\s+/i,"").replace(/\s+(at|on|from)$/i,"").trim()).filter(p=>p&&!/^(at|on|from|in|and)$/i.test(p)).join(" · ");
+ return{date,time,rest}}
+function migrateWhen(o,ref){const w=typeof o.when==="string"?o.when.trim():"";if(!w||o.whenMig)return o;o.whenMig=1;if(o.date||o.time||o.loc)return o;
+ // unreadable old text is NOT copied anywhere: it stays only in `when`, shown read-only as the previous-text note
+ const p=parseLegacy(w,ref);if(p){o.date=p.date;if(p.time)o.time=p.time;if(p.rest)o.loc=p.rest}return o}
+// Spoken dates for driving mode (event date). Relative to `now`: today/yesterday/tomorrow, this/next/last <weekday>, "October twentieth", "October 20 2026", "the 24th of October".
+// No year, or a bare weekday -> most recent past date. Explicit future words (tomorrow, this/next <weekday>) still give future dates.
+const NU={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,first:1,second:2,third:3,fourth:4,fifth:5,sixth:6,seventh:7,eighth:8,ninth:9},NT={ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19,tenth:10,eleventh:11,twelfth:12,thirteenth:13,fourteenth:14,fifteenth:15,sixteenth:16,seventeenth:17,eighteenth:18,nineteenth:19},NX={twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90,twentieth:20,thirtieth:30};
+function numWords(n){const tw="(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)",u="(one|two|three|four|five|six|seven|eight|nine)";
+ n=n.replace(new RegExp("\\btwo thousand(?: and)?(?: "+tw+")?(?: "+u+")?\\b","g"),(m,a,b)=>String(2000+(a?NX[a]:0)+(b?NU[b]:0)));
+ n=n.replace(new RegExp("\\b(nineteen|twenty) "+tw+"(?: "+u+")?\\b","g"),(m,c,a,b)=>String((c==="twenty"?2000:1900)+NX[a]+(b?NU[b]:0)));
+ n=n.replace(/\b(twenty|thirty|forty|fifty) (first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|one|two|three|four|five|six|seven|eight|nine)\b/g,(m,a,b)=>String(NX[a]+NU[b]));
+ n=n.replace(/\b[a-z]+\b/g,w=>w in NU?String(NU[w]):w in NT?String(NT[w]):w in NX?String(NX[w]):w);return n.replace(/\b(\d+)(st|nd|rd|th)\b/g,"$1")}
+function spokenDate(t,now){const n=numWords(norm(t)),today=day0(now||new Date()),add=k=>{const x=new Date(today);x.setDate(x.getDate()+k);return isoD(x)};
+ let m=/\b(\d{4}) (\d{1,2}) (\d{1,2})\b/.exec(n);if(m&&isoOf(+m[1],+m[2],+m[3]))return isoOf(+m[1],+m[2],+m[3]);
+ const mr="(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec)";
+ m=new RegExp("\\b"+mr+" (?:the )?(\\d{1,2})\\b(?: (\\d{4})\\b)?").exec(n)||null;let mo,dd,yy;
+ if(m){mo=monIdx(m[1]);dd=+m[2];yy=m[3]}else{m=new RegExp("\\b(\\d{1,2}) (?:of )?"+mr+"\\b(?: (\\d{4})\\b)?").exec(n);if(m){mo=monIdx(m[2]);dd=+m[1];yy=m[3]}}
+ if(!m){m=/^(\d{1,2}) (\d{1,2})(?: (\d{4}))?$/.exec(n);if(m){mo=+m[1];dd=+m[2];yy=m[3]}}
+ if(m)return yy?isoOf(+yy,mo,dd):pastYear(mo,dd,today);
+ if(/\bday before yesterday\b/.test(n))return add(-2);if(/\bday after tomorrow\b/.test(n))return add(2);
+ if(/\byesterday\b|\blast night\b/.test(n))return add(-1);if(/\btoday\b|\btonight\b|\bthis (morning|afternoon|evening)\b/.test(n))return add(0);if(/\btomorrow\b/.test(n))return add(1);
+ m=/\b(?:(this|next|last|past|coming) )?(sunday|monday|tuesday|wednesday|thursday|friday|saturday)\b/.exec(n);
+ if(m){const dow=WDF.indexOf(m[2]),c=today.getDay(),fwd=(dow-c+7)%7,back=(c-dow+7)%7;const w=m[1];
+  return add(w==="this"||w==="coming"?fwd:w==="next"?(fwd||7):w==="last"||w==="past"?-(back||7):-back)}  // bare weekday = most recent (event dates are in the past)
+ return""}
+function spokenTime(t){const n=numWords(norm(t).replace(/\bo ?clock\b/g,""));if(/\bnoon\b|\bmidday\b/.test(n))return"12:00";if(/\bmidnight\b/.test(n))return"00:00";
+ let m=/\b(\d{1,2})(?: (\d{1,2}))? ?(am|pm|a m|p m)\b/.exec(n);if(m){const h=+m[1],mi=+(m[2]||0);if(h>=1&&h<=12&&mi<60)return pad2(h%12+(m[3][0]==="p"?12:0))+":"+pad2(mi)}
+ m=/\b(\d{1,2})(?: (\d{1,2}))?\b.*\b(in the (morning|afternoon|evening)|at night|tonight)\b/.exec(n);if(m){const h=+m[1],mi=+(m[2]||0),pm=m[4]!=="morning";if(h>=1&&h<=12&&mi<60)return pad2(h%12+(pm?12:0))+":"+pad2(mi)}
+ m=/^(\d{1,2}) (\d{2})$/.exec(n);if(m&&+m[1]>12&&+m[1]<24&&+m[2]<60)return pad2(+m[1])+":"+m[2];return""}
 /* ---------- data cleanup: keeps a bad import or old data from breaking the app ---------- */
 const isO=x=>x&&typeof x==="object"&&!Array.isArray(x),str=x=>typeof x==="string"?x:typeof x==="number"?String(x):"";
-function clean(d){const o={};if(!isO(d))return o;S.forEach(s=>s.f.forEach(f=>{const k=f.k,v=d[k];if(!k||v==null)return;
-  if(f.ty==="text"||f.ty==="area"){if(typeof v==="string"||typeof v==="number")o[k]=String(v)}
+function clean(d,ref){const o={},bad=[];if(!isO(d))return o;ref=ref instanceof Date&&!isNaN(ref)?ref:new Date();S.forEach(s=>s.f.forEach(f=>{const k=f.k,v=d[k];if(!k||v==null)return;
+  if(f.ty==="text"||f.ty==="area"||f.ty==="legacy"){if(typeof v==="string"||typeof v==="number")o[k]=String(v)}
+  else if(f.ty==="date"){const x=str(v).trim();if(parseIso(x))o[k]=x;else if(x){const p=parseLegacy(x,ref);if(p&&!p.rest)o[k]=p.date;else bad.push(x)}}
+  else if(f.ty==="time"){const x=str(v).trim();if(validTime(x))o[k]=validTime(x);else if(x)bad.push(x)}
   else if(f.ty==="radio"){if(f.o.includes(v))o[k]=v}
   else if(f.ty==="checks"){if(isO(v)){const c={};f.o.forEach(([id,,t])=>{if(v[id])c[id]=true;if(t&&v[id+"_t"]!=null)c[id+"_t"]=str(v[id+"_t"])});o[k]=c}}
-  else if(f.ty==="steps"){if(Array.isArray(v))o[k]=v.filter(isO).map(s=>({task:str(s.task),by:str(s.by)}))}
+  else if(f.ty==="steps"){if(Array.isArray(v))o[k]=v.filter(isO).map(s=>{const r={task:str(s.task),by:str(s.by)},du=str(s.due).trim();if(parseIso(du))r.due=du;else if(du)r.by=(r.by?r.by+" ":"")+du;return r})}
   else if(f.ty==="classes"){if(isO(v)){const c={};CLASSES.forEach(([id])=>{const x=v[id];if(isO(x))c[id]={strata:Array.isArray(x.strata)?x.strata.filter(s=>STRATA.includes(s)):[],role:["Primary","Secondary"].includes(x.role)?x.role:null}});
-   ["nonmono","mono"].forEach(id=>{const x=v[id];if(isO(x)&&["Primary","Secondary"].includes(x.role))c[id]={role:x.role}});o[k]=c}}}));return o}
-function cleanRec(r,id){const n=Number(r&&r.created),u=Number(r&&r.updated);return{id,created:isFinite(n)&&n>0?n:Date.now(),updated:isFinite(u)&&u>0?u:Date.now(),d:clean(r&&r.d)}}
+   ["nonmono","mono"].forEach(id=>{const x=v[id];if(isO(x)&&["Primary","Secondary"].includes(x.role))c[id]={role:x.role}});o[k]=c}}}));
+ ["pc_w","sc_w"].forEach(k=>{const x=d[k];if((typeof x==="number"||(typeof x==="string"&&x.trim()!==""))&&isFinite(Number(x)))o[k]=Math.max(0,Math.min(100,Math.round(Number(x))))});
+ if(d.whenMig)o.whenMig=1;if(bad.length)o.loc=[o.loc||"",...bad].filter(Boolean).join(" · ");return migrateWhen(o,ref)}
+function cleanRec(r,id){const n=Number(r&&r.created),u=Number(r&&r.updated);return{id,created:isFinite(n)&&n>0?n:Date.now(),updated:isFinite(u)&&u>0?u:Date.now(),d:clean(r&&r.d,new Date(isFinite(n)&&n>0?n:Date.now()))}}
 const LS="summpub.v1",LSC="summpub.cur";
 let db=load(),cur=localStorage.getItem(LSC);
 function load(){let j;try{j=JSON.parse(localStorage.getItem(LS))}catch(e){}const o={};if(isO(j))Object.keys(j).forEach(id=>{if(isO(j[id]))o[id]=cleanRec(j[id],id)});return o}
@@ -223,35 +482,37 @@ function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clea
 /* ---------- speech ---------- */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rec=null,recEl=null,recBtn=null,recBase="";
 function stopRec(){if(rec){try{rec.stop()}catch(e){}}}
-function startRec(el,btn){
+async function startRec(el,btn){
  if(rec){const same=recEl===el;stopRec();if(same)return}
+ if(startRec.busy)return;startRec.busy=1;try{await musPause("mic")}catch(e){}startRec.busy=0;if(rec)return;
  rec=new SR();rec.continuous=true;rec.interimResults=true;rec.lang=navigator.language||"en-US";
  recEl=el;recBtn=btn;recBase=el.value&&!/\s$/.test(el.value)?el.value+" ":el.value;
  btn.classList.add("rec");btn.textContent="■";btn.setAttribute("aria-label","Stop dictation");btn.parentNode.classList.add("recording");
  rec.onresult=e=>{let fin="",int="";for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)fin+=r[0].transcript;else int+=r[0].transcript}
   if(fin){recBase+=fin.trim()+" "}el.value=recBase+int;el.dispatchEvent(new Event("input",{bubbles:true}))};
- const r0=rec,wd=setTimeout(()=>{if(rec===r0&&!r0._on){try{r0.abort()}catch(e){}micOff(btn);rec=null;recEl=null;toast("Couldn't start the microphone")}},4000);r0.onstart=()=>{r0._on=true;clearTimeout(wd)};
+ const r0=rec,wd=setTimeout(()=>{if(rec===r0&&!r0._on){try{r0.abort()}catch(e){}micOff(btn);rec=null;recEl=null;musResume("mic");toast("Couldn't start the microphone")}},4000);r0.onstart=()=>{r0._on=true;clearTimeout(wd)};
  rec.onerror=e=>{const m={"not-allowed":"Microphone permission denied","service-not-allowed":"Dictation isn't allowed. Check Settings.","audio-capture":"No microphone found","network":"Dictation needs a connection right now"}[e.error];if(m)toast(m);else if(e.error!=="no-speech"&&e.error!=="aborted")toast("Dictation error: "+e.error)};
- rec.onend=()=>{clearTimeout(wd);micOff(btn);el.value=el.value.trimEnd();el.dispatchEvent(new Event("input",{bubbles:true}));rec=null;recEl=null};
- try{rec.start()}catch(e){clearTimeout(wd);micOff(btn);toast("Could not start dictation");rec=null;recEl=null}
+ rec.onend=()=>{clearTimeout(wd);micOff(btn);el.value=el.value.trimEnd();el.dispatchEvent(new Event("input",{bubbles:true}));rec=null;recEl=null;setTimeout(()=>{if(!rec)musResume("mic")},0)};
+ try{rec.start()}catch(e){clearTimeout(wd);micOff(btn);toast("Could not start dictation");rec=null;recEl=null;musResume("mic")}
 }
-function micOff(btn){btn.classList.remove("rec");btn.textContent="🎤";btn.setAttribute("aria-label",btn._al||"Dictate");btn.parentNode.classList.remove("recording")}
+function micOff(btn){btn.classList.remove("rec");btn.textContent="MIC";btn.setAttribute("aria-label",btn._al||"Dictate");btn.parentNode.classList.remove("recording")}
 function tw(el,al){const w=document.createElement("div");w.className="tw";w.appendChild(el);if(al)el.setAttribute("aria-label",al);
- if(SR){const b=document.createElement("button");b.type="button";b.className="mic";b.textContent="🎤";b._al=al?"Dictate: "+al:"Dictate";b.setAttribute("aria-label",b._al);b.onclick=()=>startRec(el,b);w.appendChild(b)}
+ if(SR){const b=document.createElement("button");b.type="button";b.className="mic";b.textContent="MIC";b._al=al?"MIC, dictate "+al:"MIC, dictate";b.setAttribute("aria-label",b._al);b.onclick=()=>startRec(el,b);w.appendChild(b)}
  else el.style.paddingRight="12px";return w}
 
 /* ---------- render ---------- */
 function mkText(val,area,ph,on,al){const e=document.createElement(area?"textarea":"input");if(!area)e.type="text";e.value=val||"";if(ph)e.placeholder=ph;e.oninput=()=>on(e.value);return tw(e,al)}
 function chip(type,name,label,checked,on){const l=document.createElement("label");l.className="chip";l.innerHTML=`<input type="${type}" name="${name}"><span>${esc(label)}</span>`;const i=l.firstChild;i.checked=!!checked;
  if(type==="radio"){i.onclick=()=>{if(i.dataset.was==="1"){i.checked=false;on(null)}else on(label);document.querySelectorAll(`input[name="${name}"]`).forEach(x=>x.dataset.was=x.checked?"1":"")};i.dataset.was=checked?"1":""}else i.onchange=()=>on(i.checked);return l}
-function set(k,v){D()[k]=v;db[cur].updated=Date.now();save();updateReport()}
+function set(k,v){D()[k]=v;db[cur].updated=Date.now();save();updateReport();if(balUpd&&/^(pc|sc)_/.test(k))balUpd()}
 let st;function save(){clearTimeout(st);st=setTimeout(()=>{persist();$("#savedtxt")&&($("#savedtxt").textContent="Saved "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"}));progress()},300)}
 function render(){
  const m=$("#main");m.innerHTML="";const d=D();
  if(!SR)m.insertAdjacentHTML("beforeend",`<div class="note">🎤 Voice input buttons aren't available in this browser. Tap a field and use the microphone key on the iPhone keyboard to dictate instead.</div>`);
  m.insertAdjacentHTML("beforeend",`<div class="saved" id="savedtxt">Autosaves on this device</div>`);
- if(SR&&window.speechSynthesis){const b=document.createElement("button");b.type="button";b.className="btn drivebtn";b.textContent="🚗 Driving mode (hands-free voice)";b.onclick=startDrive;m.appendChild(b)}
- if(SR)m.insertAdjacentHTML("beforeend",`<p class="hint" style="text-align:center;margin:-4px 0 12px">Voice features use your phone's built-in speech recognition, which may send audio to Apple to turn it into text. This app itself sends nothing anywhere.</p>`);
+ if(SR&&window.speechSynthesis){const b=document.createElement("button");b.type="button";b.className="btn drivebtn";b.innerHTML=DRV_SVG+"<span>Driving mode</span>";b.onclick=startDrive;m.appendChild(b)}
+ if(SR)m.insertAdjacentHTML("beforeend",`<p class="hint" style="text-align:center;margin:-4px 0 12px">Voice features use your phone's built-in speech recognition, which may send audio to Apple to turn it into text. This app itself sends nothing anywhere. <a class="plink" href="privacy.html">Privacy</a></p>`);
+ else m.insertAdjacentHTML("beforeend",`<p class="hint plinkp"><a class="plink" href="privacy.html">Privacy</a></p>`);
  S.forEach((sec,si)=>{
   const det=document.createElement("details");det.className="sec";det.id="s"+si;if(si===0)det.open=true;
   det.innerHTML=`<summary><span>${si+1}. ${esc(sec.t)}</span>${sec.report?"":`<span class="badge" id="b${si}"></span>`}</summary><div class="body"></div>`;
@@ -260,7 +521,9 @@ function render(){
    const lab=`<span class="lbl">${esc(f.l)}</span>`+(f.h?`<span class="hint">${esc(f.h)}</span>`:"");
    if(f.ty==="lbl"){w.innerHTML=`<span class="lbl">${esc(f.l)}</span>`}
    else if(f.ty==="quote"){w.innerHTML=`<blockquote>${esc(f.l)}</blockquote>`}
-   else if(f.ty==="text"||f.ty==="area"){w.innerHTML=lab;w.appendChild(mkText(d[f.k],f.ty==="area",f.ty==="area"?"Type or tap 🎤 to dictate…":"",v=>set(f.k,v),f.l))}
+   else if(f.ty==="date"||f.ty==="time"){w.innerHTML=`<span class="lbl ${f.ty}">${esc(f.l)}</span>`+(f.h?`<span class="hint">${esc(f.h)}</span>`:"");const e=document.createElement("input");e.type=f.ty;e.className="dt";e.value=d[f.k]||"";e.setAttribute("aria-label",f.l);e.oninput=e.onchange=()=>set(f.k,e.value);w.appendChild(e)}
+   else if(f.ty==="legacy"){if(!String(d[f.k]||"").trim())return;w.innerHTML=`<span class="lbl">${esc(f.l)}</span><div class="prevtxt" tabindex="0" role="note" aria-label="${esc(f.l)}">${esc(d[f.k])}</div><span class="hint">Kept from before the date fields were split. Nothing was deleted.</span>`}
+   else if(f.ty==="text"||f.ty==="area"){w.innerHTML=lab;w.appendChild(mkText(d[f.k],f.ty==="area",f.ty==="area"?"Type or tap MIC to dictate…":"",v=>set(f.k,v),f.l))}
    else if(f.ty==="radio"){w.innerHTML=lab;const c=document.createElement("div");c.className="chips";c.setAttribute("role","radiogroup");c.setAttribute("aria-label",f.l);f.o.forEach(o=>c.appendChild(chip("radio",f.k,o,d[f.k]===o,v=>set(f.k,v))));w.appendChild(c)}
    else if(f.ty==="checks"){w.innerHTML=lab;const v=d[f.k]||(d[f.k]={});
     f.o.forEach(([id,lb,txt])=>{const r=document.createElement("label");r.className="chk";r.innerHTML=`<input type="checkbox"><span style="flex:1"><span>${esc(lb)}</span></span>`;const cb=r.firstChild;cb.checked=!!v[id];cb.onchange=()=>{v[id]=cb.checked;set(f.k,v)};
@@ -276,21 +539,22 @@ function render(){
     const draw=()=>{list.innerHTML="";const arr=d.steps||(d.steps=[]);if(!arr.length)arr.push({task:"",by:""});
      arr.forEach((s,i)=>{const r=document.createElement("div");r.className="steprow";r.appendChild(mkText(s.task,true,"Task / follow-up",x=>{s.task=x;set("steps",arr)},"Task "+(i+1)));r.querySelector("textarea").style.minHeight="70px";
       r.insertAdjacentHTML("beforeend",`<span class="hint">Needs done by: (date or person)</span>`);r.appendChild(mkText(s.by,false,"e.g. date / person",x=>{s.by=x;set("steps",arr)},"Task "+(i+1)+" needs done by"));
+      {const dw=document.createElement("div");dw.className="duew";dw.innerHTML=`<span class="hint">Due date (optional)</span>`;const du=document.createElement("input");du.type="date";du.className="dt";du.value=s.due||"";du.setAttribute("aria-label","Task "+(i+1)+" due date (optional)");du.oninput=du.onchange=()=>{if(du.value)s.due=du.value;else delete s.due;set("steps",arr)};dw.appendChild(du);r.appendChild(dw)}
       const del=document.createElement("button");del.className="btn sm danger";del.textContent="Remove";del.onclick=()=>{arr.splice(i,1);set("steps",arr);draw()};r.appendChild(del);list.appendChild(r)})};
     draw();const add=document.createElement("button");add.className="btn";add.textContent="+ Add task";add.onclick=()=>{d.steps.push({task:"",by:""});set("steps",d.steps);draw();list.lastChild.querySelector("textarea").focus()};w.appendChild(add)}
    else if(f.ty==="report"){w.innerHTML=`<span class="hint">Your answers as a plain-text report. Updates as you type; unanswered questions are left out.</span><button type="button" class="btn pri copybig" id="rCopy">📋 Copy report</button><div class="rbox" id="rBox" role="textbox" aria-readonly="true" aria-label="Report" tabindex="0"></div><button type="button" class="btn" id="rShare" style="width:100%;margin-top:10px">📤 Share report</button>`;
     setTimeout(()=>{$("#rCopy").onclick=async()=>{const ok=await copyText(reportText());const b=$("#rCopy");b.textContent=ok?"✓ Copied!":"Copy failed – select text manually";b.classList.toggle("ok",ok);clearTimeout(b._t);b._t=setTimeout(()=>{b.textContent="📋 Copy report";b.classList.remove("ok")},2000)};
      $("#rShare").onclick=async()=>{const t=reportText();if(navigator.share){try{await navigator.share({title:D().name||"Action Summation",text:t})}catch(e){}}else{const ok=await copyText(t);toast(ok?"Sharing not supported — copied instead":"Sharing not supported")}};updateReport()},0)}
-   body.appendChild(w)});
+   body.appendChild(w);if(f.k==="pc_sa")body.appendChild(mkBal())});
   // capitalist role markers right after their text fields
   if(si===1){[["nonmono",1],["mono",2]].forEach(([id,idx])=>{const fld=body.children[idx];const v=D().classes;const c=document.createElement("div");c.className="chips";c.style.marginTop="8px";c.setAttribute("role","radiogroup");c.setAttribute("aria-label",(id==="mono"?"Monopoly":"Non-monopoly")+" capitalists role");["Primary","Secondary"].forEach(s=>c.appendChild(chip("radio",id+"role",s,v[id].role===s,x=>{v[id].role=x;set("classes",v)})));fld.appendChild(c)})}
   det.addEventListener("toggle",()=>{if(!det.open)stopRec();syncCollapse()});
   m.appendChild(det)});
  $("#ttl").textContent=d.name||"Action Summation Sheet";progress()}
 function filled(f,d){const v=d[f.k];if(!f.k)return null;if(f.ty==="classes")return Object.values(v||{}).some(c=>(c.strata&&c.strata.length)||c.role);
- if(f.ty==="checks")return Object.entries(v||{}).some(([k,x])=>x&&!k.endsWith("_t"));if(f.ty==="steps")return(v||[]).some(s=>s.task||s.by);return!!(v&&String(v).trim())}
-function progress(){const d=D();let tot=0,done=0;S.forEach((s,i)=>{if(s.report)return;const fs=s.f.filter(f=>f.k);const n=fs.filter(f=>filled(f,d)).length;tot+=fs.length;done+=n;const b=$("#b"+i);if(b){b.textContent=n===fs.length?"✓ Done":`${n}/${fs.length}`;b.classList.toggle("done",n===fs.length)}});
- updateReport();$("#pbar").style.width=(tot?done/tot*100:0)+"%";$("#ptxt").textContent=`${done} of ${tot} answered · ${Math.round(done/tot*100)}%`;$("#ttl").textContent=d.name||"Action Summation Sheet"}
+ if(f.ty==="checks")return Object.entries(v||{}).some(([k,x])=>x&&!k.endsWith("_t"));if(f.ty==="steps")return(v||[]).some(s=>s.task||s.by||s.due);return!!(v&&String(v).trim())}
+function progress(){const d=D();let tot=0,done=0;S.forEach((s,i)=>{if(s.report)return;const fs=s.f.filter(f=>f.k&&f.ty!=="legacy"&&!f.opt);const n=fs.filter(f=>filled(f,d)).length;tot+=fs.length;done+=n;const b=$("#b"+i);if(b){b.textContent=n===fs.length?"✓ Done":`${n}/${fs.length}`;b.classList.toggle("done",n===fs.length)}});
+ updateReport();$("#ptxt").textContent=`${done} of ${tot} answered · ${Math.round(done/tot*100)}%`;qqDraw(done,tot);$("#ttl").textContent=d.name||"Action Summation Sheet"}
 
 /* ---------- nav ---------- */
 $("#bNext").onclick=()=>{const all=[...document.querySelectorAll("details.sec")];let i=all.findIndex(x=>x.open);all.forEach(x=>x.open=false);i=(i+1)%all.length;all[i].open=true;requestAnimationFrame(()=>{const y=all[i].getBoundingClientRect().top+scrollY-$("header").offsetHeight-8;scrollTo({top:Math.max(0,y),behavior:"smooth"})});syncCollapse()};
@@ -298,26 +562,30 @@ $("#bCollapse").onclick=()=>{const all=[...document.querySelectorAll("details.se
 function syncCollapse(){const b=$("#bCollapse");if(b)b.textContent=[...document.querySelectorAll("details.sec")].some(x=>x.open)?"Collapse all":"Expand all"}
 
 /* ---------- list ---------- */
-function drawList(){const L=$("#list");L.innerHTML="";Object.values(db).sort((a,b)=>b.updated-a.updated).forEach(s=>{const it=document.createElement("div");it.className="item"+(s.id===cur?" cur":"");
- it.innerHTML=`<div class="t">${esc(s.d.name||"Untitled action")}</div><div class="m">${esc(s.d.when||"")} · edited ${new Date(s.updated).toLocaleString()}</div><div class="a"><button class="btn sm pri">Open</button><button class="btn sm">Duplicate</button><button class="btn sm danger">Delete</button></div>`;
+const LSORT=LS.replace(/v1$/,"sort");let SORT=localStorage.getItem(LSORT)==="date"?"date":"edited";
+function drawList(){const L=$("#list");L.innerHTML="";const sb=$("#bSort");if(sb){sb.textContent=SORT==="date"?"Sort: event date":"Sort: last edited";sb.onclick=()=>{SORT=SORT==="date"?"edited":"date";localStorage.setItem(LSORT,SORT);drawList()}}
+ Object.values(db).sort(SORT==="date"?(a,b)=>String(b.d.date||"").localeCompare(String(a.d.date||""))||b.updated-a.updated:(a,b)=>b.updated-a.updated).forEach(s=>{const it=document.createElement("div");it.className="item"+(s.id===cur?" cur":"");
+ it.innerHTML=`<div class="t">${esc(s.d.name||"Untitled action")}</div><div class="m">${esc(whenLine(s.d)||s.d.when||"")} · edited ${new Date(s.updated).toLocaleString()}</div><div class="a"><button class="btn sm pri">Open</button><button class="btn sm">Duplicate</button><button class="btn sm danger">Delete</button></div>`;
  const [o,du,de]=it.querySelectorAll("button");
  o.onclick=()=>{stopRec();cur=s.id;persist();render();dList.close();scrollTo(0,0)};
  du.onclick=()=>{const c=JSON.parse(JSON.stringify(s));c.id=uid();c.created=c.updated=Date.now();c.d.name=(c.d.name||"Untitled action")+" (copy)";db[c.id]=c;persist();drawList();toast("Duplicated")};
  de.onclick=()=>{if(!confirm(`Delete "${s.d.name||"Untitled action"}"? This can't be undone.`))return;delete db[s.id];if(cur===s.id){const r=Object.values(db)[0];if(r)cur=r.id;else{const b=blank();db[b.id]=b;cur=b.id}render()}persist();drawList()};
  L.appendChild(it)})}
-$("#bList").onclick=()=>{stopRec();drawList();dList.showModal()};
+$("#bList").onclick=()=>{stopRec();drawList();dList.showModal();spShow()};
+$("#vList").onclick=()=>{spView="list";spShow()};$("#vSpiral").onclick=()=>{spView="spiral";spShow()};
+dList.addEventListener("close",spTeardown);
 $("#bNew").onclick=()=>{const b=blank();db[b.id]=b;cur=b.id;persist();render();dList.close();scrollTo(0,0)};
 
 /* ---------- export ---------- */
-function ansText(f,d,md){const v=d[f.k];
+function ansText(f,d,md){const v=d[f.k];if(f.ty==="date")return fmtDate(v);if(f.ty==="time")return fmtTime(v);if(f.ty==="legacy")return v||"";
  if(f.ty==="text"||f.ty==="area")return v||"";if(f.ty==="radio")return f.o.map(o=>(v===o?"[x] ":"[ ] ")+o).join("  ");
  if(f.ty==="checks")return f.o.map(([id,lb,t])=>((v||{})[id]?"[x] ":"[ ] ")+lb+(t&&(v||{})[id+"_t"]?" "+v[id+"_t"]:"")).join("\n");
  if(f.ty==="classes"){const c=v||{};return CLASSES.map(([id,nm])=>{const x=c[id]||{strata:[]};return`${nm}: ${(x.strata||[]).join(", ")||"—"}${x.role?" ("+x.role+")":""}`}).join("\n")}
- if(f.ty==="steps")return(v||[]).filter(s=>s.task||s.by).map((s,i)=>`${i+1}. ${s.task}${s.by?" — by: "+s.by:""}`).join("\n");return""}
+ if(f.ty==="steps")return(v||[]).filter(s=>s.task||s.by||s.due).map((s,i)=>`${i+1}. ${s.task}${byTxt(s)?" — by: "+byTxt(s):""}`).join("\n");return""}
 function capRole(id){const r=((D().classes||{})[id]||{}).role;return r?` (${r})`:""}
 function toText(md){const d=D();let o=md?`# Action Summation: ${d.name||"Untitled"}\n`:`ACTION SUMMATION SHEET\n`;
- S.forEach((s,i)=>{o+=md?`\n## ${s.t}\n`:`\n=== ${s.t.toUpperCase()} ===\n`;s.f.forEach(f=>{if(f.ty==="lbl"){o+=`\n${f.l}\n`;return}if(f.ty==="quote"){o+=md?`\n> ${f.l}\n`:`\n${f.l}\n`;return}
-  let a=ansText(f,d,md);if(md)a=a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");if(f.k==="nonmono"||f.k==="mono")a+=capRole(f.k);o+=md?`\n**${f.l}**${f.h?" _"+f.h+"_":""}\n\n${a||"—"}\n`:`\n${f.l}\n${a||"—"}\n`})});return o}
+ S.forEach((s,i)=>{o+=md?`\n## ${s.t}\n`:`\n=== ${s.t.toUpperCase()} ===\n`;s.f.forEach(f=>{if(f.ty==="lbl"){o+=`\n${f.l}\n`;return}if(f.ty==="quote"){o+=md?`\n> ${f.l}\n`:`\n${f.l}\n`;return}if(f.ty==="legacy"&&!d[f.k])return;
+  let a=ansText(f,d,md);if(md)a=a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");if(f.k==="nonmono"||f.k==="mono")a+=capRole(f.k);o+=md?`\n**${f.l}**${f.h?" _"+f.h+"_":""}\n\n${a||"—"}\n`:`\n${f.l}\n${a||"—"}\n`;if(f.k==="pc_sa"||f.k==="sc_sa"){let bl=balLine(d,f.k.slice(0,2));if(bl){if(md)bl=bl.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/([\\`*_\[\]])/g,"\\$1");o+=`\n${bl}\n`}}})});return o}
 function dl(name,data,type){const b=new Blob([data],{type});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
 const fname=()=>(D().name||"summation").replace(/[^\w-]+/g,"_").slice(0,40);
 $("#bExport").onclick=()=>{stopRec();dExp.showModal()};
@@ -326,18 +594,18 @@ $("#eShare").onclick=async()=>{const t=toText();if(navigator.share){try{await na
 $("#eMd").onclick=()=>dl(fname()+".md",toText(true),"text/markdown");
 $("#eJson").onclick=()=>dl(fname()+".json",JSON.stringify(db[cur],null,2),"application/json");
 $("#eImp").onclick=()=>$("#fImp").click();
-$("#fImp").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{let j;try{j=JSON.parse(t)}catch(x){}const src=isO(j)?(isO(j.d)?j.d:j):null,d=src&&clean(src);if(!d||!Object.keys(d).length)return toast("Not a valid summation file");const s={id:uid(),created:Date.now(),updated:Date.now(),d};db[s.id]=s;cur=s.id;persist();render();dExp.close();toast("Imported")});e.target.value=""};
+$("#fImp").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{let j;try{j=JSON.parse(t)}catch(x){}const src=isO(j)?(isO(j.d)?j.d:j):null,d=src&&clean(src,new Date(Number(isO(j)&&j.created)||Date.now()));if(!d||!Object.keys(d).length)return toast("Not a valid summation file");const s={id:uid(),created:Date.now(),updated:Date.now(),d};db[s.id]=s;cur=s.id;persist();render();dExp.close();toast("Imported")});e.target.value=""};
 function reportText(){const d=D(),L=[],has=v=>v&&String(v).trim();
- L.push("ACTION SUMMATION REPORT");L.push((d.name||"Untitled action").trim());if(has(d.when))L.push(d.when.trim());L.push("");
+ L.push("ACTION SUMMATION REPORT");L.push((d.name||"Untitled action").trim());{const w=whenLine(d);if(w)L.push(w);const pw=prevWhen(d,new Date(db[cur].created||Date.now()));if(pw)L.push("Previously entered: "+pw)}L.push("");
  S.forEach(sec=>{if(sec.report)return;const out=[];
-  sec.f.forEach(f=>{if(!f.k||f.k==="name"||f.k==="when")return;const v=d[f.k];let a="";
+  sec.f.forEach(f=>{if(!f.k||["name","date","time","loc","when"].includes(f.k))return;const v=d[f.k];let a="";
    if(f.ty==="text"||f.ty==="area")a=has(v)?v.trim():"";
    else if(f.ty==="radio")a=v||"";
    else if(f.ty==="checks")a=f.o.filter(([id])=>(v||{})[id]).map(([id,lb,t])=>"• "+lb.replace(/:$/,"")+(t&&has(v[id+"_t"])?": "+v[id+"_t"].trim():"")).join("\n");
    else if(f.ty==="classes")a=CLASSES.map(([id,nm])=>{const x=(v||{})[id]||{};if(!(x.strata&&x.strata.length)&&!x.role)return"";return"• "+nm+((x.strata||[]).length?" – "+x.strata.join(", "):"")+(x.role?" ("+x.role+")":"")}).filter(Boolean).join("\n");
-   else if(f.ty==="steps")a=(v||[]).filter(s=>has(s.task)||has(s.by)).map((s,i)=>`${i+1}. ${(s.task||"").trim()||"(task)"}${has(s.by)?" — by: "+s.by.trim():""}`).join("\n");
+   else if(f.ty==="steps")a=(v||[]).filter(s=>has(s.task)||has(s.by)||s.due).map((s,i)=>`${i+1}. ${(s.task||"").trim()||"(task)"}${byTxt(s)?" — by: "+byTxt(s):""}`).join("\n");
    if(f.k==="nonmono"||f.k==="mono"){const r=capRole(f.k);if(r)a=(a||"—")+r}
-   if(a)out.push(f.l.replace(/:$/,"")+"\n"+a)});
+   if(a)out.push(f.l.replace(/:$/,"")+"\n"+a);if(f.k==="pc_sa"||f.k==="sc_sa"){const bl=balLine(d,f.k.slice(0,2));if(bl)out.push(bl)}});
   if(out.length){L.push(sec.t.toUpperCase());L.push("-".repeat(Math.min(sec.t.length,40)));L.push(out.join("\n\n"));L.push("")}});
  if(L.length<=4)L.push("(No answers yet.)");return L.join("\n").trim()+"\n"}
 function updateReport(){const b=document.getElementById("rBox");if(b)b.textContent=reportText()}
@@ -351,30 +619,30 @@ function buildPrint(){const d=D(),P=x=>`<div class="pa${x.l?" l":""}">${esc(x.v)
  const radio=f=>`<div class="pq"><b>${esc(f.l)}</b>${f.o.map(o=>`${box(d[f.k]===o)} ${esc(o)}`).join(" &nbsp; ")}</div>`;
  const checks=f=>`<div class="pq"><b>${esc(f.l)}</b>${f.o.map(([id,lb,t])=>`${box((d[f.k]||{})[id])} ${esc(lb)}${t?" <u>"+((d[f.k]||{})[id+"_t"]?esc(d[f.k][id+"_t"]):"&nbsp;".repeat(20))+"</u>":""}`).join("<br>")}</div>`;
  const c=d.classes||{};const cls=CLASSES.map(([id,nm])=>{const x=c[id]||{strata:[]};return`${nm} (${STRATA.map(s=>(x.strata||[]).includes(s)?`<span style="font-weight:bold;text-decoration:underline">${s}</span>`:s).join(" | ")})${x.role?` — <span style="font-weight:bold">${esc(x.role.toUpperCase())}</span>`:""}`}).join("<br>");
- h+=`<div class="pp"><h2>Action Summation Sheet</h2>${q(F("name"))}${q(F("when"))}${q(F("orgs"))}${radio(F("campaign"))}${q(F("issue"),1)}
+ h+=`<div class="pp"><h2>Action Summation Sheet</h2>${q(F("name"))}<div class="pq"><b>${esc(F("when").ol)}</b>${P({v:whenLine(d)})}${(pw=>pw?P({v:"Previously entered: "+pw}):"")(prevWhen(d,new Date(db[cur].created||Date.now())))}</div>${q(F("orgs"))}${radio(F("campaign"))}${q(F("issue"),1)}
  <div class="pq"><b>Key Class forces involved (circle the primary, identify secondary)</b>${cls}</div>${q(F("nonmono"))}${q(F("mono"))}${q(F("base"),1)}${q(F("ourside"),1)}${radio(F("line"))}${q(F("massline"),1)}</div>`;
  h+=`<div class="pp"><h2>On Contradictions (cont.)</h2><p><b>What were the primary contradictions that emerged during planning and execution?</b></p>
  <table><tr><th></th><th class="ctr">PRIMARY CONTRADICTIONS</th><th class="ctr">SECONDARY CONTRADICTIONS</th></tr>
  <tr><th>Principal Aspect</th><td style="height:1.6in;white-space:pre-wrap">${esc(d.pc_pa)}</td><td style="white-space:pre-wrap">${esc(d.sc_pa)}</td></tr>
- <tr><th>Secondary Aspect</th><td style="height:1.6in;white-space:pre-wrap">${esc(d.pc_sa)}</td><td style="white-space:pre-wrap">${esc(d.sc_sa)}</td></tr></table><br>${q(F("handled"),1)}</div>`;
+ <tr><th>Secondary Aspect</th><td style="height:1.6in;white-space:pre-wrap">${esc(d.pc_sa)}</td><td style="white-space:pre-wrap">${esc(d.sc_sa)}</td></tr></table>${balPrint(d)}<br>${q(F("handled"),1)}</div>`;
  h+=`<div class="pp"><h2>Assessing our forces</h2>${q(F("impact"),1)}${q(F("advanced"),1)}<h2>Evaluating our tactics</h2>${radio(F("tacok"))}${radio(F("tactype"))}${radio(F("level"))}${q(F("tacexp"),1)}</div>`;
  h+=`<div class="pp"><h2>Impact and Execution</h2>${q(F("enemy"),1)}${q(F("logistics"),1)}<h2>Outcomes and Lessons</h2>${checks(F("gains"))}<h2>Political Analysis</h2>${q(F("polgains"),1)}</div>`;
  h+=`<div class="pp"><h2>Mistakes</h2>${q(F("mistakes"),1)}<h2>Successful Methods to Hold Onto</h2>${q(F("worked"),1)}<h2>On Building the Strategic Alliance</h2>${q(F("natlib"),1)}${q(F("followup"),1)}</div>`;
- const steps=(d.steps||[]).filter(s=>s.task||s.by);
- h+=`<div class="pp"><h2>Next Steps</h2><table><tr><th>What are our immediate next tasks or follow-ups?</th><th style="width:35%">Needs done by:<br><i>(date or person)</i></th></tr>${(steps.length?steps:[{},{},{}]).map(s=>`<tr><td style="height:.45in;white-space:pre-wrap">${esc(s.task)}</td><td>${esc(s.by)}</td></tr>`).join("")}</table><br>
+ const steps=(d.steps||[]).filter(s=>s.task||s.by||s.due);
+ h+=`<div class="pp"><h2>Next Steps</h2><table><tr><th>What are our immediate next tasks or follow-ups?</th><th style="width:35%">Needs done by:<br><i>(date or person)</i></th></tr>${(steps.length?steps:[{},{},{}]).map(s=>`<tr><td style="height:.45in;white-space:pre-wrap">${esc(s.task)}</td><td>${esc(byTxt(s))}</td></tr>`).join("")}</table><br>
  <h2>Slogans &amp; Chants</h2>${q(F("slogans"),1)}${q(F("chants"),1)}</div>`;
  h+=`<div class="pp"><p style="font-style:italic;font-size:13pt;text-align:center">“If we are not good at helping people grasp correct conclusions, our enemies will be glad to do it for us.”</p>${checks(F("summate"))}
  <h2>In the Final Analysis...</h2>${q(F("final"),1)}${radio(F("lineshown"))}${checks(F("massresp"))}</div>`;
  $("#print").innerHTML=h}
 $("#ePrint").onclick=()=>{buildPrint();dExp.close();setTimeout(()=>window.print(),100)};
 window.addEventListener("beforeprint",buildPrint);
-const isField=e=>e&&e.matches&&e.matches("input[type=text],input[type=date],textarea");
+const isField=e=>e&&e.matches&&e.matches("input[type=text],input[type=date],input[type=time],textarea");
 document.addEventListener("focusin",e=>{if(isField(e.target))document.body.classList.add("typing")});
 document.addEventListener("focusout",e=>{if(isField(e.target))setTimeout(()=>{if(!isField(document.activeElement))document.body.classList.remove("typing")},50)});
 window.addEventListener("pagehide",()=>{stopRec();persist()});
 document.addEventListener("visibilitychange",()=>{if(document.hidden){stopRec();dPause();persist()}else if(DV&&DV.lock&&DV.lock.released){DV.lock=null}});
 /* ---------- driving mode (hands-free) ---------- */
-const SAY={campaign:"Was this part of an ongoing campaign? Yes or no.",nonmono:"Which non-monopoly capitalists were involved?",mono:"Which monopoly capitalists were involved?",pc_pa:"Primary contradictions. The principal aspect.",pc_sa:"Primary contradictions. The secondary aspect.",sc_pa:"Secondary contradictions. The principal aspect.",sc_sa:"Secondary contradictions. The secondary aspect.",tacok:"Were the tactics used appropriate for our goals? Yes or no.",tactype:"What type of tactics were they?",tacexp:"Explain your answers about tactics."};
+const SAY={date:"What was the date? Say today, yesterday, or a date like October twentieth.",time:"What time was it? Say a time, or next to skip.",campaign:"Was this part of an ongoing campaign? Yes or no.",nonmono:"Which non-monopoly capitalists were involved?",mono:"Which monopoly capitalists were involved?",pc_pa:"Primary contradictions. The principal aspect.",pc_sa:"Primary contradictions. The secondary aspect.",sc_pa:"Secondary contradictions. The principal aspect.",sc_sa:"Secondary contradictions. The secondary aspect.",tacok:"Were the tactics used appropriate for our goals? Yes or no.",tactype:"What type of tactics were they?",tacexp:"Explain your answers about tactics."};
 const NUMW={one:1,first:1,two:2,second:2,three:3,third:3,four:4,fourth:4,five:5,fifth:5,six:6,sixth:6,seven:7,seventh:7};
 const norm=s=>String(s||"").toLowerCase().replace(/[’']/g,"").replace(/[^a-z0-9]+/g," ").trim();
 const CMD={stop:["stop driving","stop driving mode","exit driving mode","end driving mode"],next:["next","skip","next question","skip it","skip question","skip this"],back:["back","go back","previous","previous question"],repeat:["repeat","say again","say that again","repeat that","repeat question","what","come again"],readback:["read back","read it back","what did i say"],undo:["undo","scratch that","clear","clear that","delete that"],help:["help","commands"]};
@@ -383,7 +651,7 @@ const NEG=/ (not|no|never|isnt|wasnt|didnt|dont|doesnt|arent|werent|cant|cannot|
 function dWake(){try{if(!DV||!navigator.wakeLock||(DV.lock&&!DV.lock.released))return;navigator.wakeLock.request("screen").then(l=>{if(DV)DV.lock=l;else l.release()}).catch(()=>{})}catch(e){}}
 function cmdOf(n){for(const k in CMD)if(CMD[k].includes(n))return k;return null}
 let DV=null,AC=null;
-function dQs(){const q=[];S.forEach((s,si)=>s.f.forEach(f=>{if(["text","area","radio","checks","steps"].includes(f.ty))q.push({f,si})}));return q}
+function dQs(){const q=[];S.forEach((s,si)=>s.f.forEach(f=>{if(["text","area","radio","checks","steps","date","time"].includes(f.ty))q.push({f,si})}));return q}
 function dStatus(t,c){const e=$("#dSt");e.textContent=t;e.className="dst"+(c?" "+c:"")}
 function dShow(sec,q){$("#dSec").textContent=sec;$("#dQ").textContent=q;$("#dHeard").textContent=""}
 function beep(){try{if(!AC)return;const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=880;g.gain.value=.15;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.12)}catch(e){}}
@@ -406,7 +674,7 @@ function dListen(keep){if(!DV)return;dStopListen();$("#dTap").hidden=true;if(!ke
   if(DV.nomic)return dNeedTap("No microphone found. Tap to try again.");
   if(DV.denied)return dNeedTap("The microphone is blocked. Allow it for Safari in Settings, then tap.");
   if(++DV.restarts>(free?20:8)){DV.restarts=0;return dNeedTap()}setTimeout(()=>{if(DV&&g===DV.gen)dListen(true)},250)};
- const go=()=>{if(!DV||g!==DV.gen||DV.rec!==r)return;try{r.start();dStatus(free?"Listening… say “next” when you're done":"Listening…","listen")}catch(e){dNeedTap()}};
+ const go=()=>{if(!DV||g!==DV.gen||DV.rec!==r)return;Promise.resolve(MUS.pp).then(()=>{if(!DV||g!==DV.gen||DV.rec!==r)return;try{r.start();dStatus(free?"Listening… say “next” when you're done":"Listening…","listen")}catch(e){dNeedTap()}})};
  if(keep)go();else{beep();setTimeout(go,180)}}
 function dPrompt(x){const f=x.f;let t=SAY[f.k]||f.l;if(!/[.?!:)]$/.test(t))t+=".";
  if(f.ty==="radio"&&f.o[0]!=="Y")t+=" Options: "+f.o.map((o,j)=>(j+1)+", "+o).join(". ")+".";
@@ -414,7 +682,7 @@ function dPrompt(x){const f=x.f;let t=SAY[f.k]||f.l;if(!/[.?!:)]$/.test(t))t+=".
  if(f.ty==="area"||f.ty==="text")t+=" Say next when you're done.";
  if(f.ty==="steps")t+=" Say one task, then next.";
  return t}
-function dAns(f){const v=D()[f.k];if(f.ty==="radio")return v==="Y"?"yes":v==="N"?"no":v||"none";
+function dAns(f){const v=D()[f.k];if(f.ty==="date")return fmtDate(v)||"none";if(f.ty==="time")return fmtTime(v)||"none";if(f.ty==="radio")return v==="Y"?"yes":v==="N"?"no":v||"none";
  if(f.ty==="checks")return f.o.filter(([id])=>(v||{})[id]).map(([id,lb])=>lb.replace(/:$/,"")+(v[id+"_t"]?" "+v[id+"_t"]:"")).join(", ")||"none";
  if(f.ty==="steps")return(v||[]).filter(s=>s.task).map(s=>s.task).join(". ")||"none";return v||"none"}
 function dAsk(){if(!DV)return;if(DV.i>=DV.q.length)return dEnd();const x=DV.q[DV.i],f=x.f;let pre="";
@@ -442,10 +710,10 @@ function dMatchMany(o,n){n=normO(n);let w=" "+n+" ";const ids=new Set();if(UNSUR
  o.forEach(([id],j)=>{if(words[j].some(wd=>!words.some((ws,k)=>k!==j&&ws.some(x=>sim(x,wd)))&&tokHit(toks,wd)))ids.add(id)});
  return o.map(x=>x[0]).filter(id=>ids.has(id))}
 function dFail(){DV.fails++;if(DV.fails>=2)return say("Skipping that one for now.",()=>dGo(1));say("Sorry, I didn't catch that. "+dPrompt(DV.q[DV.i]),dListen)}
-function dClear(f){if(f.ty==="checks")set(f.k,{});else if(f.ty==="steps"){const a=(D().steps||[]).filter(s=>s.task||s.by);a.pop();set("steps",a)}else if(f.ty==="radio")set(f.k,null);else set(f.k,"")}
+function dClear(f){if(f.ty==="checks")set(f.k,{});else if(f.ty==="steps"){const a=(D().steps||[]).filter(s=>s.task||s.by||s.due);a.pop();set("steps",a)}else if(f.ty==="radio")set(f.k,null);else set(f.k,"")}
 function dSubNext(){const f=DV.q[DV.i].f,id=DV.subs&&DV.subs.shift();if(!id)return dGo(1);DV.sub=id;const lb=f.o.find(o=>o[0]===id)[1].replace(/:$/,"");dShow((DV.q[DV.i].si+1)+". "+S[DV.q[DV.i].si].t,lb);say("Details for "+lb+"? Say them, then next. Or just say next to skip.",dListen)}
 const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
-function dSave(f,raw){if(!norm(raw))return;if(DV.sub){const v=D()[f.k]||{};v[DV.sub+"_t"]=raw;v[DV.sub]=true;set(f.k,v)}else if(f.ty==="steps"){const a=(D().steps||[]).filter(s=>s.task||s.by);a.push({task:raw,by:""});set("steps",a)}else set(f.k,raw)}
+function dSave(f,raw){if(!norm(raw))return;if(DV.sub){const v=D()[f.k]||{};v[DV.sub+"_t"]=raw;v[DV.sub]=true;set(f.k,v)}else if(f.ty==="steps"){const a=(D().steps||[]).filter(s=>s.task||s.by||s.due);a.push({task:raw,by:""});set("steps",a)}else set(f.k,raw)}
 function dHandle(t){if(!DV)return;DV.restarts=0;const n=norm(t),c=cmdOf(n);
  if(c==="stop")return stopDrive(true);
  if(c==="help")return say("Say next to skip, back to go back, repeat to hear the question again, read back to hear your answer, scratch that to clear it, or stop driving to finish.",dListen);
@@ -465,29 +733,234 @@ function dHandle(t){if(!DV)return;DV.restarts=0;const n=norm(t),c=cmdOf(n);
  const raw=cap(t.trim().replace(/[\s,.]*\bnext[.!?]*$/i,"").trim()),rn=norm(raw);
  if(!rn)return dGo(1);
  if(DV.sub){const v=D()[f.k]||{};v[DV.sub+"_t"]=raw;v[DV.sub]=true;DV.sub=null;set(f.k,v);return say("Got it.",dSubNext)}
+ if(f.ty==="date"){const iso=spokenDate(raw,new Date());if(!iso)return say("I didn't catch a date. Leaving it for now.",()=>dGo(1));set(f.k,iso);return say("Got it: "+fmtDate(iso)+".",()=>dGo(1))}
+ if(f.ty==="time"){const tm=spokenTime(raw);if(!tm)return say("I didn't catch a time. Leaving it for now.",()=>dGo(1));set(f.k,tm);return say("Got it: "+fmtTime(tm)+".",()=>dGo(1))}
  if(f.ty==="text"){set(f.k,raw);return say("Got it: "+raw+".",()=>dGo(1))}
  if(f.ty==="area"){set(f.k,raw);return say("Saved.",()=>dGo(1))}
- if(f.ty==="steps"){const a=(D().steps||[]).filter(s=>s.task||s.by);a.push({task:raw,by:""});set("steps",a);return say("Added. Say another task, or just say next to move on.",dListen)}
+ if(f.ty==="steps"){const a=(D().steps||[]).filter(s=>s.task||s.by||s.due);a.push({task:raw,by:""});set("steps",a);return say("Added. Say another task, or just say next to move on.",dListen)}
  if(f.ty==="radio"){const o=dMatch(f.o,raw);if(o==null)return dFail();set(f.k,o);return say("Marked "+(o==="Y"?"yes":o==="N"?"no":o)+".",()=>dGo(1))}
  if(f.ty==="checks"){if(["none","nothing","none of them","no"].includes(rn)){if(f.o.some(o=>o[0]==="none")){const v={none:true};set(f.k,v);return say("Marked none.",()=>dGo(1))}return dGo(1)}
   const ids=dMatchMany(f.o,raw);if(!ids.length)return dFail();const v=D()[f.k]||{};ids.forEach(id=>v[id]=true);set(f.k,v);
   DV.subs=ids.filter(id=>f.o.find(o=>o[0]===id)[2]&&!v[id+"_t"]);
   return say("Marked "+ids.map(id=>f.o.find(o=>o[0]===id)[1].replace(/:$/,"")).join(", and ")+".",dSubNext)}
  dGo(1)}
-function startDrive(){stopRec();try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();AC.resume&&AC.resume()}catch(e){}
+const DRV_SVG='<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="2" fill="currentColor"/><path d="M2 10h6M12 10h6M10 12v6" stroke="currentColor" stroke-width="2"/></svg>';
+function startDrive(){stopRec();document.body.classList.add("driving");musPause("drive");try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();AC.resume&&AC.resume()}catch(e){}
  speechSynthesis.cancel();DV={q:dQs(),i:-1,lastSec:-1,fails:0,sub:null,subs:null,gen:0,restarts:0,lock:null,rec:null,timer:0};
  $("#drive").classList.add("on");document.body.style.overflow="hidden";$("#dTap").hidden=true;dShow("Driving mode","Starting…");
  dWake();$("#dQ").focus();
  say("Driving mode. I'll read each unanswered question. Answer out loud. Say next to skip, back to go back, repeat to hear it again, or stop driving to finish. Keep your eyes on the road.",()=>dGo(1))}
 function stopDrive(sp){if(!DV)return;const lock=DV.lock;dStopListen();DV.gen++;speechSynthesis.cancel();DV=null;
  if(sp){const u=new SpeechSynthesisUtterance("Driving mode off. Your answers are saved.");u.lang=navigator.language||"en-US";speechSynthesis.speak(u)}
- try{lock&&lock.release()}catch(e){}$("#drive").classList.remove("on");document.body.style.overflow="";persist();render();const db=document.querySelector(".drivebtn");db&&db.focus()}
+ try{lock&&lock.release()}catch(e){}$("#drive").classList.remove("on");document.body.style.overflow="";document.body.classList.remove("driving");musResume("drive");persist();render();const db=document.querySelector(".drivebtn");db&&db.focus()}
 function dPause(){if(DV)dNeedTap("Paused. Tap to keep going.")}
 $("#dTap").onclick=()=>{if(!DV)return;dWake();$("#dTap").hidden=true;DV.restarts=0;DV.gen++;DV.sub?(DV.subs=[DV.sub,...(DV.subs||[])],DV.sub=null,dSubNext()):dAsk()};
 $("#dRep").onclick=()=>{if(DV){dWake();$("#dTap").hidden=true;dAsk()}};
 $("#dSkip").onclick=()=>{if(!DV)return;dWake();$("#dTap").hidden=true;if(DV.sub){DV.sub=null;dSubNext()}else if(DV.i<DV.q.length)dGo(1)};
 $("#dStop").onclick=()=>{if(DV){const x=DV.q[DV.i],f=DV.sub?x&&x.f:x&&x.f,free=DV.sub||(f&&["text","area","steps"].includes(f.ty)),t=((DV.rec?DV.heard:DV.carry)||"").replace(TRAILRAW,"").replace(/[\s,.;!?]*\bnext[\s.!?]*$/i,"").trim();if(free&&f&&t)dSave(f,t)}stopDrive(true)};
 $("#upd").onclick=()=>{persist();location.reload()};
+
+/* ---------- MUSIC (patch_music) ---------- */
+// Quiet chiptune loop of 'March of the Volunteers' (Nie Er, 1935), made with Web Audio: square-wave melody, triangle bass.
+// Never plays before the user presses the music button (MUSIC_AUTOSTART=false). Paused (and fully suspended) before any speech recognition starts, on hidden/pagehide and in driving mode.
+// MUSIC_AUTOSTART=false: nothing ever starts the music except a press of the music button (never surprise audio, even if the saved choice was "on").
+const MUSIC_AUTOSTART=false;
+const MUSK=LS.replace(/v1$/,"music"),MVOL=0.05,MBPM=104,
+ MEL=[0,9,67,9,3,71,12,6,74,18,6,74,24,12,76,36,12,74,48,9,71,57,3,67,60,4,74,64,4,74,68,4,74,72,12,71,84,12,67,96,4,62,100,4,62,104,4,62,108,4,62,112,4,62,116,4,62,120,12,67,138,6,62,144,18,67,162,6,67,168,9,67,177,3,67,180,6,62,186,3,64,189,3,66,192,12,67,204,12,67,222,6,71,228,6,67,234,3,69,237,3,71,240,12,74,252,12,74,264,9,71,273,3,71,276,9,67,285,3,71,288,9,74,297,3,71,300,12,69,312,24,69,336,12,76,348,12,74,360,12,69,372,12,71,384,6,74,390,6,71,402,6,74,408,6,71,414,3,69,417,3,71,420,12,67,432,12,71,456,9,62,465,3,64,468,6,67,474,6,67,480,9,71,489,3,71,492,6,74,498,6,74,504,6,69,510,3,69,513,3,69,516,12,64,528,18,69,546,6,62,552,18,67,570,6,67,576,18,71,594,6,71,600,24,74,624,9,67,633,3,71,636,6,74,642,6,74,648,12,76,660,12,74,672,9,71,681,3,67,684,4,74,688,4,74,692,4,74,696,6,71,708,6,67,720,12,62,732,12,67,744,9,71,753,3,67,756,4,74,760,4,74,764,4,74,768,6,71,780,6,67,792,12,62,804,12,67,816,12,62,828,12,67,840,12,62,852,12,67,864,12,67],BAS=[0,12,43,12,12,50,24,12,48,36,12,43,48,12,43,60,12,50,72,12,43,84,12,50,96,12,50,108,12,45,120,12,43,132,12,50,144,12,43,156,12,50,168,12,50,180,12,45,192,12,43,204,12,50,216,12,43,228,12,50,240,12,43,252,12,50,264,12,43,276,12,50,288,12,50,300,12,45,312,12,50,324,12,45,336,12,48,348,12,43,360,12,50,372,12,45,384,12,43,396,12,50,408,12,43,420,12,50,432,12,43,444,12,50,456,12,43,468,12,50,480,12,43,492,12,50,504,12,50,516,12,45,528,12,50,540,12,45,552,12,43,564,12,50,576,12,43,588,12,50,600,12,50,612,12,45,624,12,43,636,12,50,648,12,48,660,12,43,672,12,43,684,12,50,696,12,43,708,12,50,720,12,50,732,12,43,744,12,43,756,12,50,768,12,43,780,12,50,792,12,50,804,12,43,816,12,50,828,12,43,840,12,50,852,12,43,864,12,43],MLOOP=912;
+const MUS={ac:null,g:null,on:localStorage.getItem(MUSK)!=="off",started:false,why:new Set(),ev:null,pos:0,base:0,timer:0,pp:Promise.resolve(),st:""};
+function musSession(t){try{if(navigator.audioSession&&navigator.audioSession.type!==t)navigator.audioSession.type=t}catch(e){}}
+function musEv(){const e=[];for(let i=0;i<MEL.length;i+=3)e.push([MEL[i],MEL[i+1],MEL[i+2],"square",.32]);for(let i=0;i<BAS.length;i+=3)e.push([BAS[i],BAS[i+1],BAS[i+2],"triangle",.75]);return e.sort((a,b)=>a[0]-b[0])}
+function musInit(){if(MUS.ac)return true;const C=window.AudioContext||window.webkitAudioContext;if(!C)return false;
+ musSession("ambient");try{MUS.ac=new C()}catch(e){return false}MUS.g=MUS.ac.createGain();MUS.g.gain.value=0;MUS.g.connect(MUS.ac.destination);
+ MUS.ac.onstatechange=()=>{if(MUS.ac.state==="running"&&!musWant())MUS.ac.suspend().catch(()=>{})};   // any late/OS resume while paused (mic, driving, hidden, muted) is undone
+ MUS.ev=musEv();MUS.pos=0;MUS.base=MUS.ac.currentTime+.1;MUS.timer=setInterval(musTick,60);return true}
+function musNote(t,d,m,type,v){const ac=MUS.ac,o=ac.createOscillator(),g=ac.createGain(),f=440*Math.pow(2,(m-69)/12);o.type=type;o.frequency.value=f;
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.006);g.gain.setValueAtTime(v,t+Math.max(.01,d*.78));g.gain.linearRampToValueAtTime(0,t+d*.92);
+ o.connect(g);g.connect(MUS.g);o.start(t);o.stop(t+d)}
+function musTick(){const ac=MUS.ac;if(!ac||ac.state!=="running")return;if(!musWant()){ac.suspend().catch(()=>{});return}const u=60/MBPM/24;   // seconds per 48th of a 2/4 bar
+ if(MUS.base<ac.currentTime-1){MUS.base=ac.currentTime+.05;MUS.pos=0}
+ while(MUS.base+MUS.ev[MUS.pos][0]*u<ac.currentTime+.3){const e=MUS.ev[MUS.pos];musNote(MUS.base+e[0]*u,e[1]*u,e[2],e[3],e[4]);if(++MUS.pos>=MUS.ev.length){MUS.pos=0;MUS.base+=MLOOP*u}}}
+const musWant=()=>MUS.on&&MUS.started&&!MUS.why.size;
+function musApply(){musUi();const ac=MUS.ac;if(!ac)return MUS.pp=Promise.resolve();const t=ac.currentTime,G=MUS.g.gain;
+ if(musWant()){musSession("ambient");MUS.st="playing";const p=ac.state==="running"?Promise.resolve():ac.resume().catch(()=>{});
+  return MUS.pp=p.then(()=>{if(!musWant()){if(MUS.ac.state==="running")return MUS.ac.suspend().catch(()=>{});return}const n=MUS.ac.currentTime;G.cancelScheduledValues(n);G.setValueAtTime(G.value,n);G.linearRampToValueAtTime(MVOL,n+.5)})}
+ MUS.st="stopped";G.cancelScheduledValues(t);G.setValueAtTime(G.value,t);G.linearRampToValueAtTime(0,t+.06);
+ return MUS.pp=new Promise(res=>setTimeout(()=>{if(musWant()||ac.state!=="running")return res();G.cancelScheduledValues(0);G.setValueAtTime(0,ac.currentTime);ac.suspend().then(res,res)},80)).then(()=>{if(!musWant())musSession("auto")})}
+function musPause(why){MUS.why.add(why);return musApply()}
+function musResume(why){if(!MUS.why.delete(why))return MUS.pp;return musApply()}
+function musUi(){const b=$("#bMus");if(!b)return;const on=MUS.on&&MUS.started;b.classList.toggle("muted",!on);b.classList.toggle("paused",on&&MUS.why.size>0);b.setAttribute("aria-label",on?"Mute music":"Play music")}
+function musUnlock(e){if(MUS.started)return;if(e&&e.target&&e.target.closest&&e.target.closest("#bMus"))return;
+ MUS.started=true;["click","touchend","keydown"].forEach(t=>removeEventListener(t,musUnlock,true));if(MUS.on&&musInit())musApply();else musUi()}
+if(MUSIC_AUTOSTART)["click","touchend","keydown"].forEach(t=>addEventListener(t,musUnlock,true));
+$("#bMus").onclick=()=>{if(MUS.started&&MUS.on)MUS.on=false;else{MUS.on=true;MUS.started=true;["click","touchend","keydown"].forEach(t=>removeEventListener(t,musUnlock,true))}
+ try{localStorage.setItem(MUSK,MUS.on?"on":"off")}catch(e){}if(MUS.on)musInit();musApply()};
+document.addEventListener("visibilitychange",()=>{if(document.hidden)musPause("hidden");else musResume("hidden")});
+addEventListener("pagehide",()=>musPause("hidden"));addEventListener("pageshow",()=>{if(!document.hidden)musResume("hidden")});
+musUi();
+
+/* ---------- DIALECTICS (patch_dialectics) ---------- */
+const SVGNS="http://www.w3.org/2000/svg",RMQ=matchMedia("(prefers-reduced-motion: reduce)");
+const shortT=(s,n)=>{s=String(s||"").trim().split(/\n/)[0];return s.length>n?s.slice(0,n-1)+"…":s};
+/* 1. contradiction balance. weight = weight of the PRINCIPAL-ASPECT field (pc_pa / sc_pa), 0-100. Absent = untouched. */
+const BALF={pc:["pc_pa","pc_sa","pc_w","Primary"],sc:["sc_pa","sc_sa","sc_w","Secondary"]};
+let balUpd=null,balMode="pc",balScrollT=0;addEventListener("scroll",()=>{balScrollT=Date.now()},{capture:true,passive:true});
+function balLabels(d,m){const[a,b]=BALF[m];return[shortT(d[a],60),shortT(d[b],60)]}
+function balLine(d,m){const w=d[BALF[m][2]];if(typeof w!=="number")return"";const[A,B]=balLabels(d,m),a=A||"Aspect A",b=B||"Aspect B";
+ if(w===50)return`Principal aspect: balanced between ${a} and ${b} (50/50)`;return`Principal aspect: ${w>50?a:b} (${Math.max(w,100-w)}/${Math.min(w,100-w)})`}
+function balPrint(d){return["pc","sc"].map(m=>{const w=d[BALF[m][2]];if(typeof w!=="number")return"";const[A,B]=balLabels(d,m);
+ return`<div class="pq"><b>Balance — ${BALF[m][3].toLowerCase()} contradiction</b><div class="pbal"><span class="${w>=50?"pr":""}" style="width:${Math.max(w,12)}%">${esc(A||"Aspect A")} ${w}</span><span class="${w<=50?"pr":""}" style="width:${Math.max(100-w,12)}%">${esc(B||"Aspect B")} ${100-w}</span></div></div>`}).join("")}
+function mkBal(){const w=document.createElement("div");w.className="f bal";
+ w.innerHTML=`<span class="lbl">Balance of the two aspects</span><div class="seg2" role="group" aria-label="Which contradiction"><button type="button" data-m="pc" aria-pressed="true">Primary</button><button type="button" data-m="sc" aria-pressed="false">Secondary</button></div>
+<div class="dpanel anim"><svg viewBox="0 0 360 230" aria-hidden="true" focusable="false"><defs><pattern id="bhatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#000"/><line x1="0" y1="0" x2="0" y2="6" stroke="#f2f2f2" stroke-width="2"/></pattern></defs>
+<g class="bm" style="transform-origin:180px 70px"><line x1="30" y1="70" x2="330" y2="70" stroke="#f2f2f2" stroke-width="2"/><rect class="bwa" x="34" y="40" width="48" height="30" stroke="#f2f2f2"/><rect class="bwb" x="278" y="40" width="48" height="30" stroke="#f2f2f2"/></g>
+<polygon points="180,72 166,100 194,100" fill="#000" stroke="#f2f2f2" stroke-width="2"/><line x1="150" y1="100" x2="210" y2="100" stroke="#f2f2f2" stroke-width="2"/>
+<rect x="10" y="130" width="340" height="40" fill="#000" stroke="#f2f2f2" stroke-width="2"/><rect class="bfa" x="10" y="130" width="170" height="40"/><rect class="bfb" x="180" y="130" width="170" height="40"/>
+<line x1="180" y1="118" x2="180" y2="182" stroke="#f2f2f2" stroke-width="2" stroke-dasharray="4 3"/><text x="180" y="114" font-size="10" text-anchor="middle">FLIP</text>
+<rect class="bdv" x="177" y="124" width="6" height="52" fill="#000" stroke="#f2f2f2" stroke-width="2"/>
+<text class="bra" x="10" y="192" font-size="11"></text><text class="brb" x="350" y="192" font-size="11" text-anchor="end"></text>
+<text class="bta" x="10" y="208" font-size="12" font-weight="700"></text><text class="btb" x="350" y="208" font-size="12" font-weight="700" text-anchor="end"></text><text class="bpc" x="180" y="20" font-size="11" text-anchor="middle"></text></svg>
+<input type="range" min="0" max="100" step="1" value="50"><div class="ends" aria-hidden="true"><span>&larr; A principal</span><span>B principal &rarr;</span></div><div class="bst" aria-live="polite" aria-atomic="true"></div></div>
+<span class="hint">Drag the seesaw sideways or use the slider. Solid = principal aspect, hatched = secondary. Crossing the dashed line flips them.</span>`;
+ const q=c=>w.querySelector(c),r=q("input"),svg=q("svg"),pnl=q(".dpanel");let tmr;
+ function wrap(el,txt,mute){const ws=txt.split(/\s+/),L=[""];ws.forEach(x=>{const c=L[L.length-1];if((c+" "+x).trim().length<=21)L[L.length-1]=(c+" "+x).trim();else L.push(x)});
+  const ln=L.slice(0,2);if(L.length>2)ln[1]=ln[1].slice(0,20)+"…";ln[0]=ln[0].slice(0,21);el.textContent="";el.setAttribute("class",el.getAttribute("class").replace(/ m$/,"")+(mute?" m":""));
+  ln.forEach((t,i)=>{const ts=document.createElementNS(SVGNS,"tspan");ts.setAttribute("x",el.getAttribute("x"));ts.setAttribute("dy",i?"15":"0");ts.textContent=t;el.appendChild(ts)})}
+ function draw(announce){const d=D(),[,,wk,nm]=BALF[balMode],stored=typeof d[wk]==="number",v=stored?d[wk]:50,[A0,B0]=balLabels(d,balMode),A=A0||"Aspect A",B=B0||"Aspect B";
+  r.value=v;const x=10+340*v/100,aP=v>50,bP=v<50,H="url(#bhatch)",I="#f2f2f2";
+  q(".bfa").setAttribute("width",340*v/100);q(".bfb").setAttribute("x",x);q(".bfb").setAttribute("width",340*(100-v)/100);q(".bdv").setAttribute("x",x-3);
+  q(".bm").style.transform=`rotate(${(50-v)*0.35}deg)`;
+  q(".bfa").setAttribute("fill",aP||v===50?I:H);q(".bfb").setAttribute("fill",bP?I:H);q(".bwa").setAttribute("fill",aP||v===50?I:H);q(".bwb").setAttribute("fill",bP?I:H);
+  wrap(q(".bta"),A,!A0);wrap(q(".btb"),B,!B0);
+  q(".bra").textContent=v===50?"BALANCED":aP?"PRINCIPAL":"SECONDARY";q(".brb").textContent=v===50?"BALANCED":bP?"PRINCIPAL":"SECONDARY";
+  const dd=Math.abs(v-50);q(".bpc").textContent=stored?`${v} · ${100-v}${dd<=5&&dd>0?" · NEAR FLIP":""}`:"NOT SET";
+  r.setAttribute("aria-label",`${nm} contradiction: balance between ${A} and ${B}`);
+  const vt=v===50?`Balanced, 50 percent each`:`${aP?A:B} principal, ${Math.max(v,100-v)} percent`;r.setAttribute("aria-valuetext",stored?vt:"Not set. "+vt);
+  const words=!stored?"Not set yet. Move the slider to weigh the two aspects.":v===50?`Unstable balance: neither ${A} nor ${B} is principal. One step flips it.`:`${aP?A:B} is principal, ${dd} point${dd===1?"":"s"} from the flip.`;
+  const st=q(".bst"),put=()=>{st.textContent=words;st.classList.toggle("bunset",!stored)};clearTimeout(tmr);announce?put():tmr=setTimeout(put,350);
+  w.querySelectorAll(".seg2 button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===balMode))}
+ function setW(v){v=Math.max(0,Math.min(100,Math.round(v)));const k=BALF[balMode][2];if(D()[k]===v)return draw(false);set(k,v)}
+ r.addEventListener("input",()=>setW(+r.value));
+ r.addEventListener("keydown",e=>{const m={PageUp:10,PageDown:-10}[e.key];if(m){e.preventDefault();setW(+r.value+m)}});
+ w.querySelectorAll(".seg2 button").forEach(b=>b.onclick=()=>{balMode=b.dataset.m;draw(true)});
+ // drag on the seesaw: touch-action:pan-y, so a vertical swipe scrolls the page and only a sideways drag moves the weight
+ // Clean tap (moved <10px, no scroll just before) sets the weight; a clearly sideways drag (>10px, mostly horizontal) moves it;
+ // anything else is treated as a scroll and changes nothing (nothing is saved).
+ let dr=null;const fromX=cx=>{const b=svg.getBoundingClientRect(),x=(cx-b.left)/b.width*360;setW((x-10)/340*100)};
+ svg.addEventListener("pointerdown",e=>{dr={x:e.clientX,y:e.clientY,go:false,mv:0,id:e.pointerId,t0:Date.now(),scr:Date.now()-balScrollT<350}});
+ svg.addEventListener("pointermove",e=>{if(!dr)return;const dx=e.clientX-dr.x,dy=e.clientY-dr.y;dr.mv=Math.max(dr.mv,Math.hypot(dx,dy));
+  if(!dr.go&&Math.abs(dx)>10&&Math.abs(dx)>1.5*Math.abs(dy)){dr.go=true;try{svg.setPointerCapture(dr.id)}catch(x){}pnl.classList.remove("anim")}if(dr.go)fromX(e.clientX)});
+ const end=e=>{if(dr&&!dr.go&&e.type==="pointerup"){const mv=Math.max(dr.mv,Math.hypot(e.clientX-dr.x,e.clientY-dr.y));if(mv<10&&!dr.scr&&Date.now()-balScrollT>=350)fromX(e.clientX)}if(dr&&dr.go)pnl.classList.add("anim");dr=null};
+ svg.addEventListener("pointerup",end);svg.addEventListener("pointercancel",end);
+ balUpd=()=>{if(w.isConnected)draw(false)};draw(true);return w}
+
+/* 2. quantity -> quality meter: computed from the existing "filled" rule; stores nothing */
+let qqLast=null;
+function qqDraw(done,tot){const m=$("#qq");if(!m)return;const c=$("#qqc");
+ if(c.children.length!==tot){c.innerHTML="";for(let i=0;i<tot;i++)c.appendChild(document.createElement("i"))}
+ [...c.children].forEach((e,i)=>e.classList.toggle("on",i<done));
+ const leap=tot>0&&done>=tot,near=!leap&&done>=Math.ceil(tot*.8);m.classList.toggle("q",leap);m.classList.toggle("near",near);
+ if(leap&&qqLast&&!qqLast.leap){m.classList.add("just");setTimeout(()=>m.classList.remove("just"),600)}
+ const words=leap?"All answered: new quality.":`${done} of ${tot} answered.${near?" Approaching the nodal point.":""}`;
+ m.setAttribute("aria-valuemax",tot);m.setAttribute("aria-valuenow",done);m.setAttribute("aria-valuetext",words);
+ const pt=$("#ptxt");if(pt&&(near||leap)){const sp=document.createElement("span");sp.className="nodal";sp.textContent=leap?" · new quality":" · approaching the nodal point";pt.appendChild(sp)}
+ if(qqLast&&qqLast.done!==done&&qqLast.cur===cur)$("#qqlive").textContent=words;qqLast={done,leap,cur}}
+
+/* 3. negation-of-the-negation spiral in the Saved dialog; stores nothing; torn down on close */
+const STAGE=["Affirmation","Negation","Negation of the negation"];let SP=null,spView="list",spMode="all";
+function spNodes(){if(spMode==="one"){const d=D(),st=(d.steps||[]).filter(s=>s&&s.task).map(s=>s.task).join("; ");
+  return[["issue","Issue / contradiction"],["mistakes","Mistakes"],["worked","What worked"],["final","Final analysis"],["slogans","Slogans"],["steps","Next steps"]].map(([k,l])=>({t:shortT(k==="steps"?st:d[k],40)||"(not answered)",w:l}))}
+ return Object.values(db).map(r=>({r,k:(r.d.date&&parseIso(r.d.date)?r.d.date:isoD(new Date(r.created))),dated:!!(r.d.date&&parseIso(r.d.date))}))
+  .sort((a,b)=>a.k.localeCompare(b.k)||a.r.created-b.r.created)
+  .map(({r,k,dated})=>({t:r.d.name||"Untitled action",w:dated?fmtDate(k):"no date · created "+fmtDate(k),id:r.id}))}
+function spTeardown(){if(!SP)return;cancelAnimationFrame(SP.raf);SP.raf=0;removeEventListener("resize",SP.size);SP.ro&&SP.ro.disconnect();SP.off&&SP.off();SP=null}
+function spShow(){spTeardown();const V=$("#spiralV"),L=$("#list"),sb=$("#bSort");
+ $("#vList").setAttribute("aria-pressed",spView==="list");$("#vSpiral").setAttribute("aria-pressed",spView==="spiral");
+ V.hidden=spView!=="spiral";L.hidden=spView==="spiral";if(sb)sb.hidden=spView==="spiral";if(spView!=="spiral"){V.innerHTML="";return}
+ const N=spNodes();V.innerHTML=`<div class="seg2" role="group" aria-label="Spiral data"><button type="button" data-m="all" aria-pressed="${spMode==="all"}">All summations</button><button type="button" data-m="one" aria-pressed="${spMode==="one"}">This sheet</button></div>`;
+ V.querySelectorAll(".seg2 button").forEach(b=>b.onclick=()=>{spMode=b.dataset.m;spShow()});
+ const few=N.length<3;
+ if(few)V.insertAdjacentHTML("beforeend",`<p class="msg">Save more summations to see the spiral (${N.length} of 3).</p>`);
+ else V.insertAdjacentHTML("beforeend",`<div class="dpanel"><canvas tabindex="0" role="img" aria-roledescription="rotatable 3D spiral"></canvas><div class="legend" aria-hidden="true"><span>■ Affirmation</span><span>○ Negation</span><span>◆ Negation of negation</span><span>┆ same angle, one level up</span></div></div>
+<div class="ctl"><button type="button" class="btn sm" data-d="-1">◂ Prev</button><button type="button" class="btn sm" data-d="1">Next ▸</button></div><div class="sst" aria-live="polite" aria-atomic="true"></div>
+<p class="hint">Drag sideways to rotate. With the spiral focused: arrow keys rotate, N / P or Enter step through nodes, 0 resets.</p>`);
+ V.insertAdjacentHTML("beforeend",`<span class="lbl">All nodes</span><ol></ol>`);
+ const ol=V.querySelector("ol");let sel=Math.max(0,N.length-1);
+ N.forEach((n,i)=>{const li=document.createElement("li"),b=document.createElement("button");b.type="button";b.textContent=`L${Math.floor(i/3)+1} · ${STAGE[i%3]} — ${n.t} (${n.w})`;
+  b.onclick=()=>{if(n.id){stopRec();cur=n.id;persist();render();dList.close();scrollTo(0,0)}else{sel=i;if(SP){SP.draw();SP.announce()}}};li.appendChild(b);ol.appendChild(li)});
+ const mark=()=>ol.querySelectorAll("button").forEach((b,i)=>b.setAttribute("aria-current",i===sel));mark();
+ if(few)return;
+ const cv=V.querySelector("canvas"),g=cv.getContext("2d"),stE=V.querySelector(".sst");let W=0,H=0,yaw=-0.5,pitch=0.32,auto=!RMQ.matches,lt=0;
+ const STEP=2*Math.PI/3,RISE=1,world=u=>{const tr=u/3,a=u*STEP,r=1+0.18*tr;return[r*Math.cos(a),tr*RISE,r*Math.sin(a)]};
+ // Camera distance grows with the spiral so perspective never flips; fit() scales the whole spiral (any yaw) to stay inside the canvas.
+ const LV=Math.max(1,(N.length-1)/3),DC=Math.max(4,2.2*Math.hypot(1+0.18*LV,LV*RISE/2+0.4));let FS=1,FY=0,fk="";
+ function rawP([x,y,z]){y-=LV*RISE/2;let X=x*Math.cos(yaw)-z*Math.sin(yaw),Z=x*Math.sin(yaw)+z*Math.cos(yaw);let Y=y*Math.cos(pitch)-Z*Math.sin(pitch);Z=y*Math.sin(pitch)+Z*Math.cos(pitch);
+  const f=DC/(DC+Z);return{X:X*1.15*f,Y:Y*f,z:Z,f}}
+ function fit(){const k=W+","+H+","+pitch.toFixed(3);if(k===fk)return;fk=k;const y0=yaw,last=N.length-1;let mx=0.1,lo=1e9,hi=-1e9;
+  const use=v=>{const r=rawP(v);mx=Math.max(mx,Math.abs(r.X));lo=Math.min(lo,r.Y);hi=Math.max(hi,r.Y)};
+  for(let a=0;a<16;a++){yaw=a/16*2*Math.PI;for(let u=0;u<=last;u+=0.25)use(world(u));use(world(last));for(let q=0;q<12;q++){const t=q/12*2*Math.PI;use([1.25*Math.cos(t),-0.3,1.25*Math.sin(t)])}use([0,last/3*RISE+0.4,0])}
+  yaw=y0;FS=Math.min((W-72)*(N.length<30?0.45:1)/(2*mx),(H-30-(N.length>=30?48:0))/Math.max(0.1,hi-lo),Math.min(W,H)*0.30);FY=(hi+lo)/2}
+ function proj(v){const r=rawP(v);return{x:W/2+r.X*FS,y:H/2-(r.Y-FY)*FS,z:r.z,f:r.f}}
+ const FONT="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace";
+ // Occupancy grid (4px cells): every drawn line, node and label marks its cells, so labels can be placed where nothing is drawn.
+ let G=null,gw=0,gh=0;const CS=4;
+ const gm=(x,y)=>{const cx=x/CS|0,cy=y/CS|0;if(cx>=0&&cy>=0&&cx<gw&&cy<gh)G[cy*gw+cx]=1};
+ const gseg=(p,q)=>{const n=Math.max(1,Math.ceil(Math.hypot(q.x-p.x,q.y-p.y)/2));for(let k=0;k<=n;k++)gm(p.x+(q.x-p.x)*k/n,p.y+(q.y-p.y)*k/n)};
+ const gbox=(x,y,w,h,set)=>{const x0=Math.max(0,Math.floor(x/CS)),y0=Math.max(0,Math.floor(y/CS)),x1=Math.min(gw-1,Math.floor((x+w)/CS)),y1=Math.min(gh-1,Math.floor((y+h)/CS));
+  for(let yy=y0;yy<=y1;yy++)for(let xx=x0;xx<=x1;xx++){if(set)G[yy*gw+xx]=1;else if(G[yy*gw+xx])return false}return true};
+ // pass 0 prefers labels whose leader line crosses nothing already drawn
+ const gclr=(p,x,y,w,h,r0)=>{const ex=x+w/2>p.x?x:x+w,ey=y+h/2,L=Math.hypot(ex-p.x,ey-p.y);if(L<=r0+2)return true;const n=Math.ceil(L/3);
+  for(let k=0;k<=n;k++){const t=k/n;if(t*L<r0)continue;const cx=(p.x+(ex-p.x)*t)/CS|0,cy=(p.y+(ey-p.y)*t)/CS|0;if(cx>=0&&cy>=0&&cx<gw&&cy<gh&&G[cy*gw+cx]&&t<0.97)return false}return true};
+ const ln=(p,q)=>{g.beginPath();g.moveTo(p.x,p.y);g.lineTo(q.x,q.y);g.stroke();gseg(p,q)};
+ function draw(){if(!W)return;fit();gw=Math.ceil(W/CS)+1;gh=Math.ceil(H/CS)+1;if(!G||G.length!==gw*gh)G=new Uint8Array(gw*gh);else G.fill(0);
+  g.clearRect(0,0,W,H);g.lineCap="round";const last=N.length-1;g.strokeStyle="#f2f2f2";g.lineWidth=1;
+  g.setLineDash([2,4]);ln(proj([0,-0.3,0]),proj([0,last/3*RISE+0.4,0]));
+  g.setLineDash([3,3]);for(let i=0;i+3<=last;i++)ln(proj(world(i)),proj(world(i+3)));g.setLineDash([]);
+  let q0=null;for(let k=0;k<=48;k++){const a=k/48*2*Math.PI,p=proj([1.25*Math.cos(a),-0.3,1.25*Math.sin(a)]);if(q0)ln(q0,p);q0=p}
+  const segs=Math.max(1,last*16);let pv=proj(world(0));for(let k=1;k<=segs;k++){const p=proj(world(k/segs*last));g.lineWidth=p.z>0?1:2.5;ln(pv,p);pv=p}
+  const PI=N.map((n,i)=>{const p=proj(world(i));return{i,n,p,s:(i===sel?9:6)*p.f}});
+  PI.slice().sort((a,b)=>b.p.z-a.p.z).forEach(({i,p,s})=>{const k=i%3;g.lineWidth=2;g.strokeStyle="#f2f2f2";g.beginPath();
+   if(k===0)g.rect(p.x-s,p.y-s,2*s,2*s);else if(k===1)g.arc(p.x,p.y,s,0,7);else{g.moveTo(p.x,p.y-s*1.3);g.lineTo(p.x+s*1.3,p.y);g.lineTo(p.x,p.y+s*1.3);g.lineTo(p.x-s*1.3,p.y);g.closePath()}
+   g.fillStyle=k===1?"#000":"#f2f2f2";g.fill();g.stroke();if(i===sel){g.beginPath();g.arc(p.x,p.y,s+8,0,7);g.stroke()}
+   const r=(i===sel?s+8:s*1.3)+2;gbox(p.x-r,p.y-r,2*r,2*r,1)});
+  g.textAlign="left";g.textBaseline="alphabetic";g.font="10px "+FONT;g.fillStyle="#f2f2f2";for(let l=0;l<=Math.floor(last/3);l++){const p=proj(world(3*l));g.fillText("L"+(l+1),6,p.y);gbox(4,p.y-9,22,12,1)}
+  // Labels. 30+ sheets: only the selected, newest and oldest node (others show their name when selected). Under 30: every node, front first.
+  const many=N.length>=30,order=many?[...new Set([sel,N.length-1,0])]:[sel,...PI.slice().sort((a,b)=>a.p.z-b.p.z).map(o=>o.i).filter(i=>i!==sel)],lab=[];
+  order.forEach(i=>{const{p,s}=PI[i],isS=i===sel,t=shortT(N[i].t,isS?28:many&&(i===0||W<320)?14:16);g.font=(isS?"700 12px ":"11px ")+FONT;const w=Math.ceil(g.measureText(t).width)+8,h=18,r0=(isS?s+8:s*1.3)+6;
+   const out=p.x<W/2?-1:1;let got=null;if(many&&!isS&&i===0){for(const[x,y]of[[2,H-h-2],[2,H-h-8],[2,H-h-14],[W-w-2,H-h-2]])if(gbox(x-1,y-1,w+2,h+2,0)){got={x,y,dx:999,sd:-1,forced:1};break}}   // push outward, away from the spiral's centre line
+   if(!got)for(const pass of[0,1]){for(const sd of[out,-out]){for(const dy of[0,-12,12,-24,24,-36,36,-54,54,-76,76,-100,100]){for(const dx of[r0,r0+14,r0+30,r0+50,r0+76,r0+108,r0+146]){
+    const x=Math.max(2,Math.min(W-w-2,sd>0?p.x+dx:p.x-dx-w)),y=p.y-h/2+dy;if(y<2||y+h>H-2)continue;if(gbox(x-2,y-2,w+4,h+4,0)&&(pass||gclr(p,x,y,w,h,r0))){got={x,y,dx,sd};break}}if(got)break}if(got)break}if(got)break}
+   if(!got&&many&&!isS){   // required label (newest/oldest at 30+): anchor in a free panel corner, with a leader line
+    const C=i===0?[[2,H-h-2],[W-w-2,H-h-2],[2,2],[W-w-2,2]]:[[2,2],[W-w-2,2],[2,H-h-2],[W-w-2,H-h-2]];
+    for(const[x,y]of C)if(gbox(x-1,y-1,w+2,h+2,0)){got={x,y,dx:999,sd:x<p.x?-1:1,forced:1};break}
+    if(!got){const ys=[];for(let y=2;y<=H-h-2;y+=6)ys.push(y);if(i===0)ys.reverse();   // scan the panel (bottom rows first for the oldest)
+     for(const y of ys){for(let x=2;x<=W-w-2;x+=6)if(gbox(x-1,y-1,w+2,h+2,0)){got={x,y,dx:999,sd:x<p.x?-1:1,forced:1};break}if(got)break}}
+    if(!got){const[x,y]=C[0];got={x,y,dx:999,sd:x<p.x?-1:1,forced:1}}}
+   if(!got&&isS){const x=Math.max(2,Math.min(W-w-2,out>0?p.x+r0:p.x-r0-w)),y=Math.max(2,Math.min(H-h-2,p.y-h/2));got={x,y,dx:r0,sd:out,forced:1}}
+   if(!got)return;   // still collides: hidden (the text list below names every node)
+   gbox(got.x-1,got.y-1,w+2,h+2,1);{const ex=got.x+w/2>p.x?got.x:got.x+w,ey=got.y+h/2,L=Math.hypot(ex-p.x,ey-p.y);if(L>r0+2){const t=r0/L;gseg({x:p.x+(ex-p.x)*t,y:p.y+(ey-p.y)*t},{x:ex,y:ey})}}lab.push({i,t,isS,w,h,p,r0,...got})});
+  lab.forEach(L=>{g.strokeStyle="#f2f2f2";g.lineWidth=1;
+   const ex=L.x+L.w/2>L.p.x?L.x:L.x+L.w,dir=ex>=L.p.x?1:-1;if(Math.abs(ex-L.p.x)>L.r0+1||Math.abs(L.y+L.h/2-L.p.y)>2){g.beginPath();g.moveTo(L.p.x+dir*(L.r0-4),L.p.y);g.lineTo(ex,L.y+L.h/2);g.stroke()}
+   g.fillStyle="#000";g.fillRect(L.x,L.y,L.w,L.h);g.strokeStyle=L.isS?"#f2f2f2":"#6e6e6e";g.strokeRect(L.x+.5,L.y+.5,L.w-1,L.h-1);
+   g.fillStyle="#f2f2f2";g.font=(L.isS?"700 12px ":"11px ")+FONT;g.textBaseline="middle";g.fillText(L.t,L.x+4,L.y+L.h/2+.5)});
+  if(SP){SP.lab=lab.map(L=>({i:L.i,x:L.x,y:L.y,w:L.w,h:L.h,forced:!!L.forced}));SP.nodes=PI.map(o=>({i:o.i,x:o.p.x,y:o.p.y}))}}
+ function announce(){const n=N[sel],k=sel%3,tr=Math.floor(sel/3)+1,back=sel>=3?` Returns to the angle of “${N[sel-3].t}”, one level higher.`:"";
+  stE.textContent="";const b=document.createElement("b");b.textContent=STAGE[k];stE.append(b,` · level ${tr} · node ${sel+1} of ${N.length}`,document.createElement("br"),`${n.t} (${n.w}).${back}`);
+  cv.setAttribute("aria-label",`Spiral of ${N.length} nodes over ${Math.ceil(N.length/3)} levels. Selected: ${n.t}, ${STAGE[k]}, level ${tr}. A text list of all nodes follows.`);mark()}
+ const go=dl=>{sel=(sel+dl+N.length)%N.length;draw();announce()};
+ V.querySelectorAll(".ctl button").forEach(b=>b.onclick=()=>go(+b.dataset.d));
+ const size=()=>{const r=cv.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);W=r.width;H=r.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);g.setTransform(dpr,0,0,dpr,0,0);draw()};
+ cv.addEventListener("keydown",e=>{const K={ArrowLeft:[-.15,0],ArrowRight:[.15,0],ArrowUp:[0,.1],ArrowDown:[0,-.1]}[e.key];
+  if(K){e.preventDefault();auto=false;yaw+=K[0];pitch=Math.max(-1.2,Math.min(1.2,pitch+K[1]));draw()}else if(/^[nN]$|^Enter$/.test(e.key)){e.preventDefault();go(1)}else if(/^[pP]$/.test(e.key)){e.preventDefault();go(-1)}else if(e.key==="0"){yaw=-0.5;pitch=0.32;draw()}});
+ // touch-action:pan-y: vertical swipes keep scrolling the dialog; sideways drags rotate (mouse/pen may also tilt)
+ let dr=null;cv.addEventListener("pointerdown",e=>{auto=false;dr={x:e.clientX,y:e.clientY,yaw,pitch,moved:0,id:e.pointerId,t:e.pointerType}});
+ cv.addEventListener("pointermove",e=>{if(!dr)return;const dx=e.clientX-dr.x,dy=e.clientY-dr.y;dr.moved=Math.max(dr.moved,Math.abs(dx)+Math.abs(dy));if(dr.moved>4&&!dr.cap){dr.cap=1;try{cv.setPointerCapture(dr.id)}catch(x){}}
+  yaw=dr.yaw+dx*0.01;if(dr.t!=="touch")pitch=Math.max(-1.2,Math.min(1.2,dr.pitch+dy*0.006));draw()});
+ cv.addEventListener("pointerup",e=>{if(dr&&dr.moved<6){const b=cv.getBoundingClientRect(),x=e.clientX-b.left,y=e.clientY-b.top;let best=-1,bd=900;N.forEach((n,i)=>{const p=proj(world(i)),dd=(p.x-x)**2+(p.y-y)**2;if(dd<bd){bd=dd;best=i}});if(best>=0){sel=best;draw();announce()}}dr=null});
+ cv.addEventListener("pointercancel",()=>dr=null);
+ const rmc=()=>{if(RMQ.matches)auto=false};RMQ.addEventListener&&RMQ.addEventListener("change",rmc);
+ SP={draw,announce,size,raf:0,off:()=>{RMQ.removeEventListener&&RMQ.removeEventListener("change",rmc)}};
+ const tick=t=>{if(!SP)return;if(auto&&!document.hidden){yaw+=Math.min(50,t-(lt||t))*0.00025;draw()}lt=t;SP.raf=auto?requestAnimationFrame(tick):0};
+ addEventListener("resize",size);if(window.ResizeObserver){SP.ro=new ResizeObserver(()=>size());SP.ro.observe(cv)}size();announce();if(auto)SP.raf=requestAnimationFrame(tick)}
 
 render();
 if("serviceWorker" in navigator&&location.protocol!=="file:"){const ctl=navigator.serviceWorker.controller,had=!!ctl&&ctl.scriptURL===new URL("sw.js",location.href).href;let shown=false;
