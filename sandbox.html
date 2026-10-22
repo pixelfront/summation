@@ -210,11 +210,13 @@ function loadState(){let s=null;try{s=JSON.parse(localStorage.getItem(KEY))}catc
 // buttons: null/malformed cards and links are dropped, unknown types ignored, text coerced to strings, numbers clamped to the
 // ranges the controls allow (balance 0-100, secondary influence -30..+30, nodal point 1-9999, amount 0..scale), duplicate ids
 // replaced, links re-typed from the two element types, and the id counter moved past every id in use.
-function cleanState(s){const o=blank();if(!s||typeof s!=="object"||!Array.isArray(s.cards))return o;
+function cleanState(s){return sbxClean(s)}
+// sandbox sanitizer, shared byte for byte by sandbox.html (loader) and index.html (images, prints): one definition in patch_v9.py
+function sbxClean(s){const o={v:1,seq:0,cards:[],links:[]};if(!s||typeof s!=="object"||!Array.isArray(s.cards))return o;
  const T=x=>typeof x==="string"?x:typeof x==="number"&&isFinite(x)?String(x):"",N=(x,a,b,d)=>{x=Math.round(Number(x));return isFinite(x)&&x===x?Math.max(a,Math.min(b,x)):d};
  const ob=x=>x&&typeof x==="object"&&!Array.isArray(x),used=new Set(),ok=x=>typeof x==="string"&&/^[a-z][a-z0-9]{0,23}$/.test(x);
  let seq=N(s.seq,0,1e9,0);const id=(x,p)=>{let v=ok(x)&&!used.has(x)?x:"";while(!v||used.has(v))v=p+(++seq).toString(36);used.add(v);return v};
- s.cards.forEach(c=>{if(!ob(c)||!Object.prototype.hasOwnProperty.call(TYPES,c.type))return;const x={id:id(c.id,"c"),type:c.type,title:T(c.title)};
+ s.cards.forEach(c=>{if(!ob(c)||!["contra","slider","qq","spiral","note"].includes(c.type))return;const x={id:id(c.id,"c"),type:c.type,title:T(c.title)};
   if(c.type==="contra"||c.type==="slider"){x.a=T(c.a);x.b=T(c.b);x.w=N(c.w,0,100,50)}
   if(c.type==="contra")x.sec=(Array.isArray(c.sec)?c.sec:[]).filter(ob).map(q=>({id:id(q.id,"s"),a:T(q.a),b:T(q.b),w:N(q.w,0,100,50),inf:N(q.inf,-30,30,0)}));
   if(c.type==="qq"){x.what=T(c.what);x.thr=N(c.thr,1,9999,10);x.n=N(c.n,0,Math.max(x.thr+Math.ceil(x.thr*0.25),x.thr+2),0);x.quality=T(c.quality)}
@@ -278,9 +280,11 @@ function linkErr(src,tgt){if(!tgt)return"Pick an element to link to.";
 /* ---------- derive: everything computed from state, nothing stored ---------- */
 const SECCAP=30;// shared limit: all secondary contradictions together push the principal balance at most ±30
 const sgn=v=>(v>0?"+":"")+v;
+// one wording for the push line everywhere: card meter, diagram/PNG, text export (and index.html images use the same rule)
+const pushTxt=d=>`Secondary push ${sgn(d.secSum)} / ${SECCAP} · moved ${sgn(d.moved)}${d.edge!=null?` (at limit ${d.edge})`:""}`;
 function derive(){const D={};
  S.cards.forEach(c=>{const d=D[c.id]={c,in:[],out:[]};
-  if(c.type==="contra"){d.secRaw=c.sec.reduce((t,s)=>t+(+s.inf||0),0);d.secSum=Math.max(-SECCAP,Math.min(SECCAP,d.secRaw));d.secLim=c.sec.length>0&&Math.abs(d.secSum)>=SECCAP;d.base=clamp(+c.w+d.secSum)}
+  if(c.type==="contra"){d.secRaw=c.sec.reduce((t,s)=>t+(+s.inf||0),0);d.secSum=Math.max(-SECCAP,Math.min(SECCAP,d.secRaw));d.secLim=c.sec.length>0&&Math.abs(d.secSum)>=SECCAP;d.base=clamp(+c.w+d.secSum);d.moved=d.base-(+c.w);d.edge=+c.w+d.secSum!==d.base?d.base:null}
   if(c.type==="slider")d.base=+c.w});
  S.links.forEach(L=>{if(D[L.from]&&D[L.to]){D[L.from].out.push(L);D[L.to].in.push(L)}});
  S.cards.forEach(c=>{const d=D[c.id];if(d.base==null)return;d.push=0;d.pushers=[];
@@ -336,7 +340,7 @@ function svgContra(c,d){const id=c.id,W=360,A=lab(c,"a"),B=lab(c,"b"),eff=d.eff,
  s+=T(24,y0+48,10,"◂ A PRINCIPAL",{fill:MUTE,ls:".06em"})+T(336,y0+48,10,"B PRINCIPAL ▸",{a:"end",fill:MUTE,ls:".06em"});
  wrap2(A,20).forEach((l,i)=>s+=T(24,y0+64+i*14,12,l,{b:1}));wrap2(B,20).forEach((l,i)=>s+=T(336,y0+64+i*14,12,l,{a:"end",b:1}));
  if(flip){const f=cardBy(d.flippers[0]);s+=`<rect x="24" y="${yN-28}" width="312" height="20" fill="${INK}"/>`+T(180,yN-14,10,`⇄ FLIPPED BY THE LEAP IN “${sh(titleOf(f),18)}”`,{a:"middle",fill:"#000",b:1})}
- if(ns){s+=T(24,yS+4,10,`SECONDARIES (${ns}) · SECONDARY PUSH ${sgn(d.secSum)} / ${SECCAP}${d.secLim?" · LIMIT":""}`,{fill:MUTE,ls:".04em"});
+ if(ns){s+=T(24,yS+4,10,pushTxt(d).toUpperCase(),{fill:MUTE});
   c.sec.forEach((q,k)=>{const row=Math.floor(k/2),cx=k%2?268:92,ry=yS+20+row*112,inf=+q.inf||0;
    // linked line from this secondary seesaw, up the margin, into the principal scale (thicker = stronger push)
    if(inf){const left=inf<0,mx=left?9-(k%4)*2:351+(k%4)*2,hy=ry-3-(k%2)*2,sw=1+Math.abs(inf)/7;
@@ -486,9 +490,9 @@ function bodyContra(c,body){const id=c.id,B=balanceBlock(c,body),SU=[];
    lw.textContent=`${N} own balance: ${100-s.w} / ${s.w}`;rw.setAttribute("aria-valuetext",+s.w===50?"balanced, 50 percent each":`${+s.w>50?sb:sa} principal, ${Math.max(s.w,100-s.w)} percent`);
    li.textContent=`${N} influence on the principal contradiction: ${s.inf>0?"+":""}${s.inf}`;ri.setAttribute("aria-valuetext",infWords(c,s))})});
  U[id]=d=>{B.viz.innerHTML=svgContra(c,d);B.upd(d);
-  const parts=[];if(d.secSum)parts.push(`secondary contradictions push ${d.secSum>0?"+":""}${d.secSum}${d.secLim?" (shared limit)":""}`);if(d.push)parts.push(`linked elements push ${d.push>0?"+":""}${d.push}`);if(d.flippers.length)parts.push("then a leap flipped it");
+  const parts=[];if(d.secSum)parts.push(`secondary contradictions push ${d.secSum>0?"+":""}${d.secSum}${d.secLim?" (shared limit)":""}${d.edge!=null?`, moving it ${sgn(d.moved)} to the limit ${d.edge}`:""}`);if(d.push)parts.push(`linked elements push ${d.push>0?"+":""}${d.push}`);if(d.flippers.length)parts.push("then a leap flipped it");
   B.stt.textContent="";B.stt.append(h("b",{text:d.princ?"Principal aspect: "+lab(c,d.princ):"Balanced"}),h("br"),balWords(c,d.eff)+(parts.length?` You set ${100-c.w}/${c.w}; ${parts.join(", ")}.`:` ${Math.abs(d.eff-50)} points from the flip.`));
-  SP.hidden=!c.sec.length;SP.textContent=`SECONDARY PUSH ${sgn(d.secSum)} / ${SECCAP}`;SP.setAttribute("aria-valuenow",d.secSum);SP.setAttribute("aria-valuetext",`${sgn(d.secSum)} of ${SECCAP}, the shared limit for all secondary contradictions${d.secRaw!==d.secSum?`; their influences add up to ${sgn(d.secRaw)}`:""}`);SL.hidden=!d.secLim;
+  SP.hidden=!c.sec.length;SP.textContent=pushTxt(d).toUpperCase();SP.setAttribute("aria-label",pushTxt(d));SP.setAttribute("aria-valuenow",d.secSum);SP.setAttribute("aria-valuetext",`${sgn(d.secSum)} of ${SECCAP}, the shared limit for all secondary contradictions${d.secRaw!==d.secSum?`; their influences add up to ${sgn(d.secRaw)}`:""}; the balance moved ${sgn(d.moved)}${d.edge!=null?`, stopped at the limit ${d.edge}`:""}`);SL.hidden=!d.secLim;
   SU.forEach(f=>f())}}
 function bodySlider(c,body){const B=balanceBlock(c,body);
  U[c.id]=d=>{B.viz.innerHTML=svgSlider(c,d);B.upd(d);B.stt.textContent="";
@@ -596,7 +600,7 @@ function cardLines(c,D,i){const d=D[c.id],L=[],head=`[${i+1}] ${TYPELONG[c.type]
  if(c.type==="contra"){L.push(`Principal contradiction: “${lab(c,"a")}” vs “${lab(c,"b")}”`,`Balance as set: ${lab(c,"a")} ${100-c.w} / ${lab(c,"b")} ${c.w}`);
   c.sec.forEach((s,k)=>{const sa=String(s.a||"").trim()||"Aspect A",sb=String(s.b||"").trim()||"Aspect B";
    L.push(`Secondary contradiction S${k+1}: “${sa}” vs “${sb}”; own balance ${100-s.w}/${s.w} (${+s.w===50?"balanced":(+s.w>50?sb:sa)+" principal"}); influence: ${infWords(c,s)}`)});
-  if(c.sec.length){L.push(`Secondary push: ${sgn(d.secSum)} / ${SECCAP} (shared limit for all secondary contradictions${d.secRaw!==d.secSum?`; their influences add up to ${sgn(d.secRaw)}`:""})`);if(d.secLim)L.push("Secondaries at limit. Has the principal contradiction shifted? Promote one.")}}
+  if(c.sec.length){L.push(`${pushTxt(d)} (shared limit for all secondary contradictions${d.secRaw!==d.secSum?`; their influences add up to ${sgn(d.secRaw)}`:""})`);if(d.secLim)L.push("Secondaries at limit. Has the principal contradiction shifted? Promote one.")}}
  if(c.type==="slider")L.push(`Forces: “${lab(c,"a")}” vs “${lab(c,"b")}”`,`Balance as set: ${lab(c,"a")} ${100-c.w} / ${lab(c,"b")} ${c.w}`);
  if(isBal(c.type)){d.pushers.forEach(([f,v])=>L.push(`Pushed by “${titleOf(cardBy(f))}”: ${v>0?"+":""}${v} (toward ${v>0?lab(c,"b"):lab(c,"a")})`));
   d.flippers.forEach(f=>L.push(`Flipped by the leap in “${titleOf(cardBy(f))}”`));L.push(`Result: ${balWords(c,d.eff)}`)}
