@@ -1,5 +1,5 @@
-// look B v8: Sandbox Dialectics (sandbox.html precached); v7 music and date fixes
-const C="summation-public-v8",A=["./","./index.html","./manifest.json","./privacy.html","./sandbox.html","./icons/icon-192.png","./icons/icon-512.png","./icons/apple-touch-icon.png"];
+// v9: tabs, Contingent + Action checklists, calendar + image export, print profiles; v8 sandbox (sandbox.html precached)
+const C="summation-public-v9",A=["./","./index.html","./manifest.json","./privacy.html","./sandbox.html","./icons/icon-192.png","./icons/icon-512.png","./icons/apple-touch-icon.png"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(A.map(u=>new Request(u,{cache:"reload"})))).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C&&x.startsWith("summation-public-")).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener("fetch",e=>{if(e.request.method!=="GET"||new URL(e.request.url).pathname.includes("/summation/test/"))return;e.respondWith(caches.open(C).then(c=>c.match(e.request,{ignoreSearch:true})).then(r=>r||fetch(e.request).then(res=>{const cp=res.clone();caches.open(C).then(c=>c.put(e.request,cp));return res}).catch(()=>caches.open(C).then(c=>c.match("./index.html")))))});

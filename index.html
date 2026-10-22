@@ -295,31 +295,88 @@ a.plink{display:inline-flex;align-items:center;justify-content:center;min-height
 p.plinkp{text-align:center;margin:-4px 0 12px}
 @media print{a.plink,p.plinkp{display:none!important}}
 
-/* ---- sandbox (patch_v8) ---- */
-.sbxrow{display:flex;align-items:center;gap:8px;margin-top:4px}.sbxrow .progtxt{flex:1;min-width:0;margin-top:0}
-header button#bSbx{flex:none}
-body.driving #bSbx,body.driving #sbx{display:none!important}
-#sbx{position:fixed;inset:0;z-index:55;background:#000;color:var(--ink);display:flex;flex-direction:column;font-family:var(--mono)}
-#sbx[hidden]{display:none}
-#sbx .sbxbar{display:flex;align-items:center;gap:10px;padding:calc(8px + env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) 8px max(12px,env(safe-area-inset-left));border-bottom:3px double var(--edge)}
-#sbx .sbxbar h2{margin:0;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
-#sbxBack{box-sizing:border-box;min-height:44px;min-width:44px;padding:6px 10px;background:#000;color:var(--ink);border:2px solid var(--edge);border-radius:0;font:inherit;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
-#sbxBack::before{content:"[";content:"[" / ""}#sbxBack::after{content:"]";content:"]" / ""}
-#sbx iframe{flex:1;width:100%;border:0;display:block;background:#000}
-body.sbxopen{overflow:hidden}
-@media print{#bSbx,#sbx{display:none!important}}
+/* ---- v9 (patch_v9): tabs, checklists, share image, print profiles ---- */
+.tabs{display:grid;grid-template-columns:repeat(4,auto);gap:6px;margin:0 0 12px}
+@media (max-width:560px){.tabs{grid-template-columns:1fr 1fr}}
+.tabs button{box-sizing:border-box;min-height:44px;min-width:44px;font:700 14px/1.2 var(--mono);letter-spacing:.04em;text-transform:uppercase;background:#000;color:var(--ink);border:2px solid var(--edge);padding:6px 8px;white-space:nowrap;cursor:pointer}
+.tabs button::before{content:"[";content:"[" / ""}.tabs button::after{content:"]";content:"]" / ""}
+.tabs button[aria-selected=true]{background:var(--ink);color:#000}
+.tabs button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+[role=tabpanel][hidden]{display:none!important}
+body:not([data-tab=sum]) nav.bar,body:not([data-tab=sum]) header .qq,body:not([data-tab=sum]) #ptxt{display:none!important}
+@media screen{body:not([data-tab=sum]){padding-bottom:calc(16px + env(safe-area-inset-bottom))}}
+.shbtn{box-sizing:border-box;flex:none;min-height:44px;min-width:44px;padding:6px 8px;background:#000;color:var(--ink);border:2px solid var(--edge);font:700 12px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.shbtn::before{content:"[";content:"[" / ""}.shbtn::after{content:"]";content:"]" / ""}
+.secbar,.tabtools{display:flex;justify-content:flex-end;gap:8px;margin:0 0 10px}
+#pSbx .tabtools{margin:0 0 8px}
+#sbxF{display:block;width:100%;height:70vh;border:0;border-top:3px double var(--edge);background:#000}
+.ckhd h2{margin:0;font-size:16px;text-transform:uppercase;letter-spacing:.04em}
+.ckhd .hint{margin:2px 0 10px}
+.cktools .chip span{text-transform:uppercase;letter-spacing:.04em}
+.cktools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin:0 0 10px}
+.ckmeter{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.ckmeter .cells{flex:1;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:1px;height:12px}
+.ckmeter .cells i{display:block;border:1px solid var(--ink);background:#000}.ckmeter .cells i.on{background:var(--ink)}
+.ckcard{background:rgba(255,255,255,.043);border:2px solid var(--edge);box-shadow:4px 4px 0 0 #3a3a3a;margin:0 0 18px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 18px,calc(100% + 4px) 18px,calc(100% + 4px) calc(100% + 4px),4px calc(100% + 4px),4px 100%,0 100%)}
+.ckcard>.hd{display:flex;align-items:center;gap:8px;padding:6px 18px 6px 12px;border-bottom:3px double var(--edge)}
+.ckcard>.hd h3{flex:1;min-width:0;margin:0;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+.ckcard>.bd{padding:12px}
+.ckrow{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 8px;border:1px solid #6e6e6e;padding:8px;margin:0 0 10px}
+.ckrow .done{display:flex;align-items:center;justify-content:center;width:44px;height:44px;cursor:pointer}
+.ckrow .done input{-webkit-appearance:none;appearance:none;box-sizing:border-box;width:26px;height:26px;margin:0;border:2px solid #f2f2f2;border-radius:0;background:#000;cursor:pointer}
+.ckrow .done input:checked{background:#f2f2f2 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='%23000' stroke-width='3'/%3E%3C/svg%3E") center/18px 18px no-repeat}
+.ckrow .done input:focus-visible{outline:3px solid #f2f2f2;outline-offset:3px}
+@media (forced-colors:active){.ckrow .done input{-webkit-appearance:auto;appearance:auto}}
+.ckrow .rest{min-width:0}
+.ckrow.isdone .lblin textarea{text-decoration:line-through}
+.lblin textarea{min-height:48px;resize:none;overflow:hidden;line-height:1.4}
+.ckrow .sub{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:8px 0 4px}
+.ckrow .rm{margin-top:8px}
+.gcalw{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:8px}.gcalw[hidden]{display:none}
+.gcalw .hint{margin:0;flex:1 1 160px}
+.icsw{margin-top:12px}.icsw .btn{width:100%}.icsw .hint{margin:6px 0 0}
+a.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;box-sizing:border-box}
+input[type=datetime-local]{font-family:var(--mono);font-size:16px;border:0;border-bottom:2px solid var(--edge);border-left:2px solid var(--edge);background:#000;color:var(--ink);width:100%}
+.hide-due-dates .due-date-field{display:none!important}
+.prnp{border:1px solid #6e6e6e;padding:8px 10px 10px;margin:0 0 8px;display:flex;flex-wrap:wrap;gap:8px}
+.prnp legend{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:0 4px}
+#prnWhat{margin:0 0 12px}
+#dImg img{display:block;width:100%;height:auto;max-height:50vh;object-fit:contain;object-position:top;border:1px solid var(--ink);background:#000;margin:0 0 8px}
+body.driving .tabs,body.driving .shbtn,body.driving #pSbx,body.driving #pCon,body.driving #pAct{display:none!important}
+/* 4x6 label (print profile B). Also used off-screen to measure before printing, so rows that don't fit become "+ N more". */
+#print.measure{display:block!important;position:absolute;left:-10000px;top:0;visibility:hidden}
+#print .l6{box-sizing:border-box;width:3.7in;height:5.7in;border:2px solid #000;overflow:hidden;padding:.18in;display:flex;flex-direction:column;background:#fff;color:#000;font:10pt/1.25 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;break-after:page;page-break-after:always;break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#print .l6:last-child{break-after:auto;page-break-after:auto}
+#print .l6 .lk{font-size:9pt;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:none}
+#print .l6 .lt{font-size:16pt;font-weight:700;line-height:1.15;text-transform:uppercase;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:none;margin:2pt 0 0}
+#print .l6 .lm{font-size:9pt;margin:2pt 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:none}
+#print .l6 .lr{border-top:1.5pt solid #000;margin:4pt 0;flex:none}
+#print .l6 .rows{flex:1 1 auto;min-height:0;overflow:hidden}
+#print .l6 .rw{display:grid;grid-template-columns:10pt minmax(0,1fr) 1in;column-gap:6pt;align-items:start;margin:0 0 3pt}
+#print .l6 .rw.nb{grid-template-columns:minmax(0,1fr)}
+#print .l6 .bx{box-sizing:border-box;width:10pt;height:10pt;border:1.5pt solid #000;margin-top:1pt}
+#print .l6 .bx.on{background:#000!important}
+#print .l6 .it{min-width:0;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#print .l6 .pr{min-width:0;text-align:right;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#print .l6 .more{font-weight:700;margin-top:2pt}
+@media print{.tabs,.shbtn,.secbar,.tabtools,#pSbx,#pCon,#pAct{display:none!important}
+ #print .ckl{border:2px solid #000;padding:6pt 8pt;margin:0 0 12pt;break-inside:avoid;page-break-inside:avoid}
+ #print .ckl h3{font:bold 12pt Georgia,serif;margin:0 0 6pt}
+ #print .bxc{width:.45in;text-align:center;font-family:monospace}
+ #print table.ckh{margin:0 0 12pt}
+ body.prn-l6 #print{padding:0;margin:0}
+ body.prn-l6 #print .l6,body.prn-l6 #print .l6 *{color:#000!important;box-shadow:none!important;text-shadow:none!important}}
 </style>
 </head>
-<body>
+<body data-tab="sum">
 <header>
  <h1><span class="lbttl"><span class="lbp" aria-hidden="true">&gt; </span><span id="ttl" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0">Action Summation Sheet</span><span class="lbcur" aria-hidden="true">_</span></span><span style="white-space:nowrap;flex:none"><button id="bMus" type="button" class="muted" aria-label="Play music"><svg class="i-on" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path class="eq" d="M12 12v-2M15 14v-6M18 11v-1" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg><svg class="i-off" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path d="M12 7l6 6M18 7l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button> <button id="bList" aria-label="Saved summations">☰ Saved</button> <button id="bExport">Export</button></span></h1>
- <div class="qq" id="qq" role="progressbar" aria-label="Answered questions" aria-valuemin="0"><div class="cells" id="qqc" aria-hidden="true"></div><div class="leapl" aria-hidden="true">[ NEW QUALITY ]</div></div><div class="vh" id="qqlive" aria-live="polite" aria-atomic="true"></div><div class="sbxrow"><div class="progtxt" id="ptxt"></div><button id="bSbx" type="button">Sandbox</button></div>
+ <div class="qq" id="qq" role="progressbar" aria-label="Answered questions" aria-valuemin="0"><div class="cells" id="qqc" aria-hidden="true"></div><div class="leapl" aria-hidden="true">[ NEW QUALITY ]</div></div><div class="vh" id="qqlive" aria-live="polite" aria-atomic="true"></div><div class="progtxt" id="ptxt"></div>
 </header>
-<main id="main"></main>
+<main id="app"><div class="tabs" role="tablist" aria-label="Sheets"><button type="button" role="tab" id="tab-sum" aria-controls="main" aria-selected="true">Summation</button><button type="button" role="tab" id="tab-sbx" aria-controls="pSbx" aria-selected="false" tabindex="-1">Sandbox</button><button type="button" role="tab" id="tab-con" aria-controls="pCon" aria-selected="false" tabindex="-1">Contingent</button><button type="button" role="tab" id="tab-act" aria-controls="pAct" aria-selected="false" tabindex="-1">Action</button></div><div id="main" role="tabpanel" aria-labelledby="tab-sum"></div><section id="pSbx" role="tabpanel" aria-labelledby="tab-sbx" hidden><div class="tabtools"><button type="button" class="shbtn" data-sh="sbx" aria-label="Share image of the sandbox">Share image</button></div><iframe id="sbxF" title="Sandbox dialectics"></iframe></section><section id="pCon" class="ckp" role="tabpanel" aria-labelledby="tab-con" hidden></section><section id="pAct" class="ckp" role="tabpanel" aria-labelledby="tab-act" hidden></section></main>
 <nav class="bar"><button class="btn" id="bCollapse">Collapse all</button><button class="btn pri" id="bNext">Next section ↓</button></nav>
 <div id="print"></div>
 <button id="upd" type="button">New version ready. Tap to reload.</button>
-<div id="sbx" role="dialog" aria-modal="true" aria-labelledby="sbxH" hidden><div class="sbxbar"><button id="sbxBack" type="button" aria-label="Back to the sheet">&lt; Back</button><h2 id="sbxH">Sandbox</h2></div><iframe id="sbxF" title="Sandbox dialectics"></iframe></div>
 <div id="drive" role="dialog" aria-modal="true" aria-label="Driving mode"><div class="dsec" id="dSec"></div><div class="dq" id="dQ" tabindex="-1" aria-live="polite"></div><div class="dst" id="dSt" aria-live="polite"></div><div class="dheard" id="dHeard"></div>
 <div class="drow"><button type="button" class="go" id="dTap" hidden>Tap to keep going</button></div>
 <div class="drow"><button type="button" id="dRep">Repeat</button><button type="button" id="dSkip">Skip</button></div>
@@ -329,11 +386,15 @@ body.sbxopen{overflow:hidden}
 <dialog id="dList"><div class="dh">Saved summations <button class="btn sm" onclick="dList.close()">Close</button></div>
 <div class="dbody"><button class="btn pri" style="width:100%;margin-bottom:12px" id="bNew">+ New summation</button><button type="button" class="btn sm" id="bSort" style="width:100%;margin:-4px 0 12px"></button><div class="seg2" role="group" aria-label="View"><button type="button" id="vList" aria-pressed="true">List</button><button type="button" id="vSpiral" aria-pressed="false">Spiral</button></div><div id="spiralV" class="spv" hidden></div><div id="list"></div></div></dialog>
 
+<dialog id="dImg" aria-labelledby="dImgH"><div class="dh"><span id="dImgH">Image</span> <button class="btn sm" id="iClose" type="button">Close</button></div>
+<div class="dbody"><img id="iPrev" alt="Preview of the exported image"><p class="hint">On iPhone: tap Share image, or long-press the picture and choose Save to Photos.</p><div class="grid2"><button class="btn pri" id="iShare" type="button" hidden>📤 Share image</button><a class="btn" id="iDl" href="#" download="infographic.png">⬇ Download PNG</a></div></div></dialog>
+
 <dialog id="dExp"><div class="dh">Export / Share <button class="btn sm" onclick="dExp.close()">Close</button></div>
-<div class="dbody"><div class="grid2">
+<div class="dbody"><fieldset class="prnp"><legend>Print size</legend><label class="chip"><input type="radio" name="prnp" value="letter"><span>Letter 8.5×11</span></label><label class="chip"><input type="radio" name="prnp" value="l6"><span>4×6 label</span></label></fieldset><p class="hint" id="prnWhat"></p><div class="grid2">
 <button class="btn pri" id="ePrint">🖨 Print / PDF</button><button class="btn" id="eShare">📤 Share text</button>
 <button class="btn" id="eCopy">📋 Copy text</button><button class="btn" id="eMd">⬇ Markdown</button>
 <button class="btn" id="eJson">⬇ JSON</button><button class="btn" id="eImp">⬆ Import JSON</button></div>
+<button class="btn" id="eInfo" type="button" style="width:100%;margin-top:8px">🖼 Infographic image (all tabs)</button>
 <p class="hint" style="margin-top:12px">Print/PDF: on iPhone, tap Print, then pinch out on the preview (or tap Share → Save to Files) to save as PDF.</p>
 <input type="file" id="fImp" accept="application/json,.json" hidden></div></dialog>
 
@@ -525,13 +586,13 @@ let st;function save(){clearTimeout(st);st=setTimeout(()=>{persist();$("#savedtx
 function render(){
  const m=$("#main");m.innerHTML="";const d=D();
  if(!SR)m.insertAdjacentHTML("beforeend",`<div class="note">🎤 Voice input buttons aren't available in this browser. Tap a field and use the microphone key on the iPhone keyboard to dictate instead.</div>`);
- m.insertAdjacentHTML("beforeend",`<div class="saved" id="savedtxt">Autosaves on this device</div>`);
+ m.insertAdjacentHTML("beforeend",`<div class="saved" id="savedtxt">Autosaves on this device</div><div class="tabtools"><button type="button" class="shbtn" data-sh="sum" aria-label="Share image of the summation">Share image</button></div>`);
  if(SR&&window.speechSynthesis){const b=document.createElement("button");b.type="button";b.className="btn drivebtn";b.innerHTML=DRV_SVG+"<span>Driving mode</span>";b.onclick=startDrive;m.appendChild(b)}
- if(SR)m.insertAdjacentHTML("beforeend",`<p class="hint" style="text-align:center;margin:-4px 0 12px">Voice features use your phone's built-in speech recognition, which may send audio to Apple to turn it into text. This app itself sends nothing anywhere. <a class="plink" href="privacy.html">Privacy</a></p>`);
+ if(SR)m.insertAdjacentHTML("beforeend",`<p class="hint" style="text-align:center;margin:-4px 0 12px">Voice features use your phone's built-in speech recognition, which may send audio to Apple to turn it into text. This app itself sends nothing anywhere unless you tap an Add to Google Calendar link. <a class="plink" href="privacy.html">Privacy</a></p>`);
  else m.insertAdjacentHTML("beforeend",`<p class="hint plinkp"><a class="plink" href="privacy.html">Privacy</a></p>`);
  S.forEach((sec,si)=>{
   const det=document.createElement("details");det.className="sec";det.id="s"+si;if(si===0)det.open=true;
-  det.innerHTML=`<summary><span>${si+1}. ${esc(sec.t)}</span>${sec.report?"":`<span class="badge" id="b${si}"></span>`}</summary><div class="body"></div>`;
+  det.innerHTML=`<summary><span>${si+1}. ${esc(sec.t)}</span>${sec.report?"":`<span class="badge" id="b${si}"></span>`}</summary><div class="body">${sec.report?"":`<div class="secbar"><button type="button" class="shbtn" data-sh="sec:${si}" aria-label="Share image of ${esc(sec.t)}">Share image</button></div>`}</div>`;
   const body=det.querySelector(".body");
   sec.f.forEach(f=>{const w=document.createElement("div");w.className="f";
    const lab=`<span class="lbl">${esc(f.l)}</span>`+(f.h?`<span class="hint">${esc(f.h)}</span>`:"");
@@ -563,7 +624,7 @@ function render(){
      $("#rShare").onclick=async()=>{const t=reportText();if(navigator.share){try{await navigator.share({title:D().name||"Action Summation",text:t})}catch(e){}}else{const ok=await copyText(t);toast(ok?"Sharing not supported — copied instead":"Sharing not supported")}};updateReport()},0)}
    body.appendChild(w);if(f.k==="pc_sa")body.appendChild(mkBal())});
   // capitalist role markers right after their text fields
-  if(si===1){[["nonmono",1],["mono",2]].forEach(([id,idx])=>{const fld=body.children[idx];const v=D().classes;const c=document.createElement("div");c.className="chips";c.style.marginTop="8px";c.setAttribute("role","radiogroup");c.setAttribute("aria-label",(id==="mono"?"Monopoly":"Non-monopoly")+" capitalists role");["Primary","Secondary"].forEach(s=>c.appendChild(chip("radio",id+"role",s,v[id].role===s,x=>{v[id].role=x;set("classes",v)})));fld.appendChild(c)})}
+  if(si===1){[["nonmono",1],["mono",2]].forEach(([id,idx])=>{const fld=body.children[idx+1];const v=D().classes;const c=document.createElement("div");c.className="chips";c.style.marginTop="8px";c.setAttribute("role","radiogroup");c.setAttribute("aria-label",(id==="mono"?"Monopoly":"Non-monopoly")+" capitalists role");["Primary","Secondary"].forEach(s=>c.appendChild(chip("radio",id+"role",s,v[id].role===s,x=>{v[id].role=x;set("classes",v)})));fld.appendChild(c)})}
   det.addEventListener("toggle",()=>{if(!det.open)stopRec();syncCollapse()});
   m.appendChild(det)});
  $("#ttl").textContent=d.name||"Action Summation Sheet";progress()}
@@ -583,14 +644,14 @@ function drawList(){const L=$("#list");L.innerHTML="";const sb=$("#bSort");if(sb
  Object.values(db).sort(SORT==="date"?(a,b)=>String(b.d.date||"").localeCompare(String(a.d.date||""))||b.updated-a.updated:(a,b)=>b.updated-a.updated).forEach(s=>{const it=document.createElement("div");it.className="item"+(s.id===cur?" cur":"");
  it.innerHTML=`<div class="t">${esc(s.d.name||"Untitled action")}</div><div class="m">${esc(whenLine(s.d)||s.d.when||"")} · edited ${new Date(s.updated).toLocaleString()}</div><div class="a"><button class="btn sm pri">Open</button><button class="btn sm">Duplicate</button><button class="btn sm danger">Delete</button></div>`;
  const [o,du,de]=it.querySelectorAll("button");
- o.onclick=()=>{stopRec();cur=s.id;persist();render();dList.close();scrollTo(0,0)};
+ o.onclick=()=>{stopRec();cur=s.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0)};
  du.onclick=()=>{const c=JSON.parse(JSON.stringify(s));c.id=uid();c.created=c.updated=Date.now();c.d.name=(c.d.name||"Untitled action")+" (copy)";db[c.id]=c;persist();drawList();toast("Duplicated")};
  de.onclick=()=>{if(!confirm(`Delete "${s.d.name||"Untitled action"}"? This can't be undone.`))return;delete db[s.id];if(cur===s.id){const r=Object.values(db)[0];if(r)cur=r.id;else{const b=blank();db[b.id]=b;cur=b.id}render()}persist();drawList()};
  L.appendChild(it)})}
 $("#bList").onclick=()=>{stopRec();drawList();dList.showModal();spShow()};
 $("#vList").onclick=()=>{spView="list";spShow()};$("#vSpiral").onclick=()=>{spView="spiral";spShow()};
 dList.addEventListener("close",spTeardown);
-$("#bNew").onclick=()=>{const b=blank();db[b.id]=b;cur=b.id;persist();render();dList.close();scrollTo(0,0)};
+$("#bNew").onclick=()=>{const b=blank();db[b.id]=b;cur=b.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0)};
 
 /* ---------- export ---------- */
 function ansText(f,d,md){const v=d[f.k];if(f.ty==="date")return fmtDate(v);if(f.ty==="time")return fmtTime(v);if(f.ty==="legacy")return v||"";
@@ -604,7 +665,7 @@ function toText(md){const d=D();let o=md?`# Action Summation: ${d.name||"Untitle
   let a=ansText(f,d,md);if(md)a=a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");if(f.k==="nonmono"||f.k==="mono")a+=capRole(f.k);o+=md?`\n**${f.l}**${f.h?" _"+f.h+"_":""}\n\n${a||"—"}\n`:`\n${f.l}\n${a||"—"}\n`;if(f.k==="pc_sa"||f.k==="sc_sa"){let bl=balLine(d,f.k.slice(0,2));if(bl){if(md)bl=bl.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/([\\`*_\[\]])/g,"\\$1");o+=`\n${bl}\n`}}})});return o}
 function dl(name,data,type){const b=new Blob([data],{type});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
 const fname=()=>(D().name||"summation").replace(/[^\w-]+/g,"_").slice(0,40);
-$("#bExport").onclick=()=>{stopRec();dExp.showModal()};
+$("#bExport").onclick=()=>{stopRec();prnSync();dExp.showModal()};
 $("#eCopy").onclick=async()=>toast(await copyText(toText())?"Copied":"Copy failed");
 $("#eShare").onclick=async()=>{const t=toText();if(navigator.share){try{await navigator.share({title:D().name||"Action Summation",text:t})}catch(e){}}else{try{await navigator.clipboard.writeText(t);toast("Sharing not supported — copied instead")}catch(e){toast("Sharing not supported")}}};
 $("#eMd").onclick=()=>dl(fname()+".md",toText(true),"text/markdown");
@@ -629,7 +690,7 @@ async function copyText(t){try{if(navigator.clipboard&&window.isSecureContext){a
  const ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.cssText="position:fixed;top:0;left:0;opacity:0;font-size:16px";document.body.appendChild(ta);
  const r=document.createRange();r.selectNodeContents(ta);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);ta.setSelectionRange(0,t.length);let ok=false;try{ok=document.execCommand("copy")}catch(e){}ta.remove();sel.removeAllRanges();return ok}
 function box(on){return on?"☒":"☐"}
-function buildPrint(){const d=D(),P=x=>`<div class="pa${x.l?" l":""}">${esc(x.v)}</div>`;let h="";
+function buildPrintSum(){const d=D(),P=x=>`<div class="pa${x.l?" l":""}">${esc(x.v)}</div>`;let h="";
  const q=(f,big)=>`<div class="pq"><b>${esc(f.l)}</b>${f.h?`<span class="h">${esc(f.h)}</span>`:""}${P({v:ansText(f,d)+(f.k==="nonmono"||f.k==="mono"?capRole(f.k):""),l:big})}</div>`;
  const F=k=>S.flatMap(s=>s.f).find(f=>f.k===k);
  const radio=f=>`<div class="pq"><b>${esc(f.l)}</b>${f.o.map(o=>`${box(d[f.k]===o)} ${esc(o)}`).join(" &nbsp; ")}</div>`;
@@ -816,20 +877,244 @@ addEventListener("beforeprint",()=>musPause("print"));addEventListener("afterpri
 try{const mqp=matchMedia("print"),h=e=>e.matches?musPause("print"):musResume("print");mqp.addEventListener?mqp.addEventListener("change",h):mqp.addListener(h)}catch(e){}   // Safari: print media query
 musUi();
 
-/* ---------- SANDBOX (patch_v8) ---------- */
-// Full-screen overlay holding sandbox.html (same origin). The rest of the page is inert while it is open; focus moves
-// into the sandbox and back to [SANDBOX] on close. No music interaction: the app's existing pause rules are unchanged.
-const SBX={open:false,inert:[]};
-function sbxFocus(){try{const d=$("#sbxF").contentDocument,h=d&&d.querySelector("h1");if(h){h.setAttribute("tabindex","-1");h.style.outline="none";h.style.boxShadow="none";h.focus()}else $("#sbxBack").focus()}catch(e){$("#sbxBack").focus()}}
-function sbxKeys(){try{const w=$("#sbxF").contentWindow;if(w.__sbxKeys)return;w.__sbxKeys=1;w.addEventListener("keydown",e=>{if(e.key==="Escape"&&!w.document.querySelector("dialog[open]")){e.preventDefault();sbxClose()}})}catch(e){}}
-function sbxOpen(){if(SBX.open||document.body.classList.contains("driving"))return;stopRec();SBX.open=true;const o=$("#sbx"),f=$("#sbxF");
- SBX.inert=[...document.body.children].filter(x=>x!==o&&x.tagName!=="SCRIPT"&&!x.inert);SBX.inert.forEach(x=>{x.inert=true;x.setAttribute("aria-hidden","true")});
- o.hidden=false;document.body.classList.add("sbxopen");
- if(!f.getAttribute("src")){f.onload=()=>{sbxKeys();if(SBX.open)sbxFocus()};f.src="sandbox.html"}else{sbxKeys();sbxFocus()}}
-function sbxClose(){if(!SBX.open)return;SBX.open=false;$("#sbx").hidden=true;document.body.classList.remove("sbxopen");
- SBX.inert.forEach(x=>{x.inert=false;x.removeAttribute("aria-hidden")});SBX.inert=[];$("#bSbx").focus()}
-$("#bSbx").onclick=sbxOpen;$("#sbxBack").onclick=sbxClose;
-document.addEventListener("keydown",e=>{if(SBX.open&&e.key==="Escape"){e.preventDefault();sbxClose()}});
+/* ---------- V9 (patch_v9): tabs, checklists, calendar, image export, print profiles ---------- */
+// ONE central state object, ST: ST.sum is the open summation (db[cur].d, saved under summpub.v1), ST.sandbox mirrors
+// summpub.sandbox (written by sandbox.html in the Sandbox tab), ST.con / ST.act are the checklists (summpub.contingent /
+// summpub.action). The UI renders from ST and every export (.ics, Google link, images, print) reads ST, never the DOM.
+const rnd=n=>{const a=new Uint8Array(n);crypto.getRandomValues(a);return[...a].map(x=>x.toString(16).padStart(2,"0")).join("")};
+const CKDEF={
+ con:{key:"summpub.contingent",name:"Contingent",sub:"For a contingent joining someone else's event.",file:"contingent.png",titleK:"event",metaK:["timeloc"],locK:"timeloc",
+  head:[["event","Name of event"],["timeloc","Time and location"],["org","Organization"]],
+  pre:["Send emails + texts to members (general meeting + sign-ups)","Flyering","Pre-write article","Write and send media advisory","Post to social media"],
+  mat:["Zip ties","Cordage/twine, scissors","Fliers","Newspapers / literature","Signs","Banner","Marshal vests","Chant lists","Megaphone / sound system","Table","Water/coffee/tea","Wagon/cooler"],
+  roles:["MC/chant lead","Speakers","Table","Press spokesperson","Police liaison","Marshals","Holding banner","Photographer","Video","Live stream"]},
+ act:{key:"summpub.action",name:"Action",sub:"Rally, protest, march, demonstration we run.",file:"action.png",titleK:"title",metaK:["time","loc"],locK:"loc",
+  head:[["title","Event title"],["time","Time"],["loc","Location"],["slogans","Slogans",1],["org","Organization"]],
+  pre:["Book the space / venue","Send emails + texts to members","Reach out to other groups","Create flyers","Print flyers","Flyering","Create chant lists","Pre-write article","Write and send media advisory","Post to social media"],
+  mat:["Sign-up sheets","Clipboards","Flyers","Newspapers / literature","Signs","Banner","Marshal vests","Chant lists","Speaker and megaphone","Table","Water","Wagon/cooler"],
+  roles:["MC","Speakers","Table/cart","Press spokesperson","Tactical lead","Marshals","Holding banner","Photographer","Videographer"]}};
+const CKSEC=[["pre","Pre-event actions","Action","+ Add action"],["mat","Materials","Material","+ Add material"],["roles","Roles","Role","+ Add role"]];
+const CKF={pre:["who","due"],mat:["who"],roles:["name","mat"]};
+const DUE_RX=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+const ckNew=(s,l)=>{const r={id:"r"+rnd(4),l:l||"",done:false};CKF[s].forEach(k=>r[k]="");return r};
+function ckBlank(t){const o={v:1,due:true,head:{}};CKSEC.forEach(([s])=>o[s]=CKDEF[t][s].map(l=>ckNew(s,l)));return o}
+function ckClean(t,j){if(!isO(j))return ckBlank(t);const b=ckBlank(t),o={v:1,due:j.due!==false,head:{}};
+ CKDEF[t].head.forEach(([k])=>{if(isO(j.head)&&typeof j.head[k]==="string")o.head[k]=j.head[k]});
+ CKSEC.forEach(([s])=>{o[s]=Array.isArray(j[s])?j[s].filter(isO).map(r=>{const x={id:typeof r.id==="string"&&r.id?r.id.slice(0,24):"r"+rnd(4),l:str(r.l),done:!!r.done};
+  CKF[s].forEach(k=>x[k]=str(r[k]));if("due"in x){x.due=x.due.slice(0,16);if(!DUE_RX.test(x.due))x.due=""}return x}):b[s]});return o}
+function ckLoad(t){let j=null;try{j=JSON.parse(localStorage.getItem(CKDEF[t].key))}catch(e){}return ckClean(t,j)}
+function sbxRead(){try{const s=JSON.parse(localStorage.getItem("summpub.sandbox"));if(isO(s)&&Array.isArray(s.cards))return s}catch(e){}return{cards:[],links:[]}}
+const ST={get sum(){return D()},sandbox:sbxRead(),con:ckLoad("con"),act:ckLoad("act")};
+const ckTm={};
+function ckSave(t,now){clearTimeout(ckTm[t]);const w=()=>{try{localStorage.setItem(CKDEF[t].key,JSON.stringify(ST[t]))}catch(e){toast("Could not autosave")}};ckTm[t]=now?0:setTimeout(w,300);if(now)w()}
+function ckFlush(){["con","act"].forEach(t=>{if(ckTm[t]){ckSave(t,1)}})}
+addEventListener("pagehide",ckFlush);document.addEventListener("visibilitychange",()=>{if(document.hidden)ckFlush()});
+addEventListener("storage",e=>{if(e.key==="summpub.sandbox"||e.key===null)ST.sandbox=sbxRead()});
+const hv=x=>String(x??"").trim();
+const dueParts=v=>{const m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v||"");return m?m.slice(1).map(Number):null};
+const dueCaps=v=>{const p=dueParts(v);return p?`DUE ${MON[p[1]-1].toUpperCase()} ${p[2]} ${pad2(p[3])}:${pad2(p[4])}`:""};
+const fmtDue=v=>{const p=dueParts(v);return p?fmtDate(v.slice(0,10))+", "+fmtTime(v.slice(11,16)):""};
+// calendar times are FLOATING local times copied digit for digit from the datetime-local value (no time zone, no UTC shift);
+// +1 hour is plain calendar arithmetic done in UTC fields so the phone's zone and DST never change the digits.
+const icsDT=p=>""+p[0]+pad2(p[1])+pad2(p[2])+"T"+pad2(p[3])+pad2(p[4])+"00";
+const plusHour=p=>{const t=new Date(Date.UTC(p[0],p[1]-1,p[2],p[3],p[4]+60));return[t.getUTCFullYear(),t.getUTCMonth()+1,t.getUTCDate(),t.getUTCHours(),t.getUTCMinutes()]};
+// Google Calendar (opt-in): ONLY the task name and its date/time go into the link. It is a plain link, opened only when tapped.
+function gcalHref(r){const p=dueParts(r.due);if(!p)return"";return"https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(hv(r.l)||"Task")+"&dates="+icsDT(p)+"/"+icsDT(plusHour(p))}
+const icsEsc=s=>String(s).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r\n|\r|\n/g,"\\n");
+function icsFold(l){const E=new TextEncoder(),o=[];let c="",n=0;for(const ch of l){const b=E.encode(ch).length;if(n+b>(o.length?74:75)){o.push(c);c="";n=0}c+=ch;n+=b}o.push(c);return o.join("\r\n ")}
+// .ics: one VEVENT per task with a deadline, alarms 24 h and 1 h before. Random UID (no device or user data); no ORGANIZER,
+// ATTENDEE or URL; LOCATION only when the user typed one; DTSTAMP (required by the format) is the export time in UTC.
+function icsBuild(t){const c=ST[t],loc=hv(c.head[CKDEF[t].locK]),now=new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d+Z$/,"Z"),L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Action Summation Sheet//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH"];let n=0;
+ c.pre.forEach(r=>{const p=dueParts(r.due);if(!p)return;n++;const nm=hv(r.l)||"Task";
+  L.push("BEGIN:VEVENT","UID:"+rnd(16)+"@summation.invalid","DTSTAMP:"+now,"DTSTART:"+icsDT(p),"DTEND:"+icsDT(plusHour(p)),"SUMMARY:"+icsEsc(nm));if(loc)L.push("LOCATION:"+icsEsc(loc));
+  ["-PT24H","-PT1H"].forEach(tr=>L.push("BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+icsEsc(nm),"TRIGGER:"+tr,"END:VALARM"));L.push("END:VEVENT")});
+ L.push("END:VCALENDAR");return{n,text:L.map(icsFold).join("\r\n")+"\r\n"}}
+function icsGo(t){const r=icsBuild(t);if(!r.n)return toast("Add a deadline to a task first");dl("summation-tasks.ics",r.text,"text/calendar");toast(r.n+(r.n===1?" task":" tasks")+" in summation-tasks.ics")}
+
+/* ---- checklist UI (renders from ST) ---- */
+function ckField(lbl,val,area,on){const w=document.createElement("div");w.className="f";w.innerHTML=`<span class="lbl">${esc(lbl)}</span>`;const x=mkText(val,area,"",on,lbl);if(area)x.querySelector("textarea").style.minHeight="70px";w.appendChild(x);return w}
+function ckCard(t,s,title){const el=document.createElement("section");el.className="ckcard";el.setAttribute("aria-labelledby",`hc-${t}-${s}`);
+ el.innerHTML=`<div class="hd"><h3 id="hc-${t}-${s}">${esc(title)}</h3><button type="button" class="shbtn" data-sh="cks:${t}:${s}" aria-label="Share image of ${esc(title)}">Share image</button></div><div class="bd"></div>`;return{el,bd:el.querySelector(".bd")}}
+function ckRow(t,s,r,i,item){const c=ST[t],row=document.createElement("div"),n=`${item} ${i+1}`;let gUpd=()=>{};row.className="ckrow"+(r.done?" isdone":"");row.id=`${t}-${s}-${i}`;
+ const dl0=document.createElement("label");dl0.className="done";dl0.innerHTML=`<input type="checkbox">`;const cb=dl0.firstChild;cb.checked=!!r.done;
+ const del=document.createElement("button");
+ const nm=()=>{const x=hv(r.l)||n;cb.setAttribute("aria-label","Done: "+x);del.setAttribute("aria-label","Remove "+x)};
+ cb.onchange=()=>{r.done=cb.checked;row.classList.toggle("isdone",r.done);ckSave(t);ckMeter(t)};row.appendChild(dl0);
+ const rest=document.createElement("div");rest.className="rest";row.appendChild(rest);
+ const li=mkText(r.l,true,"",v=>{if(/\n/.test(v)){v=v.replace(/\s*\n\s*/g," ");lt.value=v}r.l=v;grow(lt);nm();gUpd();ckSave(t)},n+" name"),lt=li.querySelector("textarea");lt.rows=1;li.classList.add("lblin");rest.appendChild(li);
+ const sub=(lbl,el)=>{const d=document.createElement("div");d.innerHTML=`<div class="sub" aria-hidden="true">${esc(lbl)}</div>`;d.appendChild(el);rest.appendChild(d);return d};
+ if(s==="pre"||s==="mat")sub("Who is responsible",mkText(r.who,false,"",v=>{r.who=v;ckSave(t)},n+": who is responsible"));
+ if(s==="roles"){sub("Name of person(s)",mkText(r.name,false,"",v=>{r.name=v;ckSave(t)},n+": name of person(s)"));sub("Materials they need",mkText(r.mat,false,"",v=>{r.mat=v;ckSave(t)},n+": materials they need"))}
+ if(s==="pre"){const du=document.createElement("input");du.type="datetime-local";du.className="dt";du.value=r.due||"";du.setAttribute("aria-label",n+": deadline");sub("Deadline",du).className="due-date-field";
+  const g=document.createElement("div");g.className="gcalw due-date-field";g.innerHTML=`<a class="btn sm gcal" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Add to Google Calendar</a><span class="hint">Tapping this sends this task's name and date to Google.</span>`;rest.appendChild(g);const a=g.firstChild;
+  gUpd=()=>{const h=gcalHref(r);g.hidden=!h;if(h)a.href=h;else a.removeAttribute("href");a.setAttribute("aria-label",`Add ${hv(r.l)||n} to Google Calendar (sends its name and date to Google)`)};
+  du.oninput=du.onchange=()=>{const v=String(du.value||"").slice(0,16);r.due=DUE_RX.test(v)?v:"";gUpd();ckSave(t)};gUpd()}
+ del.type="button";del.className="btn sm danger rm";del.textContent="Remove";del.onclick=()=>{c[s].splice(i,1);ckSave(t);ckRender(t,`#add-${t}-${s}`);toast("Removed")};rest.appendChild(del);nm();
+ return row}
+// row names wrap instead of being cut off: one-line textareas that grow with the text (Enter becomes a space)
+function grow(e){if(!e||!e.isConnected)return;e.style.height="auto";e.style.height=Math.max(48,e.scrollHeight+2)+"px"}
+function ckCount(t){const c=ST[t];let d=0,n=0;CKSEC.forEach(([s])=>c[s].forEach(r=>{n++;if(r.done)d++}));return[d,n]}
+function ckMeter(t){const m=$("#m-"+t);if(!m)return;const[d,n]=ckCount(t),cl=m.querySelector(".cells");cl.innerHTML="";for(let i=0;i<n;i++){const x=document.createElement("i");if(i<d)x.className="on";cl.appendChild(x)}m.querySelector(".ct").textContent=`${d} / ${n} done`}
+function ckRender(t,focusSel){const P=$(t==="con"?"#pCon":"#pAct"),c=ST[t],M=CKDEF[t];stopRec();P.innerHTML="";P.classList.toggle("hide-due-dates",!c.due);
+ P.insertAdjacentHTML("beforeend",`<div class="ckhd"><h2>${M.name} checklist</h2><p class="hint">${esc(M.sub)} Autosaves on this device.</p></div>`);
+ const tools=document.createElement("div");tools.className="cktools";
+ const sw=chip("checkbox","due-"+t,"Due dates",c.due,on=>{c.due=on;ckSave(t);P.classList.toggle("hide-due-dates",!on)});const si=sw.querySelector("input");si.id="due-"+t;si.setAttribute("aria-label","Enable due dates");
+ tools.appendChild(sw);tools.insertAdjacentHTML("beforeend",`<button type="button" class="shbtn" data-sh="ck:${t}" aria-label="Share image of the ${M.name} checklist">Share image</button>`);P.appendChild(tools);
+ P.insertAdjacentHTML("beforeend",`<div class="ckmeter" id="m-${t}"><div class="cells" aria-hidden="true"></div><span class="ct"></span></div>`);
+ const hc=ckCard(t,"head","Event details");M.head.forEach(([k,l,area])=>hc.bd.appendChild(ckField(l,c.head[k],area,v=>{c.head[k]=v;ckSave(t)})));P.appendChild(hc.el);
+ CKSEC.forEach(([s,title,item,addL])=>{const cc=ckCard(t,s,title);c[s].forEach((r,i)=>cc.bd.appendChild(ckRow(t,s,r,i,item)));
+  const add=document.createElement("button");add.type="button";add.className="btn";add.id=`add-${t}-${s}`;add.textContent=addL;add.onclick=()=>{c[s].push(ckNew(s));ckSave(t);ckRender(t,`#${t}-${s}-${c[s].length-1} .lblin textarea`)};cc.bd.appendChild(add);
+  if(s==="pre"){cc.bd.insertAdjacentHTML("beforeend",`<div class="due-date-field icsw"><button type="button" class="btn" id="ics-${t}">📅 Download calendar (.ics)</button><span class="hint">Every task with a deadline, with reminders 24 hours and 1 hour before. Your calendar app opens the file; nothing is sent anywhere.</span></div>`);cc.bd.querySelector("#ics-"+t).onclick=()=>icsGo(t)}
+  P.appendChild(cc.el)});
+ ckMeter(t);P.querySelectorAll(".lblin textarea").forEach(grow);if(focusSel){const f=P.querySelector(focusSel);if(f)f.focus()}}
+
+/* ---- tabs ---- */
+const TABS=[["sum","main"],["sbx","pSbx"],["con","pCon"],["act","pAct"]],TAB={cur:"sum"};
+function tabGo(t,focus,keep){if(!TABS.some(x=>x[0]===t))t="sum";if(document.body.classList.contains("driving"))return;const was=TAB.cur;if(was!==t)stopRec();TAB.cur=t;document.body.dataset.tab=t;
+ TABS.forEach(([id,pid])=>{const b=$("#tab-"+id),on=id===t;b.setAttribute("aria-selected",on);b.tabIndex=on?0:-1;$("#"+pid).hidden=!on});
+ if(!keep){try{localStorage.setItem("summpub.tab",t)}catch(e){}}
+ if(t==="sbx")sbxLoad();if((t==="con"||t==="act")&&(was!==t||!$(t==="con"?"#pCon":"#pAct").firstChild))ckRender(t);
+ if(was!==t&&scrollY>0)scrollTo(0,0);if(focus)$("#tab-"+t).focus()}
+function tabInit(){const tl=$(".tabs");tl.addEventListener("click",e=>{const b=e.target.closest("[role=tab]");if(b)tabGo(b.id.slice(4))});
+ tl.addEventListener("keydown",e=>{const ids=TABS.map(x=>x[0]),i=ids.indexOf(TAB.cur);let j=null;
+  if(e.key==="ArrowRight"||e.key==="ArrowDown")j=(i+1)%4;else if(e.key==="ArrowLeft"||e.key==="ArrowUp")j=(i+3)%4;else if(e.key==="Home")j=0;else if(e.key==="End")j=3;if(j!=null){e.preventDefault();tabGo(ids[j],true)}});
+ let t=null;try{t=localStorage.getItem("summpub.tab")}catch(e){}tabGo(t||"sum",false,true)}
+// Sandbox tab: sandbox.html (same origin) inline in the tab; it keeps its own code, storage (summpub.sandbox) and behaviour.
+function sbxSize(){const f=$("#sbxF");if(!f||$("#pSbx").hidden)return;f.style.height=Math.max(420,innerHeight-$("header").offsetHeight-12)+"px"}
+function sbxLoad(){const f=$("#sbxF");if(!f.getAttribute("src"))f.src="sandbox.html";sbxSize()}
+addEventListener("resize",()=>{sbxSize();document.querySelectorAll(".ckp:not([hidden]) .lblin textarea").forEach(grow)});
+
+/* ---- models: what each section says, built from ST only ---- */
+const SUMHI=[["issue","Issue / contradiction"],["line","Political line"],["pc_pa","Principal aspect"],["tactype","Tactics"],["gains","Gains"],["mistakes","Mistakes"],["worked","What worked"],["steps","Next steps"],["lineshown","Our line was shown to be"]];
+const FLD=k=>S.flatMap(s=>s.f).find(f=>f.k===k);
+function sumAns(f,d){const v=d[f.k];let a="";if(f.ty==="date")a=fmtDate(v);else if(f.ty==="time")a=fmtTime(v);else if(f.ty==="text"||f.ty==="area")a=hv(v);else if(f.ty==="radio")a=v||"";
+ else if(f.ty==="checks")a=f.o.filter(([id])=>(v||{})[id]).map(([id,lb,t])=>lb.replace(/:$/,"")+(t&&hv((v||{})[id+"_t"])?": "+hv(v[id+"_t"]):"")).join("; ");
+ else if(f.ty==="classes")a=CLASSES.map(([id,nm])=>{const x=(v||{})[id]||{};if(!(x.strata&&x.strata.length)&&!x.role)return"";return nm+((x.strata||[]).length?" – "+x.strata.join(", "):"")+(x.role?" ("+x.role+")":"")}).filter(Boolean).join("; ");
+ else if(f.ty==="steps")a=(v||[]).filter(s=>hv(s.task)||hv(s.by)||s.due).map((s,i)=>`${i+1}. ${hv(s.task)||"(task)"}${byTxt(s)?" — by: "+byTxt(s):""}`).join("\n");
+ if((f.k==="nonmono"||f.k==="mono")&&capRole(f.k))a=(a||"—")+capRole(f.k);return a}
+function sumHigh(){const d=ST.sum,it=[];SUMHI.forEach(([k,l])=>{const a=sumAns(FLD(k),d);if(a)it.push({k:"kv",q:l,a,max:3})});return it.length?{ctx:"",title:"Summation highlights",items:it}:null}
+function sumSec(si){const d=ST.sum,sec=S[si],it=[];sec.f.forEach(f=>{if(!f.k||f.ty==="legacy")return;const a=sumAns(f,d);if(a)it.push({k:"kv",q:f.l.replace(/:$/,""),a,max:8});if(f.k==="pc_sa"||f.k==="sc_sa"){const b=balLine(d,f.k.slice(0,2));if(b)it.push({k:"txt",s:b,m:1})}});
+ return{ctx:"Summation",title:sec.t,items:it.length?it:[{k:"txt",s:"No answers yet.",m:1}]}}
+const ckRowHas=(s,r)=>r.done||CKF[s].some(k=>hv(r[k]));
+function ckUsed(t){const c=ST[t];return CKDEF[t].head.some(([k])=>hv(c.head[k]))||CKSEC.some(([s])=>c[s].some(r=>ckRowHas(s,r)))}
+function ckItems(t,s){const c=ST[t];return c[s].map(r=>({k:"row",done:r.done,s:hv(r.l)||"(untitled)",r:hv(s==="roles"?r.name:r.who),note:s==="pre"?(c.due?dueCaps(r.due):""):s==="roles"&&hv(r.mat)?"NEEDS: "+hv(r.mat):""}))}
+function ckHeadItems(t){const c=ST[t];return CKDEF[t].head.filter(([k])=>hv(c.head[k])).map(([k,l])=>({k:"kv",q:l,a:hv(c.head[k]),max:4}))}
+function ckStatus(t){const[d,n]=ckCount(t);return{ctx:CKDEF[t].name,title:"Pre-event",items:[...ckHeadItems(t),{k:"meter",d,n},...ckItems(t,"pre")]}}
+function ckSecModel(t,s,skip){const c=ST[t];if(s==="head"){const it=ckHeadItems(t);return{ctx:CKDEF[t].name,title:"Event details",items:it.length?it:[{k:"txt",s:"No details yet.",m:1}]}}
+ if(skip&&!c[s].some(r=>ckRowHas(s,r)))return null;const T=CKSEC.find(x=>x[0]===s)[1];return{ctx:CKDEF[t].name,title:T,items:ckItems(t,s)}}
+const SBT={contra:"Contradiction",slider:"Slider",qq:"Quantity→quality",spiral:"Spiral",note:"Note"};
+/* effective balance, mirroring sandbox.html derive(): set balance + secondary push (shared cap ±30), then linked pushes (40%), then leap flips */
+const sbxN=(v,a,b,d)=>{v=Math.round(Number(v));return isFinite(v)?Math.max(a,Math.min(b,v)):d},sbxCl=v=>Math.max(0,Math.min(100,v));
+function sbxSec(c){const r=(Array.isArray(c.sec)?c.sec:[]).reduce((t,q)=>t+(isO(q)?sbxN(q.inf,-30,30,0):0),0);return Math.max(-30,Math.min(30,r))}
+function sbxDerive(sb){const cs=(sb&&Array.isArray(sb.cards)?sb.cards:[]).filter(isO),ls=(sb&&Array.isArray(sb.links)?sb.links:[]).filter(isO),D={};
+ cs.forEach(c=>{if(typeof c.id!=="string")return;const d=D[c.id]={c};if(c.type==="contra")d.base=sbxCl(sbxN(c.w,0,100,50)+sbxSec(c));if(c.type==="slider")d.base=sbxN(c.w,0,100,50)});
+ const inn=id=>ls.filter(L=>L.to===id&&D[L.from]);
+ Object.values(D).forEach(d=>{if(d.base==null)return;d.eff0=sbxCl(d.base+inn(d.c.id).reduce((t,L)=>t+(L.kind==="push"&&D[L.from].base!=null?Math.round((D[L.from].base-50)*0.4):0),0))});
+ Object.values(D).forEach(d=>{const c=d.c;if(c.type!=="qq")return;const thr=sbxN(c.thr,1,9999,10),mx=Math.max(thr+Math.ceil(thr*0.25),thr+2),dr=inn(c.id).find(L=>L.kind==="drive"&&D[L.from].eff0!=null);d.leap=(dr?Math.round(D[dr.from].eff0/100*mx):sbxN(c.n,0,mx,0))>=thr});
+ Object.values(D).forEach(d=>{if(d.eff0==null)return;const f=inn(d.c.id).filter(L=>L.kind==="flip"&&D[L.from].leap).length;d.eff=f%2?100-d.eff0:d.eff0});return D}
+function sbxLines(c,E){const L=[],sl=c.type==="slider",A=hv(c.a)||(sl?"Force A":"Aspect A"),B=hv(c.b)||(sl?"Force B":"Aspect B");
+ let w=null;if(c.type==="contra"||sl){const e=typeof c.id==="string"&&(E||sbxDerive(ST.sandbox))[c.id];w=e&&e.eff!=null&&e.c===c?e.eff:sbxCl(sbxN(c.w,0,100,50)+(sl?0:sbxSec(c)))}
+ if(c.type==="contra"||sl){L.push(`${A} ${100-w} · ${B} ${w}`);L.push(w===50?"Balanced":(sl?"Stronger: ":"Principal: ")+(w>50?B:A));if(Array.isArray(c.sec)&&c.sec.length){const sp=sbxSec(c);L.push(`Secondary contradictions: ${c.sec.length}`);L.push(`Secondary push ${(sp>0?"+":"")+sp} / 30${Math.abs(sp)>=30?" (at limit)":""}`)}}
+ else if(c.type==="qq"){const n=+c.n||0,th=+c.thr||0;L.push(`${hv(c.what)||"Amount"}: ${n} of ${th} (nodal point)`);if(th&&n>=th)L.push("Leap: "+(hv(c.quality)||"new quality"))}
+ else if(c.type==="spiral"){const s=Array.isArray(c.stages)?c.stages:[];L.push(`${s.length} stage${s.length===1?"":"s"}`);s.forEach((x,k)=>{if(k>=s.length-3)L.push(`L${Math.floor(k/3)+1} · ${STAGE[k%3]}: ${hv(x&&x.t)}`)})}
+ else if(c.type==="note")hv(c.text).split(/\n/).map(hv).filter(Boolean).slice(0,4).forEach(l=>L.push(l));
+ return L}
+const sbxTitle=c=>hv(c.title)||SBT[c.type]||"Element";
+function sbxModel(){const cs=(ST.sandbox&&ST.sandbox.cards||[]).filter(isO);if(!cs.length)return null;const E=sbxDerive(ST.sandbox),it=[];cs.forEach(c=>{it.push({k:"txt",s:sbxTitle(c).toUpperCase(),b:1,max:2});sbxLines(c,E).forEach(l=>it.push({k:"txt",s:l,max:3}))});return{ctx:"",title:"Sandbox snapshot",items:it}}
+
+/* ---- image export: drawn by hand on a canvas (no libraries); PNG straight from toBlob; generic names; no date/device stamp ---- */
+const IMF='ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace',IK="#f2f2f2",IMU="#a6a6a6",LH=31;
+const imF=(px,b)=>(b?"700 ":"")+px+"px "+IMF;
+function imWrap(g,text,maxW){const out=[];String(text).split("\n").forEach(par=>{let line="";par.split(/(\s+)/).forEach(w=>{if(g.measureText(line+w).width>maxW&&line.trim()){out.push(line.trimEnd());line=w.trimStart()}else line+=w;
+ while(g.measureText(line).width>maxW){let k=line.length;while(k>1&&g.measureText(line.slice(0,k)).width>maxW)k--;out.push(line.slice(0,k));line=line.slice(k)}});out.push(line.trimEnd())});return out}
+function imFit(g,s,w){s=String(s);if(g.measureText(s).width<=w)return s;while(s.length>1&&g.measureText(s+"…").width>w)s=s.slice(0,-1);return s.trimEnd()+"…"}
+function imClip(g,L,max,w){if(L.length<=max)return L;const o=L.slice(0,max);o[max-1]=imFit(g,o[max-1]+" …",w);if(!/…$/.test(o[max-1]))o[max-1]+="…";return o}
+function imItems(g,items,w,dr,x,y){const y0=y;
+ for(const it of items){
+  if(it.k==="txt"){g.font=imF(22,it.b);const L=imClip(g,imWrap(g,it.s,w),it.max||6,w);if(dr){g.fillStyle=it.m?IMU:IK;L.forEach((l,i)=>g.fillText(l,x,y+23+i*LH))}y+=L.length*LH+(it.b?0:6)}
+  else if(it.k==="kv"){g.font=imF(18);const Q=imClip(g,imWrap(g,it.q.toUpperCase(),w),2,w);if(dr){g.fillStyle=IMU;Q.forEach((l,i)=>g.fillText(l,x,y+18+i*24))}y+=Q.length*24+4;
+   g.font=imF(22);const A=imClip(g,imWrap(g,it.a,w),it.max||4,w);if(dr){g.fillStyle=IK;A.forEach((l,i)=>g.fillText(l,x,y+23+i*LH))}y+=A.length*LH+14}
+  else if(it.k==="row"){g.font=imF(22);const rw=it.r?Math.min(g.measureText(it.r).width,w*.38):0,tw=w-32-(rw?rw+16:0),L=imClip(g,imWrap(g,it.s,tw),3,tw);
+   g.font=imF(18);const N=it.note?imClip(g,imWrap(g,it.note,w-32),2,w-32):[];
+   if(dr){if(it.done){g.fillStyle=IK;g.fillRect(x,y+6,20,20);g.strokeStyle="#000";g.lineWidth=3;g.beginPath();g.moveTo(x+4,y+16);g.lineTo(x+8.5,y+21);g.lineTo(x+16,y+10);g.stroke()}else{g.strokeStyle=IK;g.lineWidth=2;g.strokeRect(x+1,y+7,18,18)}
+    g.font=imF(22);g.fillStyle=IK;L.forEach((l,i)=>g.fillText(l,x+32,y+23+i*LH));if(rw){g.fillStyle=IMU;g.textAlign="right";g.fillText(imFit(g,it.r,rw),x+w,y+23);g.textAlign="left"}
+    g.font=imF(18);g.fillStyle=IMU;N.forEach((l,i)=>g.fillText(l,x+32,y+L.length*LH+16+i*24))}
+   y+=L.length*LH+N.length*24+8}
+  else if(it.k==="meter"){g.font=imF(18,1);const T=`${it.d} / ${it.n} DONE`,tw=g.measureText(T).width,av=w-tw-16,gap=4,cs=Math.min(18,Math.floor((av+gap)/Math.max(1,it.n))-gap);
+   if(dr){if(cs>=4){for(let i=0;i<it.n;i++){const cx=x+i*(cs+gap);if(i<it.d){g.fillStyle=IK;g.fillRect(cx,y+4,cs,18)}else{g.strokeStyle=IK;g.lineWidth=2;g.strokeRect(cx+1,y+5,cs-2,16)}}}
+    else{g.strokeStyle=IK;g.lineWidth=2;g.strokeRect(x+1,y+5,av-2,16);g.fillStyle=IK;g.fillRect(x,y+4,av*it.d/Math.max(1,it.n),18)}g.fillStyle=IK;g.fillText(T,x+w-tw,y+20)}
+   y+=38}}
+ return y-y0}
+function imFrame(g,x,y,w,h,cut){g.beginPath();g.moveTo(x+1,y+1);g.lineTo(x+w-1-cut,y+1);g.lineTo(x+w-1,y+1+cut);g.lineTo(x+w-1,y+h-1);g.lineTo(x+1,y+h-1);g.closePath();g.fillStyle="#000";g.fill();g.strokeStyle=IK;g.lineWidth=2;g.stroke()}
+function imCard(g,c,x,y,w,dr){const iw=w-48,h=24+36+imItems(g,c.items,iw,false,0,0)+16;
+ if(dr){imFrame(g,x,y,w,h,16);g.font=imF(18);g.fillStyle=IMU;g.fillText(imFit(g,c.label.toUpperCase(),iw-8),x+24,y+24+18);imItems(g,c.items,iw,true,x+24,y+24+36)}return h}
+function imMk(W,H){const dpr=H<=2400?2:4800/H,cv=document.createElement("canvas");cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);const g=cv.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);g.textBaseline="alphabetic";g.fillStyle="#000";g.fillRect(0,0,W,H);return{cv,g}}
+// shared header: "> ACTION SUMMATION_" label, big title (2 lines max), optional meta line, double rule. Returns the y below it.
+function imHead(g,X,CW,label,title,tpx,meta,dr){let y=72;g.font=imF(20);if(dr){g.fillStyle=IMU;g.fillText(imFit(g,label,CW),X,y+18)}y+=30;
+ g.font=imF(tpx,1);const lh=Math.round(tpx*1.2),TL=imClip(g,imWrap(g,title.toUpperCase(),CW),2,CW);if(dr){g.fillStyle=IK;TL.forEach((l,i)=>g.fillText(l,X,y+tpx+i*lh))}y+=TL.length*lh+8;
+ if(meta){g.font=imF(22);if(dr){g.fillStyle=IK;g.fillText(imFit(g,meta,CW),X,y+24)}y+=34}
+ y+=10;if(dr){g.fillStyle=IK;g.fillRect(X,y,CW,2);g.fillRect(X,y+6,CW,2)}return y+8}
+const FOOT="Made with Action Summation Sheet";
+function infTitle(){return hv(ST.sum.name)||hv(ST.act.head.title)||hv(ST.con.head.event)||"Action summation"}
+function infMeta(){const a=ST.act.head;return whenLine(ST.sum)||[a.time,a.loc].map(hv).filter(Boolean).join(" · ")||hv(ST.con.head.timeloc)}
+function imAllCards(){const o=[],s=sumHigh();if(s)o.push(s);["con","act"].forEach(t=>{if(ckUsed(t))o.push(ckStatus(t))});
+ ["roles","mat"].forEach(s=>["con","act"].forEach(t=>{if(ckUsed(t)){const c=ckSecModel(t,s,1);if(c)o.push(c)}}));const b=sbxModel();if(b)o.push(b);
+ o.forEach((c,i)=>c.label=`// ${pad2(i+1)} · ${c.ctx?c.ctx+" · ":""}${c.title}`);return o}
+function imInfographic(){const W=1200,X=48,CW=1104,COL=520,GUT=64,mg=document.createElement("canvas").getContext("2d"),T=infTitle(),M=infMeta();
+ let cards=imAllCards();if(!cards.length)cards=[{label:"// 01 · SUMMATION",items:[{k:"txt",s:"Nothing filled in yet.",m:1}]}];
+ const top=imHead(mg,X,CW,"> ACTION SUMMATION_",T,44,M,false)+24,col=[top,top],pos=[];
+ cards.forEach(c=>{const h=imCard(mg,c,0,0,COL,false),k=col[0]<=col[1]?0:1;pos.push([c,X+k*(COL+GUT),col[k]]);col[k]+=h+32});
+ const H=Math.max(col[0],col[1])-32+48+18+48,{cv,g}=imMk(W,H);imFrame(g,24,24,W-48,H-48,24);imHead(g,X,CW,"> ACTION SUMMATION_",T,44,M,true);
+ pos.forEach(([c,x,y])=>imCard(g,c,x,y,COL,true));g.font=imF(18);g.fillStyle=IMU;g.fillText(FOOT,X,H-48-4);return cv}
+function imSection(ctx,title,blocks){const W=1080,X=48,CW=984,mg=document.createElement("canvas").getContext("2d"),lab="> ACTION SUMMATION_"+(ctx?" // "+ctx.toUpperCase():"");
+ const top=imHead(mg,X,CW,lab,title,32,"",false)+20;let y=top;const hs=blocks.map(b=>{const h=(b.label?34:0)+imItems(mg,b.items,CW,false,0,0);return h});y+=hs.reduce((a,h)=>a+h+24,0);
+ const H=y+18+48+24,{cv,g}=imMk(W,H);imFrame(g,24,24,W-48,H-48,24);imHead(g,X,CW,lab,title,32,"",true);y=top;
+ blocks.forEach((b,i)=>{if(b.label){g.font=imF(18,1);g.fillStyle=IMU;g.fillText(imFit(g,b.label.toUpperCase(),CW),X,y+18);y+=34}imItems(g,b.items,CW,true,X,y);y+=hs[i]-(b.label?34:0)+24;
+  if(i<blocks.length-1){g.fillStyle="#6e6e6e";g.fillRect(X,y-14,CW,1)}});
+ g.font=imF(18);g.fillStyle=IMU;g.fillText(FOOT,X,H-48-4);return cv}
+function imBuild(w){ST.sandbox=sbxRead();const[a,t,s]=w.split(":");
+ if(a==="info")return{cv:imInfographic(),name:"infographic.png"};
+ if(a==="sec"){const m=sumSec(+t);return{cv:imSection("Summation",m.title,[{items:m.items}]),name:"section.png"}}
+ if(a==="sum"){const bl=[];S.forEach((sec,i)=>{if(sec.report)return;const m=sumSec(i);if(!(m.items.length===1&&m.items[0].m))bl.push({label:sec.t,items:m.items})});
+  return{cv:imSection("Summation",hv(ST.sum.name)||"Action summation",bl.length?bl:[{items:[{k:"txt",s:"No answers yet.",m:1}]}]),name:"summation.png"}}
+ if(a==="cks"){const m=ckSecModel(t,s,0);return{cv:imSection(m.ctx+" checklist",m.title,[{items:m.items}]),name:"section.png"}}
+ if(a==="ck"){const M=CKDEF[t],c=ST[t],[d,n]=ckCount(t),bl=[{label:"Event details",items:[...ckHeadItems(t),{k:"meter",d,n}]}];CKSEC.forEach(([x,T])=>bl.push({label:T,items:ckItems(t,x)}));
+  return{cv:imSection(M.name+" checklist",hv(c.head[M.titleK])||M.name+" checklist",bl),name:M.file}}
+ if(a==="sbx"){const m=sbxModel();return{cv:imSection("",m?"Sandbox":"Sandbox",[{items:m?m.items:[{k:"txt",s:"The sandbox is empty.",m:1}]}]),name:"sandbox.png"}}
+ throw new Error("unknown image "+w)}
+const IMG={url:null,file:null};
+async function shareImg(w){let r;try{r=imBuild(w)}catch(e){console.warn("image:",e);return toast("Image export failed")}
+ const blob=await new Promise(res=>{try{r.cv.toBlob(res,"image/png")}catch(e){res(null)}});if(!blob)return toast("Image export failed on this device");
+ if(IMG.url)URL.revokeObjectURL(IMG.url);IMG.url=URL.createObjectURL(blob);try{IMG.file=new File([blob],r.name,{type:"image/png"})}catch(e){IMG.file=null}
+ $("#iPrev").src=IMG.url;const a=$("#iDl");a.href=IMG.url;a.download=r.name;$("#dImgH").textContent="Image · "+r.name;
+ const can=!!(IMG.file&&navigator.share&&navigator.canShare&&navigator.canShare({files:[IMG.file]}));$("#iShare").hidden=!can;
+ if(dExp.open)dExp.close();dImg.showModal();(can?$("#iShare"):a).focus()}
+$("#iShare").onclick=async()=>{try{await navigator.share({files:[IMG.file]})}catch(e){}};
+$("#iClose").onclick=()=>dImg.close();
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".shbtn[data-sh]");if(b){e.preventDefault();stopRec();shareImg(b.dataset.sh)}});
+$("#eInfo").onclick=()=>shareImg("info");
+
+/* ---- print profiles: A = Letter, B = 4x6 thermal label (one section per label; overflow becomes "+ N more") ---- */
+const PRN={p:localStorage.getItem("summpub.print")==="l6"?"l6":"letter"};
+const TABN={sum:"Summation",sbx:"Sandbox",con:"Contingent checklist",act:"Action checklist"};
+function prnSync(){document.querySelectorAll("input[name=prnp]").forEach(i=>i.checked=i.value===PRN.p);
+ $("#prnWhat").textContent=`Print / PDF prints the ${TABN[TAB.cur]} tab${PRN.p==="l6"?" as 4×6 labels, one section per label":" on Letter pages"}. Share text, Copy, Markdown and JSON cover the summation sheet.`}
+document.querySelectorAll("input[name=prnp]").forEach(i=>i.addEventListener("change",()=>{if(i.checked){PRN.p=i.value;try{localStorage.setItem("summpub.print",PRN.p)}catch(e){}prnSync()}}));
+function prnPage(){let s=$("#pgsz");if(!s){s=document.createElement("style");s.id="pgsz";document.head.appendChild(s)}s.textContent=PRN.p==="l6"?"@media print{@page{size:4in 6in;margin:.15in}}":"";document.body.classList.toggle("prn-l6",PRN.p==="l6")}
+function lbl(kind,title,meta,rows){return`<div class="l6"><div class="lk">${esc(kind)}</div><div class="lt">${esc(title)}</div>${meta?`<div class="lm">${esc(meta)}</div>`:""}<div class="lr"></div><div class="rows">${rows.map(r=>r.box==null?`<div class="rw nb"><span class="it">${esc(r.s)}</span></div>`:`<div class="rw"><span class="bx${r.box?" on":""}"></span><span class="it">${esc(r.s)}</span><span class="pr">${esc(r.r||"")}</span></div>`).join("")}</div></div>`}
+function lblHTML(t){if(t==="con"||t==="act"){const c=ST[t],M=CKDEF[t],T=hv(c.head[M.titleK])||M.name+" checklist",me=M.metaK.map(k=>hv(c.head[k])).filter(Boolean).join(" · ");
+  return CKSEC.map(([s,title])=>lbl(M.name+" · "+title,T,me,c[s].map(r=>({box:!!r.done,s:(hv(r.l)||"(untitled)")+(s==="pre"&&c.due&&dueCaps(r.due)?" · "+dueCaps(r.due):"")+(s==="roles"&&hv(r.mat)?" · needs "+hv(r.mat):""),r:hv(s==="roles"?r.name:r.who)})))).join("")}
+ if(t==="sbx"){const cs=(ST.sandbox.cards||[]).filter(isO);if(!cs.length)return lbl("Sandbox","Sandbox","",[{s:"The sandbox is empty."}]);return cs.map(c=>lbl("Sandbox · "+(SBT[c.type]||""),sbxTitle(c),"",sbxLines(c).map(s=>({s})))).join("")}
+ const d=ST.sum,T=hv(d.name)||"Action summation",me=whenLine(d),out=[];
+ S.forEach((sec,i)=>{if(sec.report)return;const m=sumSec(i);if(m.items.length===1&&m.items[0].m)return;out.push(lbl("Summation · "+sec.t,T,me,m.items.map(x=>({s:x.k==="kv"?x.q+": "+x.a.replace(/\n/g," "):x.s}))))});
+ return out.join("")||lbl("Summation",T,me,[{s:"No answers yet."}])}
+function lblFit(){const P=$("#print");P.classList.add("measure");P.querySelectorAll(".l6").forEach(L=>{const R=L.querySelector(".rows"),rows=[...R.querySelectorAll(".rw")];if(R.scrollHeight<=R.clientHeight+1)return;
+ const mo=document.createElement("div");mo.className="more";R.appendChild(mo);let n=0;while(rows.length&&R.scrollHeight>R.clientHeight+1){rows.pop().remove();n++;mo.textContent=`+ ${n} more`}});P.classList.remove("measure")}
+function ckLetter(t){const c=ST[t],M=CKDEF[t];let h=`<div class="pp"><h2>${esc(M.name)} checklist</h2><table class="ckh">${M.head.map(([k,l])=>`<tr><th style="width:30%">${esc(l)}</th><td style="white-space:pre-wrap">${esc(c.head[k]||"")}</td></tr>`).join("")}</table>`;
+ CKSEC.forEach(([s,title,item])=>{const cols=s==="pre"?["Who is responsible"].concat(c.due?["Deadline"]:[]):s==="mat"?["Who is responsible"]:["Name of person(s)","Materials they need"];
+  h+=`<div class="ckl"><h3>${esc(title)}</h3><table><tr><th class="bxc">Done</th><th>${esc(item)}</th>${cols.map(x=>`<th>${esc(x)}</th>`).join("")}</tr>${c[s].map(r=>`<tr><td class="bxc">${box(r.done)}</td><td>${esc(r.l)}</td>${(s==="pre"?[r.who].concat(c.due?[fmtDue(r.due)]:[]):s==="mat"?[r.who]:[r.name,r.mat]).map(v=>`<td>${esc(v||"")}</td>`).join("")}</tr>`).join("")}</table></div>`});return h+"</div>"}
+function sbxLetter(){const cs=(ST.sandbox.cards||[]).filter(isO);return`<div class="pp"><h2>Sandbox</h2>${cs.length?cs.map(c=>`<div class="ckl"><h3>${esc(sbxTitle(c))}</h3>${sbxLines(c).map(l=>`<div>${esc(l)}</div>`).join("")}</div>`).join(""):"<p>The sandbox is empty.</p>"}</div>`}
+function buildPrint(){ST.sandbox=sbxRead();prnPage();const t=TAB.cur,P=$("#print");if(PRN.p==="l6"){P.innerHTML=lblHTML(t);lblFit()}else if(t==="sum")buildPrintSum();else P.innerHTML=t==="sbx"?sbxLetter():ckLetter(t)}
 
 /* ---------- DIALECTICS (patch_dialectics) ---------- */
 const SVGNS="http://www.w3.org/2000/svg",RMQ=matchMedia("(prefers-reduced-motion: reduce)");
@@ -919,7 +1204,7 @@ function spShow(){spTeardown();const V=$("#spiralV"),L=$("#list"),sb=$("#bSort")
  V.insertAdjacentHTML("beforeend",`<span class="lbl">All nodes</span><ol></ol>`);
  const ol=V.querySelector("ol");let sel=Math.max(0,N.length-1);
  N.forEach((n,i)=>{const li=document.createElement("li"),b=document.createElement("button");b.type="button";b.textContent=`L${Math.floor(i/3)+1} · ${STAGE[i%3]} — ${n.t} (${n.w})`;
-  b.onclick=()=>{if(n.id){stopRec();cur=n.id;persist();render();dList.close();scrollTo(0,0)}else{sel=i;if(SP){SP.draw();SP.announce()}}};li.appendChild(b);ol.appendChild(li)});
+  b.onclick=()=>{if(n.id){stopRec();cur=n.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0)}else{sel=i;if(SP){SP.draw();SP.announce()}}};li.appendChild(b);ol.appendChild(li)});
  const mark=()=>ol.querySelectorAll("button").forEach((b,i)=>b.setAttribute("aria-current",i===sel));mark();
  if(few)return;
  const cv=V.querySelector("canvas"),g=cv.getContext("2d"),stE=V.querySelector(".sst");let W=0,H=0,yaw=-0.5,pitch=0.32,auto=!RMQ.matches,lt=0;
@@ -995,7 +1280,7 @@ function spShow(){spTeardown();const V=$("#spiralV"),L=$("#list"),sb=$("#bSort")
  const tick=t=>{if(!SP)return;if(auto&&!document.hidden){yaw+=Math.min(50,t-(lt||t))*0.00025;draw()}lt=t;SP.raf=auto?requestAnimationFrame(tick):0};
  addEventListener("resize",size);if(window.ResizeObserver){SP.ro=new ResizeObserver(()=>size());SP.ro.observe(cv)}size();announce();if(auto)SP.raf=requestAnimationFrame(tick)}
 
-render();
+render();tabInit();
 if("serviceWorker" in navigator&&location.protocol!=="file:"){const ctl=navigator.serviceWorker.controller,had=!!ctl&&ctl.scriptURL===new URL("sw.js",location.href).href;let shown=false;
  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had&&!shown){shown=true;$("#upd").classList.add("on")}});
  navigator.serviceWorker.register("sw.js").then(r=>{document.addEventListener("visibilitychange",()=>{if(!document.hidden)r.update().catch(()=>{})})}).catch(()=>{})}

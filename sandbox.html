@@ -72,6 +72,8 @@ input[type=range]:disabled::-webkit-slider-thumb{border:1px dashed var(--mute);b
 .ends span:last-child{text-align:right}
 .state{font-size:14px;border-top:3px double var(--ink);margin-top:10px;padding-top:8px}
 .state b{text-transform:uppercase;letter-spacing:.04em}
+.secpush{font-weight:700;font-size:14px;letter-spacing:.04em;margin-top:8px;padding:4px 0;border-bottom:1px solid var(--ink)}
+.seclim{margin:6px 0 0;font-size:14px}
 .sec{border:2px solid var(--ink);border-left-width:6px;padding:4px 10px 10px;margin:10px 0;background:#000;min-width:0}
 .sec legend{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:0 6px;background:#000}
 .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
@@ -203,7 +205,26 @@ const STAGE=["Affirmation","Negation","Negation of the negation"];
 const TYPES={contra:"Contradiction",slider:"Slider",qq:"Quantity→quality",spiral:"Spiral",note:"Note"};
 const TYPELONG={contra:"Contradiction",slider:"Balance of two forces",qq:"Quantity into quality",spiral:"Negation of the negation spiral",note:"Note"};
 const blank=()=>({v:1,seq:0,cards:[],links:[]});
-function loadState(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.cards)&&Array.isArray(s.links))return Object.assign(blank(),s)}catch(e){}return blank()}
+function loadState(){let s=null;try{s=JSON.parse(localStorage.getItem(KEY))}catch(e){}return cleanState(s)}
+// v9: saved data is validated field by field, so a damaged or hand-edited save can never blank the sandbox or break the add
+// buttons: null/malformed cards and links are dropped, unknown types ignored, text coerced to strings, numbers clamped to the
+// ranges the controls allow (balance 0-100, secondary influence -30..+30, nodal point 1-9999, amount 0..scale), duplicate ids
+// replaced, links re-typed from the two element types, and the id counter moved past every id in use.
+function cleanState(s){const o=blank();if(!s||typeof s!=="object"||!Array.isArray(s.cards))return o;
+ const T=x=>typeof x==="string"?x:typeof x==="number"&&isFinite(x)?String(x):"",N=(x,a,b,d)=>{x=Math.round(Number(x));return isFinite(x)&&x===x?Math.max(a,Math.min(b,x)):d};
+ const ob=x=>x&&typeof x==="object"&&!Array.isArray(x),used=new Set(),ok=x=>typeof x==="string"&&/^[a-z][a-z0-9]{0,23}$/.test(x);
+ let seq=N(s.seq,0,1e9,0);const id=(x,p)=>{let v=ok(x)&&!used.has(x)?x:"";while(!v||used.has(v))v=p+(++seq).toString(36);used.add(v);return v};
+ s.cards.forEach(c=>{if(!ob(c)||!Object.prototype.hasOwnProperty.call(TYPES,c.type))return;const x={id:id(c.id,"c"),type:c.type,title:T(c.title)};
+  if(c.type==="contra"||c.type==="slider"){x.a=T(c.a);x.b=T(c.b);x.w=N(c.w,0,100,50)}
+  if(c.type==="contra")x.sec=(Array.isArray(c.sec)?c.sec:[]).filter(ob).map(q=>({id:id(q.id,"s"),a:T(q.a),b:T(q.b),w:N(q.w,0,100,50),inf:N(q.inf,-30,30,0)}));
+  if(c.type==="qq"){x.what=T(c.what);x.thr=N(c.thr,1,9999,10);x.n=N(c.n,0,Math.max(x.thr+Math.ceil(x.thr*0.25),x.thr+2),0);x.quality=T(c.quality)}
+  if(c.type==="spiral")x.stages=(Array.isArray(c.stages)?c.stages:[]).filter(ob).map(q=>({id:id(q.id,"t"),t:T(q.t),d:/^\d{4}-\d{2}-\d{2}$/.test(q.d)?q.d:""}));
+  if(c.type==="note")x.text=T(c.text);o.cards.push(x)});
+ const ty={};o.cards.forEach(c=>ty[c.id]=c.type);const bal=t=>t==="contra"||t==="slider",pair=new Set();
+ const kind=(a,b)=>a==="qq"&&bal(b)?"flip":(a==="qq"||bal(a))&&b==="spiral"?"stage":bal(a)&&b==="qq"?"drive":bal(a)&&bal(b)?"push":"rel";
+ (Array.isArray(s.links)?s.links:[]).forEach(L=>{if(!ob(L)||!ty[L.from]||!ty[L.to]||L.from===L.to)return;const k=[L.from,L.to].sort().join("|");if(pair.has(k))return;
+  const kd=kind(ty[L.from],ty[L.to]);if(kd==="drive"&&o.links.some(x=>x.to===L.to&&x.kind==="drive"))return;pair.add(k);o.links.push({id:id(L.id,"l"),from:L.from,to:L.to,kind:kd})});
+ used.forEach(v=>{const n=parseInt(v.slice(1),36);if(isFinite(n)&&n>seq&&n<1e9)seq=n});o.seq=seq;return o}
 let S=loadState();
 let saveT;
 function save(){clearTimeout(saveT);saveT=setTimeout(saveNow,250)}
@@ -255,9 +276,11 @@ function linkErr(src,tgt){if(!tgt)return"Pick an element to link to.";
  return""}
 
 /* ---------- derive: everything computed from state, nothing stored ---------- */
+const SECCAP=30;// shared limit: all secondary contradictions together push the principal balance at most ±30
+const sgn=v=>(v>0?"+":"")+v;
 function derive(){const D={};
  S.cards.forEach(c=>{const d=D[c.id]={c,in:[],out:[]};
-  if(c.type==="contra"){d.secSum=c.sec.reduce((t,s)=>t+(+s.inf||0),0);d.base=clamp(+c.w+d.secSum)}
+  if(c.type==="contra"){d.secRaw=c.sec.reduce((t,s)=>t+(+s.inf||0),0);d.secSum=Math.max(-SECCAP,Math.min(SECCAP,d.secRaw));d.secLim=c.sec.length>0&&Math.abs(d.secSum)>=SECCAP;d.base=clamp(+c.w+d.secSum)}
   if(c.type==="slider")d.base=+c.w});
  S.links.forEach(L=>{if(D[L.from]&&D[L.to]){D[L.from].out.push(L);D[L.to].in.push(L)}});
  S.cards.forEach(c=>{const d=D[c.id];if(d.base==null)return;d.push=0;d.pushers=[];
@@ -313,7 +336,7 @@ function svgContra(c,d){const id=c.id,W=360,A=lab(c,"a"),B=lab(c,"b"),eff=d.eff,
  s+=T(24,y0+48,10,"◂ A PRINCIPAL",{fill:MUTE,ls:".06em"})+T(336,y0+48,10,"B PRINCIPAL ▸",{a:"end",fill:MUTE,ls:".06em"});
  wrap2(A,20).forEach((l,i)=>s+=T(24,y0+64+i*14,12,l,{b:1}));wrap2(B,20).forEach((l,i)=>s+=T(336,y0+64+i*14,12,l,{a:"end",b:1}));
  if(flip){const f=cardBy(d.flippers[0]);s+=`<rect x="24" y="${yN-28}" width="312" height="20" fill="${INK}"/>`+T(180,yN-14,10,`⇄ FLIPPED BY THE LEAP IN “${sh(titleOf(f),18)}”`,{a:"middle",fill:"#000",b:1})}
- if(ns){s+=T(24,yS+4,10,`SECONDARY CONTRADICTIONS (${ns}) · NET PUSH ${d.secSum>0?"+":""}${d.secSum}`,{fill:MUTE,ls:".04em"});
+ if(ns){s+=T(24,yS+4,10,`SECONDARIES (${ns}) · SECONDARY PUSH ${sgn(d.secSum)} / ${SECCAP}${d.secLim?" · LIMIT":""}`,{fill:MUTE,ls:".04em"});
   c.sec.forEach((q,k)=>{const row=Math.floor(k/2),cx=k%2?268:92,ry=yS+20+row*112,inf=+q.inf||0;
    // linked line from this secondary seesaw, up the margin, into the principal scale (thicker = stronger push)
    if(inf){const left=inf<0,mx=left?9-(k%4)*2:351+(k%4)*2,hy=ry-3-(k%2)*2,sw=1+Math.abs(inf)/7;
@@ -396,6 +419,7 @@ function refresh(quiet){const D=derive(),msgs=[];
   const p=prevD&&prevD[c.id];if(quiet||!p)return;
   if(c.type==="qq"&&p.leap!==d.leap){msgs.push(d.leap?`Leap in “${titleOf(c)}”: quantity has turned into quality.${String(c.quality||"").trim()?" New quality: "+c.quality+".":""}`:`“${titleOf(c)}” dropped back below the nodal point.`);
    if(d.leap&&!RM.matches){const pn=$(`#viz-${c.id}`);if(pn){pn.classList.remove("jolt");void pn.offsetWidth;pn.classList.add("jolt")}}}
+  if(c.type==="contra"&&d.secLim&&!p.secLim)msgs.push(`“${titleOf(c)}”: Secondaries at limit. Has the principal contradiction shifted? Promote one.`);
   if(isBal(c.type)&&p.princ!==d.princ)msgs.push(d.princ?`In “${titleOf(c)}”, “${lab(c,d.princ)}” is now ${c.type==="slider"?"the stronger force":"the principal aspect"}.`:`“${titleOf(c)}” is balanced at the flip point.`)});
  prevD=D;if(msgs.length)say(msgs.join(" "));save()}
 
@@ -412,11 +436,11 @@ function buildCard(c,i){const id=c.id,n=S.cards.length,nm=titleOf(c);
  const ctype=h("h2",{class:"ctype",id:"ct-"+id,style:"margin:0;font-weight:400"},`// ${String(i+1).padStart(2,"0")} · ${TYPELONG[c.type]}`);
  const ttl=h("input",{type:"text",class:"ttl",id:"ttl-"+id,value:c.title,"aria-label":`Title of element ${i+1}, ${TYPELONG[c.type]}`,autocomplete:"off",oninput:e=>{c.title=e.target.value;refresh()}});
  const tools=h("div",{class:"tools",role:"group","aria-label":`Tools for ${nm}`},
-  btn("▲",{id:"up-"+id,"aria-label":`Move ${nm} up`,disabled:i===0,onclick:()=>move(c,-1)}),
-  btn("▼",{id:"dn-"+id,"aria-label":`Move ${nm} down`,disabled:i===n-1,onclick:()=>move(c,1)}),
-  btn("Dup",{id:"dup-"+id,"aria-label":`Duplicate ${nm}`,onclick:()=>dup(c)}),
+  btn("▲",{id:"up-"+id,"aria-label":`Up: move ${nm} up`,disabled:i===0,onclick:()=>move(c,-1)}),
+  btn("▼",{id:"dn-"+id,"aria-label":`Down: move ${nm} down`,disabled:i===n-1,onclick:()=>move(c,1)}),
+  btn("Dup",{id:"dup-"+id,"aria-label":`Dup: duplicate ${nm}`,onclick:()=>dup(c)}),
   btn("Link",{id:"lnk-"+id,"aria-label":`Link ${nm} to another element`,"aria-expanded":"false","aria-controls":"lp-"+id,onclick:e=>toggleLink(c,e.currentTarget)}),
-  btn("Del",{id:"del-"+id,"aria-label":`Delete ${nm}`,onclick:()=>del(c)}));
+  btn("Del",{id:"del-"+id,"aria-label":`Del: delete ${nm}`,onclick:()=>del(c)}));
  const body=h("div",{class:"body"});card.append(ctype,ttl,tools,body);
  ({contra:bodyContra,slider:bodySlider,qq:bodyQQ,spiral:bodySpiral,note:bodyNote})[c.type](c,body);
  const lp=h("div",{class:"linkpanel",id:"lp-"+id,hidden:true});const chips=h("div",{class:"chips"});card.append(lp,chips);
@@ -444,7 +468,8 @@ function balanceBlock(c,body){const id=c.id,sl=c.type==="slider";
 
 function bodyContra(c,body){const id=c.id,B=balanceBlock(c,body),SU=[];
  const addS=btn("+ Secondary contradiction",{id:`adds-${id}`,style:"width:100%;margin-top:10px",onclick:()=>addSec(c)});
- body.append(addS);
+ const SP=h("div",{class:"secpush",id:`spm-${id}`,role:"meter","aria-label":"Secondary push","aria-valuemin":-SECCAP,"aria-valuemax":SECCAP,hidden:!c.sec.length}),SL=h("p",{class:"seclim",id:`slim-${id}`,hidden:true},"Secondaries at limit. Has the principal contradiction shifted? Promote one.");
+ body.append(SP,SL,addS);
  c.sec.forEach((s,k)=>{const sid=s.id,N=`S${k+1}`;
   const ia=h("input",{type:"text",id:`sa-${sid}`,value:s.a,placeholder:"Aspect A",autocomplete:"off",oninput:e=>{s.a=e.target.value;refresh()}});
   const ib=h("input",{type:"text",id:`sb-${sid}`,value:s.b,placeholder:"Aspect B",autocomplete:"off",oninput:e=>{s.b=e.target.value;refresh()}});
@@ -455,14 +480,15 @@ function bodyContra(c,body){const id=c.id,B=balanceBlock(c,body),SU=[];
    h("div",{class:"two"},h("div",{},h("label",{for:`sa-${sid}`},"Aspect A"),ia),h("div",{},h("label",{for:`sb-${sid}`},"Aspect B"),ib)),
    lw,h("div",{class:"rng"},rw),li,h("div",{class:"rng"},ri),
    h("div",{class:"ends","aria-hidden":"true"},h("span",{text:"◂ push toward A"}),h("span",{text:"push toward B ▸"})),
-   h("div",{class:"row"},btn("⇅ Promote to principal",{id:`pro-${sid}`,"aria-label":`Promote ${N} to principal contradiction; the two swap places`,onclick:()=>promote(c,s,k)}),
+   h("div",{class:"row"},btn("⇅ Promote to principal",{id:`pro-${sid}`,"aria-label":`Promote to principal: ${N} and the principal contradiction swap places`,onclick:()=>promote(c,s,k)}),
     btn("Remove",{id:`srm-${sid}`,"aria-label":`Remove secondary contradiction ${N}`,onclick:()=>{c.sec.splice(k,1);render(`adds-${id}`);say(`Secondary contradiction ${N} removed from “${titleOf(c)}”.`)}}))));
   SU.push(()=>{const sa=String(s.a||"").trim()||"Aspect A",sb=String(s.b||"").trim()||"Aspect B";
    lw.textContent=`${N} own balance: ${100-s.w} / ${s.w}`;rw.setAttribute("aria-valuetext",+s.w===50?"balanced, 50 percent each":`${+s.w>50?sb:sa} principal, ${Math.max(s.w,100-s.w)} percent`);
    li.textContent=`${N} influence on the principal contradiction: ${s.inf>0?"+":""}${s.inf}`;ri.setAttribute("aria-valuetext",infWords(c,s))})});
  U[id]=d=>{B.viz.innerHTML=svgContra(c,d);B.upd(d);
-  const parts=[];if(d.secSum)parts.push(`secondary contradictions push ${d.secSum>0?"+":""}${d.secSum}`);if(d.push)parts.push(`linked elements push ${d.push>0?"+":""}${d.push}`);if(d.flippers.length)parts.push("then a leap flipped it");
+  const parts=[];if(d.secSum)parts.push(`secondary contradictions push ${d.secSum>0?"+":""}${d.secSum}${d.secLim?" (shared limit)":""}`);if(d.push)parts.push(`linked elements push ${d.push>0?"+":""}${d.push}`);if(d.flippers.length)parts.push("then a leap flipped it");
   B.stt.textContent="";B.stt.append(h("b",{text:d.princ?"Principal aspect: "+lab(c,d.princ):"Balanced"}),h("br"),balWords(c,d.eff)+(parts.length?` You set ${100-c.w}/${c.w}; ${parts.join(", ")}.`:` ${Math.abs(d.eff-50)} points from the flip.`));
+  SP.hidden=!c.sec.length;SP.textContent=`SECONDARY PUSH ${sgn(d.secSum)} / ${SECCAP}`;SP.setAttribute("aria-valuenow",d.secSum);SP.setAttribute("aria-valuetext",`${sgn(d.secSum)} of ${SECCAP}, the shared limit for all secondary contradictions${d.secRaw!==d.secSum?`; their influences add up to ${sgn(d.secRaw)}`:""}`);SL.hidden=!d.secLim;
   SU.forEach(f=>f())}}
 function bodySlider(c,body){const B=balanceBlock(c,body);
  U[c.id]=d=>{B.viz.innerHTML=svgSlider(c,d);B.upd(d);B.stt.textContent="";
@@ -473,8 +499,8 @@ function bodyQQ(c,body){const id=c.id;
  body.append(h("div",{class:"two"},h("div",{},h("label",{for:`qw-${id}`},"What accumulates"),what),h("div",{},h("label",{for:`qt-${id}`},"Nodal point"),thr)));
  const viz=h("div",{class:"panel",id:`viz-${id}`});body.append(viz);
  const r=h("input",{type:"range",id:`r-${id}`,min:0,max:qmax(c),step:1,value:c.n,"aria-describedby":`st-${id}`,oninput:e=>{c.n=+e.target.value;refresh()}});
- const minus=btn("−1",{id:`qm-${id}`,"aria-label":"Decrease the amount by 1",onclick:()=>{c.n=Math.max(0,+c.n-1);refresh()}});
- const plus=btn("+1",{id:`qp-${id}`,"aria-label":"Increase the amount by 1",onclick:()=>{c.n=Math.min(qmax(c),+c.n+1);refresh()}});
+ const minus=btn("−1",{id:`qm-${id}`,"aria-label":"−1: decrease the amount by 1",onclick:()=>{c.n=Math.max(0,+c.n-1);refresh()}});
+ const plus=btn("+1",{id:`qp-${id}`,"aria-label":"+1: increase the amount by 1",onclick:()=>{c.n=Math.min(qmax(c),+c.n+1);refresh()}});
  const lq=h("label",{for:`r-${id}`,class:"lbl"},"Amount"),stt=h("div",{class:"state",id:`st-${id}`});
  const ql=h("input",{type:"text",id:`qq-${id}`,value:c.quality,placeholder:"e.g. The drive becomes a committee",autocomplete:"off",oninput:e=>{c.quality=e.target.value;refresh()}});
  body.append(lq,h("div",{class:"rng"},r),h("div",{class:"ctl"},minus,plus),stt,h("label",{for:`qq-${id}`},"New quality after the leap"),ql);
@@ -488,7 +514,7 @@ function bodySpiral(c,body){const id=c.id,v=V[id]||(V[id]={yaw:VIEW0.yaw,pitch:V
  const legend=h("div",{class:"legend","aria-hidden":"true"},h("span",{text:"■ Affirmation"}),h("span",{text:"○ Negation"}),h("span",{text:"◆ Negation of the negation"}),h("span",{text:"┆ dashed = from a link"}));
  const sst=h("div",{class:"state",id:`sst-${id}`});
  body.append(h("div",{class:"panel",id:`viz-${id}`},cv,legend),
-  h("div",{class:"ctl"},btn("◂ Prev",{id:`sp-${id}`,"aria-label":"Previous stage",onclick:()=>go(-1)}),btn("Next ▸",{id:`sn-${id}`,"aria-label":"Next stage",onclick:()=>go(1)}),
+  h("div",{class:"ctl"},btn("◂ Prev",{id:`sp-${id}`,"aria-label":"Prev stage",onclick:()=>go(-1)}),btn("Next ▸",{id:`sn-${id}`,"aria-label":"Next stage",onclick:()=>go(1)}),
    btn("Reset",{id:`sr-${id}`,"aria-label":"Reset the spiral view",onclick:()=>{v.yaw=VIEW0.yaw;v.pitch=VIEW0.pitch;draw()}})),sst,
   h("p",{class:"note",id:`skh-${id}`},flat?"Reduced motion: flat, still view. Prev/Next or N/P step through the stages.":"Drag sideways to turn it. With the spiral focused: arrow keys turn it, N/P or Enter step through stages, 0 resets."));
  const list=h("ol",{class:"stages","aria-label":"Stages, oldest first"});body.append(h("div",{class:"lbl"},"Stages (oldest first)"),list);
@@ -496,8 +522,8 @@ function bodySpiral(c,body){const id=c.id,v=V[id]||(V[id]={yaw:VIEW0.yaw,pitch:V
   const di=h("input",{type:"date",id:`std-${s.id}`,value:s.d||"","aria-label":`Stage ${k+1} date (optional)`,oninput:e=>{s.d=e.target.value;refresh()}});
   const mv=(dl,f)=>{c.stages.splice(k+dl,0,c.stages.splice(k,1)[0]);render(f);say(`Stage moved to position ${k+dl+1}, now ${STAGE[(k+dl)%3]}.`)};
   list.append(h("li",{},h("div",{class:"tag"},`L${Math.floor(k/3)+1} · ${STAGE[k%3]}`),ti,h("div",{class:"r2"},di,
-   btn("▲",{"aria-label":`Move stage ${k+1} up`,disabled:k===0,id:`stu-${s.id}`,onclick:()=>mv(-1,`stu-${s.id}`)}),
-   btn("▼",{"aria-label":`Move stage ${k+1} down`,disabled:k===c.stages.length-1,id:`stv-${s.id}`,onclick:()=>mv(1,`stv-${s.id}`)}),
+   btn("▲",{"aria-label":`Up: move stage ${k+1} up`,disabled:k===0,id:`stu-${s.id}`,onclick:()=>mv(-1,`stu-${s.id}`)}),
+   btn("▼",{"aria-label":`Down: move stage ${k+1} down`,disabled:k===c.stages.length-1,id:`stv-${s.id}`,onclick:()=>mv(1,`stv-${s.id}`)}),
    btn("×",{"aria-label":`Delete stage ${k+1}`,id:`stx-${s.id}`,onclick:()=>{c.stages.splice(k,1);render(`ns-${id}`);say(`Stage ${k+1} deleted.`)}}))))});
  const derivedBox=h("div");body.append(derivedBox);
  const nt=h("input",{type:"text",id:`ns-${id}`,placeholder:"e.g. First open meeting",autocomplete:"off"});
@@ -570,7 +596,7 @@ function cardLines(c,D,i){const d=D[c.id],L=[],head=`[${i+1}] ${TYPELONG[c.type]
  if(c.type==="contra"){L.push(`Principal contradiction: “${lab(c,"a")}” vs “${lab(c,"b")}”`,`Balance as set: ${lab(c,"a")} ${100-c.w} / ${lab(c,"b")} ${c.w}`);
   c.sec.forEach((s,k)=>{const sa=String(s.a||"").trim()||"Aspect A",sb=String(s.b||"").trim()||"Aspect B";
    L.push(`Secondary contradiction S${k+1}: “${sa}” vs “${sb}”; own balance ${100-s.w}/${s.w} (${+s.w===50?"balanced":(+s.w>50?sb:sa)+" principal"}); influence: ${infWords(c,s)}`)});
-  if(c.sec.length)L.push(`Net push from secondary contradictions: ${d.secSum>0?"+":""}${d.secSum}`)}
+  if(c.sec.length){L.push(`Secondary push: ${sgn(d.secSum)} / ${SECCAP} (shared limit for all secondary contradictions${d.secRaw!==d.secSum?`; their influences add up to ${sgn(d.secRaw)}`:""})`);if(d.secLim)L.push("Secondaries at limit. Has the principal contradiction shifted? Promote one.")}}
  if(c.type==="slider")L.push(`Forces: “${lab(c,"a")}” vs “${lab(c,"b")}”`,`Balance as set: ${lab(c,"a")} ${100-c.w} / ${lab(c,"b")} ${c.w}`);
  if(isBal(c.type)){d.pushers.forEach(([f,v])=>L.push(`Pushed by “${titleOf(cardBy(f))}”: ${v>0?"+":""}${v} (toward ${v>0?lab(c,"b"):lab(c,"a")})`));
   d.flippers.forEach(f=>L.push(`Flipped by the leap in “${titleOf(cardBy(f))}”`));L.push(`Result: ${balWords(c,d.eff)}`)}
