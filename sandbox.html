@@ -281,7 +281,7 @@ function linkErr(src,tgt){if(!tgt)return"Pick an element to link to.";
 const SECCAP=30;// shared limit: all secondary contradictions together push the principal balance at most ±30
 const sgn=v=>(v>0?"+":"")+v;
 // one wording for the push line everywhere: card meter, diagram/PNG, text export (and index.html images use the same rule)
-const pushTxt=d=>`Secondary push ${sgn(d.secSum)} / ${SECCAP} · moved ${sgn(d.moved)}${d.edge!=null?` (at limit ${d.edge})`:""}`;
+const pushTxt=d=>`Secondary push ${sgn(d.secSum)} / ${SECCAP} · moved ${(d.moved>=0?"+":"")+d.moved}${d.edge!=null?` (stopped at ${d.edge})`:""}`;
 function derive(){const D={};
  S.cards.forEach(c=>{const d=D[c.id]={c,in:[],out:[]};
   if(c.type==="contra"){d.secRaw=c.sec.reduce((t,s)=>t+(+s.inf||0),0);d.secSum=Math.max(-SECCAP,Math.min(SECCAP,d.secRaw));d.secLim=c.sec.length>0&&Math.abs(d.secSum)>=SECCAP;d.base=clamp(+c.w+d.secSum);d.moved=d.base-(+c.w);d.edge=+c.w+d.secSum!==d.base?d.base:null}
@@ -492,7 +492,7 @@ function bodyContra(c,body){const id=c.id,B=balanceBlock(c,body),SU=[];
  U[id]=d=>{B.viz.innerHTML=svgContra(c,d);B.upd(d);
   const parts=[];if(d.secSum)parts.push(`secondary contradictions push ${d.secSum>0?"+":""}${d.secSum}${d.secLim?" (shared limit)":""}${d.edge!=null?`, moving it ${sgn(d.moved)} to the limit ${d.edge}`:""}`);if(d.push)parts.push(`linked elements push ${d.push>0?"+":""}${d.push}`);if(d.flippers.length)parts.push("then a leap flipped it");
   B.stt.textContent="";B.stt.append(h("b",{text:d.princ?"Principal aspect: "+lab(c,d.princ):"Balanced"}),h("br"),balWords(c,d.eff)+(parts.length?` You set ${100-c.w}/${c.w}; ${parts.join(", ")}.`:` ${Math.abs(d.eff-50)} points from the flip.`));
-  SP.hidden=!c.sec.length;SP.textContent=pushTxt(d).toUpperCase();SP.setAttribute("aria-label",pushTxt(d));SP.setAttribute("aria-valuenow",d.secSum);SP.setAttribute("aria-valuetext",`${sgn(d.secSum)} of ${SECCAP}, the shared limit for all secondary contradictions${d.secRaw!==d.secSum?`; their influences add up to ${sgn(d.secRaw)}`:""}; the balance moved ${sgn(d.moved)}${d.edge!=null?`, stopped at the limit ${d.edge}`:""}`);SL.hidden=!d.secLim;
+  SP.hidden=!c.sec.length;SP.textContent=pushTxt(d).toUpperCase();SP.setAttribute("aria-label",pushTxt(d));SP.setAttribute("aria-valuenow",d.secSum);SP.setAttribute("aria-valuetext",`${sgn(d.secSum)} of ${SECCAP}, the shared limit for all secondary contradictions${d.secRaw!==d.secSum?`; their influences add up to ${sgn(d.secRaw)}`:""}; the balance moved ${(d.moved>=0?"+":"")+d.moved}${d.edge!=null?`, stopped at the limit ${d.edge}`:""}`);SL.hidden=!d.secLim;
   SU.forEach(f=>f())}}
 function bodySlider(c,body){const B=balanceBlock(c,body);
  U[c.id]=d=>{B.viz.innerHTML=svgSlider(c,d);B.upd(d);B.stt.textContent="";

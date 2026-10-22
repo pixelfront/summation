@@ -356,8 +356,10 @@ body.driving .tabs,body.driving .shbtn,body.driving #pSbx,body.driving #pCon,bod
 #print .l6 .rw.nb{grid-template-columns:minmax(0,1fr)}
 #print .l6 .bx{box-sizing:border-box;width:10pt;height:10pt;border:1.5pt solid #000;margin-top:1pt}
 #print .l6 .bx.on{background:#000!important}
-#print .l6 .it{min-width:0;overflow-wrap:anywhere}
-#print .l6 .pr{min-width:0;text-align:right;overflow-wrap:anywhere}
+#print .l6 .it,#print .l6 .pr{min-width:0;overflow-wrap:anywhere;max-height:7.5em;overflow:hidden;position:relative}
+#print .l6 .pr{max-height:5em}
+#print .l6 .cut::after{content:"\2026";position:absolute;right:0;bottom:0;background:#fff;padding-left:2pt}
+#print .l6 .pr{text-align:right}
 #print .l6 .more{font-weight:700;margin-top:2pt}
 @media print{.tabs,.shbtn,.secbar,.tabtools,#pSbx,#pCon,#pAct{display:none!important}
  #print .ckl{border:2px solid #000;padding:6pt 8pt;margin:0 0 12pt;break-inside:avoid;page-break-inside:avoid}
@@ -1032,7 +1034,7 @@ function sbxDerive(sb){const cs=(sb&&Array.isArray(sb.cards)?sb.cards:[]).filter
  Object.values(D).forEach(d=>{if(d.eff0==null)return;const f=inn(d.c.id).filter(L=>L.kind==="flip"&&D[L.from].leap).length;d.eff=f%2?100-d.eff0:d.eff0});return D}
 function sbxLines(c,E){const L=[],sl=c.type==="slider",A=hv(c.a)||(sl?"Force A":"Aspect A"),B=hv(c.b)||(sl?"Force B":"Aspect B");
  let w=null;if(c.type==="contra"||sl){const e=typeof c.id==="string"&&(E||sbxDerive(ST.sandbox))[c.id];w=e&&e.eff!=null&&e.c===c?e.eff:sbxCl(sbxN(c.w,0,100,50)+(sl?0:sbxSec(c)))}
- if(c.type==="contra"||sl){L.push(`${A} ${100-w} · ${B} ${w}`);L.push(w===50?"Balanced":(sl?"Stronger: ":"Principal: ")+(w>50?B:A));if(Array.isArray(c.sec)&&c.sec.length){const sp=sbxSec(c);L.push(`Secondary contradictions: ${c.sec.length}`);const w0=sbxN(c.w,0,100,50),b0=sbxCl(w0+sp);L.push(`Secondary push ${(sp>0?"+":"")+sp} / 30 · moved ${(b0-w0>0?"+":"")+(b0-w0)}${w0+sp!==b0?` (at limit ${b0})`:""}`)}}
+ if(c.type==="contra"||sl){L.push(`${A} ${100-w} · ${B} ${w}`);L.push(w===50?"Balanced":(sl?"Stronger: ":"Principal: ")+(w>50?B:A));if(Array.isArray(c.sec)&&c.sec.length){const sp=sbxSec(c);L.push(`Secondary contradictions: ${c.sec.length}`);const w0=sbxN(c.w,0,100,50),b0=sbxCl(w0+sp);L.push(`Secondary push ${(sp>0?"+":"")+sp} / 30 · moved ${(b0-w0>=0?"+":"")+(b0-w0)}${w0+sp!==b0?` (stopped at ${b0})`:""}`)}}
  else if(c.type==="qq"){const n=+c.n||0,th=+c.thr||0;L.push(`${hv(c.what)||"Amount"}: ${n} of ${th} (nodal point)`);if(th&&n>=th)L.push("Leap: "+(hv(c.quality)||"new quality"))}
  else if(c.type==="spiral"){const s=Array.isArray(c.stages)?c.stages:[];L.push(`${s.length} stage${s.length===1?"":"s"}`);s.forEach((x,k)=>{if(k>=s.length-3)L.push(`L${Math.floor(k/3)+1} · ${STAGE[k%3]}: ${hv(x&&x.t)}`)})}
  else if(c.type==="note")hv(c.text).split(/\n/).map(hv).filter(Boolean).slice(0,4).forEach(l=>L.push(l));
@@ -1126,8 +1128,8 @@ function lblHTML(t){if(t==="con"||t==="act"){const c=ST[t],M=CKDEF[t],T=hv(c.hea
  const d=ST.sum,T=hv(d.name)||"Action summation",me=whenLine(d),out=[];
  S.forEach((sec,i)=>{if(sec.report)return;const m=sumSec(i);if(m.items.length===1&&m.items[0].m)return;out.push(lbl("Summation · "+sec.t,T,me,m.items.map(x=>({s:x.k==="kv"?x.q+": "+x.a.replace(/\n/g," "):x.s}))))});
  return out.join("")||lbl("Summation",T,me,[{s:"No answers yet."}])}
-function lblFit(){const P=$("#print");P.classList.add("measure");P.querySelectorAll(".l6").forEach(L=>{const R=L.querySelector(".rows"),rows=[...R.querySelectorAll(".rw")];if(R.scrollHeight<=R.clientHeight+1)return;
- const mo=document.createElement("div");mo.className="more";R.appendChild(mo);let n=0;while(rows.length&&R.scrollHeight>R.clientHeight+1){rows.pop().remove();n++;mo.textContent=`+ ${n} more`}});P.classList.remove("measure")}
+function lblFit(){const P=$("#print");P.classList.add("measure");P.querySelectorAll(".l6 .it,.l6 .pr").forEach(e=>e.classList.toggle("cut",e.scrollHeight>e.clientHeight+1));P.querySelectorAll(".l6").forEach(L=>{const R=L.querySelector(".rows"),rows=[...R.querySelectorAll(".rw")];if(R.scrollHeight<=R.clientHeight+1)return;
+ const mo=document.createElement("div");mo.className="more";R.appendChild(mo);let n=0;while(rows.length>1&&R.scrollHeight>R.clientHeight+1){rows.pop().remove();n++;mo.textContent=`+ ${n} more`}});P.classList.remove("measure")}
 function ckLetter(t){const c=ST[t],M=CKDEF[t];let h=`<div class="pp"><h2>${esc(M.name)} checklist</h2><table class="ckh">${M.head.map(([k,l])=>`<tr><th style="width:30%">${esc(l)}</th><td style="white-space:pre-wrap">${esc(c.head[k]||"")}</td></tr>`).join("")}</table>`;
  CKSEC.forEach(([s,title,item])=>{const cols=s==="pre"?["Who is responsible"].concat(c.due?["Deadline"]:[]):s==="mat"?["Who is responsible"]:["Name of person(s)","Materials they need"];
   h+=`<div class="ckl"><h3>${esc(title)}</h3><table><tr><th class="bxc">Done</th><th>${esc(item)}</th>${cols.map(x=>`<th>${esc(x)}</th>`).join("")}</tr>${c[s].map(r=>`<tr><td class="bxc">${box(r.done)}</td><td>${esc(r.l)}</td>${(s==="pre"?[r.who].concat(c.due?[fmtDue(r.due)]:[]):s==="mat"?[r.who]:[r.name,r.mat]).map(v=>`<td>${esc(v||"")}</td>`).join("")}</tr>`).join("")}</table></div>`});return h+"</div>"}
