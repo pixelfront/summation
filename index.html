@@ -717,7 +717,7 @@ function drawList(){const L=$("#list");L.innerHTML="";const sb=$("#bSort");if(sb
  it.innerHTML=`<div class="t">${esc(s.d.name||"Untitled action")}</div><div class="m">${esc(whenLine(s.d)||s.d.when||"")} · edited ${new Date(s.updated).toLocaleString()}</div><div class="a"><button class="btn sm pri">Open</button><button class="btn sm">Duplicate</button><button class="btn sm danger">Delete</button></div>`;
  const [o,du,de]=it.querySelectorAll("button");
  o.onclick=()=>{stopRec();cur=s.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0)};
- du.onclick=()=>{const c=JSON.parse(JSON.stringify(s));c.id=uid();c.created=c.updated=Date.now();c.d.name=(c.d.name||"Untitled action")+" (copy)";db[c.id]=c;persist();drawList();toast("Duplicated")};
+ du.onclick=()=>{const c=JSON.parse(JSON.stringify(s));c.id=uid();c.created=c.updated=Date.now();c.d.name=(c.d.name||"Untitled action")+" (copy)";db[c.id]=c;persist();if(CKS.by[s.id]){CKS.by[c.id]=JSON.parse(JSON.stringify(CKS.by[s.id]));ckSave("con",1)}drawList();toast("Duplicated")};
  de.onclick=()=>{if(!confirm(`Delete "${s.d.name||"Untitled action"}"? This can't be undone.`))return;delete db[s.id];if(CKS.by[s.id]){delete CKS.by[s.id];ckSave("con",1)}if(cur===s.id){const r=Object.values(db)[0];if(r)cur=r.id;else{const b=blank();db[b.id]=b;cur=b.id}render()}persist();drawList()};
  L.appendChild(it)})}
 $("#bList").onclick=()=>{stopRec();drawList();dList.showModal();spSelK=null;SPF.open=false;spShow()};
