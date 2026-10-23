@@ -410,6 +410,18 @@ body.driving .tabs,body.driving .shbtn,body.driving #pSbx,body.driving #pCon,bod
  .ckp>*{grid-column:1/-1}
  .ckp>.ckcard{grid-column:auto}
 }
+/* share icons share a row: autosave note (centred) + icon right; first field label + icon right; sandbox icon on the sandbox header row */
+.savedrow{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;gap:8px;margin:4px 0 10px}
+.savedrow .saved{grid-column:2;margin:0}
+.savedrow .shbtn{grid-column:3}
+.f>.lblrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.f>.lblrow>.lbl{display:block;flex:1 1 auto;min-width:0;margin:0;font-weight:700;font-size:15px}
+.f>.lblrow>.lbl::before{content:"// ";content:"// " / "";color:var(--mute)}
+.f>.lblrow>.lbl.date::before{content:"[DATE] ";content:"[DATE] " / ""}
+.f>.lblrow>.lbl.time::before{content:"[TIME] ";content:"[TIME] " / ""}
+.f>.lblrow>.shbtn{flex:none}
+#pSbx{position:relative;overflow:hidden}
+#pSbx .tabtools{position:absolute;z-index:2;top:14px;right:12px;margin:0}
 </style>
 </head>
 <body data-tab="sum">
@@ -635,7 +647,7 @@ let st;function save(){clearTimeout(st);st=setTimeout(()=>{persist();$("#savedtx
 function render(){
  const m=$("#main");m.innerHTML="";const d=D();
  if(!SR)m.insertAdjacentHTML("beforeend",`<div class="note">🎤 Voice input buttons aren't available in this browser. Tap a field and use the microphone key on the iPhone keyboard to dictate instead.</div>`);
- m.insertAdjacentHTML("beforeend",`<div class="saved" id="savedtxt">Autosaves on this device</div><div class="tabtools">${shBtn("sum","Share image of the summation")}</div>`);
+ m.insertAdjacentHTML("beforeend",`<div class="savedrow"><div class="saved" id="savedtxt">Autosaves on this device</div>${shBtn("sum","Share image of the summation")}</div>`);
  if(SR&&window.speechSynthesis){const b=document.createElement("button");b.type="button";b.className="btn drivebtn";b.innerHTML=DRV_SVG+"<span>Driving mode</span>";b.onclick=startDrive;m.appendChild(b)}
  if(SR)m.insertAdjacentHTML("beforeend",`<p class="hint" style="text-align:center;margin:-4px 0 12px">Voice features use your phone's built-in speech recognition, which may send audio to Apple to turn it into text. This app itself sends nothing anywhere unless you tap an Add to Google Calendar link. <a class="plink" href="privacy.html">Privacy</a></p>`);
  else m.insertAdjacentHTML("beforeend",`<p class="hint plinkp"><a class="plink" href="privacy.html">Privacy</a></p>`);
@@ -674,6 +686,8 @@ function render(){
    body.appendChild(w);if(f.k==="pc_sa")body.appendChild(mkBal())});
   // capitalist role markers right after their text fields
   if(si===1){[["nonmono",1],["mono",2]].forEach(([id,idx])=>{const fld=body.children[idx+1];const v=D().classes;const c=document.createElement("div");c.className="chips";c.style.marginTop="8px";c.setAttribute("role","radiogroup");c.setAttribute("aria-label",(id==="mono"?"Monopoly":"Non-monopoly")+" capitalists role");["Primary","Secondary"].forEach(s=>c.appendChild(chip("radio",id+"role",s,v[id].role===s,x=>{v[id].role=x;set("classes",v)})));fld.appendChild(c)})}
+  // share icon on the first field label's row (inside the body, never in the summary)
+  {const sb=body.querySelector(".secbar"),l=body.querySelector(".f>.lbl");if(sb&&l){const r=document.createElement("div");r.className="lblrow";l.replaceWith(r);r.append(l,...sb.children);sb.remove()}}
   det.addEventListener("toggle",()=>{if(!det.open)stopRec();syncCollapse()});
   m.appendChild(det)});
  $("#ttl").textContent=d.name||"Action Summation Sheet";progress()}
@@ -1066,8 +1080,15 @@ function tabInit(){const tl=$(".tabs"),lap=matchMedia("(min-width:1024px)"),ori=
  let t=null;try{t=localStorage.getItem("summpub.tab")}catch(e){}tabGo(t||"sum",false,true)}
 // Sandbox tab: sandbox.html (same origin) inline in the tab; it keeps its own code, storage (summpub.sandbox) and behaviour.
 function sbxSize(){const f=$("#sbxF");if(!f||$("#pSbx").hidden)return;f.style.height=Math.max(420,innerHeight-$("header").offsetHeight-12)+"px"}
-function sbxLoad(){const f=$("#sbxF");if(!f.getAttribute("src"))f.src="sandbox.html";sbxSize()}
-addEventListener("resize",()=>{sbxSize();document.querySelectorAll(".ckp:not([hidden]) .lblin textarea,.ckp:not([hidden]) .wrapin textarea").forEach(grow)});
+function sbxLoad(){const f=$("#sbxF");if(!f.getAttribute("src"))f.src="sandbox.html";sbxSize();sbxIco()}
+// Sandbox tab share icon sits on the sandbox's first header row ("Summation · sandbox"), right-aligned, and scrolls with it
+function sbxIco(){const f=$("#sbxF"),t=$("#pSbx .tabtools");if(!f||!t||$("#pSbx").hidden)return;let d=null;try{d=f.contentDocument}catch(e){}
+ const k=d&&d.querySelector("header.top .k"),h=d&&d.querySelector("header.top");if(!k||!h)return;const r=k.getBoundingClientRect(),hr=h.getBoundingClientRect();
+ t.style.top=Math.round(f.offsetTop+f.clientTop+r.top+r.height/2-22)+"px";t.style.right=Math.max(0,Math.round(f.offsetParent.clientWidth-(f.offsetLeft+f.clientLeft+hr.right)))+"px";
+ if(!f._sbxI){f._sbxI=1;d.addEventListener("scroll",sbxIco,{passive:true});f.contentWindow.addEventListener("resize",sbxIco)}}
+$("#sbxF").addEventListener("load",()=>{const f=$("#sbxF");f._sbxI=0;sbxIco()});
+$("#pSbx .tabtools").addEventListener("focusin",()=>{const t=$("#pSbx .tabtools");if(parseFloat(t.style.top)<0){try{$("#sbxF").contentWindow.scrollTo(0,0)}catch(e){}}});
+addEventListener("resize",()=>{sbxSize();sbxIco();document.querySelectorAll(".ckp:not([hidden]) .lblin textarea,.ckp:not([hidden]) .wrapin textarea").forEach(grow)});
 
 /* ---- models: what each section says, built from ST only ---- */
 const SUMHI=[["issue","Issue / contradiction"],["line","Political line"],["pc_pa","Principal aspect"],["tactype","Tactics"],["gains","Gains"],["mistakes","Mistakes"],["worked","What worked"],["steps","Next steps"],["lineshown","Our line was shown to be"]];
