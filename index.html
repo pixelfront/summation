@@ -715,7 +715,8 @@ $("#bList").onclick=()=>{stopRec();drawList();dList.showModal();spSelK=null;SPF.
 $("#vList").onclick=()=>{spView="list";spShow()};$("#vSpiral").onclick=()=>{spView="spiral";spShow()};
 dList.addEventListener("close",spTeardown);
 // Escape with the spiral node panel open closes only the panel (the key handlers already did it, or focus was elsewhere in Saved)
-dList.addEventListener("cancel",e=>{if(SPF.esc!=null&&Math.abs(e.timeStamp-SPF.esc)<300){SPF.esc=null;e.preventDefault();return}if(SP&&SP.isOpen&&SP.isOpen()){e.preventDefault();SP.closeP()}});
+dList.addEventListener("keydown",e=>{SPF.key=e},true);
+dList.addEventListener("cancel",e=>{if(SPF.esc&&SPF.esc===SPF.key){SPF.esc=null;e.preventDefault();return}if(SP&&SP.isOpen&&SP.isOpen()){e.preventDefault();SP.closeP()}});
 $("#bNew").onclick=()=>{const b=blank();db[b.id]=b;cur=b.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0)};
 
 /* ---------- export ---------- */
@@ -754,7 +755,7 @@ function reportText(){const d=D(),L=[],has=v=>v&&String(v).trim();
  try{["con","act"].forEach(t=>{const M=CKDEF[t],h=ST[t].head,lb=k=>(M.head.find(x=>x[0]===k)||[0,k])[1],out=[];
   [[M.titleK,hv(h[M.titleK])],["date",fmtDate(h.date)],["time",fmtTime(h.time)],["loc",hv(h.loc)]].forEach(([k,v],i)=>{if(v&&(i||fmtDate(h.date)||fmtTime(h.time)||hv(h.loc)||ckLeg(t)))out.push(lb(k)+"\n"+v)});
   const lg=ckLeg(t);if(lg)out.push(M.legL+"\n"+lg);
-  if(out.length>(hv(h[M.titleK])?1:0)){const T=M.name+" checklist";L.push(T.toUpperCase());L.push("-".repeat(T.length));L.push(out.join("\n\n"));L.push("")}})}catch(e){}
+  if(out.length>(hv(h[M.titleK])?1:0)){const T=M.name+" checklist";L.push(T.toUpperCase());L.push("-".repeat(T.length));L.push(out.join("\n\n"));L.push("")}})}catch(e){console.error("report: checklist dates",e)}
  return L.join("\n").trim()+"\n"}
 function updateReport(){const b=document.getElementById("rBox");if(b)b.textContent=reportText()}
 async function copyText(t){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(t);return true}}catch(e){}
@@ -1406,7 +1407,7 @@ ${edited?`<div class="ctl2"><button type="button" class="btn sm" data-a="reset">
  V.insertAdjacentHTML("beforeend",`<span class="lbl">All nodes</span><ol></ol>`);
  const ol=V.querySelector("ol");let sel=spSelK!=null&&N.some(n=>n.k===spSelK)?N.findIndex(n=>n.k===spSelK):Math.max(0,N.length-1);
  N.forEach((n,i)=>{const li=document.createElement("li"),b=document.createElement("button");b.type="button";b.textContent=`L${Math.floor(i/3)+1} · ${STAGE[i%3]} — ${n.t} (${n.w})`;
-  b.onclick=()=>{if(n.id){stopRec();cur=n.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0)}else{sel=i;spSelK=n.k;SPF.open=true;if(SP){SP.draw();SP.announce();SP.reveal(true)}}};li.appendChild(b);ol.appendChild(li)});
+  b.onclick=()=>{if(n.id){stopRec();cur=n.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0)}else{sel=i;spSelK=n.k;SPF.open=true;if(SP){SP.draw();SP.announce();const me=SP;setTimeout(()=>{if(SP===me)SP.reveal(true)},0)}}};li.appendChild(b);ol.appendChild(li)});
  const mark=()=>ol.querySelectorAll("button").forEach((b,i)=>b.setAttribute("aria-current",i===sel));mark();
  if(few)return;
  const cv=V.querySelector("canvas"),g=cv.getContext("2d"),stE=V.querySelector(".sst");let W=0,H=0,yaw=spCam?spCam.yaw:-0.5,pitch=spCam?spCam.pitch:0.32,auto=!RMQ.matches&&!spCam,lt=0;spCam=null;
@@ -1468,7 +1469,7 @@ ${edited?`<div class="ctl2"><button type="button" class="btn sm" data-a="reset">
   cv.setAttribute("aria-label",`Spiral of ${N.length} nodes over ${Math.ceil(N.length/3)} levels. Selected: ${n.t}, ${STAGE[k]}, level ${tr}. A text list of all nodes follows.`);mark();fill()}
  // full text of the selected node + its edits (move, unlink / re-link the same-angle link one level down or up)
  const F=V.querySelector(".spfull"),fq=a=>F.querySelector(`[data-a=${a}]`);
- function fill(){F.hidden=!SPF.open;if(!SPF.open)return;const n=N[sel],lv=Math.floor(sel/3)+1;$("#spFH").textContent=`${STAGE[sel%3]} · level ${lv}`;
+ function fill(){F.hidden=!SPF.open;if(SPF.open&&!SPF.was)SPF.at=performance.now();SPF.was=SPF.open;if(!SPF.open)return;const n=N[sel],lv=Math.floor(sel/3)+1;$("#spFH").textContent=`${STAGE[sel%3]} · level ${lv}`;
   F.querySelector(".fm").textContent=`Node ${sel+1} of ${N.length} · ${n.w}`;F.querySelector(".ft").textContent=n.f||n.t;
   fq("up").disabled=sel===0;fq("dn").disabled=sel===N.length-1;const lb=fq("lb"),la=fq("la");lb.disabled=sel<3;la.disabled=sel+3>=N.length;
   lb.textContent=sel>=3&&!lk(sel-3)?"Re-link level below":"Unlink level below";la.textContent=sel+3<N.length&&!lk(sel)?"Re-link level above":"Unlink level above";fq("open").hidden=!n.id}
@@ -1482,22 +1483,25 @@ ${edited?`<div class="ctl2"><button type="button" class="btn sm" data-a="reset">
   else{const i=a==="lb"?sel-3:sel;if(i<0||i+3>=N.length)return;const p=pk(N[i].k,N[i+3].k);say=cut.has(p)?"Re-linked":"Unlinked";L.x=cut.has(p)?L.x.filter(y=>y!==p):[...L.x,p];L.o=LY.o.length?L.o:[]}
   spSave(L);spSelK=N[sel].k;if(a!=="reset")SPF.open=true;spCam={yaw,pitch};spShow();toast(say);
   const V2=$("#spiralV"),c2=V2.querySelector("canvas"),fb=fa&&V2.querySelector(`.spfull [data-a=${fa}]`);(fb&&!fb.disabled&&!fb.closest("[hidden]")?fb:c2||V2).focus()}
- F.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(b&&!b.disabled)act(b.dataset.a,b.dataset.a)});
+ // edit buttons ignore activations for 350ms after the panel opens (a stray tap/click must never edit the spiral)
+ F.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||b.disabled)return;if(/^(up|dn|lb|la|open)$/.test(b.dataset.a)&&performance.now()-(SPF.at||0)<350){e.preventDefault();return}act(b.dataset.a,b.dataset.a)});
  const rs=V.querySelector("[data-a=reset]");if(rs)rs.onclick=()=>act("reset",null);
  const go=(dl,fh)=>{const was=SPF.open;sel=(sel+dl+N.length)%N.length;spSelK=N[sel].k;SPF.open=true;draw();announce();reveal(fh||!was||F.contains(document.activeElement))};
  // Escape: first closes only the panel (focus back to the canvas), the next one closes Saved; N / P keep stepping from the panel
- F.addEventListener("keydown",e=>{if(e.key==="Escape"&&SPF.open){e.preventDefault();e.stopPropagation();SPF.esc=e.timeStamp;act("close")}else if(e.target===$("#spFH")&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&/^[nNpP]$/.test(e.key)){e.preventDefault();go(/^[nN]$/.test(e.key)?1:-1,true)}});
+ F.addEventListener("keydown",e=>{if(e.key==="Escape"&&SPF.open){e.preventDefault();e.stopPropagation();SPF.esc=e;setTimeout(()=>{SPF.esc=null},0);act("close")}else if(e.target===$("#spFH")&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&/^[nNpP]$/.test(e.key)){e.preventDefault();go(/^[nN]$/.test(e.key)?1:-1,true)}});
  V.querySelectorAll(".ctl button").forEach(b=>b.onclick=()=>go(+b.dataset.d));
  const size=()=>{const r=cv.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);W=r.width;H=r.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);g.setTransform(dpr,0,0,dpr,0,0);draw()};
  cv.addEventListener("keydown",e=>{const K={ArrowLeft:[-.15,0],ArrowRight:[.15,0],ArrowUp:[0,.1],ArrowDown:[0,-.1]}[e.key];
-  if(K){e.preventDefault();auto=false;yaw+=K[0];pitch=Math.max(-1.2,Math.min(1.2,pitch+K[1]));draw()}else if(/^[nN]$|^Enter$/.test(e.key)){e.preventDefault();go(1)}else if(/^[pP]$/.test(e.key)){e.preventDefault();go(-1)}else if(e.key==="0"){yaw=-0.5;pitch=0.32;draw()}else if(e.key==="Escape"&&SPF.open){e.preventDefault();e.stopPropagation();SPF.esc=e.timeStamp;act("close")}
+  if(K){e.preventDefault();auto=false;yaw+=K[0];pitch=Math.max(-1.2,Math.min(1.2,pitch+K[1]));draw()}else if(/^[nN]$|^Enter$/.test(e.key)){e.preventDefault();go(1)}else if(/^[pP]$/.test(e.key)){e.preventDefault();go(-1)}else if(e.key==="0"){yaw=-0.5;pitch=0.32;draw()}else if(e.key==="Escape"&&SPF.open){e.preventDefault();e.stopPropagation();SPF.esc=e;setTimeout(()=>{SPF.esc=null},0);act("close")}
   else if(e.key==="["||e.key==="]"){e.preventDefault();act(e.key==="["?"up":"dn",null)}else if(/^[uU]$/.test(e.key)&&sel>=3){e.preventDefault();act("lb",null)}});
  // touch-action:pan-y: vertical swipes keep scrolling the dialog; sideways drags rotate (mouse/pen may also tilt)
  let dr=null;cv.addEventListener("pointerdown",e=>{auto=false;dr={x:e.clientX,y:e.clientY,yaw,pitch,moved:0,id:e.pointerId,t:e.pointerType}});
  cv.addEventListener("pointermove",e=>{if(!dr)return;const dx=e.clientX-dr.x,dy=e.clientY-dr.y;dr.moved=Math.max(dr.moved,Math.abs(dx)+Math.abs(dy));if(dr.moved>4&&!dr.cap){dr.cap=1;try{cv.setPointerCapture(dr.id)}catch(x){}}
   yaw=dr.yaw+dx*0.01;if(dr.t!=="touch")pitch=Math.max(-1.2,Math.min(1.2,dr.pitch+dy*0.006));draw()});
- cv.addEventListener("pointerup",e=>{if(dr&&dr.moved<6){const b=cv.getBoundingClientRect(),x=e.clientX-b.left,y=e.clientY-b.top;let best=-1,bd=900;N.forEach((n,i)=>{const p=proj(world(i)),dd=(p.x-x)**2+(p.y-y)**2;if(dd<bd){bd=dd;best=i}});if(best>=0){sel=best;spSelK=N[sel].k;SPF.open=true;draw();announce();reveal(true)}}dr=null});
- cv.addEventListener("pointercancel",()=>dr=null);
+ // a tap selects on 'click' (after the browser has sent all of the tap's events), then opens/scrolls/focuses on the next tick; never on pointerup
+ let tap=null;cv.addEventListener("pointerup",e=>{tap=dr&&dr.moved<6?{x:e.clientX,y:e.clientY}:null;dr=null});
+ cv.addEventListener("click",e=>{const t=tap;tap=null;if(!t)return;const b=cv.getBoundingClientRect(),x=t.x-b.left,y=t.y-b.top;let best=-1,bd=900;N.forEach((n,i)=>{const p=proj(world(i)),dd=(p.x-x)**2+(p.y-y)**2;if(dd<bd){bd=dd;best=i}});if(best<0)return;const me=SP;setTimeout(()=>{if(SP!==me||!cv.isConnected)return;sel=best;spSelK=N[sel].k;SPF.open=true;draw();announce();reveal(true)},0)});
+ cv.addEventListener("pointercancel",()=>{dr=null;tap=null});
  const rmc=()=>{if(RMQ.matches)auto=false};RMQ.addEventListener&&RMQ.addEventListener("change",rmc);
  SP={draw,announce,size,reveal,raf:0,isOpen:()=>SPF.open&&!F.hidden&&F.isConnected,closeP:()=>act("close"),off:()=>{RMQ.removeEventListener&&RMQ.removeEventListener("change",rmc)}};
  const tick=t=>{if(!SP)return;if(auto&&!document.hidden){yaw+=Math.min(50,t-(lt||t))*0.00025;draw()}lt=t;SP.raf=auto?requestAnimationFrame(tick):0};
