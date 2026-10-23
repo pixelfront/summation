@@ -118,6 +118,8 @@ dialog .row .btn{flex:1 1 40%}
 .mchk input{width:22px;height:22px;margin:0;accent-color:#f2f2f2;flex:none}
 /* laptop layout (Design v10 spec): only at >= 1024px */
 @media (min-width:1024px){main{max-width:1240px}#stack>.card[data-type=spiral]{grid-column:1/-1}}
+/* embedded in the app's laptop layout (app >= 1024px, frame ~740px): 2 columns from a 720px frame; phones / standalone unchanged */
+@media (min-width:720px){html.embed-lap #stack{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}html.embed-lap #stack>.card[data-type=spiral]{grid-column:1/-1}}
 :focus{outline:none}
 :focus-visible{outline:3px solid var(--ink);outline-offset:2px;box-shadow:0 0 0 2px #000,0 0 0 7px rgba(242,242,242,.35)}
 @media (prefers-reduced-motion:reduce){body::after{display:none;animation:none}.cur{animation:none}.card.flash,.panel.jolt{animation:none}}
@@ -202,6 +204,7 @@ dialog .row .btn{flex:1 1 40%}
 </dialog>
 <script>
 "use strict";
+try{if(parent!==self&&parent.matchMedia("(min-width:1024px)").matches)document.documentElement.classList.add("embed-lap")}catch(e){}// app laptop layout; the app keeps this in sync on resize
 /* ---------- state ---------- */
 const KEY="summpub.sandbox";
 const $=(s,r=document)=>r.querySelector(s);
