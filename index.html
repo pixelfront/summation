@@ -329,7 +329,7 @@ body:not([data-tab=sum]) nav.bar,body:not([data-tab=sum]) header .qq,body:not([d
 @media (forced-colors:active){.ckrow .done input{-webkit-appearance:auto;appearance:auto}}
 .ckrow .rest{min-width:0}
 .ckrow.isdone .lblin textarea{text-decoration:line-through}
-.lblin textarea{min-height:48px;resize:none;overflow:hidden;line-height:1.4}
+.lblin textarea,.wrapin textarea{min-height:48px;resize:none;overflow:hidden;line-height:1.4}
 .ckrow .sub{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:8px 0 4px}
 .ckrow .rm{margin-top:8px}
 .gcalw{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:8px}.gcalw[hidden]{display:none}
@@ -358,7 +358,6 @@ body.driving .tabs,body.driving .shbtn,body.driving #pSbx,body.driving #pCon,bod
 #print .l6 .bx.on{background:#000!important}
 #print .l6 .it,#print .l6 .pr{min-width:0;overflow-wrap:anywhere;max-height:7.5em;overflow:hidden;position:relative}
 #print .l6 .pr{max-height:5em}
-#print .l6 .cut::after{content:"\2026";position:absolute;right:0;bottom:0;background:#fff;padding-left:2pt}
 #print .l6 .pr{text-align:right}
 #print .l6 .more{font-weight:700;margin-top:2pt}
 @media print{.tabs,.shbtn,.secbar,.tabtools,#pSbx,#pCon,#pAct{display:none!important}
@@ -368,6 +367,49 @@ body.driving .tabs,body.driving .shbtn,body.driving #pSbx,body.driving #pCon,bod
  #print table.ckh{margin:0 0 12pt}
  body.prn-l6 #print{padding:0;margin:0}
  body.prn-l6 #print .l6,body.prn-l6 #print .l6 *{color:#000!important;box-shadow:none!important;text-shadow:none!important}}
+
+/* ---- v10 ---- */
+/* share icon D: 44px square, icon only; pressed = reversed */
+.shbtn.ico{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--ink);border-radius:0;background:#000;color:var(--ink)}
+.shbtn.ico::before,.shbtn.ico::after{content:none}
+.shbtn.ico svg{display:block;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;pointer-events:none}
+.shbtn.ico:active{background:var(--ink);color:#000}
+.shbtn.ico:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+/* export dialog: printer-friendly toggle, 4x6 label files; icon-ready export buttons */
+.prnmono{display:block;margin:0 0 12px}
+.l6files{border:1px solid #6e6e6e;padding:8px 10px 10px;margin:0 0 12px}
+.l6files[hidden]{display:none}
+.l6files legend{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:0 4px}
+.l6files select{display:block;width:100%;min-height:44px;font:inherit;font-size:16px;background:#000;color:var(--ink);border:0;border-left:2px solid var(--edge);border-bottom:2px solid var(--edge);border-radius:0;padding:8px 10px;margin:0 0 8px}
+.l6files .btn{width:100%}
+.l6files .grid2+.btn{margin-top:8px}
+.l6files .hint{margin:8px 0 0}
+#dImg .prnmono{margin:0 0 8px}
+/* spiral: full text of the selected node */
+.spfull{border:2px solid var(--ink);padding:8px 10px 10px;margin:0 0 8px;background:#000}
+.spfull[hidden]{display:none}
+.spfull .sph{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 6px}
+.spfull h4{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.spfull .ft{white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;line-height:1.45;margin:0 0 4px}
+.spfull .fm{color:var(--mute);font-size:13px;margin:0 0 8px}
+.spfull .row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.spfull .row .btn{min-height:44px;font-size:12px;padding:6px 6px}
+.spfull .row .btn:disabled{opacity:.45}
+.spv .ctl2{display:flex;gap:6px;margin:0 0 8px}.spv .ctl2 .btn{flex:1}
+@media print{body.prn-mono #print,body.prn-mono #print *{color:#000!important;border-color:#000!important}}
+/* laptop layout (Design v10 spec): only at >= 1024px; below that nothing changes */
+@media (min-width:1024px){
+ main{max-width:1240px;padding:20px;display:grid;grid-template-columns:220px minmax(0,1fr);column-gap:24px;align-items:start}
+ main>.tabs{grid-column:1;grid-row:1;display:grid;grid-template-columns:1fr;gap:8px;margin:0;position:sticky;top:20px;align-self:start;z-index:2}
+ main>.tabs button{height:44px;text-align:left;padding:6px 12px}
+ main>[role=tabpanel]{grid-column:2;grid-row:1;min-width:0}
+ #main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 16px;align-items:start}
+ #main>*{grid-column:1/-1}
+ #main>details.sec{grid-column:auto}
+ .ckp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 16px;align-items:start}
+ .ckp>*{grid-column:1/-1}
+ .ckp>.ckcard{grid-column:auto}
+}
 </style>
 </head>
 <body data-tab="sum">
@@ -375,7 +417,7 @@ body.driving .tabs,body.driving .shbtn,body.driving #pSbx,body.driving #pCon,bod
  <h1><span class="lbttl"><span class="lbp" aria-hidden="true">&gt; </span><span id="ttl" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0">Action Summation Sheet</span><span class="lbcur" aria-hidden="true">_</span></span><span style="white-space:nowrap;flex:none"><button id="bMus" type="button" class="muted" aria-label="Play music"><svg class="i-on" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path class="eq" d="M12 12v-2M15 14v-6M18 11v-1" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg><svg class="i-off" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path d="M12 7l6 6M18 7l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button> <button id="bList" aria-label="Saved summations">☰ Saved</button> <button id="bExport">Export</button></span></h1>
  <div class="qq" id="qq" role="progressbar" aria-label="Answered questions" aria-valuemin="0"><div class="cells" id="qqc" aria-hidden="true"></div><div class="leapl" aria-hidden="true">[ NEW QUALITY ]</div></div><div class="vh" id="qqlive" aria-live="polite" aria-atomic="true"></div><div class="progtxt" id="ptxt"></div>
 </header>
-<main id="app"><div class="tabs" role="tablist" aria-label="Sheets"><button type="button" role="tab" id="tab-sum" aria-controls="main" aria-selected="true">Summation</button><button type="button" role="tab" id="tab-sbx" aria-controls="pSbx" aria-selected="false" tabindex="-1">Sandbox</button><button type="button" role="tab" id="tab-con" aria-controls="pCon" aria-selected="false" tabindex="-1">Contingent</button><button type="button" role="tab" id="tab-act" aria-controls="pAct" aria-selected="false" tabindex="-1">Action</button></div><div id="main" role="tabpanel" aria-labelledby="tab-sum"></div><section id="pSbx" role="tabpanel" aria-labelledby="tab-sbx" hidden><div class="tabtools"><button type="button" class="shbtn" data-sh="sbx" aria-label="Share image of the sandbox">Share image</button></div><iframe id="sbxF" title="Sandbox dialectics"></iframe></section><section id="pCon" class="ckp" role="tabpanel" aria-labelledby="tab-con" hidden></section><section id="pAct" class="ckp" role="tabpanel" aria-labelledby="tab-act" hidden></section></main>
+<main id="app"><div class="tabs" role="tablist" aria-label="Sheets"><button type="button" role="tab" id="tab-sum" aria-controls="main" aria-selected="true">Summation</button><button type="button" role="tab" id="tab-sbx" aria-controls="pSbx" aria-selected="false" tabindex="-1">Sandbox</button><button type="button" role="tab" id="tab-con" aria-controls="pCon" aria-selected="false" tabindex="-1">Contingent</button><button type="button" role="tab" id="tab-act" aria-controls="pAct" aria-selected="false" tabindex="-1">Action</button></div><div id="main" role="tabpanel" aria-labelledby="tab-sum"></div><section id="pSbx" role="tabpanel" aria-labelledby="tab-sbx" hidden><div class="tabtools"><button type="button" class="shbtn ico" data-sh="sbx" aria-label="Share image of the sandbox" title="Share image of the sandbox"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v12H3z"/><path d="M5 14l4-5 3 3 2-2 5 4"/><path d="M12 17v5M9 19l3 3 3-3"/></svg></button></div><iframe id="sbxF" title="Sandbox dialectics"></iframe></section><section id="pCon" class="ckp" role="tabpanel" aria-labelledby="tab-con" hidden></section><section id="pAct" class="ckp" role="tabpanel" aria-labelledby="tab-act" hidden></section></main>
 <nav class="bar"><button class="btn" id="bCollapse">Collapse all</button><button class="btn pri" id="bNext">Next section ↓</button></nav>
 <div id="print"></div>
 <button id="upd" type="button">New version ready. Tap to reload.</button>
@@ -389,14 +431,15 @@ body.driving .tabs,body.driving .shbtn,body.driving #pSbx,body.driving #pCon,bod
 <div class="dbody"><button class="btn pri" style="width:100%;margin-bottom:12px" id="bNew">+ New summation</button><button type="button" class="btn sm" id="bSort" style="width:100%;margin:-4px 0 12px"></button><div class="seg2" role="group" aria-label="View"><button type="button" id="vList" aria-pressed="true">List</button><button type="button" id="vSpiral" aria-pressed="false">Spiral</button></div><div id="spiralV" class="spv" hidden></div><div id="list"></div></div></dialog>
 
 <dialog id="dImg" aria-labelledby="dImgH"><div class="dh"><span id="dImgH">Image</span> <button class="btn sm" id="iClose" type="button">Close</button></div>
-<div class="dbody"><img id="iPrev" alt="Preview of the exported image"><p class="hint">On iPhone: tap Share image, or long-press the picture and choose Save to Photos.</p><div class="grid2"><button class="btn pri" id="iShare" type="button" hidden>📤 Share image</button><a class="btn" id="iDl" href="#" download="infographic.png">⬇ Download PNG</a></div></div></dialog>
+<div class="dbody"><img id="iPrev" alt="Preview of the exported image"><label class="chip prnmono"><input type="checkbox" id="iMono"><span>Printer-friendly (black on white)</span></label><p class="hint" id="iHint">On iPhone: tap Share image, or long-press the picture and choose Save to Photos.</p><div class="grid2"><button class="btn pri" id="iShare" type="button" hidden><span class="bi" aria-hidden="true">📤</span> <span class="bt">Share image</span></button><a class="btn" id="iDl" href="#" download="infographic.png"><span class="bi" aria-hidden="true">⬇</span> <span class="bt">Download PNG</span></a></div></div></dialog>
 
 <dialog id="dExp"><div class="dh">Export / Share <button class="btn sm" onclick="dExp.close()">Close</button></div>
-<div class="dbody"><fieldset class="prnp"><legend>Print size</legend><label class="chip"><input type="radio" name="prnp" value="letter"><span>Letter 8.5×11</span></label><label class="chip"><input type="radio" name="prnp" value="l6"><span>4×6 label</span></label></fieldset><p class="hint" id="prnWhat"></p><div class="grid2">
-<button class="btn pri" id="ePrint">🖨 Print / PDF</button><button class="btn" id="eShare">📤 Share text</button>
-<button class="btn" id="eCopy">📋 Copy text</button><button class="btn" id="eMd">⬇ Markdown</button>
-<button class="btn" id="eJson">⬇ JSON</button><button class="btn" id="eImp">⬆ Import JSON</button></div>
-<button class="btn" id="eInfo" type="button" style="width:100%;margin-top:8px">🖼 Infographic image (all tabs)</button>
+<div class="dbody"><fieldset class="prnp"><legend>Print size</legend><label class="chip"><input type="radio" name="prnp" value="letter"><span>Letter 8.5×11</span></label><label class="chip"><input type="radio" name="prnp" value="l6"><span>4×6 label</span></label></fieldset><p class="hint" id="prnWhat"></p><label class="chip prnmono"><input type="checkbox" id="pMono"><span>Printer-friendly (black on white)</span></label>
+<fieldset class="l6files" id="l6f" hidden><legend>4×6 label files</legend><label class="lbl" for="l6Pick">Label</label><select id="l6Pick"></select><div class="grid2"><button class="btn" id="eL6Pdf" type="button"><span class="bi" aria-hidden="true">⬇</span> <span class="bt">Label PDF</span></button><button class="btn" id="eL6Png" type="button"><span class="bi" aria-hidden="true">⬇</span> <span class="bt">Thermal PNG</span></button></div><button class="btn sm" id="eL6All" type="button"><span class="bi" aria-hidden="true">⬇</span> <span class="bt">PDF of all labels</span></button><p class="hint">PDF: 4×6 in pages (label-4x6.pdf). Thermal PNG: pure black and white, 812×1218 at 203 dpi (label-4x6.png). Both are drawn on this device; nothing is sent.</p></fieldset><div class="grid2">
+<button class="btn pri" id="ePrint"><span class="bi" aria-hidden="true">🖨</span> <span class="bt">Print / PDF</span></button><button class="btn" id="eShare"><span class="bi" aria-hidden="true">📤</span> <span class="bt">Share text</span></button>
+<button class="btn" id="eCopy"><span class="bi" aria-hidden="true">📋</span> <span class="bt">Copy text</span></button><button class="btn" id="eMd"><span class="bi" aria-hidden="true">⬇</span> <span class="bt">Markdown</span></button>
+<button class="btn" id="eJson"><span class="bi" aria-hidden="true">⬇</span> <span class="bt">JSON</span></button><button class="btn" id="eImp"><span class="bi" aria-hidden="true">⬆</span> <span class="bt">Import JSON</span></button></div>
+<button class="btn" id="eInfo" type="button" style="width:100%;margin-top:8px"><span class="bi" aria-hidden="true">🖼</span> <span class="bt">Infographic image (all tabs)</span></button>
 <p class="hint" style="margin-top:12px">Print/PDF: on iPhone, tap Print, then pinch out on the preview (or tap Share → Save to Files) to save as PDF.</p>
 <input type="file" id="fImp" accept="application/json,.json" hidden></div></dialog>
 
@@ -580,6 +623,10 @@ function tw(el,al){const w=document.createElement("div");w.className="tw";w.appe
  else el.style.paddingRight="12px";return w}
 
 /* ---------- render ---------- */
+// Share image buttons come from one helper: 44px icon-only (Design's icon D, picture + down arrow). The accessible name is the
+// aria-label ("Share image of ..."), repeated as title for desktop hover. Set SH_ICON="" to go back to the [SHARE IMAGE] text button.
+const SH_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v12H3z"/><path d="M5 14l4-5 3 3 2-2 5 4"/><path d="M12 17v5M9 19l3 3 3-3"/></svg>';
+const shBtn=(sh,al)=>`<button type="button" class="shbtn${SH_ICON?" ico":""}" data-sh="${sh}" aria-label="${al}"${SH_ICON?` title="${al}"`:""}>${SH_ICON||`<span class="shtx">Share image</span>`}</button>`;
 function mkText(val,area,ph,on,al){const e=document.createElement(area?"textarea":"input");if(!area)e.type="text";e.value=val||"";if(ph)e.placeholder=ph;e.oninput=()=>on(e.value);return tw(e,al)}
 function chip(type,name,label,checked,on){const l=document.createElement("label");l.className="chip";l.innerHTML=`<input type="${type}" name="${name}"><span>${esc(label)}</span>`;const i=l.firstChild;i.checked=!!checked;
  if(type==="radio"){i.onclick=()=>{if(i.dataset.was==="1"){i.checked=false;on(null)}else on(label);document.querySelectorAll(`input[name="${name}"]`).forEach(x=>x.dataset.was=x.checked?"1":"")};i.dataset.was=checked?"1":""}else i.onchange=()=>on(i.checked);return l}
@@ -588,13 +635,13 @@ let st;function save(){clearTimeout(st);st=setTimeout(()=>{persist();$("#savedtx
 function render(){
  const m=$("#main");m.innerHTML="";const d=D();
  if(!SR)m.insertAdjacentHTML("beforeend",`<div class="note">🎤 Voice input buttons aren't available in this browser. Tap a field and use the microphone key on the iPhone keyboard to dictate instead.</div>`);
- m.insertAdjacentHTML("beforeend",`<div class="saved" id="savedtxt">Autosaves on this device</div><div class="tabtools"><button type="button" class="shbtn" data-sh="sum" aria-label="Share image of the summation">Share image</button></div>`);
+ m.insertAdjacentHTML("beforeend",`<div class="saved" id="savedtxt">Autosaves on this device</div><div class="tabtools">${shBtn("sum","Share image of the summation")}</div>`);
  if(SR&&window.speechSynthesis){const b=document.createElement("button");b.type="button";b.className="btn drivebtn";b.innerHTML=DRV_SVG+"<span>Driving mode</span>";b.onclick=startDrive;m.appendChild(b)}
  if(SR)m.insertAdjacentHTML("beforeend",`<p class="hint" style="text-align:center;margin:-4px 0 12px">Voice features use your phone's built-in speech recognition, which may send audio to Apple to turn it into text. This app itself sends nothing anywhere unless you tap an Add to Google Calendar link. <a class="plink" href="privacy.html">Privacy</a></p>`);
  else m.insertAdjacentHTML("beforeend",`<p class="hint plinkp"><a class="plink" href="privacy.html">Privacy</a></p>`);
  S.forEach((sec,si)=>{
   const det=document.createElement("details");det.className="sec";det.id="s"+si;if(si===0)det.open=true;
-  det.innerHTML=`<summary><span>${si+1}. ${esc(sec.t)}</span>${sec.report?"":`<span class="badge" id="b${si}"></span>`}</summary><div class="body">${sec.report?"":`<div class="secbar"><button type="button" class="shbtn" data-sh="sec:${si}" aria-label="Share image of ${esc(sec.t)}">Share image</button></div>`}</div>`;
+  det.innerHTML=`<summary><span>${si+1}. ${esc(sec.t)}</span>${sec.report?"":`<span class="badge" id="b${si}"></span>`}</summary><div class="body">${sec.report?"":`<div class="secbar">${shBtn("sec:"+si,"Share image of "+esc(sec.t))}</div>`}</div>`;
   const body=det.querySelector(".body");
   sec.f.forEach(f=>{const w=document.createElement("div");w.className="f";
    const lab=`<span class="lbl">${esc(f.l)}</span>`+(f.h?`<span class="hint">${esc(f.h)}</span>`:"");
@@ -650,7 +697,7 @@ function drawList(){const L=$("#list");L.innerHTML="";const sb=$("#bSort");if(sb
  du.onclick=()=>{const c=JSON.parse(JSON.stringify(s));c.id=uid();c.created=c.updated=Date.now();c.d.name=(c.d.name||"Untitled action")+" (copy)";db[c.id]=c;persist();drawList();toast("Duplicated")};
  de.onclick=()=>{if(!confirm(`Delete "${s.d.name||"Untitled action"}"? This can't be undone.`))return;delete db[s.id];if(cur===s.id){const r=Object.values(db)[0];if(r)cur=r.id;else{const b=blank();db[b.id]=b;cur=b.id}render()}persist();drawList()};
  L.appendChild(it)})}
-$("#bList").onclick=()=>{stopRec();drawList();dList.showModal();spShow()};
+$("#bList").onclick=()=>{stopRec();drawList();dList.showModal();spSelK=null;SPF.open=false;spShow()};
 $("#vList").onclick=()=>{spView="list";spShow()};$("#vSpiral").onclick=()=>{spView="spiral";spShow()};
 dList.addEventListener("close",spTeardown);
 $("#bNew").onclick=()=>{const b=blank();db[b.id]=b;cur=b.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0)};
@@ -885,13 +932,13 @@ musUi();
 // summpub.action). The UI renders from ST and every export (.ics, Google link, images, print) reads ST, never the DOM.
 const rnd=n=>{const a=new Uint8Array(n);crypto.getRandomValues(a);return[...a].map(x=>x.toString(16).padStart(2,"0")).join("")};
 const CKDEF={
- con:{key:"summpub.contingent",name:"Contingent",sub:"For a contingent joining someone else's event.",file:"contingent.png",titleK:"event",metaK:["timeloc"],locK:"timeloc",
-  head:[["event","Name of event"],["timeloc","Time and location"],["org","Organization"]],
+ con:{key:"summpub.contingent",name:"Contingent",sub:"For a contingent joining someone else's event.",file:"contingent.png",titleK:"event",legK:"timeloc",legL:"Time and location (previous text)",
+  head:[["event","Name of event"],["date","Date","date"],["time","Time","time"],["loc","Location"],["org","Organization"]],
   pre:["Send emails + texts to members (general meeting + sign-ups)","Flyering","Pre-write article","Write and send media advisory","Post to social media"],
   mat:["Zip ties","Cordage/twine, scissors","Fliers","Newspapers / literature","Signs","Banner","Marshal vests","Chant lists","Megaphone / sound system","Table","Water/coffee/tea","Wagon/cooler"],
   roles:["MC/chant lead","Speakers","Table","Press spokesperson","Police liaison","Marshals","Holding banner","Photographer","Video","Live stream"]},
- act:{key:"summpub.action",name:"Action",sub:"Rally, protest, march, demonstration we run.",file:"action.png",titleK:"title",metaK:["time","loc"],locK:"loc",
-  head:[["title","Event title"],["time","Time"],["loc","Location"],["slogans","Slogans",1],["org","Organization"]],
+ act:{key:"summpub.action",name:"Action",sub:"Rally, protest, march, demonstration we run.",file:"action.png",titleK:"title",legK:"timeOld",legL:"Time (previous text)",
+  head:[["title","Event title"],["date","Date","date"],["time","Time","time"],["loc","Location"],["slogans","Slogans","area"],["org","Organization"]],
   pre:["Book the space / venue","Send emails + texts to members","Reach out to other groups","Create flyers","Print flyers","Flyering","Create chant lists","Pre-write article","Write and send media advisory","Post to social media"],
   mat:["Sign-up sheets","Clipboards","Flyers","Newspapers / literature","Signs","Banner","Marshal vests","Chant lists","Speaker and megaphone","Table","Water","Wagon/cooler"],
   roles:["MC","Speakers","Table/cart","Press spokesperson","Tactical lead","Marshals","Holding banner","Photographer","Videographer"]}};
@@ -900,11 +947,24 @@ const CKSEC=[["pre","Pre-event actions","Action","+ Add action"],["mat","Materia
 const CKF={pre:["who","due"],mat:["who"],roles:["name","mat"]};
 const DUE_RX=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
 const ckNew=(s,l)=>{const r={id:"r"+rnd(4),l:l||"",done:false};CKF[s].forEach(k=>r[k]="");return r};
-function ckBlank(t){const o={v:1,due:true,head:{}};CKSEC.forEach(([s])=>o[s]=CKDEF[t][s].map(l=>ckNew(s,l)));return o}
-function ckClean(t,j){if(!isO(j))return ckBlank(t);const b=ckBlank(t),o={v:1,due:j.due!==false,head:{}};
- CKDEF[t].head.forEach(([k])=>{if(isO(j.head)&&typeof j.head[k]==="string")o.head[k]=j.head[k]});
+function ckBlank(t){const o={v:2,due:true,head:{}};CKSEC.forEach(([s])=>o[s]=CKDEF[t][s].map(l=>ckNew(s,l)));return o}
+function ckClean(t,j){if(!isO(j))return ckBlank(t);const b=ckBlank(t),o={v:2,due:j.due!==false,head:{}},M=CKDEF[t],h=isO(j.head)?j.head:{},S_=k=>typeof h[k]==="string"?h[k]:"";
+ if(j.v===2){const lost=[];M.head.forEach(([k,,ty])=>{const v=S_(k);if(!v)return;if(ty==="date"){if(parseIso(v.trim()))o.head[k]=v.trim();else lost.push(v)}else if(ty==="time"){const x=validTime(v.trim());if(x)o.head[k]=x;else lost.push(v)}else o.head[k]=v});
+  const lg=[S_(M.legK),...lost].filter(x=>hv(x)).join(" · ");if(lg)o.head[M.legK]=lg}   // a value the pickers can't hold is kept as previous text, never dropped
+ else ckMig(t,h,o.head);
  CKSEC.forEach(([s])=>{o[s]=Array.isArray(j[s])?j[s].filter(isO).map(r=>{const x={id:typeof r.id==="string"&&r.id?r.id.slice(0,24):"r"+rnd(4),l:str(r.l),done:!!r.done};
   CKF[s].forEach(k=>x[k]=str(r[k]));if("due"in x){x.due=x.due.slice(0,16);if(!DUE_RX.test(x.due))x.due=""}return x}):b[s]});return o}
+// v9 -> v10: the old free-text time fields become date + time pickers. The original text is always kept (legK, shown read-only
+// as "previous text"); whatever reads cleanly is copied into the pickers (and, for the contingent, the rest into Location).
+const ckRef=()=>new Date(Date.now()+300*864e5);   // checklists plan ahead: a date typed without a year lands within ~2 months back to ~10 months ahead
+const tmOnly=x=>{x=hv(x);if(validTime(x))return validTime(x);if(/^(12 ?)?noon$/i.test(x))return"12:00";const m=/^(\d{1,2})(?:[:.](\d{2}))? ?([ap])\.? ?m\.?$/i.exec(x);if(!m)return"";const H=+m[1],mi=+(m[2]||0);return H>=1&&H<=12&&mi<60?pad2(H%12+(/p/i.test(m[3])?12:0))+":"+pad2(mi):""};
+function ckMig(t,h,o){const M=CKDEF[t],S_=k=>typeof h[k]==="string"?h[k]:"";M.head.forEach(([k,,ty])=>{if(!ty||ty==="area"){if(S_(k))o[k]=S_(k)}});
+ if(t==="con"){const tl=S_("timeloc");if(!hv(tl))return;o.timeloc=tl;const p=parseLegacy(tl,ckRef());if(p){o.date=p.date;if(p.time)o.time=p.time;if(p.rest&&!hv(o.loc))o.loc=p.rest}return}
+ const tm=S_("time");if(!hv(tm))return;const v=tmOnly(tm);if(v){o.time=v;return}o.timeOld=tm;const p=parseLegacy(tm,ckRef());if(p){o.date=p.date;if(p.time)o.time=p.time}}
+// the previous text goes into reports, images, labels and print only while part of it isn't in the pickers yet
+function ckLeg(t){const c=ST[t],M=CKDEF[t],x=hv(c.head[M.legK]);if(!x)return"";const p=parseLegacy(x,ckRef());return p&&(t==="con"||!p.rest)?"":x}
+function ckMeta(t){const h=ST[t].head;return[fmtDate(h.date),fmtTime(h.time),hv(h.loc),ckLeg(t)].filter(Boolean).join(" · ")}
+const ckVal=(ty,v)=>ty==="date"?fmtDate(v):ty==="time"?fmtTime(v):hv(v);
 function ckLoad(t){let j=null;try{j=JSON.parse(localStorage.getItem(CKDEF[t].key))}catch(e){}return ckClean(t,j)}
 function sbxRead(){let s=null;try{s=JSON.parse(localStorage.getItem("summpub.sandbox"))}catch(e){}return sbxClean(s)}
 // sandbox sanitizer, shared byte for byte by sandbox.html (loader) and index.html (images, prints): one definition in patch_v9.py
@@ -929,7 +989,7 @@ function ckSave(t,now){clearTimeout(ckTm[t]);const w=()=>{try{localStorage.setIt
 function ckFlush(){["con","act"].forEach(t=>{if(ckTm[t]){ckSave(t,1)}})}
 addEventListener("pagehide",ckFlush);document.addEventListener("visibilitychange",()=>{if(document.hidden)ckFlush()});
 addEventListener("storage",e=>{if(e.key==="summpub.sandbox"||e.key===null)ST.sandbox=sbxRead()});
-const hv=x=>String(x??"").trim();
+function hv(x){return String(x??"").trim()}  // hoisted: ckLoad -> ckMig runs before this line
 const dueParts=v=>{const m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v||"");return m?m.slice(1).map(Number):null};
 const dueCaps=v=>{const p=dueParts(v);return p?`DUE ${MON[p[1]-1].toUpperCase()} ${p[2]} ${pad2(p[3])}:${pad2(p[4])}`:""};
 const fmtDue=v=>{const p=dueParts(v);return p?fmtDate(v.slice(0,10))+", "+fmtTime(v.slice(11,16)):""};
@@ -943,7 +1003,7 @@ const icsEsc=s=>String(s).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g
 function icsFold(l){const E=new TextEncoder(),o=[];let c="",n=0;for(const ch of l){const b=E.encode(ch).length;if(n+b>(o.length?74:75)){o.push(c);c="";n=0}c+=ch;n+=b}o.push(c);return o.join("\r\n ")}
 // .ics: one VEVENT per task with a deadline, alarms 24 h and 1 h before. Random UID (no device or user data); no ORGANIZER,
 // ATTENDEE or URL; LOCATION only when the user typed one; DTSTAMP (required by the format) is the export time in UTC.
-function icsBuild(t){const c=ST[t],loc=hv(c.head[CKDEF[t].locK]),now=new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d+Z$/,"Z"),L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Action Summation Sheet//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH"];let n=0;
+function icsBuild(t){const c=ST[t],loc=hv(c.head.loc)||(t==="con"?ckLeg(t):""),now=new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d+Z$/,"Z"),L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Action Summation Sheet//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH"];let n=0;
  c.pre.forEach(r=>{const p=dueParts(r.due);if(!p)return;n++;const nm=hv(r.l)||"Task";
   L.push("BEGIN:VEVENT","UID:"+rnd(16)+"@summation.invalid","DTSTAMP:"+now,"DTSTART:"+icsDT(p),"DTEND:"+icsDT(plusHour(p)),"SUMMARY:"+icsEsc(nm));if(loc)L.push("LOCATION:"+icsEsc(loc));
   ["-PT24H","-PT1H"].forEach(tr=>L.push("BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+icsEsc(nm),"TRIGGER:"+tr,"END:VALARM"));L.push("END:VEVENT")});
@@ -951,9 +1011,13 @@ function icsBuild(t){const c=ST[t],loc=hv(c.head[CKDEF[t].locK]),now=new Date().
 function icsGo(t){const r=icsBuild(t);if(!r.n)return toast("Add a deadline to a task first");dl("summation-tasks.ics",r.text,"text/calendar");toast(r.n+(r.n===1?" task":" tasks")+" in summation-tasks.ics")}
 
 /* ---- checklist UI (renders from ST) ---- */
+function ckDT(t,k,l,ty){const w=document.createElement("div");w.className="f";w.innerHTML=`<span class="lbl ${ty}">${esc(l)}</span>`;const e=document.createElement("input");e.type=ty;e.className="dt";e.id=`ck-${t}-${k}`;e.value=ST[t].head[k]||"";e.setAttribute("aria-label",l);
+ e.oninput=e.onchange=()=>{const v=String(e.value||"").trim();ST[t].head[k]=ty==="date"?(parseIso(v)?v:""):validTime(v);ckSave(t)};w.appendChild(e);return w}
+function ckLegBox(t){const c=ST[t],M=CKDEF[t],x=c.head[M.legK];if(!hv(x))return null;const w=document.createElement("div");w.className="f";
+ w.innerHTML=`<span class="lbl">${esc(M.legL)}</span><div class="prevtxt" tabindex="0" role="note" aria-label="${esc(M.legL)}">${esc(x)}</div><span class="hint">Kept from before the date and time pickers. Nothing was deleted.</span>`;return w}
 function ckField(lbl,val,area,on){const w=document.createElement("div");w.className="f";w.innerHTML=`<span class="lbl">${esc(lbl)}</span>`;const x=mkText(val,area,"",on,lbl);if(area)x.querySelector("textarea").style.minHeight="70px";w.appendChild(x);return w}
 function ckCard(t,s,title){const el=document.createElement("section");el.className="ckcard";el.setAttribute("aria-labelledby",`hc-${t}-${s}`);
- el.innerHTML=`<div class="hd"><h3 id="hc-${t}-${s}">${esc(title)}</h3><button type="button" class="shbtn" data-sh="cks:${t}:${s}" aria-label="Share image of ${esc(title)}">Share image</button></div><div class="bd"></div>`;return{el,bd:el.querySelector(".bd")}}
+ el.innerHTML=`<div class="hd"><h3 id="hc-${t}-${s}">${esc(title)}</h3>${shBtn(`cks:${t}:${s}`,"Share image of "+esc(title))}</div><div class="bd"></div>`;return{el,bd:el.querySelector(".bd")}}
 function ckRow(t,s,r,i,item){const c=ST[t],row=document.createElement("div"),n=`${item} ${i+1}`;let gUpd=()=>{};row.className="ckrow"+(r.done?" isdone":"");row.id=`${t}-${s}-${i}`;
  const dl0=document.createElement("label");dl0.className="done";dl0.innerHTML=`<input type="checkbox">`;const cb=dl0.firstChild;cb.checked=!!r.done;
  const del=document.createElement("button");
@@ -962,8 +1026,9 @@ function ckRow(t,s,r,i,item){const c=ST[t],row=document.createElement("div"),n=`
  const rest=document.createElement("div");rest.className="rest";row.appendChild(rest);
  const li=mkText(r.l,true,"",v=>{if(/\n/.test(v)){v=v.replace(/\s*\n\s*/g," ");lt.value=v}r.l=v;grow(lt);nm();gUpd();ckSave(t)},n+" name"),lt=li.querySelector("textarea");lt.rows=1;li.classList.add("lblin");rest.appendChild(li);
  const sub=(lbl,el)=>{const d=document.createElement("div");d.innerHTML=`<div class="sub" aria-hidden="true">${esc(lbl)}</div>`;d.appendChild(el);rest.appendChild(d);return d};
- if(s==="pre"||s==="mat")sub("Who is responsible",mkText(r.who,false,"",v=>{r.who=v;ckSave(t)},n+": who is responsible"));
- if(s==="roles"){sub("Name of person(s)",mkText(r.name,false,"",v=>{r.name=v;ckSave(t)},n+": name of person(s)"));sub("Materials they need",mkText(r.mat,false,"",v=>{r.mat=v;ckSave(t)},n+": materials they need"))}
+ const wr=(k,al)=>{const x=mkText(r[k],true,"",v=>{if(/\n/.test(v)){v=v.replace(/\s*\n\s*/g," ");e.value=v}r[k]=v;grow(e);ckSave(t)},al),e=x.querySelector("textarea");e.rows=1;x.classList.add("wrapin");return x};
+ if(s==="pre"||s==="mat")sub("Who is responsible",wr("who",n+": who is responsible"));
+ if(s==="roles"){sub("Name of person(s)",wr("name",n+": name of person(s)"));sub("Materials they need",wr("mat",n+": materials they need"))}
  if(s==="pre"){const du=document.createElement("input");du.type="datetime-local";du.className="dt";du.value=r.due||"";du.setAttribute("aria-label",n+": deadline");sub("Deadline",du).className="due-date-field";
   const g=document.createElement("div");g.className="gcalw due-date-field";g.innerHTML=`<a class="btn sm gcal" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Add to Google Calendar</a><span class="hint">Tapping this sends this task's name and date to Google.</span>`;rest.appendChild(g);const a=g.firstChild;
   gUpd=()=>{const h=gcalHref(r);g.hidden=!h;if(h)a.href=h;else a.removeAttribute("href");a.setAttribute("aria-label",`Add ${hv(r.l)||n} to Google Calendar (sends its name and date to Google)`)};
@@ -979,14 +1044,14 @@ function ckRender(t,focusSel){const P=$(t==="con"?"#pCon":"#pAct"),c=ST[t],M=CKD
  if(!SR)P.insertAdjacentHTML("beforeend",NOSR_NOTE);
  const tools=document.createElement("div");tools.className="cktools";
  const sw=chip("checkbox","due-"+t,"Due dates",c.due,on=>{c.due=on;ckSave(t);P.classList.toggle("hide-due-dates",!on)});const si=sw.querySelector("input");si.id="due-"+t;si.setAttribute("aria-label","Enable due dates");
- tools.appendChild(sw);tools.insertAdjacentHTML("beforeend",`<button type="button" class="shbtn" data-sh="ck:${t}" aria-label="Share image of the ${M.name} checklist">Share image</button>`);P.appendChild(tools);
+ tools.appendChild(sw);tools.insertAdjacentHTML("beforeend",shBtn("ck:"+t,`Share image of the ${M.name} checklist`));P.appendChild(tools);
  P.insertAdjacentHTML("beforeend",`<div class="ckmeter" id="m-${t}"><div class="cells" aria-hidden="true"></div><span class="ct"></span></div>`);
- const hc=ckCard(t,"head","Event details");M.head.forEach(([k,l,area])=>hc.bd.appendChild(ckField(l,c.head[k],area,v=>{c.head[k]=v;ckSave(t)})));P.appendChild(hc.el);
+ const hc=ckCard(t,"head","Event details");M.head.forEach(([k,l,ty])=>{hc.bd.appendChild(ty==="date"||ty==="time"?ckDT(t,k,l,ty):ckField(l,c.head[k],ty==="area",v=>{c.head[k]=v;ckSave(t)}));if(k==="time"){const lb=ckLegBox(t);if(lb)hc.bd.appendChild(lb)}});P.appendChild(hc.el);
  CKSEC.forEach(([s,title,item,addL])=>{const cc=ckCard(t,s,title);c[s].forEach((r,i)=>cc.bd.appendChild(ckRow(t,s,r,i,item)));
   const add=document.createElement("button");add.type="button";add.className="btn";add.id=`add-${t}-${s}`;add.textContent=addL;add.onclick=()=>{c[s].push(ckNew(s));ckSave(t);ckRender(t,`#${t}-${s}-${c[s].length-1} .lblin textarea`)};cc.bd.appendChild(add);
   if(s==="pre"){cc.bd.insertAdjacentHTML("beforeend",`<div class="due-date-field icsw"><button type="button" class="btn" id="ics-${t}">📅 Download calendar (.ics)</button><span class="hint">Every task with a deadline, with reminders 24 hours and 1 hour before. Your calendar app opens the file; nothing is sent anywhere.</span></div>`);cc.bd.querySelector("#ics-"+t).onclick=()=>icsGo(t)}
   P.appendChild(cc.el)});
- ckMeter(t);P.querySelectorAll(".lblin textarea").forEach(grow);if(focusSel){const f=P.querySelector(focusSel);if(f)f.focus()}}
+ ckMeter(t);P.querySelectorAll(".lblin textarea,.wrapin textarea").forEach(grow);if(focusSel){const f=P.querySelector(focusSel);if(f)f.focus()}}
 
 /* ---- tabs ---- */
 const TABS=[["sum","main"],["sbx","pSbx"],["con","pCon"],["act","pAct"]],TAB={cur:"sum"};
@@ -995,14 +1060,14 @@ function tabGo(t,focus,keep){if(!TABS.some(x=>x[0]===t))t="sum";if(document.body
  if(!keep){try{localStorage.setItem("summpub.tab",t)}catch(e){}}
  if(t==="sbx")sbxLoad();if((t==="con"||t==="act")&&(was!==t||!$(t==="con"?"#pCon":"#pAct").firstChild))ckRender(t);
  if(was!==t&&scrollY>0)scrollTo(0,0);if(focus)$("#tab-"+t).focus()}
-function tabInit(){const tl=$(".tabs");tl.addEventListener("click",e=>{const b=e.target.closest("[role=tab]");if(b)tabGo(b.id.slice(4))});
+function tabInit(){const tl=$(".tabs"),lap=matchMedia("(min-width:1024px)"),ori=()=>{if(lap.matches)tl.setAttribute("aria-orientation","vertical");else tl.removeAttribute("aria-orientation")};ori();lap.addEventListener&&lap.addEventListener("change",ori);tl.addEventListener("click",e=>{const b=e.target.closest("[role=tab]");if(b)tabGo(b.id.slice(4))});
  tl.addEventListener("keydown",e=>{const ids=TABS.map(x=>x[0]),i=ids.indexOf(TAB.cur);let j=null;
   if(e.key==="ArrowRight"||e.key==="ArrowDown")j=(i+1)%4;else if(e.key==="ArrowLeft"||e.key==="ArrowUp")j=(i+3)%4;else if(e.key==="Home")j=0;else if(e.key==="End")j=3;if(j!=null){e.preventDefault();tabGo(ids[j],true)}});
  let t=null;try{t=localStorage.getItem("summpub.tab")}catch(e){}tabGo(t||"sum",false,true)}
 // Sandbox tab: sandbox.html (same origin) inline in the tab; it keeps its own code, storage (summpub.sandbox) and behaviour.
 function sbxSize(){const f=$("#sbxF");if(!f||$("#pSbx").hidden)return;f.style.height=Math.max(420,innerHeight-$("header").offsetHeight-12)+"px"}
 function sbxLoad(){const f=$("#sbxF");if(!f.getAttribute("src"))f.src="sandbox.html";sbxSize()}
-addEventListener("resize",()=>{sbxSize();document.querySelectorAll(".ckp:not([hidden]) .lblin textarea").forEach(grow)});
+addEventListener("resize",()=>{sbxSize();document.querySelectorAll(".ckp:not([hidden]) .lblin textarea,.ckp:not([hidden]) .wrapin textarea").forEach(grow)});
 
 /* ---- models: what each section says, built from ST only ---- */
 const SUMHI=[["issue","Issue / contradiction"],["line","Political line"],["pc_pa","Principal aspect"],["tactype","Tactics"],["gains","Gains"],["mistakes","Mistakes"],["worked","What worked"],["steps","Next steps"],["lineshown","Our line was shown to be"]];
@@ -1016,9 +1081,9 @@ function sumHigh(){const d=ST.sum,it=[];SUMHI.forEach(([k,l])=>{const a=sumAns(F
 function sumSec(si){const d=ST.sum,sec=S[si],it=[];sec.f.forEach(f=>{if(!f.k||f.ty==="legacy")return;const a=sumAns(f,d);if(a)it.push({k:"kv",q:f.l.replace(/:$/,""),a,max:8});if(f.k==="pc_sa"||f.k==="sc_sa"){const b=balLine(d,f.k.slice(0,2));if(b)it.push({k:"txt",s:b,m:1})}});
  return{ctx:"Summation",title:sec.t,items:it.length?it:[{k:"txt",s:"No answers yet.",m:1}]}}
 const ckRowHas=(s,r)=>r.done||CKF[s].some(k=>hv(r[k]));
-function ckUsed(t){const c=ST[t];return CKDEF[t].head.some(([k])=>hv(c.head[k]))||CKSEC.some(([s])=>c[s].some(r=>ckRowHas(s,r)))}
+function ckUsed(t){const c=ST[t];return CKDEF[t].head.some(([k])=>hv(c.head[k]))||hv(c.head[CKDEF[t].legK])||CKSEC.some(([s])=>c[s].some(r=>ckRowHas(s,r)))}
 function ckItems(t,s){const c=ST[t];return c[s].map(r=>({k:"row",done:r.done,s:hv(r.l)||"(untitled)",r:hv(s==="roles"?r.name:r.who),note:s==="pre"?(c.due?dueCaps(r.due):""):s==="roles"&&hv(r.mat)?"NEEDS: "+hv(r.mat):""}))}
-function ckHeadItems(t){const c=ST[t];return CKDEF[t].head.filter(([k])=>hv(c.head[k])).map(([k,l])=>({k:"kv",q:l,a:hv(c.head[k]),max:4}))}
+function ckHeadItems(t){const c=ST[t],lg=ckLeg(t),o=CKDEF[t].head.filter(([k])=>hv(c.head[k])).map(([k,l,ty])=>({k:"kv",q:l,a:ckVal(ty,c.head[k]),max:4}));if(lg)o.push({k:"kv",q:"Previously entered",a:lg,max:4});return o}
 function ckStatus(t){const[d,n]=ckCount(t);return{ctx:CKDEF[t].name,title:"Pre-event",items:[...ckHeadItems(t),{k:"meter",d,n},...ckItems(t,"pre")]}}
 function ckSecModel(t,s,skip){const c=ST[t];if(s==="head"){const it=ckHeadItems(t);return{ctx:CKDEF[t].name,title:"Event details",items:it.length?it:[{k:"txt",s:"No details yet.",m:1}]}}
  if(skip&&!c[s].some(r=>ckRowHas(s,r)))return null;const T=CKSEC.find(x=>x[0]===s)[1];return{ctx:CKDEF[t].name,title:T,items:ckItems(t,s)}}
@@ -1054,12 +1119,12 @@ function imItems(g,items,w,dr,x,y){const y0=y;
   if(it.k==="txt"){g.font=imF(22,it.b);const L=imClip(g,imWrap(g,it.s,w),it.max||6,w);if(dr){g.fillStyle=it.m?IMU:IK;L.forEach((l,i)=>g.fillText(l,x,y+23+i*LH))}y+=L.length*LH+(it.b?0:6)}
   else if(it.k==="kv"){g.font=imF(18);const Q=imClip(g,imWrap(g,it.q.toUpperCase(),w),2,w);if(dr){g.fillStyle=IMU;Q.forEach((l,i)=>g.fillText(l,x,y+18+i*24))}y+=Q.length*24+4;
    g.font=imF(22);const A=imClip(g,imWrap(g,it.a,w),it.max||4,w);if(dr){g.fillStyle=IK;A.forEach((l,i)=>g.fillText(l,x,y+23+i*LH))}y+=A.length*LH+14}
-  else if(it.k==="row"){g.font=imF(22);const rw=it.r?Math.min(g.measureText(it.r).width,w*.38):0,tw=w-32-(rw?rw+16:0),L=imClip(g,imWrap(g,it.s,tw),3,tw);
+  else if(it.k==="row"){g.font=imF(22);const rw=it.r?Math.min(g.measureText(it.r).width,w*.38):0,tw=w-32-(rw?rw+16:0),L=imClip(g,imWrap(g,it.s,tw),3,tw),RL=rw?imClip(g,imWrap(g,it.r,rw),4,rw):[],RH=Math.max(L.length,RL.length);
    g.font=imF(18);const N=it.note?imClip(g,imWrap(g,it.note,w-32),2,w-32):[];
    if(dr){if(it.done){g.fillStyle=IK;g.fillRect(x,y+6,20,20);g.strokeStyle="#000";g.lineWidth=3;g.beginPath();g.moveTo(x+4,y+16);g.lineTo(x+8.5,y+21);g.lineTo(x+16,y+10);g.stroke()}else{g.strokeStyle=IK;g.lineWidth=2;g.strokeRect(x+1,y+7,18,18)}
-    g.font=imF(22);g.fillStyle=IK;L.forEach((l,i)=>g.fillText(l,x+32,y+23+i*LH));if(rw){g.fillStyle=IMU;g.textAlign="right";g.fillText(imFit(g,it.r,rw),x+w,y+23);g.textAlign="left"}
-    g.font=imF(18);g.fillStyle=IMU;N.forEach((l,i)=>g.fillText(l,x+32,y+L.length*LH+16+i*24))}
-   y+=L.length*LH+N.length*24+8}
+    g.font=imF(22);g.fillStyle=IK;L.forEach((l,i)=>g.fillText(l,x+32,y+23+i*LH));if(rw){g.fillStyle=IMU;g.textAlign="right";RL.forEach((l,i)=>g.fillText(l,x+w,y+23+i*LH));g.textAlign="left"}
+    g.font=imF(18);g.fillStyle=IMU;N.forEach((l,i)=>g.fillText(l,x+32,y+RH*LH+16+i*24))}
+   y+=RH*LH+N.length*24+8}
   else if(it.k==="meter"){g.font=imF(18,1);const T=`${it.d} / ${it.n} DONE`,tw=g.measureText(T).width,av=w-tw-16,gap=4,cs=Math.min(18,Math.floor((av+gap)/Math.max(1,it.n))-gap);
    if(dr){if(cs>=4){for(let i=0;i<it.n;i++){const cx=x+i*(cs+gap);if(i<it.d){g.fillStyle=IK;g.fillRect(cx,y+4,cs,18)}else{g.strokeStyle=IK;g.lineWidth=2;g.strokeRect(cx+1,y+5,cs-2,16)}}}
     else{g.strokeStyle=IK;g.lineWidth=2;g.strokeRect(x+1,y+5,av-2,16);g.fillStyle=IK;g.fillRect(x,y+4,av*it.d/Math.max(1,it.n),18)}g.fillStyle=IK;g.fillText(T,x+w-tw,y+20)}
@@ -1074,9 +1139,8 @@ function imHead(g,X,CW,label,title,tpx,meta,dr){let y=72;g.font=imF(20);if(dr){g
  g.font=imF(tpx,1);const lh=Math.round(tpx*1.2),TL=imClip(g,imWrap(g,title.toUpperCase(),CW),2,CW);if(dr){g.fillStyle=IK;TL.forEach((l,i)=>g.fillText(l,X,y+tpx+i*lh))}y+=TL.length*lh+8;
  if(meta){g.font=imF(22);if(dr){g.fillStyle=IK;g.fillText(imFit(g,meta,CW),X,y+24)}y+=34}
  y+=10;if(dr){g.fillStyle=IK;g.fillRect(X,y,CW,2);g.fillRect(X,y+6,CW,2)}return y+8}
-const FOOT="Made with Action Summation Sheet";
 function infTitle(){return hv(ST.sum.name)||hv(ST.act.head.title)||hv(ST.con.head.event)||"Action summation"}
-function infMeta(){const a=ST.act.head;return whenLine(ST.sum)||[a.time,a.loc].map(hv).filter(Boolean).join(" · ")||hv(ST.con.head.timeloc)}
+function infMeta(){return whenLine(ST.sum)||ckMeta("act")||ckMeta("con")}
 function imAllCards(){const o=[],s=sumHigh();if(s)o.push(s);["con","act"].forEach(t=>{if(ckUsed(t))o.push(ckStatus(t))});
  ["roles","mat"].forEach(s=>["con","act"].forEach(t=>{if(ckUsed(t)){const c=ckSecModel(t,s,1);if(c)o.push(c)}}));const b=sbxModel();if(b)o.push(b);
  o.forEach((c,i)=>c.label=`// ${pad2(i+1)} · ${c.ctx?c.ctx+" · ":""}${c.title}`);return o}
@@ -1084,14 +1148,14 @@ function imInfographic(){const W=1200,X=48,CW=1104,COL=520,GUT=64,mg=document.cr
  let cards=imAllCards();if(!cards.length)cards=[{label:"// 01 · SUMMATION",items:[{k:"txt",s:"Nothing filled in yet.",m:1}]}];
  const top=imHead(mg,X,CW,"> ACTION SUMMATION_",T,44,M,false)+24,col=[top,top],pos=[];
  cards.forEach(c=>{const h=imCard(mg,c,0,0,COL,false),k=col[0]<=col[1]?0:1;pos.push([c,X+k*(COL+GUT),col[k]]);col[k]+=h+32});
- const H=Math.max(col[0],col[1])-32+48+18+48,{cv,g}=imMk(W,H);imFrame(g,24,24,W-48,H-48,24);imHead(g,X,CW,"> ACTION SUMMATION_",T,44,M,true);
- pos.forEach(([c,x,y])=>imCard(g,c,x,y,COL,true));g.font=imF(18);g.fillStyle=IMU;g.fillText(FOOT,X,H-48-4);return cv}
+ const H=Math.max(col[0],col[1])-32+48+48,{cv,g}=imMk(W,H);imFrame(g,24,24,W-48,H-48,24);imHead(g,X,CW,"> ACTION SUMMATION_",T,44,M,true);
+ pos.forEach(([c,x,y])=>imCard(g,c,x,y,COL,true));return cv}
 function imSection(ctx,title,blocks){const W=1080,X=48,CW=984,mg=document.createElement("canvas").getContext("2d"),lab="> ACTION SUMMATION_"+(ctx?" // "+ctx.toUpperCase():"");
  const top=imHead(mg,X,CW,lab,title,32,"",false)+20;let y=top;const hs=blocks.map(b=>{const h=(b.label?34:0)+imItems(mg,b.items,CW,false,0,0);return h});y+=hs.reduce((a,h)=>a+h+24,0);
- const H=y+18+48+24,{cv,g}=imMk(W,H);imFrame(g,24,24,W-48,H-48,24);imHead(g,X,CW,lab,title,32,"",true);y=top;
+ const H=y+48+24,{cv,g}=imMk(W,H);imFrame(g,24,24,W-48,H-48,24);imHead(g,X,CW,lab,title,32,"",true);y=top;
  blocks.forEach((b,i)=>{if(b.label){g.font=imF(18,1);g.fillStyle=IMU;g.fillText(imFit(g,b.label.toUpperCase(),CW),X,y+18);y+=34}imItems(g,b.items,CW,true,X,y);y+=hs[i]-(b.label?34:0)+24;
   if(i<blocks.length-1){g.fillStyle="#6e6e6e";g.fillRect(X,y-14,CW,1)}});
- g.font=imF(18);g.fillStyle=IMU;g.fillText(FOOT,X,H-48-4);return cv}
+ return cv}
 function imBuild(w){ST.sandbox=sbxRead();const[a,t,s]=w.split(":");
  if(a==="info")return{cv:imInfographic(),name:"infographic.png"};
  if(a==="sec"){const m=sumSec(+t);return{cv:imSection("Summation",m.title,[{items:m.items}]),name:"section.png"}}
@@ -1102,13 +1166,82 @@ function imBuild(w){ST.sandbox=sbxRead();const[a,t,s]=w.split(":");
   return{cv:imSection(M.name+" checklist",hv(c.head[M.titleK])||M.name+" checklist",bl),name:M.file}}
  if(a==="sbx"){const m=sbxModel();return{cv:imSection("",m?"Sandbox":"Sandbox",[{items:m?m.items:[{k:"txt",s:"The sandbox is empty.",m:1}]}]),name:"sandbox.png"}}
  throw new Error("unknown image "+w)}
-const IMG={url:null,file:null};
-async function shareImg(w){let r;try{r=imBuild(w)}catch(e){console.warn("image:",e);return toast("Image export failed")}
- const blob=await new Promise(res=>{try{r.cv.toBlob(res,"image/png")}catch(e){res(null)}});if(!blob)return toast("Image export failed on this device");
- if(IMG.url)URL.revokeObjectURL(IMG.url);IMG.url=URL.createObjectURL(blob);try{IMG.file=new File([blob],r.name,{type:"image/png"})}catch(e){IMG.file=null}
- $("#iPrev").src=IMG.url;const a=$("#iDl");a.href=IMG.url;a.download=r.name;$("#dImgH").textContent="Image · "+r.name;
+/* printer-friendly (black on white): one choice for every export, kept in summpub.mono (also read by sandbox.html) */
+const MONO={on:(()=>{try{return localStorage.getItem("summpub.mono")==="1"}catch(e){return false}})()};
+function monoSet(on){MONO.on=!!on;try{localStorage.setItem("summpub.mono",MONO.on?"1":"0")}catch(e){}["#pMono","#iMono"].forEach(q=>{const i=$(q);if(i)i.checked=MONO.on})}
+// images are drawn white on black, then flipped in place: black page, light ink, greys stay greys
+function monoInv(cv){const g=cv.getContext("2d");g.save();g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation="difference";g.fillStyle="#fff";g.fillRect(0,0,cv.width,cv.height);g.restore();return cv}
+const toPng=cv=>new Promise(res=>{try{cv.toBlob(res,"image/png")}catch(e){res(null)}});
+/* 4x6 labels drawn by hand (no libraries): same content and caps as the printed label. Units are points (72 per inch). */
+const LBF='ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace';
+// wrap into at most `max` lines; if it doesn't fit, the "…" goes straight after the last visible word
+function lbClip(g,text,w,max){text=String(text);let L=imWrap(g,text,w);if(L.length<=max)return L;const fits=k=>imWrap(g,lbCut(text,k),w).length<=max;let lo=0,hi=Math.min(text.length,L.slice(0,max).join(" ").length+1);
+ while(lo<hi){const m=(lo+hi+1)>>1;if(fits(m))lo=m;else hi=m-1}return imWrap(g,lbCut(text,lo),w)}
+function lbCut(s,k){let t=s.slice(0,k);if(k<s.length&&/\S/.test(s[k])&&/\S$/.test(t)){const sp=t.search(/\s\S*$/);if(sp>0&&k-sp<=12)t=t.slice(0,sp)}return t.replace(/[\s·,;:\-–—]+$/,"")+"…"}
+function lblDraw(m,dpi){const k=dpi/72,cv=document.createElement("canvas");cv.width=Math.round(4*dpi);cv.height=Math.round(6*dpi);const g=cv.getContext("2d");
+ g.fillStyle="#fff";g.fillRect(0,0,cv.width,cv.height);g.setTransform(k,0,0,k,0,0);g.fillStyle="#000";g.strokeStyle="#000";g.textBaseline="alphabetic";g.textAlign="left";
+ const F=(pt,b)=>(b?"700 ":"")+pt+"px "+LBF,M=10.8,BW=266.4,BH=410.4,BD=1.5,PD=12.96,x0=M+BD+PD,iw=BW-2*(BD+PD),yE=M+BH-BD-PD,LH=12.5;
+ g.lineWidth=BD;g.strokeRect(M+BD/2,M+BD/2,BW-BD,BH-BD);
+ const tx=(t,x,y,pt,lh)=>g.fillText(t,x,y+(lh-pt)/2+pt*.8);let y=M+BD+PD;
+ g.font=F(9);tx(imFit(g,m.k.toUpperCase(),iw),x0,y,9,11.25);y+=11.25+2;
+ g.font=F(16,1);lbClip(g,m.title.toUpperCase(),iw,2).forEach(l=>{tx(l,x0,y,16,18.4);y+=18.4});
+ if(m.meta){y+=2;g.font=F(9);tx(imFit(g,m.meta,iw),x0,y,9,11.25);y+=11.25}
+ y+=4;g.fillRect(x0,y,iw,1.5);y+=1.5+4;
+ g.font=F(10);const RC=72,GP=6,BX=10,R=m.rows.map(r=>{if(r.box==null){const A=lbClip(g,r.s,iw,6);return{r,A,B:[],h:A.length*LH}}
+  const tw=iw-BX-RC-2*GP,A=lbClip(g,r.s,tw,6),Bl=hv(r.r)?lbClip(g,r.r,RC,4):[];return{r,A,B:Bl,h:Math.max(A.length,Bl.length,1)*LH}});
+ const av=yE-y,need=(n,mo)=>R.slice(0,n).reduce((a,o)=>a+o.h+3,0)+(mo?2+LH:0);let n=R.length,more=0;if(need(n,0)>av+1){while(n>1&&need(n,1)>av+1)n--;more=R.length-n}
+ g.save();g.beginPath();g.rect(x0-1,y,iw+2,av+1);g.clip();
+ R.slice(0,n).forEach(o=>{if(o.r.box==null){o.A.forEach((l,i)=>tx(l,x0,y+i*LH,10,LH))}else{g.lineWidth=1.5;if(o.r.box)g.fillRect(x0,y+1,BX,BX);else g.strokeRect(x0+.75,y+1.75,BX-1.5,BX-1.5);
+   o.A.forEach((l,i)=>tx(l,x0+BX+GP,y+i*LH,10,LH));g.textAlign="right";o.B.forEach((l,i)=>tx(l,x0+iw,y+i*LH,10,LH));g.textAlign="left"}y+=o.h+3});
+ if(more){g.font=F(10,1);tx(`+ ${more} more`,x0,y+2,10,LH)}g.restore();return cv}
+// greyscale bytes of a canvas, and pure black/white by threshold (1 = black)
+function cvGray(cv){const d=cv.getContext("2d").getImageData(0,0,cv.width,cv.height).data,o=new Uint8Array(cv.width*cv.height);for(let i=0;i<o.length;i++){const j=i*4;o[i]=(d[j]*299+d[j+1]*587+d[j+2]*114)/1000|0}return o}
+const bwBits=gr=>gr.map(v=>v<160?1:0);
+function pack1(bits,W,H,lead){const bpr=Math.ceil(W/8),st=bpr+(lead?1:0),o=new Uint8Array(st*H);for(let y=0;y<H;y++){const b=y*st+(lead?1:0);for(let x=0;x<W;x++)if(!bits[y*W+x])o[b+(x>>3)]|=128>>(x&7);for(let x=W;x<bpr*8;x++)o[b+(x>>3)]|=128>>(x&7)}return o}
+const CRCT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+function crc32(b){let c=~0;for(let i=0;i<b.length;i++)c=CRCT[(c^b[i])&255]^(c>>>8);return(~c)>>>0}
+// zlib stream: CompressionStream("deflate") where the browser has it, otherwise stored (uncompressed) deflate blocks
+async function zlib(raw){if(window.CompressionStream){try{const z=new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream("deflate"))).arrayBuffer());if(z.length>6)return z}catch(e){}}
+ const n=raw.length,nb=Math.max(1,Math.ceil(n/65535)),o=new Uint8Array(2+n+5*nb+4);o[0]=0x78;o[1]=1;let p=2;
+ for(let i=0;i<nb;i++){const s=i*65535,l=Math.min(65535,n-s);o[p++]=i===nb-1?1:0;o[p++]=l&255;o[p++]=l>>8;o[p++]=~l&255;o[p++]=(~l>>8)&255;o.set(raw.subarray(s,s+l),p);p+=l}
+ let a=1,b=0;for(let i=0;i<n;i++){a+=raw[i];if(a>=65521)a-=65521;b+=a;if(b>=65521)b-=65521}o[p++]=b>>8;o[p++]=b&255;o[p++]=a>>8;o[p++]=a&255;return o}
+// PNG written byte by byte: IHDR (1-bit greyscale), pHYs (dpi), IDAT, IEND. No text, time or EXIF chunks.
+function pngChunk(ty,data){const o=new Uint8Array(12+data.length),v=new DataView(o.buffer);v.setUint32(0,data.length);for(let i=0;i<4;i++)o[4+i]=ty.charCodeAt(i);o.set(data,8);v.setUint32(8+data.length,crc32(o.subarray(4,8+data.length)));return o}
+async function png1(bits,W,H,dpi){const ih=new Uint8Array(13),v=new DataView(ih.buffer);v.setUint32(0,W);v.setUint32(4,H);ih[8]=1;ih[9]=0;
+ const ph=new Uint8Array(9),pv=new DataView(ph.buffer),ppm=Math.round(dpi/0.0254);pv.setUint32(0,ppm);pv.setUint32(4,ppm);ph[8]=1;
+ const idat=await zlib(pack1(bits,W,H,1));return new Blob([new Uint8Array([137,80,78,71,13,10,26,10]),pngChunk("IHDR",ih),pngChunk("pHYs",ph),pngChunk("IDAT",idat),pngChunk("IEND",new Uint8Array(0))],{type:"image/png"})}
+// PDF written by hand: one 288 x 432 pt (4x6 in) page per label, each a single greyscale image. No /Info, no XMP, no /ID.
+async function pdfBuild(pages){const E=x=>typeof x==="string"?new TextEncoder().encode(x):x,parts=[],off=[];let len=0;const put=x=>{x=E(x);parts.push(x);len+=x.length};
+ const N=2+3*pages.length;put("%PDF-1.4\n");put(new Uint8Array([37,226,227,207,211,10]));
+ const obj=(i,...b)=>{off[i]=len;put(i+" 0 obj\n");b.forEach(put);put("\nendobj\n")};
+ obj(1,"<</Type/Catalog/Pages 2 0 R>>");obj(2,`<</Type/Pages/Kids[${pages.map((_,k)=>(3+3*k)+" 0 R").join(" ")}]/Count ${pages.length}>>`);
+ for(let k=0;k<pages.length;k++){const p=pages[k],a=3+3*k,z=await zlib(p.data),cs="q 288 0 0 432 0 0 cm /Im0 Do Q";
+  obj(a,`<</Type/Page/Parent 2 0 R/MediaBox[0 0 288 432]/Resources<</XObject<</Im0 ${a+1} 0 R>>>>/Contents ${a+2} 0 R>>`);
+  obj(a+1,`<</Type/XObject/Subtype/Image/Width ${p.w}/Height ${p.h}/ColorSpace/DeviceGray/BitsPerComponent ${p.bpc}/Filter/FlateDecode/Length ${z.length}>>\nstream\n`,z,"\nendstream");
+  obj(a+2,`<</Length ${cs.length}>>\nstream\n${cs}\nendstream`)}
+ const xr=len;put(`xref\n0 ${N+1}\n0000000000 65535 f \n`);for(let i=1;i<=N;i++)put(String(off[i]).padStart(10,"0")+" 00000 n \n");
+ put(`trailer\n<</Size ${N+1}/Root 1 0 R>>\nstartxref\n${xr}\n%%EOF\n`);return new Blob(parts,{type:"application/pdf"})}
+async function l6Make(kind,pick){ST.sandbox=sbxRead();const ms=lblModels(TAB.cur),sel=pick==="all"?ms:[ms[Math.max(0,Math.min(ms.length-1,+pick||0))]];
+ if(kind==="png"){const cv=lblDraw(sel[0],203),bits=bwBits(cvGray(cv)),blob=await png1(bits,cv.width,cv.height,203);return{blob,prev:blob,name:"label-4x6.png",type:"image/png",what:"Label"}}
+ const pages=sel.map(m=>{const cv=lblDraw(m,300),gr=cvGray(cv);return MONO.on?{w:cv.width,h:cv.height,bpc:1,data:pack1(bwBits(gr),cv.width,cv.height,0)}:{w:cv.width,h:cv.height,bpc:8,data:gr}});
+ const pc=lblDraw(sel[0],144);if(MONO.on){const g=pc.getContext("2d"),im=g.getImageData(0,0,pc.width,pc.height),d=im.data;for(let i=0;i<d.length;i+=4){const v=(d[i]*299+d[i+1]*587+d[i+2]*114)/1000<160?0:255;d[i]=d[i+1]=d[i+2]=v}g.putImageData(im,0,0)}
+ return{blob:await pdfBuild(pages),prev:await toPng(pc),name:"label-4x6.pdf",type:"application/pdf",what:"PDF"}}
+const IMG={url:null,purl:null,file:null,w:null};
+async function fileMake(w){const[a,b]=w.split(":");if(a==="l6png"||a==="l6pdf")return l6Make(a.slice(2),b);
+ const r=imBuild(w);if(MONO.on)monoInv(r.cv);const blob=await toPng(r.cv);return blob?{blob,prev:blob,name:r.name,type:"image/png",what:"Image"}:null}
+async function shareImg(w){let r=null;try{r=await fileMake(w)}catch(e){console.warn("export:",e);return toast("Export failed")}if(!r)return toast("Export failed on this device");IMG.w=w;
+ [IMG.url,IMG.purl].forEach(u=>u&&URL.revokeObjectURL(u));IMG.url=URL.createObjectURL(r.blob);IMG.purl=r.prev===r.blob?null:URL.createObjectURL(r.prev);try{IMG.file=new File([r.blob],r.name,{type:r.type})}catch(e){IMG.file=null}
+ const pdf=r.type==="application/pdf";$("#iPrev").src=IMG.purl||IMG.url;$("#iPrev").alt=pdf?"Preview of the first label page":"Preview of the exported image";
+ const a=$("#iDl");a.href=IMG.url;a.download=r.name;a.querySelector(".bt").textContent=pdf?"Download PDF":"Download PNG";$("#iShare .bt").textContent=pdf?"Share PDF":"Share image";
+ $("#dImgH").textContent=r.what+" · "+r.name;$("#iHint").textContent=pdf?"On iPhone: tap Share PDF, then Print or Save to Files.":"On iPhone: tap Share image, or long-press the picture and choose Save to Photos.";
+ $("#iMono").checked=MONO.on;$("#iMono").parentNode.hidden=a.download==="label-4x6.png";
  const can=!!(IMG.file&&navigator.share&&navigator.canShare&&navigator.canShare({files:[IMG.file]}));$("#iShare").hidden=!can;
- if(dExp.open)dExp.close();dImg.showModal();(can?$("#iShare"):a).focus()}
+ if(dExp.open)dExp.close();if(!dImg.open)dImg.showModal();if(!shareImg.keep)(can?$("#iShare"):a).focus()}
+$("#iMono").onchange=async e=>{monoSet(e.target.checked);if(IMG.w){shareImg.keep=1;try{await shareImg(IMG.w)}finally{shareImg.keep=0}}};
+$("#pMono").onchange=e=>monoSet(e.target.checked);
+function l6Sync(){const f=$("#l6f");f.hidden=PRN.p!=="l6";if(f.hidden)return;ST.sandbox=sbxRead();const sel=$("#l6Pick"),ms=lblModels(TAB.cur),was=sel.value;
+ sel.innerHTML=ms.map((m,i)=>`<option value="${i}">${i+1}. ${esc(m.k)}</option>`).join("");if(was&&+was<ms.length)sel.value=was;$("#eL6All").hidden=ms.length<2}
+$("#eL6Pdf").onclick=()=>shareImg("l6pdf:"+$("#l6Pick").value);$("#eL6Png").onclick=()=>shareImg("l6png:"+$("#l6Pick").value);$("#eL6All").onclick=()=>shareImg("l6pdf:all");
 $("#iShare").onclick=async()=>{try{await navigator.share({files:[IMG.file]})}catch(e){}};
 $("#iClose").onclick=()=>dImg.close();
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".shbtn[data-sh]");if(b){e.preventDefault();stopRec();shareImg(b.dataset.sh)}});
@@ -1117,24 +1250,28 @@ $("#eInfo").onclick=()=>shareImg("info");
 /* ---- print profiles: A = Letter, B = 4x6 thermal label (one section per label; overflow becomes "+ N more") ---- */
 const PRN={p:localStorage.getItem("summpub.print")==="l6"?"l6":"letter"};
 const TABN={sum:"Summation",sbx:"Sandbox",con:"Contingent checklist",act:"Action checklist"};
-function prnSync(){document.querySelectorAll("input[name=prnp]").forEach(i=>i.checked=i.value===PRN.p);
+function prnSync(){document.querySelectorAll("input[name=prnp]").forEach(i=>i.checked=i.value===PRN.p);$("#pMono").checked=MONO.on;l6Sync();
  $("#prnWhat").textContent=`Print / PDF prints the ${TABN[TAB.cur]} tab${PRN.p==="l6"?" as 4×6 labels, one section per label":" on Letter pages"}. Share text, Copy, Markdown and JSON cover the summation sheet.`}
 document.querySelectorAll("input[name=prnp]").forEach(i=>i.addEventListener("change",()=>{if(i.checked){PRN.p=i.value;try{localStorage.setItem("summpub.print",PRN.p)}catch(e){}prnSync()}}));
 function prnPage(){let s=$("#pgsz");if(!s){s=document.createElement("style");s.id="pgsz";document.head.appendChild(s)}s.textContent=PRN.p==="l6"?"@media print{@page{size:4in 6in;margin:.15in}}":"";document.body.classList.toggle("prn-l6",PRN.p==="l6")}
 function lbl(kind,title,meta,rows){return`<div class="l6"><div class="lk">${esc(kind)}</div><div class="lt">${esc(title)}</div>${meta?`<div class="lm">${esc(meta)}</div>`:""}<div class="lr"></div><div class="rows">${rows.map(r=>r.box==null?`<div class="rw nb"><span class="it">${esc(r.s)}</span></div>`:`<div class="rw"><span class="bx${r.box?" on":""}"></span><span class="it">${esc(r.s)}</span><span class="pr">${esc(r.r||"")}</span></div>`).join("")}</div></div>`}
-function lblHTML(t){if(t==="con"||t==="act"){const c=ST[t],M=CKDEF[t],T=hv(c.head[M.titleK])||M.name+" checklist",me=M.metaK.map(k=>hv(c.head[k])).filter(Boolean).join(" · ");
-  return CKSEC.map(([s,title])=>lbl(M.name+" · "+title,T,me,c[s].map(r=>({box:!!r.done,s:(hv(r.l)||"(untitled)")+(s==="pre"&&c.due&&dueCaps(r.due)?" · "+dueCaps(r.due):"")+(s==="roles"&&hv(r.mat)?" · needs "+hv(r.mat):""),r:hv(s==="roles"?r.name:r.who)})))).join("")}
- if(t==="sbx"){const cs=(ST.sandbox.cards||[]).filter(isO);if(!cs.length)return lbl("Sandbox","Sandbox","",[{s:"The sandbox is empty."}]);return cs.map(c=>lbl("Sandbox · "+(SBT[c.type]||""),sbxTitle(c),"",sbxLines(c).map(s=>({s})))).join("")}
+function lblModels(t){const L=(k,title,meta,rows)=>({k,title,meta,rows});
+ if(t==="con"||t==="act"){const c=ST[t],M=CKDEF[t],T=hv(c.head[M.titleK])||M.name+" checklist",me=ckMeta(t);
+  return CKSEC.map(([s,title])=>L(M.name+" · "+title,T,me,c[s].map(r=>({box:!!r.done,s:(hv(r.l)||"(untitled)")+(s==="pre"&&c.due&&dueCaps(r.due)?" · "+dueCaps(r.due):"")+(s==="roles"&&hv(r.mat)?" · needs "+hv(r.mat):""),r:hv(s==="roles"?r.name:r.who)}))))}
+ if(t==="sbx"){const cs=(ST.sandbox.cards||[]).filter(isO);if(!cs.length)return[L("Sandbox","Sandbox","",[{s:"The sandbox is empty."}])];return cs.map(c=>L("Sandbox · "+(SBT[c.type]||""),sbxTitle(c),"",sbxLines(c).map(s=>({s}))))}
  const d=ST.sum,T=hv(d.name)||"Action summation",me=whenLine(d),out=[];
- S.forEach((sec,i)=>{if(sec.report)return;const m=sumSec(i);if(m.items.length===1&&m.items[0].m)return;out.push(lbl("Summation · "+sec.t,T,me,m.items.map(x=>({s:x.k==="kv"?x.q+": "+x.a.replace(/\n/g," "):x.s}))))});
- return out.join("")||lbl("Summation",T,me,[{s:"No answers yet."}])}
-function lblFit(){const P=$("#print");P.classList.add("measure");P.querySelectorAll(".l6 .it,.l6 .pr").forEach(e=>e.classList.toggle("cut",e.scrollHeight>e.clientHeight+1));P.querySelectorAll(".l6").forEach(L=>{const R=L.querySelector(".rows"),rows=[...R.querySelectorAll(".rw")];if(R.scrollHeight<=R.clientHeight+1)return;
+ S.forEach((sec,i)=>{if(sec.report)return;const m=sumSec(i);if(m.items.length===1&&m.items[0].m)return;out.push(L("Summation · "+sec.t,T,me,m.items.map(x=>({s:x.k==="kv"?x.q+": "+x.a.replace(/\n/g," "):x.s}))))});
+ return out.length?out:[L("Summation",T,me,[{s:"No answers yet."}])]}
+function lblHTML(t){return lblModels(t).map(m=>lbl(m.k,m.title,m.meta,m.rows)).join("")}
+function lbTrim(e){if(e.scrollHeight<=e.clientHeight+1)return false;const full=e.textContent,fits=k=>{e.textContent=lbCut(full,k);return e.scrollHeight<=e.clientHeight+1};let lo=0,hi=full.length;
+ while(lo<hi){const m=(lo+hi+1)>>1;if(fits(m))lo=m;else hi=m-1}e.textContent=lbCut(full,lo);return true}
+function lblFit(){const P=$("#print");P.classList.add("measure");P.querySelectorAll(".l6 .it,.l6 .pr").forEach(e=>e.classList.toggle("cut",lbTrim(e)));P.querySelectorAll(".l6").forEach(L=>{const R=L.querySelector(".rows"),rows=[...R.querySelectorAll(".rw")];if(R.scrollHeight<=R.clientHeight+1)return;
  const mo=document.createElement("div");mo.className="more";R.appendChild(mo);let n=0;while(rows.length>1&&R.scrollHeight>R.clientHeight+1){rows.pop().remove();n++;mo.textContent=`+ ${n} more`}});P.classList.remove("measure")}
-function ckLetter(t){const c=ST[t],M=CKDEF[t];let h=`<div class="pp"><h2>${esc(M.name)} checklist</h2><table class="ckh">${M.head.map(([k,l])=>`<tr><th style="width:30%">${esc(l)}</th><td style="white-space:pre-wrap">${esc(c.head[k]||"")}</td></tr>`).join("")}</table>`;
+function ckLetter(t){const c=ST[t],M=CKDEF[t];let h=`<div class="pp"><h2>${esc(M.name)} checklist</h2><table class="ckh">${M.head.map(([k,l,ty])=>`<tr><th style="width:30%">${esc(l)}</th><td style="white-space:pre-wrap">${esc(ckVal(ty,c.head[k]))}</td></tr>`).join("")}${hv(c.head[M.legK])?`<tr><th>${esc(M.legL)}</th><td style="white-space:pre-wrap">${esc(c.head[M.legK])}</td></tr>`:""}</table>`;
  CKSEC.forEach(([s,title,item])=>{const cols=s==="pre"?["Who is responsible"].concat(c.due?["Deadline"]:[]):s==="mat"?["Who is responsible"]:["Name of person(s)","Materials they need"];
   h+=`<div class="ckl"><h3>${esc(title)}</h3><table><tr><th class="bxc">Done</th><th>${esc(item)}</th>${cols.map(x=>`<th>${esc(x)}</th>`).join("")}</tr>${c[s].map(r=>`<tr><td class="bxc">${box(r.done)}</td><td>${esc(r.l)}</td>${(s==="pre"?[r.who].concat(c.due?[fmtDue(r.due)]:[]):s==="mat"?[r.who]:[r.name,r.mat]).map(v=>`<td>${esc(v||"")}</td>`).join("")}</tr>`).join("")}</table></div>`});return h+"</div>"}
 function sbxLetter(){const cs=(ST.sandbox.cards||[]).filter(isO);return`<div class="pp"><h2>Sandbox</h2>${cs.length?cs.map(c=>`<div class="ckl"><h3>${esc(sbxTitle(c))}</h3>${sbxLines(c).map(l=>`<div>${esc(l)}</div>`).join("")}</div>`).join(""):"<p>The sandbox is empty.</p>"}</div>`}
-function buildPrint(){ST.sandbox=sbxRead();prnPage();const t=TAB.cur,P=$("#print");if(PRN.p==="l6"){P.innerHTML=lblHTML(t);lblFit()}else if(t==="sum")buildPrintSum();else P.innerHTML=t==="sbx"?sbxLetter():ckLetter(t)}
+function buildPrint(){ST.sandbox=sbxRead();prnPage();document.body.classList.toggle("prn-mono",MONO.on);const t=TAB.cur,P=$("#print");if(PRN.p==="l6"){P.innerHTML=lblHTML(t);lblFit()}else if(t==="sum")buildPrintSum();else P.innerHTML=t==="sbx"?sbxLetter():ckLetter(t)}
 
 /* ---------- DIALECTICS (patch_dialectics) ---------- */
 const SVGNS="http://www.w3.org/2000/svg",RMQ=matchMedia("(prefers-reduced-motion: reduce)");
@@ -1203,31 +1340,46 @@ function qqDraw(done,tot){const m=$("#qq");if(!m)return;const c=$("#qqc");
  const pt=$("#ptxt");if(pt&&(near||leap)){const sp=document.createElement("span");sp.className="nodal";sp.textContent=leap?" · new quality":" · approaching the nodal point";pt.appendChild(sp)}
  if(qqLast&&qqLast.done!==done&&qqLast.cur===cur)$("#qqlive").textContent=words;qqLast={done,leap,cur}}
 
-/* 3. negation-of-the-negation spiral in the Saved dialog; stores nothing; torn down on close */
-const STAGE=["Affirmation","Negation","Negation of the negation"];let SP=null,spView="list",spMode="all";
-function spNodes(){if(spMode==="one"){const d=D(),st=(d.steps||[]).filter(s=>s&&s.task).map(s=>s.task).join("; ");
-  return[["issue","Issue / contradiction"],["mistakes","Mistakes"],["worked","What worked"],["final","Final analysis"],["slogans","Slogans"],["steps","Next steps"]].map(([k,l])=>({t:shortT(k==="steps"?st:d[k],40)||"(not answered)",w:l}))}
+/* 3. negation-of-the-negation spiral in the Saved dialog; torn down on close. Only the user's own edits to it (node order,
+   unlinked "one level up" links) are kept, in summpub.spiral; with nothing saved it draws exactly as before. */
+const STAGE=["Affirmation","Negation","Negation of the negation"];let SP=null,spView="list",spMode="all",spSelK=null,spCam=null;const SPF={open:false};
+function spNodes(){if(spMode==="one"){const d=D(),st=(d.steps||[]).filter(s=>s&&s.task).map(s=>s.task).join("; "),
+  sf=(d.steps||[]).filter(s=>s&&s.task).map(s=>"• "+s.task+(hv(s.by)?" — "+s.by:"")+(s.due&&parseIso(s.due)?" · due "+fmtDate(s.due):"")).join("\n");
+  return[["issue","Issue / contradiction"],["mistakes","Mistakes"],["worked","What worked"],["final","Final analysis"],["slogans","Slogans"],["steps","Next steps"]].map(([k,l])=>({k,t:shortT(k==="steps"?st:d[k],40)||"(not answered)",f:(k==="steps"?sf:hv(d[k]))||"(not answered)",w:l}))}
  return Object.values(db).map(r=>({r,k:(r.d.date&&parseIso(r.d.date)?r.d.date:isoD(new Date(r.created))),dated:!!(r.d.date&&parseIso(r.d.date))}))
   .sort((a,b)=>a.k.localeCompare(b.k)||a.r.created-b.r.created)
-  .map(({r,k,dated})=>({t:r.d.name||"Untitled action",w:dated?fmtDate(k):"no date · created "+fmtDate(k),id:r.id}))}
+  .map(({r,k,dated})=>({k:r.id,t:r.d.name||"Untitled action",f:(hv(r.d.name)||"Untitled action")+(hv(r.d.issue)?"\n\nIssue / contradiction: "+r.d.issue:""),w:dated?fmtDate(k):"no date · created "+fmtDate(k),id:r.id}))}
+const LSP="summpub.spiral";
+function spAll(){let j=null;try{j=JSON.parse(localStorage.getItem(LSP))}catch(e){}const A=a=>Array.isArray(a)?a.filter(s=>typeof s==="string"&&s.length<120).slice(0,4000):[],c=v=>({o:A(isO(v)?v.o:0),x:A(isO(v)?v.x:0)});
+ const o={all:c(j&&j.all),one:{}};if(j&&isO(j.one))Object.keys(j.one).forEach(id=>{if(db[id])o.one[id]=c(j.one[id])});return o}
+function spLay(){const a=spAll();return spMode==="all"?a.all:(a.one[cur]||{o:[],x:[]})}
+function spSave(l){const a=spAll(),e=!l||(!l.o.length&&!l.x.length);if(spMode==="all")a.all=e?{o:[],x:[]}:l;else if(e)delete a.one[cur];else a.one[cur]=l;
+ try{if(!a.all.o.length&&!a.all.x.length&&!Object.keys(a.one).length)localStorage.removeItem(LSP);else localStorage.setItem(LSP,JSON.stringify(a))}catch(e){toast("Could not save the spiral layout")}}
+// saved order first; nodes it doesn't know (new summations) go straight after their natural predecessor
+function spOrder(N0,o){if(!o.length)return N0.slice();const m=new Map(N0.map(n=>[n.k,n])),out=[...new Set(o)].filter(k=>m.has(k)).map(k=>m.get(k)),seen=new Set(out.map(n=>n.k));
+ N0.forEach((n,i)=>{if(seen.has(n.k))return;let p=-1;for(let j=i-1;j>=0;j--){const q=out.indexOf(N0[j]);if(q>=0){p=q;break}}out.splice(p+1,0,n);seen.add(n.k)});return out}
 function spTeardown(){if(!SP)return;cancelAnimationFrame(SP.raf);SP.raf=0;removeEventListener("resize",SP.size);SP.ro&&SP.ro.disconnect();SP.off&&SP.off();SP=null}
 function spShow(){spTeardown();const V=$("#spiralV"),L=$("#list"),sb=$("#bSort");
  $("#vList").setAttribute("aria-pressed",spView==="list");$("#vSpiral").setAttribute("aria-pressed",spView==="spiral");
  V.hidden=spView!=="spiral";L.hidden=spView==="spiral";if(sb)sb.hidden=spView==="spiral";if(spView!=="spiral"){V.innerHTML="";return}
- const N=spNodes();V.innerHTML=`<div class="seg2" role="group" aria-label="Spiral data"><button type="button" data-m="all" aria-pressed="${spMode==="all"}">All summations</button><button type="button" data-m="one" aria-pressed="${spMode==="one"}">This sheet</button></div>`;
- V.querySelectorAll(".seg2 button").forEach(b=>b.onclick=()=>{spMode=b.dataset.m;spShow()});
+ const LY=spLay(),N=spOrder(spNodes(),LY.o),cut=new Set(LY.x),pk=(a,b)=>[a,b].sort().join("|"),lk=i=>i>=0&&i+3<N.length&&!cut.has(pk(N[i].k,N[i+3].k)),edited=!!(LY.o.length||LY.x.length);V.innerHTML=`<div class="seg2" role="group" aria-label="Spiral data"><button type="button" data-m="all" aria-pressed="${spMode==="all"}">All summations</button><button type="button" data-m="one" aria-pressed="${spMode==="one"}">This sheet</button></div>`;
+ V.querySelectorAll(".seg2 button").forEach(b=>b.onclick=()=>{spMode=b.dataset.m;spSelK=null;SPF.open=false;spShow()});
  const few=N.length<3;
  if(few)V.insertAdjacentHTML("beforeend",`<p class="msg">Save more summations to see the spiral (${N.length} of 3).</p>`);
  else V.insertAdjacentHTML("beforeend",`<div class="dpanel"><canvas tabindex="0" role="img" aria-roledescription="rotatable 3D spiral"></canvas><div class="legend" aria-hidden="true"><span>■ Affirmation</span><span>○ Negation</span><span>◆ Negation of negation</span><span>┆ same angle, one level up</span></div></div>
 <div class="ctl"><button type="button" class="btn sm" data-d="-1">◂ Prev</button><button type="button" class="btn sm" data-d="1">Next ▸</button></div><div class="sst" aria-live="polite" aria-atomic="true"></div>
+<section class="spfull" role="region" aria-labelledby="spFH" hidden><div class="sph"><h4 id="spFH"></h4><button type="button" class="btn sm" data-a="close" aria-label="Close node text">✕ Close</button></div><p class="fm"></p><p class="ft"></p>
+<div class="row"><button type="button" class="btn sm" data-a="up">◂ Move earlier</button><button type="button" class="btn sm" data-a="dn">Move later ▸</button><button type="button" class="btn sm" data-a="lb"></button><button type="button" class="btn sm" data-a="la"></button></div>
+<button type="button" class="btn sm" data-a="open" style="width:100%;margin-top:6px" hidden>Open this summation</button><p class="hint" style="margin:6px 0 0">Keys on the spiral: [ and ] move the selected node, U unlinks or re-links it from the level below.</p></section>
+${edited?`<div class="ctl2"><button type="button" class="btn sm" data-a="reset">Reset links</button></div>`:""}
 <p class="hint">Drag sideways to rotate. With the spiral focused: arrow keys rotate, N / P or Enter step through nodes, 0 resets.</p>`);
  V.insertAdjacentHTML("beforeend",`<span class="lbl">All nodes</span><ol></ol>`);
- const ol=V.querySelector("ol");let sel=Math.max(0,N.length-1);
+ const ol=V.querySelector("ol");let sel=spSelK!=null&&N.some(n=>n.k===spSelK)?N.findIndex(n=>n.k===spSelK):Math.max(0,N.length-1);
  N.forEach((n,i)=>{const li=document.createElement("li"),b=document.createElement("button");b.type="button";b.textContent=`L${Math.floor(i/3)+1} · ${STAGE[i%3]} — ${n.t} (${n.w})`;
-  b.onclick=()=>{if(n.id){stopRec();cur=n.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0)}else{sel=i;if(SP){SP.draw();SP.announce()}}};li.appendChild(b);ol.appendChild(li)});
+  b.onclick=()=>{if(n.id){stopRec();cur=n.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0)}else{sel=i;spSelK=n.k;SPF.open=true;if(SP){SP.draw();SP.announce()}}};li.appendChild(b);ol.appendChild(li)});
  const mark=()=>ol.querySelectorAll("button").forEach((b,i)=>b.setAttribute("aria-current",i===sel));mark();
  if(few)return;
- const cv=V.querySelector("canvas"),g=cv.getContext("2d"),stE=V.querySelector(".sst");let W=0,H=0,yaw=-0.5,pitch=0.32,auto=!RMQ.matches,lt=0;
+ const cv=V.querySelector("canvas"),g=cv.getContext("2d"),stE=V.querySelector(".sst");let W=0,H=0,yaw=spCam?spCam.yaw:-0.5,pitch=spCam?spCam.pitch:0.32,auto=!RMQ.matches&&!spCam,lt=0;spCam=null;
  const STEP=2*Math.PI/3,RISE=1,world=u=>{const tr=u/3,a=u*STEP,r=1+0.18*tr;return[r*Math.cos(a),tr*RISE,r*Math.sin(a)]};
  // Camera distance grows with the spiral so perspective never flips; fit() scales the whole spiral (any yaw) to stay inside the canvas.
  const LV=Math.max(1,(N.length-1)/3),DC=Math.max(4,2.2*Math.hypot(1+0.18*LV,LV*RISE/2+0.4));let FS=1,FY=0,fk="";
@@ -1252,7 +1404,7 @@ function spShow(){spTeardown();const V=$("#spiralV"),L=$("#list"),sb=$("#bSort")
  function draw(){if(!W)return;fit();gw=Math.ceil(W/CS)+1;gh=Math.ceil(H/CS)+1;if(!G||G.length!==gw*gh)G=new Uint8Array(gw*gh);else G.fill(0);
   g.clearRect(0,0,W,H);g.lineCap="round";const last=N.length-1;g.strokeStyle="#f2f2f2";g.lineWidth=1;
   g.setLineDash([2,4]);ln(proj([0,-0.3,0]),proj([0,last/3*RISE+0.4,0]));
-  g.setLineDash([3,3]);for(let i=0;i+3<=last;i++)ln(proj(world(i)),proj(world(i+3)));g.setLineDash([]);
+  g.setLineDash([3,3]);for(let i=0;i+3<=last;i++)if(lk(i))ln(proj(world(i)),proj(world(i+3)));g.setLineDash([]);
   let q0=null;for(let k=0;k<=48;k++){const a=k/48*2*Math.PI,p=proj([1.25*Math.cos(a),-0.3,1.25*Math.sin(a)]);if(q0)ln(q0,p);q0=p}
   const segs=Math.max(1,last*16);let pv=proj(world(0));for(let k=1;k<=segs;k++){const p=proj(world(k/segs*last));g.lineWidth=p.z>0?1:2.5;ln(pv,p);pv=p}
   const PI=N.map((n,i)=>{const p=proj(world(i));return{i,n,p,s:(i===sel?9:6)*p.f}});
@@ -1281,19 +1433,36 @@ function spShow(){spTeardown();const V=$("#spiralV"),L=$("#list"),sb=$("#bSort")
    g.fillStyle="#000";g.fillRect(L.x,L.y,L.w,L.h);g.strokeStyle=L.isS?"#f2f2f2":"#6e6e6e";g.strokeRect(L.x+.5,L.y+.5,L.w-1,L.h-1);
    g.fillStyle="#f2f2f2";g.font=(L.isS?"700 12px ":"11px ")+FONT;g.textBaseline="middle";g.fillText(L.t,L.x+4,L.y+L.h/2+.5)});
   if(SP){SP.lab=lab.map(L=>({i:L.i,x:L.x,y:L.y,w:L.w,h:L.h,forced:!!L.forced}));SP.nodes=PI.map(o=>({i:o.i,x:o.p.x,y:o.p.y}))}}
- function announce(){const n=N[sel],k=sel%3,tr=Math.floor(sel/3)+1,back=sel>=3?` Returns to the angle of “${N[sel-3].t}”, one level higher.`:"";
+ function announce(){const n=N[sel],k=sel%3,tr=Math.floor(sel/3)+1,back=lk(sel-3)?` Returns to the angle of “${N[sel-3].t}”, one level higher.`:"";
   stE.textContent="";const b=document.createElement("b");b.textContent=STAGE[k];stE.append(b,` · level ${tr} · node ${sel+1} of ${N.length}`,document.createElement("br"),`${n.t} (${n.w}).${back}`);
-  cv.setAttribute("aria-label",`Spiral of ${N.length} nodes over ${Math.ceil(N.length/3)} levels. Selected: ${n.t}, ${STAGE[k]}, level ${tr}. A text list of all nodes follows.`);mark()}
- const go=dl=>{sel=(sel+dl+N.length)%N.length;draw();announce()};
+  cv.setAttribute("aria-label",`Spiral of ${N.length} nodes over ${Math.ceil(N.length/3)} levels. Selected: ${n.t}, ${STAGE[k]}, level ${tr}. A text list of all nodes follows.`);mark();fill()}
+ // full text of the selected node + its edits (move, unlink / re-link the same-angle link one level down or up)
+ const F=V.querySelector(".spfull"),fq=a=>F.querySelector(`[data-a=${a}]`);
+ function fill(){F.hidden=!SPF.open;if(!SPF.open)return;const n=N[sel],lv=Math.floor(sel/3)+1;$("#spFH").textContent=`${STAGE[sel%3]} · level ${lv}`;
+  F.querySelector(".fm").textContent=`Node ${sel+1} of ${N.length} · ${n.w}`;F.querySelector(".ft").textContent=n.f||n.t;
+  fq("up").disabled=sel===0;fq("dn").disabled=sel===N.length-1;const lb=fq("lb"),la=fq("la");lb.disabled=sel<3;la.disabled=sel+3>=N.length;
+  lb.textContent=sel>=3&&!lk(sel-3)?"Re-link level below":"Unlink level below";la.textContent=sel+3<N.length&&!lk(sel)?"Re-link level above":"Unlink level above";fq("open").hidden=!n.id}
+ function act(a,fa){if(a==="close"){SPF.open=false;fill();cv.focus();return}
+  if(a==="open"){const n=N[sel];stopRec();cur=n.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0);return}
+  let L={o:N.map(n=>n.k),x:[...cut]},say="";
+  if(a==="reset"){L=null;say="Spiral links and order reset"}
+  else if(a==="up"||a==="dn"){const j=sel+(a==="up"?-1:1);if(j<0||j>=N.length)return;[L.o[sel],L.o[j]]=[L.o[j],L.o[sel]];say=`Moved to node ${j+1} of ${N.length}`}
+  else{const i=a==="lb"?sel-3:sel;if(i<0||i+3>=N.length)return;const p=pk(N[i].k,N[i+3].k);say=cut.has(p)?"Re-linked":"Unlinked";L.x=cut.has(p)?L.x.filter(y=>y!==p):[...L.x,p];L.o=LY.o.length?L.o:[]}
+  spSave(L);spSelK=N[sel].k;if(a!=="reset")SPF.open=true;spCam={yaw,pitch};spShow();toast(say);
+  const V2=$("#spiralV"),c2=V2.querySelector("canvas"),fb=fa&&V2.querySelector(`.spfull [data-a=${fa}]`);(fb&&!fb.disabled&&!fb.closest("[hidden]")?fb:c2||V2).focus()}
+ F.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(b&&!b.disabled)act(b.dataset.a,b.dataset.a)});
+ const rs=V.querySelector("[data-a=reset]");if(rs)rs.onclick=()=>act("reset",null);
+ const go=dl=>{sel=(sel+dl+N.length)%N.length;spSelK=N[sel].k;SPF.open=true;draw();announce()};
  V.querySelectorAll(".ctl button").forEach(b=>b.onclick=()=>go(+b.dataset.d));
  const size=()=>{const r=cv.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);W=r.width;H=r.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);g.setTransform(dpr,0,0,dpr,0,0);draw()};
  cv.addEventListener("keydown",e=>{const K={ArrowLeft:[-.15,0],ArrowRight:[.15,0],ArrowUp:[0,.1],ArrowDown:[0,-.1]}[e.key];
-  if(K){e.preventDefault();auto=false;yaw+=K[0];pitch=Math.max(-1.2,Math.min(1.2,pitch+K[1]));draw()}else if(/^[nN]$|^Enter$/.test(e.key)){e.preventDefault();go(1)}else if(/^[pP]$/.test(e.key)){e.preventDefault();go(-1)}else if(e.key==="0"){yaw=-0.5;pitch=0.32;draw()}});
+  if(K){e.preventDefault();auto=false;yaw+=K[0];pitch=Math.max(-1.2,Math.min(1.2,pitch+K[1]));draw()}else if(/^[nN]$|^Enter$/.test(e.key)){e.preventDefault();go(1)}else if(/^[pP]$/.test(e.key)){e.preventDefault();go(-1)}else if(e.key==="0"){yaw=-0.5;pitch=0.32;draw()}
+  else if(e.key==="["||e.key==="]"){e.preventDefault();act(e.key==="["?"up":"dn",null)}else if(/^[uU]$/.test(e.key)&&sel>=3){e.preventDefault();act("lb",null)}});
  // touch-action:pan-y: vertical swipes keep scrolling the dialog; sideways drags rotate (mouse/pen may also tilt)
  let dr=null;cv.addEventListener("pointerdown",e=>{auto=false;dr={x:e.clientX,y:e.clientY,yaw,pitch,moved:0,id:e.pointerId,t:e.pointerType}});
  cv.addEventListener("pointermove",e=>{if(!dr)return;const dx=e.clientX-dr.x,dy=e.clientY-dr.y;dr.moved=Math.max(dr.moved,Math.abs(dx)+Math.abs(dy));if(dr.moved>4&&!dr.cap){dr.cap=1;try{cv.setPointerCapture(dr.id)}catch(x){}}
   yaw=dr.yaw+dx*0.01;if(dr.t!=="touch")pitch=Math.max(-1.2,Math.min(1.2,dr.pitch+dy*0.006));draw()});
- cv.addEventListener("pointerup",e=>{if(dr&&dr.moved<6){const b=cv.getBoundingClientRect(),x=e.clientX-b.left,y=e.clientY-b.top;let best=-1,bd=900;N.forEach((n,i)=>{const p=proj(world(i)),dd=(p.x-x)**2+(p.y-y)**2;if(dd<bd){bd=dd;best=i}});if(best>=0){sel=best;draw();announce()}}dr=null});
+ cv.addEventListener("pointerup",e=>{if(dr&&dr.moved<6){const b=cv.getBoundingClientRect(),x=e.clientX-b.left,y=e.clientY-b.top;let best=-1,bd=900;N.forEach((n,i)=>{const p=proj(world(i)),dd=(p.x-x)**2+(p.y-y)**2;if(dd<bd){bd=dd;best=i}});if(best>=0){sel=best;spSelK=N[sel].k;SPF.open=true;draw();announce()}}dr=null});
  cv.addEventListener("pointercancel",()=>dr=null);
  const rmc=()=>{if(RMQ.matches)auto=false};RMQ.addEventListener&&RMQ.addEventListener("change",rmc);
  SP={draw,announce,size,raf:0,off:()=>{RMQ.removeEventListener&&RMQ.removeEventListener("change",rmc)}};

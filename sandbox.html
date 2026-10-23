@@ -6,7 +6,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>Sandbox Dialectics</title>
 <!-- Sandbox Dialectics for the Action Summation Sheet. One self-contained file: hand-written HTML/CSS/SVG/Canvas/JS.
-     No libraries, CDNs, web fonts or network calls. Stores only localStorage key "summpub.sandbox". -->
+     No libraries, CDNs, web fonts or network calls. Stores only localStorage key "summpub.sandbox"; reads and sets "summpub.mono" (the app's shared
+     printer-friendly export choice). -->
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{color-scheme:dark;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--bg:#000;--panel:#0b0b0b;--ink:#f2f2f2;--mute:#a6a6a6;--gridl:#3a3a3a}
@@ -112,6 +113,11 @@ dialog h2::before{content:"> "}
 dialog img{display:block;width:100%;height:auto;border:1px solid var(--ink);max-height:52vh;object-fit:contain;object-position:top;background:#000}
 dialog textarea{min-height:44vh;font-size:13px;line-height:1.45;white-space:pre-wrap}
 dialog .row .btn{flex:1 1 40%}
+.mchk{display:flex;align-items:center;gap:10px;min-height:44px;margin:8px 0 0;font-size:14px;font-weight:400;cursor:pointer}
+.mchk::before{content:none}
+.mchk input{width:22px;height:22px;margin:0;accent-color:#f2f2f2;flex:none}
+/* laptop layout (Design v10 spec): only at >= 1024px */
+@media (min-width:1024px){main{max-width:1240px}#stack>.card[data-type=spiral]{grid-column:1/-1}}
 :focus{outline:none}
 :focus-visible{outline:3px solid var(--ink);outline-offset:2px;box-shadow:0 0 0 2px #000,0 0 0 7px rgba(242,242,242,.35)}
 @media (prefers-reduced-motion:reduce){body::after{display:none;animation:none}.cur{animation:none}.card.flash,.panel.jolt{animation:none}}
@@ -166,6 +172,7 @@ dialog .row .btn{flex:1 1 40%}
 <dialog id="dlgImg" aria-labelledby="dlgImgH">
  <h2 id="dlgImgH">Export image</h2>
  <img id="pngPrev" alt="Exported image of the sandbox">
+ <label class="mchk" for="pngMono"><input type="checkbox" id="pngMono">Printer-friendly (black on white)</label>
  <p class="note" id="pngNote">On iPhone: tap Share, or long-press the image and choose Save to Photos.</p>
  <div class="row">
   <button type="button" class="btn solid" id="pngShare" hidden><span class="t">Share image</span></button>
@@ -490,7 +497,7 @@ function bodyContra(c,body){const id=c.id,B=balanceBlock(c,body),SU=[];
    lw.textContent=`${N} own balance: ${100-s.w} / ${s.w}`;rw.setAttribute("aria-valuetext",+s.w===50?"balanced, 50 percent each":`${+s.w>50?sb:sa} principal, ${Math.max(s.w,100-s.w)} percent`);
    li.textContent=`${N} influence on the principal contradiction: ${s.inf>0?"+":""}${s.inf}`;ri.setAttribute("aria-valuetext",infWords(c,s))})});
  U[id]=d=>{B.viz.innerHTML=svgContra(c,d);B.upd(d);
-  const parts=[];if(d.secSum)parts.push(`secondary contradictions push ${d.secSum>0?"+":""}${d.secSum}${d.secLim?" (shared limit)":""}${d.edge!=null?`, moving it ${sgn(d.moved)} to the limit ${d.edge}`:""}`);if(d.push)parts.push(`linked elements push ${d.push>0?"+":""}${d.push}`);if(d.flippers.length)parts.push("then a leap flipped it");
+  const parts=[];if(d.secSum)parts.push(`secondary contradictions push ${d.secSum>0?"+":""}${d.secSum}${d.secLim?" (shared limit)":""}${d.edge!=null?`, moving it ${(d.moved>=0?"+":"")+d.moved} to the limit ${d.edge}`:""}`);if(d.push)parts.push(`linked elements push ${d.push>0?"+":""}${d.push}`);if(d.flippers.length)parts.push("then a leap flipped it");
   B.stt.textContent="";B.stt.append(h("b",{text:d.princ?"Principal aspect: "+lab(c,d.princ):"Balanced"}),h("br"),balWords(c,d.eff)+(parts.length?` You set ${100-c.w}/${c.w}; ${parts.join(", ")}.`:` ${Math.abs(d.eff-50)} points from the flip.`));
   SP.hidden=!c.sec.length;SP.textContent=pushTxt(d).toUpperCase();SP.setAttribute("aria-label",pushTxt(d));SP.setAttribute("aria-valuenow",d.secSum);SP.setAttribute("aria-valuetext",`${sgn(d.secSum)} of ${SECCAP}, the shared limit for all secondary contradictions${d.secRaw!==d.secSum?`; their influences add up to ${sgn(d.secRaw)}`:""}; the balance moved ${(d.moved>=0?"+":"")+d.moved}${d.edge!=null?`, stopped at the limit ${d.edge}`:""}`);SL.hidden=!d.secLim;
   SU.forEach(f=>f())}}
@@ -641,11 +648,11 @@ async function buildPNG(){const D=derive(),W=1080,P=40,CW=W-2*P,IP=24,IW=CW-2*IP
   mc.font=F(22,1);const hl=wrapLines(mc,head,IW);mc.font=F(20);const bl=[].concat(...L.map(l=>wrapLines(mc,l,IW-12)));
   blocks.push({hl,bl,art,ah,hgt:IP+hl.length*30+8+(art?ah+26:0)+bl.length*28+IP})}
  mc.font=F(19);const linkL=[];S.links.forEach(Lk=>{const f=cardBy(Lk.from),t=cardBy(Lk.to);if(f&&t)linkL.push(...wrapLines(mc,`“${titleOf(f)}” → “${titleOf(t)}”: ${SHORT[Lk.kind]}`,CW-2*IP))});
- const headH=128,linkH=linkL.length?2*IP+40+linkL.length*28+30:0,H=headH+blocks.reduce((t,b)=>t+b.hgt+30,0)+linkH+56;
+ const headH=128,linkH=linkL.length?2*IP+40+linkL.length*28+30:0,H=headH+blocks.reduce((t,b)=>t+b.hgt+30,0)+linkH+32;
  const scale=W*H>16e6?Math.sqrt(16e6/(W*H)):1;// stay under iOS canvas size limits
  const cv=document.createElement("canvas");cv.width=Math.floor(W*scale);cv.height=Math.floor(H*scale);const g=cv.getContext("2d");g.scale(scale,scale);
  g.fillStyle="#000";g.fillRect(0,0,W,H);
- g.fillStyle="rgba(255,255,255,.035)";for(let y=0;y<H;y+=3)g.fillRect(0,y,W,1);// scanlines, baked in
+ if(!PMONO.on){g.fillStyle="rgba(255,255,255,.035)";for(let y=0;y<H;y+=3)g.fillRect(0,y,W,1)}// scanlines, baked in (not when printer-friendly)
  g.fillStyle=MUTE;g.font=F(18);g.fillText("SUMMATION · SANDBOX",P,50);
  g.fillStyle=INK;g.font=F(32,1);g.fillText("> SANDBOX DIALECTICS_",P,94);g.fillRect(P,headH-16,CW,2);g.fillRect(P,headH-10,CW,2);
  const frame=(x,y,w,hh)=>{const cut=18;g.fillStyle="#3a3a3a";g.beginPath();g.moveTo(x+6,y+6);g.lineTo(x+w+6-cut,y+6);g.lineTo(x+w+6,y+6+cut);g.lineTo(x+w+6,y+hh+6);g.lineTo(x+6,y+hh+6);g.closePath();g.fill();
@@ -655,17 +662,22 @@ async function buildPNG(){const D=derive(),W=1080,P=40,CW=W-2*P,IP=24,IW=CW-2*IP
   if(b.art){g.fillStyle="#000";g.fillRect(P+IP,yy,IW,b.ah);g.drawImage(b.art,P+IP,yy,IW,b.ah);g.strokeStyle=INK;g.lineWidth=1.5;g.strokeRect(P+IP,yy,IW,b.ah);yy+=b.ah+30}
   g.font=F(20);g.fillStyle=INK;b.bl.forEach(l=>{g.fillText(l,P+IP+6,yy);yy+=28});y+=b.hgt+30});
  if(linkL.length){frame(P,y,CW,linkH-30);let yy=y+IP+22;g.fillStyle=INK;g.font=F(22,1);g.fillText("LINKS",P+IP,yy);yy+=36;g.font=F(19);linkL.forEach(l=>{g.fillText(l,P+IP,yy);yy+=28})}
- g.fillStyle=MUTE;g.font=F(16);g.fillText("Made in Sandbox Dialectics · kept only on this device",P,H-22);
+ if(PMONO.on){g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation="difference";g.fillStyle="#fff";g.fillRect(0,0,cv.width,cv.height);g.globalCompositeOperation="source-over"}// black on white
  return new Promise((res,rej)=>{try{cv.toBlob(b=>b?res(b):rej(new Error("toBlob returned null")),"image/png")}catch(e){rej(e)}})}
 let pngURL=null,pngFile=null;
-$("#expImg").addEventListener("click",async()=>{const b=$("#expImg");b.disabled=true;b.firstChild.textContent="Rendering…";
+// printer-friendly (black on white): shared with the app's exports through localStorage "summpub.mono"
+const PMONO={on:(()=>{try{return localStorage.getItem("summpub.mono")==="1"}catch(e){return false}})()};
+async function expImg(again){const b=$("#expImg");b.disabled=true;b.firstChild.textContent="Rendering…";
  let blob=null;try{blob=await buildPNG()}catch(e){console.warn("image export:",e.message)}b.disabled=false;b.firstChild.textContent="Export image";
- if(!blob){say("Image export failed on this device. Export text still works.");return}
+ if(!blob){say("Image export failed on this device. Export text still works.");return}$("#pngMono").checked=PMONO.on;
  if(pngURL)URL.revokeObjectURL(pngURL);pngURL=URL.createObjectURL(blob);const name="sandbox.png";
  try{pngFile=new File([blob],name,{type:"image/png"})}catch(e){pngFile=null}
  $("#pngPrev").src=pngURL;const a=$("#pngDl");a.href=pngURL;a.download=name;
  const canShare=!!(pngFile&&navigator.canShare&&navigator.canShare({files:[pngFile]}));$("#pngShare").hidden=!canShare;
- openDlg("#dlgImg",canShare?$("#pngShare"):a);say("Image ready. Share it, download it, or long-press the preview to save it.")});
+ if(again){say(PMONO.on?"Image redrawn black on white.":"Image redrawn.");return}
+ openDlg("#dlgImg",canShare?$("#pngShare"):a);say("Image ready. Share it, download it, or long-press the preview to save it.")}
+$("#expImg").addEventListener("click",()=>expImg(false));
+$("#pngMono").addEventListener("change",e=>{PMONO.on=e.target.checked;try{localStorage.setItem("summpub.mono",PMONO.on?"1":"0")}catch(x){}expImg(true)});
 $("#pngShare").addEventListener("click",async()=>{try{await navigator.share({files:[pngFile]})}catch(e){}});
 
 /* ---------- dialogs, clear, example, start ---------- */
