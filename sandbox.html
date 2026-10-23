@@ -930,7 +930,7 @@ function rmApply(){$e("#emb").classList.toggle("rm",reduced());const b=$e("#embS
 RM.addEventListener&&RM.addEventListener("change",rmApply);
 let rz;addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(()=>{if(!S.raf)draw()},60)});
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&S.raf){cancelAnimationFrame(S.raf);S.raf=0;S.last=0}else if(!document.hidden&&moving())kick()});
-if("ResizeObserver"in window)new ResizeObserver(()=>{if(!S.raf)draw()}).observe(cv0.parentNode);
+if("ResizeObserver"in window){let roF=0;new ResizeObserver(()=>{if(roF)return;roF=requestAnimationFrame(()=>{roF=0;if(!S.raf)draw()})}).observe(cv0.parentNode)}
 bind(cv);GL=initGL();if(!GL){C2=cv.getContext("2d");$e("#embM").textContent="CANVAS 2D"}
 EMB={S,draw,pick,tie,models:()=>Object.keys(MODELS),mesh:k=>{const m=MG(k);return{v:m.v.length,f:m.f.length,e:m.e.length}},mode:()=>GL?"webgl":"2d"};
 rmApply();label();
