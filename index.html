@@ -924,8 +924,8 @@ $("#dStop").onclick=()=>{if(DV){const x=DV.q[DV.i],f=DV.sub?x&&x.f:x&&x.f,free=D
 $("#upd").onclick=()=>{persist();location.reload()};
 
 /* ---------- MUSIC (patch_music) ---------- */
-// Quiet chiptune loop of two songs, made with Web Audio: square-wave melody, triangle bass. 'March of the Volunteers' (Nie Er, 1935)
-// at 103 bpm, then 'Red Sun in the Sky' (Song Yang) at its own 116 bpm; they alternate at each loop end. Only note numbers ship, no audio files.
+// Quiet chiptune loop of two songs, made with Web Audio: square-wave melody, triangle bass. 'March of the Volunteers'
+// at 103 bpm, then 'Red Sun in the Sky' at its own 116 bpm; they alternate at each loop end. Only note numbers ship, no audio files.
 // Never plays before the user presses the music button (MUSIC_AUTOSTART=false). Paused (and fully suspended) before any speech recognition starts, on hidden/pagehide and in driving mode.
 // MUSIC_AUTOSTART=false: nothing ever starts the music except a press of the music button (never surprise audio, even if the saved choice was "on").
 const MUSIC_AUTOSTART=false;
