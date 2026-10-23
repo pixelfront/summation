@@ -279,6 +279,13 @@ header button#bMus::before,header button#bMus::after{content:none}
 @keyframes lbeq{from{transform:scaleY(1)}to{transform:scaleY(.25)}}
 @media (prefers-reduced-motion:reduce){#bMus .eq{animation:none!important}}
 body.driving #bMus{display:none!important}
+header button#bSfx{box-sizing:border-box;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;background:#000;color:#f2f2f2;border:2px solid #f2f2f2;border-radius:0}
+header button#bSfx::before,header button#bSfx::after{content:none}
+#bSfx svg{width:20px;height:20px;display:block;overflow:visible}
+#bSfx .i-off,#bSfx.off .i-on{display:none}#bSfx.off .i-off{display:block}
+#bSfx.dim{color:#a6a6a6;border:1px dashed #a6a6a6}
+body.driving #bSfx{display:none!important}
+@media print{#bSfx{display:none!important}}
 @media print{#bMus{display:none!important}}
 
 /* ---- driving mode in look B (patch_drive_lookb) ---- */
@@ -312,6 +319,8 @@ body:not([data-tab=sum]) nav.bar,body:not([data-tab=sum]) header .qq,body:not([d
 #sbxF{display:block;width:100%;height:70vh;border:0;border-top:3px double var(--edge);background:#000}
 .ckhd h2{margin:0;font-size:16px;text-transform:uppercase;letter-spacing:.04em}
 .ckhd .hint{margin:2px 0 10px}
+.ckfor{margin:4px 0 0;font-size:14px}
+.ckold{border:1px dashed var(--mute,#a6a6a6);padding:8px 10px;margin:0 0 12px;font-size:14px}.ckold p{margin:0 0 8px}
 .cktools .chip span{text-transform:uppercase;letter-spacing:.04em}
 .cktools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin:0 0 10px}
 .ckmeter{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
@@ -426,7 +435,7 @@ body.driving .tabs,body.driving .shbtn,body.driving #pSbx,body.driving #pCon,bod
 </head>
 <body data-tab="sum">
 <header>
- <h1><span class="lbttl"><span class="lbp" aria-hidden="true">&gt; </span><span id="ttl" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0">Action Summation Sheet</span><span class="lbcur" aria-hidden="true">_</span></span><span style="white-space:nowrap;flex:none"><button id="bMus" type="button" class="muted" aria-label="Play music"><svg class="i-on" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path class="eq" d="M12 12v-2M15 14v-6M18 11v-1" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg><svg class="i-off" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path d="M12 7l6 6M18 7l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button> <button id="bList" aria-label="Saved summations">☰ Saved</button> <button id="bExport">Export</button></span></h1>
+ <h1><span class="lbttl"><span class="lbp" aria-hidden="true">&gt; </span><span id="ttl" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0">Action Summation Sheet</span><span class="lbcur" aria-hidden="true">_</span></span><span style="white-space:nowrap;flex:none"><button id="bMus" type="button" class="muted" aria-label="Play music"><svg class="i-on" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path class="eq" d="M12 12v-2M15 14v-6M18 11v-1" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg><svg class="i-off" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h3l4-3v12l-4-3H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/><path d="M12 7l6 6M18 7l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button> <button id="bSfx" type="button" class="off" aria-label="Sound effects" aria-pressed="false" title="Sound effects"><svg class="i-on" viewBox="0 0 20 20" aria-hidden="true"><path d="M1 14h4V6h5v8h5V6h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="i-off" viewBox="0 0 20 20" aria-hidden="true"><path d="M1 14h4V6h5v8h5V6h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" opacity=".55"/><path d="M3 18L17 2" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button> <button id="bList" aria-label="Saved summations">☰ Saved</button> <button id="bExport">Export</button></span></h1>
  <div class="qq" id="qq" role="progressbar" aria-label="Answered questions" aria-valuemin="0"><div class="cells" id="qqc" aria-hidden="true"></div><div class="leapl" aria-hidden="true">[ NEW QUALITY ]</div></div><div class="vh" id="qqlive" aria-live="polite" aria-atomic="true"></div><div class="progtxt" id="ptxt"></div>
 </header>
 <main id="app"><div class="tabs" role="tablist" aria-label="Sheets"><button type="button" role="tab" id="tab-sum" aria-controls="main" aria-selected="true">Summation</button><button type="button" role="tab" id="tab-sbx" aria-controls="pSbx" aria-selected="false" tabindex="-1">Sandbox</button><button type="button" role="tab" id="tab-con" aria-controls="pCon" aria-selected="false" tabindex="-1">Contingent</button><button type="button" role="tab" id="tab-act" aria-controls="pAct" aria-selected="false" tabindex="-1">Action</button></div><div id="main" role="tabpanel" aria-labelledby="tab-sum"></div><section id="pSbx" role="tabpanel" aria-labelledby="tab-sbx" hidden><div class="tabtools"><button type="button" class="shbtn ico" data-sh="sbx" aria-label="Share image of the sandbox" title="Share image of the sandbox"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v12H3z"/><path d="M5 14l4-5 3 3 2-2 5 4"/><path d="M12 17v5M9 19l3 3 3-3"/></svg></button></div><iframe id="sbxF" title="Sandbox dialectics"></iframe></section><section id="pCon" class="ckp" role="tabpanel" aria-labelledby="tab-con" hidden></section><section id="pAct" class="ckp" role="tabpanel" aria-labelledby="tab-act" hidden></section></main>
@@ -611,7 +620,7 @@ function blank(){return{id:uid(),created:Date.now(),updated:Date.now(),d:{}}}
 if(!cur||!db[cur]){const b=blank();db[b.id]=b;cur=b.id;persist()}
 const D=()=>db[cur].d;
 const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),1800)}
+function toast(m,snd){if(snd!==0&&musUi.sfx)sfx(snd||(/fail|could not|couldn.t|not supported$|not a valid|first$|denied|error|no microphone|isn.t allowed|needs a connection/i.test(m)?"error":/^(copied|imported|duplicated|saved)|copied instead/i.test(m)?"confirm":""));const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),1800)}
 
 /* ---------- speech ---------- */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rec=null,recEl=null,recBtn=null,recBase="";
@@ -624,10 +633,10 @@ async function startRec(el,btn){
  btn.classList.add("rec");btn.textContent="■";btn.setAttribute("aria-label","Stop dictation");btn.parentNode.classList.add("recording");
  rec.onresult=e=>{let fin="",int="";for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)fin+=r[0].transcript;else int+=r[0].transcript}
   if(fin){recBase+=fin.trim()+" "}el.value=recBase+int;el.dispatchEvent(new Event("input",{bubbles:true}))};
- const r0=rec,wd=setTimeout(()=>{if(rec===r0&&!r0._on){try{r0.abort()}catch(e){}micOff(btn);rec=null;recEl=null;musResume("mic");toast("Couldn't start the microphone")}},4000);r0.onstart=()=>{r0._on=true;clearTimeout(wd)};
- rec.onerror=e=>{const m={"not-allowed":"Microphone permission denied","service-not-allowed":"Dictation isn't allowed. Check Settings.","audio-capture":"No microphone found","network":"Dictation needs a connection right now"}[e.error];if(m)toast(m);else if(e.error!=="no-speech"&&e.error!=="aborted")toast("Dictation error: "+e.error)};
+ const r0=rec,wd=setTimeout(()=>{if(rec===r0&&!r0._on){try{r0.abort()}catch(e){}micOff(btn);rec=null;recEl=null;musResume("mic");toast("Couldn't start the microphone",0)}},4000);r0.onstart=()=>{r0._on=true;clearTimeout(wd)};
+ rec.onerror=e=>{const m={"not-allowed":"Microphone permission denied","service-not-allowed":"Dictation isn't allowed. Check Settings.","audio-capture":"No microphone found","network":"Dictation needs a connection right now"}[e.error];if(m)toast(m,0);else if(e.error!=="no-speech"&&e.error!=="aborted")toast("Dictation error: "+e.error,0)};
  rec.onend=()=>{clearTimeout(wd);micOff(btn);el.value=el.value.trimEnd();el.dispatchEvent(new Event("input",{bubbles:true}));rec=null;recEl=null;setTimeout(()=>{if(!rec)musResume("mic")},0)};
- try{rec.start()}catch(e){clearTimeout(wd);micOff(btn);toast("Could not start dictation");rec=null;recEl=null;musResume("mic")}
+ try{rec.start()}catch(e){clearTimeout(wd);micOff(btn);toast("Could not start dictation",0);rec=null;recEl=null;musResume("mic")}
 }
 function micOff(btn){btn.classList.remove("rec");btn.textContent="MIC";btn.setAttribute("aria-label",btn._al||"Dictate");btn.parentNode.classList.remove("recording")}
 function tw(el,al){const w=document.createElement("div");w.className="tw";w.appendChild(el);if(al)el.setAttribute("aria-label",al);
@@ -644,7 +653,7 @@ function chip(type,name,label,checked,on){const l=document.createElement("label"
  if(type==="radio"){i.onclick=()=>{if(i.dataset.was==="1"){i.checked=false;on(null)}else on(label);document.querySelectorAll(`input[name="${name}"]`).forEach(x=>x.dataset.was=x.checked?"1":"")};i.dataset.was=checked?"1":""}else i.onchange=()=>on(i.checked);return l}
 function set(k,v){D()[k]=v;db[cur].updated=Date.now();save();updateReport();if(balUpd&&/^(pc|sc)_/.test(k))balUpd()}
 let st;function save(){clearTimeout(st);st=setTimeout(()=>{persist();$("#savedtxt")&&($("#savedtxt").textContent="Saved "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"}));progress()},300)}
-function render(){
+function render(){if(render.ck)ckRefresh();
  const m=$("#main");m.innerHTML="";const d=D();
  if(!SR)m.insertAdjacentHTML("beforeend",`<div class="note">🎤 Voice input buttons aren't available in this browser. Tap a field and use the microphone key on the iPhone keyboard to dictate instead.</div>`);
  m.insertAdjacentHTML("beforeend",`<div class="savedrow"><div class="saved" id="savedtxt">Autosaves on this device</div>${shBtn("sum","Share image of the summation")}</div>`);
@@ -697,7 +706,7 @@ function progress(){const d=D();let tot=0,done=0;S.forEach((s,i)=>{if(s.report)r
  updateReport();$("#ptxt").textContent=`${done} of ${tot} answered · ${Math.round(done/tot*100)}%`;qqDraw(done,tot);$("#ttl").textContent=d.name||"Action Summation Sheet"}
 
 /* ---------- nav ---------- */
-$("#bNext").onclick=()=>{const all=[...document.querySelectorAll("details.sec")];let i=all.findIndex(x=>x.open);all.forEach(x=>x.open=false);i=(i+1)%all.length;all[i].open=true;requestAnimationFrame(()=>{const y=all[i].getBoundingClientRect().top+scrollY-$("header").offsetHeight-8;scrollTo({top:Math.max(0,y),behavior:"smooth"})});syncCollapse()};
+$("#bNext").onclick=()=>{sfx("next");const all=[...document.querySelectorAll("details.sec")];let i=all.findIndex(x=>x.open);all.forEach(x=>x.open=false);i=(i+1)%all.length;all[i].open=true;requestAnimationFrame(()=>{const y=all[i].getBoundingClientRect().top+scrollY-$("header").offsetHeight-8;scrollTo({top:Math.max(0,y),behavior:"smooth"})});syncCollapse()};
 $("#bCollapse").onclick=()=>{const all=[...document.querySelectorAll("details.sec")];const anyOpen=all.some(x=>x.open);all.forEach(x=>x.open=!anyOpen);syncCollapse()};
 function syncCollapse(){const b=$("#bCollapse");if(b)b.textContent=[...document.querySelectorAll("details.sec")].some(x=>x.open)?"Collapse all":"Expand all"}
 
@@ -709,15 +718,15 @@ function drawList(){const L=$("#list");L.innerHTML="";const sb=$("#bSort");if(sb
  const [o,du,de]=it.querySelectorAll("button");
  o.onclick=()=>{stopRec();cur=s.id;persist();render();tabGo("sum");dList.close();scrollTo(0,0)};
  du.onclick=()=>{const c=JSON.parse(JSON.stringify(s));c.id=uid();c.created=c.updated=Date.now();c.d.name=(c.d.name||"Untitled action")+" (copy)";db[c.id]=c;persist();drawList();toast("Duplicated")};
- de.onclick=()=>{if(!confirm(`Delete "${s.d.name||"Untitled action"}"? This can't be undone.`))return;delete db[s.id];if(cur===s.id){const r=Object.values(db)[0];if(r)cur=r.id;else{const b=blank();db[b.id]=b;cur=b.id}render()}persist();drawList()};
+ de.onclick=()=>{if(!confirm(`Delete "${s.d.name||"Untitled action"}"? This can't be undone.`))return;delete db[s.id];if(CKS.by[s.id]){delete CKS.by[s.id];ckSave("con",1)}if(cur===s.id){const r=Object.values(db)[0];if(r)cur=r.id;else{const b=blank();db[b.id]=b;cur=b.id}render()}persist();drawList()};
  L.appendChild(it)})}
 $("#bList").onclick=()=>{stopRec();drawList();dList.showModal();spSelK=null;SPF.open=false;spShow()};
 $("#vList").onclick=()=>{spView="list";spShow()};$("#vSpiral").onclick=()=>{spView="spiral";spShow()};
 dList.addEventListener("close",spTeardown);
 // Escape with the spiral node panel open closes only the panel (the key handlers already did it, or focus was elsewhere in Saved)
 dList.addEventListener("keydown",e=>{SPF.key=e;SPF.re=false},true);
-// a touch/pen re-tap near the last node tap (within 48px, 1.5s) is the same tap again: it re-selects that node, restarts the guard and keeps focus on the panel heading (never a button, the canvas or the dialog)
-dList.addEventListener("pointerdown",e=>{const now=performance.now();SPF.pd={x:e.clientX,y:e.clientY,pt:e.pointerType,ts:now};SPF.re=spNear(SPF.pd,now)&&!!(SP&&SP.isOpen&&SP.isOpen());if(SPF.re){SPF.tt=now;SPF.tp.ts=now}},true);
+// a touch/pen re-tap near the last node tap (within 48px, 1.5s) is the same tap again: it re-selects that node, restarts the 1s guard (not the 1.5s near-tap window) and keeps focus on the panel heading (never a button, the canvas or the dialog)
+dList.addEventListener("pointerdown",e=>{const now=performance.now();SPF.pd={x:e.clientX,y:e.clientY,pt:e.pointerType,ts:now};SPF.re=spNear(SPF.pd,now)&&!!(SP&&SP.isOpen&&SP.isOpen());if(SPF.re)SPF.tt=now},true);   // v10b: an ignored re-tap restarts only the 1s guard; the 1.5s near-tap window keeps counting from the real node tap
 dList.addEventListener("pointercancel",()=>{SPF.re=false},true);
 dList.addEventListener("mousedown",e=>{if(SPF.re)e.preventDefault()},true);
 dList.addEventListener("click",e=>{if(!SPF.re)return;SPF.re=false;e.preventDefault();e.stopPropagation();if(SP&&SP.retap)SP.retap()},true);
@@ -734,7 +743,7 @@ function capRole(id){const r=((D().classes||{})[id]||{}).role;return r?` (${r})`
 function toText(md){const d=D();let o=md?`# Action Summation: ${d.name||"Untitled"}\n`:`ACTION SUMMATION SHEET\n`;
  S.forEach((s,i)=>{o+=md?`\n## ${s.t}\n`:`\n=== ${s.t.toUpperCase()} ===\n`;s.f.forEach(f=>{if(f.ty==="lbl"){o+=`\n${f.l}\n`;return}if(f.ty==="quote"){o+=md?`\n> ${f.l}\n`:`\n${f.l}\n`;return}if(f.ty==="legacy"&&!d[f.k])return;
   let a=ansText(f,d,md);if(md)a=a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");if(f.k==="nonmono"||f.k==="mono")a+=capRole(f.k);o+=md?`\n**${f.l}**${f.h?" _"+f.h+"_":""}\n\n${a||"—"}\n`:`\n${f.l}\n${a||"—"}\n`;if(f.k==="pc_sa"||f.k==="sc_sa"){let bl=balLine(d,f.k.slice(0,2));if(bl){if(md)bl=bl.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/([\\`*_\[\]])/g,"\\$1");o+=`\n${bl}\n`}}})});return o}
-function dl(name,data,type){const b=new Blob([data],{type});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+function dl(name,data,type){sfx("export-done");const b=new Blob([data],{type});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
 const fname=()=>(D().name||"summation").replace(/[^\w-]+/g,"_").slice(0,40);
 $("#bExport").onclick=()=>{stopRec();prnSync();dExp.showModal()};
 $("#eCopy").onclick=async()=>toast(await copyText(toText())?"Copied":"Copy failed");
@@ -915,25 +924,31 @@ $("#dStop").onclick=()=>{if(DV){const x=DV.q[DV.i],f=DV.sub?x&&x.f:x&&x.f,free=D
 $("#upd").onclick=()=>{persist();location.reload()};
 
 /* ---------- MUSIC (patch_music) ---------- */
-// Quiet chiptune loop of 'March of the Volunteers' (Nie Er, 1935), made with Web Audio: square-wave melody, triangle bass.
+// Quiet chiptune loop of two songs, made with Web Audio: square-wave melody, triangle bass. 'March of the Volunteers' (Nie Er, 1935)
+// at 103 bpm, then 'Red Sun in the Sky' (Song Yang) at its own 116 bpm; they alternate at each loop end. Only note numbers ship, no audio files.
 // Never plays before the user presses the music button (MUSIC_AUTOSTART=false). Paused (and fully suspended) before any speech recognition starts, on hidden/pagehide and in driving mode.
 // MUSIC_AUTOSTART=false: nothing ever starts the music except a press of the music button (never surprise audio, even if the saved choice was "on").
 const MUSIC_AUTOSTART=false;
 const MUSK=LS.replace(/v1$/,"music"),MVOL=0.05,MBPM=103,
  MEL=[0,9,67,9,3,71,12,6,74,18,6,74,24,12,76,36,12,74,48,9,71,57,3,67,60,4,74,64,4,74,68,4,74,72,12,71,84,12,67,96,4,62,100,4,62,104,4,62,108,4,62,112,4,62,116,4,62,120,12,67,138,6,62,144,18,67,162,6,67,168,9,67,177,3,67,180,6,62,186,3,64,189,3,66,192,12,67,204,12,67,222,6,71,228,6,67,234,3,69,237,3,71,240,12,74,252,12,74,264,9,71,273,3,71,276,9,67,285,3,71,288,9,74,297,3,71,300,12,69,312,24,69,336,12,76,348,12,74,360,12,69,372,12,71,384,6,74,390,6,71,402,6,74,408,6,71,414,3,69,417,3,71,420,12,67,432,12,71,456,9,62,465,3,64,468,6,67,474,6,67,480,9,71,489,3,71,492,6,74,498,6,74,504,6,69,510,3,69,513,3,69,516,12,64,528,18,69,546,6,62,552,18,67,570,6,67,576,18,71,594,6,71,600,24,74,624,9,67,633,3,71,636,6,74,642,6,74,648,12,76,660,12,74,672,9,71,681,3,67,684,4,74,688,4,74,692,4,74,696,6,71,708,6,67,720,12,62,732,12,67,744,9,71,753,3,67,756,4,74,760,4,74,764,4,74,768,6,71,780,6,67,792,12,62,804,12,67,816,12,62,828,12,67,840,12,62,852,12,67,864,12,67],BAS=[96,12,50,108,12,50,120,12,43,132,12,43,144,12,43,156,12,43,168,12,52,180,12,50,192,12,43,204,12,43,216,12,43,228,12,43,240,12,50,252,12,50,264,12,43,276,12,52,288,12,43,300,12,45,312,12,50,324,12,50,336,12,48,348,12,43,360,12,50,372,12,43,384,12,43,396,12,43,408,12,47,420,12,52,432,12,47,444,12,47,456,12,43,468,12,43,480,12,43,492,12,43,504,12,45,516,12,52,528,12,45,540,12,50,552,12,43,564,12,43,576,12,43,588,12,43,600,12,50,612,12,50,624,12,43,636,12,43,648,12,52,660,12,43,672,12,43,684,12,43,696,12,43,708,12,43,720,12,50,732,12,43,744,12,43,756,12,43,768,12,43,780,12,43,792,12,50,804,12,43,816,12,50,828,12,43,840,12,50,852,12,43,864,12,43,876,12,43],MLOOP=912;
-const MUS={ac:null,g:null,on:localStorage.getItem(MUSK)!=="off",started:false,why:new Set(),ev:null,pos:0,base:0,timer:0,pp:Promise.resolve(),st:""};
+// v10b: 'Red Sun in the Sky' note data ([start,dur,midi] triples, 1/12 quarter-note units), from the arrangement's note file only.
+const RS_BPM=116,RS_LOOP=1296,RS_MEL=[0,9,74,9,3,74,12,6,74,18,6,74,24,6,74,30,6,77,36,6,74,42,6,70,48,9,67,57,3,65,60,6,67,66,6,74,72,6,70,78,6,74,84,6,70,90,6,67,96,9,67,105,3,65,108,6,67,114,6,70,120,12,74,132,12,70,144,6,67,150,12,65,162,6,67,168,12,70,180,4,62,184,4,65,188,4,67,192,12,70,204,12,67,216,12,70,228,12,67,240,9,70,249,3,67,252,6,70,258,6,77,264,6,74,270,6,74,288,12,70,300,9,67,309,3,70,312,6,74,318,12,74,330,6,77,336,12,74,348,12,70,360,6,67,366,6,67,384,12,67,396,9,62,405,3,65,408,12,67,420,6,65,426,6,67,432,12,70,444,12,74,456,6,70,462,6,67,480,9,67,489,3,65,492,6,67,498,6,70,504,12,74,516,12,70,528,6,67,534,12,65,546,6,67,552,12,70,576,9,74,585,3,74,588,6,74,594,6,77,600,6,74,606,12,74,618,6,70,624,9,67,633,3,65,636,6,67,642,6,74,648,6,70,654,6,67,672,9,67,681,3,65,684,6,67,690,6,70,696,12,74,708,12,70,720,6,67,726,12,65,738,6,67,744,12,70,768,12,70,780,12,67,792,12,70,804,12,67,816,9,70,825,3,67,828,6,70,834,6,77,840,6,74,846,6,74,864,12,70,876,9,67,885,3,70,888,6,74,894,12,74,906,6,77,912,12,74,924,12,70,936,6,67,942,6,67,960,12,67,972,9,62,981,3,65,984,6,67,990,6,67,996,6,65,1002,6,67,1008,12,70,1020,12,74,1032,6,70,1038,6,67,1056,9,67,1065,3,65,1068,6,67,1074,6,70,1080,12,74,1092,12,70,1104,9,67,1113,3,65,1116,6,67,1122,6,70,1128,12,74,1140,12,70,1152,6,74,1158,6,74,1164,6,74,1170,6,77,1176,6,74,1182,6,74,1188,6,74,1194,6,77,1200,6,74,1206,6,77,1212,12,70,1224,6,79,1230,6,77,1236,6,79,1242,6,77,1248,48,74],RS_BAS=[0,12,46,12,12,53,24,12,46,36,12,53,48,12,43,60,12,50,72,12,55,84,12,50,96,12,43,108,12,50,120,12,55,132,12,50,144,12,41,156,12,48,168,12,53,180,12,48,192,12,43,204,12,50,216,12,55,228,12,50,240,12,46,252,12,53,264,12,46,276,12,53,288,12,43,300,12,50,312,12,55,324,12,50,336,12,43,348,12,50,360,12,55,372,12,50,384,12,43,396,12,50,408,12,55,420,12,50,432,12,46,444,12,53,456,12,46,468,12,53,480,12,43,492,12,50,504,12,55,516,12,50,528,12,41,540,12,48,552,12,53,564,12,48,576,12,46,588,12,53,600,12,46,612,12,53,624,12,43,636,12,50,648,12,55,660,12,50,672,12,43,684,12,50,696,12,55,708,12,50,720,12,41,732,12,48,744,12,53,756,12,48,768,12,43,780,12,50,792,12,55,804,12,50,816,12,46,828,12,53,840,12,46,852,12,53,864,12,43,876,12,50,888,12,55,900,12,50,912,12,43,924,12,50,936,12,55,948,12,50,960,12,43,972,12,50,984,12,55,996,12,50,1008,12,46,1020,12,53,1032,12,46,1044,12,53,1056,12,43,1068,12,50,1080,12,55,1092,12,50,1104,12,43,1116,12,50,1128,12,55,1140,12,50,1152,12,46,1164,12,53,1176,12,46,1188,12,53,1200,12,39,1212,12,46,1224,12,51,1236,12,46,1248,48,43];
+const MUS={si:0,ac:null,g:null,on:localStorage.getItem(MUSK)!=="off",started:false,why:new Set(),ev:null,pos:0,base:0,timer:0,pp:Promise.resolve(),st:""};
 function musSession(t){try{if(navigator.audioSession&&navigator.audioSession.type!==t)navigator.audioSession.type=t}catch(e){}}
-function musEv(){const e=[];for(let i=0;i<MEL.length;i+=3)e.push([MEL[i],MEL[i+1],MEL[i+2],"square",.32]);for(let i=0;i<BAS.length;i+=3)e.push([BAS[i],BAS[i+1],BAS[i+2],"triangle",.75]);return e.sort((a,b)=>a[0]-b[0])}
+function musEv(mel,bas){const e=[];for(let i=0;i<mel.length;i+=3)e.push([mel[i],mel[i+1],mel[i+2],"square",.32]);for(let i=0;i<bas.length;i+=3)e.push([bas[i],bas[i+1],bas[i+2],"triangle",.75]);return e.sort((a,b)=>a[0]-b[0])}
+// the playlist: each song keeps its own tempo (bpm) and loop length (units)
+const SONGS=[{name:"March of the Volunteers",bpm:MBPM,loop:MLOOP,mel:MEL,bas:BAS},{name:"Red Sun in the Sky",bpm:RS_BPM,loop:RS_LOOP,mel:RS_MEL,bas:RS_BAS}];
+const musSong=()=>SONGS[MUS.si],musEvOf=i=>SONGS[i].ev||(SONGS[i].ev=musEv(SONGS[i].mel,SONGS[i].bas));
 function musInit(){if(MUS.ac)return true;const C=window.AudioContext||window.webkitAudioContext;if(!C)return false;
  musSession("ambient");try{MUS.ac=new C()}catch(e){return false}MUS.g=MUS.ac.createGain();MUS.g.gain.value=0;MUS.g.connect(MUS.ac.destination);
- MUS.ac.onstatechange=()=>{if(MUS.ac.state==="running"&&!musWant())MUS.ac.suspend().catch(()=>{})};   // any late/OS resume while paused (mic, driving, hidden, muted) is undone
- MUS.ev=musEv();MUS.pos=0;MUS.base=MUS.ac.currentTime+.1;MUS.timer=setInterval(musTick,60);return true}
+ MUS.ac.onstatechange=()=>{if(MUS.ac.state==="running"&&!musWant()&&!sfxHeld())MUS.ac.suspend().catch(()=>{})};   // any late/OS resume while paused (mic, driving, hidden, muted) is undone
+ MUS.si=0;MUS.ev=musEvOf(0);MUS.pos=0;MUS.base=MUS.ac.currentTime+.1;MUS.timer=setInterval(musTick,60);return true}
 function musNote(t,d,m,type,v){const ac=MUS.ac,o=ac.createOscillator(),g=ac.createGain(),f=440*Math.pow(2,(m-69)/12);o.type=type;o.frequency.value=f;
  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.006);g.gain.setValueAtTime(v,t+Math.max(.01,d*.78));g.gain.linearRampToValueAtTime(0,t+d*.92);
  o.connect(g);g.connect(MUS.g);o.start(t);o.stop(t+d)}
-function musTick(){const ac=MUS.ac;if(!ac||ac.state!=="running")return;if(!musWant()){ac.suspend().catch(()=>{});return}const u=60/MBPM/12;   // seconds per unit (1/12 of a quarter note; patch_v7 tempo fix)
+function musTick(){const ac=MUS.ac;if(!ac||ac.state!=="running")return;if(!musWant()){if(!sfxHeld())ac.suspend().catch(()=>{});return}let u=60/musSong().bpm/12;   // seconds per unit (1/12 of a quarter note; patch_v7 tempo fix), per song (v10b)
  if(MUS.base+MUS.ev[MUS.pos][0]*u<ac.currentTime-1){MUS.base=ac.currentTime+.05;MUS.pos=0}
- while(MUS.base+MUS.ev[MUS.pos][0]*u<ac.currentTime+.3){const e=MUS.ev[MUS.pos];musNote(MUS.base+e[0]*u,e[1]*u,e[2],e[3],e[4]);if(++MUS.pos>=MUS.ev.length){MUS.pos=0;MUS.base+=MLOOP*u}}}
+ while(MUS.base+MUS.ev[MUS.pos][0]*u<ac.currentTime+.3){const e=MUS.ev[MUS.pos];musNote(MUS.base+e[0]*u,e[1]*u,e[2],e[3],e[4]);if(++MUS.pos>=MUS.ev.length){MUS.pos=0;MUS.base+=musSong().loop*u;MUS.si=(MUS.si+1)%SONGS.length;MUS.ev=musEvOf(MUS.si);u=60/musSong().bpm/12}}}
 const musWant=()=>MUS.on&&MUS.started&&!MUS.why.size;
 function musApply(){musUi();const ac=MUS.ac;if(!ac)return MUS.pp=Promise.resolve();const t=ac.currentTime,G=MUS.g.gain;
  if(musWant()){musSession("ambient");MUS.st="playing";const p=ac.state==="running"?Promise.resolve():ac.resume().catch(()=>{});
@@ -942,7 +957,7 @@ function musApply(){musUi();const ac=MUS.ac;if(!ac)return MUS.pp=Promise.resolve
  return MUS.pp=new Promise(res=>setTimeout(()=>{if(musWant()||ac.state!=="running")return res();G.cancelScheduledValues(0);G.setValueAtTime(0,ac.currentTime);ac.suspend().then(res,res)},80)).then(()=>{if(!musWant())musSession("auto")})}
 function musPause(why){MUS.why.add(why);return musApply()}
 function musResume(why){if(!MUS.why.delete(why))return MUS.pp;return musApply()}
-function musUi(){const b=$("#bMus");if(!b)return;const on=MUS.on&&MUS.started;b.classList.toggle("muted",!on);b.classList.toggle("paused",on&&MUS.why.size>0);b.setAttribute("aria-label",on?"Mute music":"Play music")}
+function musUi(){const b=$("#bMus");if(!b)return;const on=MUS.on&&MUS.started;b.classList.toggle("muted",!on);b.classList.toggle("paused",on&&MUS.why.size>0);b.setAttribute("aria-label",on?"Mute music":"Play music");if(musUi.sfx)sfxUi()}
 function musUnlock(e){if(MUS.started)return;if(e&&e.target&&e.target.closest&&e.target.closest("#bMus"))return;
  MUS.started=true;["click","touchend","keydown"].forEach(t=>removeEventListener(t,musUnlock,true));if(MUS.on&&musInit())musApply();else musUi()}
 if(MUSIC_AUTOSTART)["click","touchend","keydown"].forEach(t=>addEventListener(t,musUnlock,true));
@@ -954,10 +969,63 @@ addEventListener("beforeprint",()=>musPause("print"));addEventListener("afterpri
 try{const mqp=matchMedia("print"),h=e=>e.matches?musPause("print"):musResume("print");mqp.addEventListener?mqp.addEventListener("change",h):mqp.addListener(h)}catch(e){}   // Safari: print media query
 musUi();
 
+/* ---------- v10b: chiptune sound effects (made in code with Web Audio; no audio files) ---------- */
+// Off by default, saved as summpub.sfx ("1"/"0"). Music is the master: a sound plays only while SFX is on AND the music is on
+// (the music button showing it is playing). Silent while dictation runs; in driving mode only confirm and error play.
+// Engine and table from the v10B sound spec, as given. One AudioContext: the music's (MUS.ac) when it exists.
+const SFX_DEF={
+ "click":      [["square",1400,1000,0,22,.07]],
+ "toggle-on":  [["square",660,660,0,30,.06],["square",990,990,35,40,.06]],
+ "toggle-off": [["square",990,990,0,30,.06],["square",660,660,35,40,.06]],
+ "open":       [["triangle",330,880,0,80,.14]],
+ "close":      [["triangle",880,330,0,80,.14]],
+ "next":       [["square",784,784,0,30,.06],["square",1047,1047,40,50,.06]],
+ "back":       [["square",1047,1047,0,30,.06],["square",784,784,40,50,.06]],
+ "confirm":    [["square",523,523,0,40,.06],["square",659,659,45,40,.06],["square",784,784,90,90,.06]],
+ "error":      [["square",220,180,0,90,.07],["square",220,180,110,120,.07]],
+ "link":       [["triangle",660,1320,0,50,.12],["square",1320,1320,55,25,.04]],
+ "unlink":     [["triangle",1320,660,0,50,.12],["noise",3000,0,50,30,.05]],
+ "tick":       [["square",2000,2000,0,8,.04]],
+ "drop":       [["noise",800,0,0,40,.08],["triangle",160,80,0,90,.16]],
+ "promote":    [["square",392,392,0,40,.06],["square",523,523,45,40,.06],["square",659,659,90,40,.06],["square",784,784,135,160,.06]],
+ "export-done":[["square",784,784,0,50,.06],["square",1047,1047,60,50,.06],["triangle",1568,1568,120,160,.12]]
+};
+const SFX={ac:null,noise:null,on:(()=>{try{return localStorage.getItem("summpub.sfx")==="1"}catch(e){return false}})(),last:{},t:0,n:0,hold:0};
+// a sound may wake the shared context while the music is paused (driving mode: confirm / error); it is suspended again right after
+function sfxHeld(){return performance.now()<SFX.hold}
+const sfxMusicOn=()=>MUS.on&&MUS.started;
+const sfxAllowed=name=>SFX.on&&sfxMusicOn()&&!rec&&!MUS.why.has("mic")&&!MUS.why.has("hidden")&&(!document.body.classList.contains("driving")||name==="confirm"||name==="error");
+function sfxCtx(){if(!musInit())return null;const ac=MUS.ac;if(!SFX.noise){const n=ac.sampleRate*.25|0,b=ac.createBuffer(1,n,ac.sampleRate),d=b.getChannelData(0);
+ for(let i=0;i<n;i++)d[i]=Math.random()*2-1;SFX.noise=b}return ac}
+function sfx(name,minGapMs){if(!sfxAllowed(name))return false;const def=SFX_DEF[name];if(!def)return false;
+ const now=performance.now();if(minGapMs&&now-(SFX.last[name]||0)<minGapMs)return false;SFX.last[name]=now;
+ const ac=sfxCtx();if(!ac)return false;if(ac.state!=="running")ac.resume().catch(()=>{});   // call from inside a tap handler on iOS
+ SFX.t=now;SFX.n++;const t0=ac.currentTime+.01,end=Math.max(...def.map(p=>p[3]+p[4]))+60;SFX.hold=Math.max(SFX.hold,now+end+150);
+ if(!musWant())setTimeout(()=>{if(MUS.ac&&!musWant()&&!sfxHeld()&&MUS.ac.state==="running")MUS.ac.suspend().catch(()=>{})},end+200);
+ for(const[w,f0,f1,st,du,g]of def){const t=t0+st/1000,e=t+du/1000,G=ac.createGain();
+  G.gain.setValueAtTime(0,t);G.gain.linearRampToValueAtTime(g,t+.002);G.gain.exponentialRampToValueAtTime(.0001,e);G.connect(ac.destination);
+  let src;if(w==="noise"){src=ac.createBufferSource();src.buffer=SFX.noise;const hp=ac.createBiquadFilter();hp.type="highpass";hp.frequency.value=f0;src.connect(hp);hp.connect(G)}
+  else{src=ac.createOscillator();src.type=w;src.frequency.setValueAtTime(f0,t);if(f1!==f0)src.frequency.exponentialRampToValueAtTime(f1,e);src.connect(G)}
+  src.start(t);src.stop(e+.02)}
+ return true}
+window.sfx=sfx;   // the Sandbox tab (same-origin iframe) plays through this one engine
+// background sounds (generic click, section/dialog open and close) only play when no specific sound did in the same moment
+function sfxSoft(name){const t0=SFX.n;setTimeout(()=>{if(SFX.n===t0&&performance.now()-SFX.t>90)sfx(name)},0)}
+const sfxQuiet=el=>el.closest("#bMus,#bSfx,.mic,summary,label,input,select,textarea,[data-nosfx]");
+function sfxWire(doc){if(!doc||doc._sfx)return;doc._sfx=1;
+ doc.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("button,a[href],[role=tab]");if(!b||sfxQuiet(b)||b.disabled)return;sfxSoft("click")});
+ doc.addEventListener("change",e=>{const i=e.target;if(i.type==="checkbox"||i.type==="radio")sfx(i.checked?"toggle-on":"toggle-off")});
+ const tk=new WeakMap();doc.addEventListener("input",e=>{const i=e.target;if(i.type!=="range")return;const k=Math.floor(Number(i.value)/10),p=tk.get(i);tk.set(i,k);if(p!==undefined&&p!==k)sfx("tick",60)});
+ doc.addEventListener("toggle",e=>{if(e.target.tagName==="DETAILS")sfxSoft(e.target.open?"open":"close")},true);
+ new MutationObserver(m=>m.forEach(r=>{if(r.target.tagName==="DIALOG")sfxSoft(r.target.open?"open":"close")})).observe(doc.documentElement,{subtree:true,attributes:true,attributeFilter:["open"]})}
+function sfxUi(){const b=$("#bSfx");if(!b)return;b.classList.toggle("off",!SFX.on);b.setAttribute("aria-pressed",String(SFX.on));b.classList.toggle("dim",SFX.on&&!sfxMusicOn())}
+$("#bSfx").onclick=()=>{SFX.on=!SFX.on;try{localStorage.setItem("summpub.sfx",SFX.on?"1":"0")}catch(e){}sfxUi();if(SFX.on)sfx("toggle-on")};
+sfxWire(document);musUi.sfx=1;sfxUi();
+
 /* ---------- V9 (patch_v9): tabs, checklists, calendar, image export, print profiles ---------- */
 // ONE central state object, ST: ST.sum is the open summation (db[cur].d, saved under summpub.v1), ST.sandbox mirrors
-// summpub.sandbox (written by sandbox.html in the Sandbox tab), ST.con / ST.act are the checklists (summpub.contingent /
-// summpub.action). The UI renders from ST and every export (.ics, Google link, images, print) reads ST, never the DOM.
+// summpub.sandbox (written by sandbox.html in the Sandbox tab), ST.con / ST.act are the open summation's own checklists (summpub.checklists,
+// v10b; the v10A shared ones under summpub.contingent / summpub.action are kept as the old copy). The UI renders from ST and every export (.ics, Google link, images, print) reads ST, never the DOM.
 const rnd=n=>{const a=new Uint8Array(n);crypto.getRandomValues(a);return[...a].map(x=>x.toString(16).padStart(2,"0")).join("")};
 const CKDEF={
  con:{key:"summpub.contingent",name:"Contingent",sub:"For a contingent joining someone else's event.",file:"contingent.png",titleK:"event",legK:"timeloc",legL:"Time and location (previous text)",
@@ -1011,10 +1079,28 @@ function sbxClean(s){const o={v:1,seq:0,cards:[],links:[]};if(!s||typeof s!=="ob
  (Array.isArray(s.links)?s.links:[]).forEach(L=>{if(!ob(L)||!ty[L.from]||!ty[L.to]||L.from===L.to)return;const k=[L.from,L.to].sort().join("|");if(pair.has(k))return;
   const kd=kind(ty[L.from],ty[L.to]);if(kd==="drive"&&o.links.some(x=>x.to===L.to&&x.kind==="drive"))return;pair.add(k);o.links.push({id:id(L.id,"l"),from:L.from,to:L.to,kind:kd})});
  used.forEach(v=>{const n=parseInt(v.slice(1),36);if(isFinite(n)&&n>seq&&n<1e9)seq=n});o.seq=seq;return o}
-const ST={get sum(){return D()},sandbox:sbxRead(),con:ckLoad("con"),act:ckLoad("act")};
+// v10b: each saved summation keeps its own Contingent and Action checklists, all under summpub.checklists:
+// {v:1, by:{<summation id>:{con,act}}, mig:{to:<id>, old:[ids]}}. First v10b start (no summpub.checklists yet): the shared v10A
+// checklists (summpub.contingent / summpub.action) are copied to the summation that was open; every other summation saved before
+// then starts blank and offers the old shared copy, which is never changed or deleted (the v10A keys are left as they are).
+const CKK="summpub.checklists";
+function ckEmpty(t,c){const M=CKDEF[t];return c.due!==false&&!M.head.some(([k])=>hv(c.head[k]))&&!hv(c.head[M.legK])&&CKSEC.every(([s])=>c[s].length===M[s].length&&c[s].every((r,i)=>r.l===M[s][i]&&!ckRowHas(s,r)))}
+function ckStore(){let j=null;try{j=JSON.parse(localStorage.getItem(CKK))}catch(e){}const o={v:1,by:{},mig:null};
+ if(isO(j)){if(isO(j.by))Object.keys(j.by).forEach(id=>{const x=j.by[id];if(db[id]&&isO(x))o.by[id]={con:ckClean("con",x.con),act:ckClean("act",x.act)}});
+  if(isO(j.mig))o.mig={to:str(j.mig.to),old:Array.isArray(j.mig.old)?j.mig.old.filter(x=>typeof x==="string"):[]}}
+ if(!o.mig){o.mig={to:cur,old:Object.keys(db).filter(id=>id!==cur)};o.by[cur]={con:ckLoad("con"),act:ckLoad("act")};
+  try{localStorage.setItem(CKK,JSON.stringify(o))}catch(e){}}
+ return o}
+const CKS=ckStore();
+const CK=()=>CKS.by[cur]||(CKS.by[cur]={con:ckBlank("con"),act:ckBlank("act")});
+const ST={get sum(){return D()},sandbox:sbxRead(),get con(){return CK().con},get act(){return CK().act}};
 const ckTm={};
-function ckSave(t,now){clearTimeout(ckTm[t]);const w=()=>{try{localStorage.setItem(CKDEF[t].key,JSON.stringify(ST[t]))}catch(e){toast("Could not autosave")}};ckTm[t]=now?0:setTimeout(w,300);if(now)w()}
+// one write for the whole store, so a pending save can never land on another summation after a switch
+function ckSave(t,now){clearTimeout(ckTm[t]);const w=()=>{ckTm[t]=0;Object.keys(CKS.by).forEach(id=>{if(!db[id])delete CKS.by[id]});try{localStorage.setItem(CKK,JSON.stringify(CKS))}catch(e){toast("Could not autosave")}};ckTm[t]=now?0:setTimeout(w,300);if(now)w()}
+// the old shared (v10A) checklist, offered only to summations saved before v10b whose own checklist is still untouched
+function ckOld(t){if(!CKS.mig||!CKS.mig.old.includes(cur)||!ckEmpty(t,ST[t]))return null;const o=ckLoad(t);return ckEmpty(t,o)?null:o}
 function ckFlush(){["con","act"].forEach(t=>{if(ckTm[t]){ckSave(t,1)}})}
+function ckRefresh(){if(TAB.cur==="con"||TAB.cur==="act")ckRender(TAB.cur)}
 addEventListener("pagehide",ckFlush);document.addEventListener("visibilitychange",()=>{if(document.hidden)ckFlush()});
 addEventListener("storage",e=>{if(e.key==="summpub.sandbox"||e.key===null)ST.sandbox=sbxRead()});
 function hv(x){return String(x??"").trim()}  // hoisted: ckLoad -> ckMig runs before this line
@@ -1068,7 +1154,10 @@ function grow(e){if(!e||!e.isConnected)return;e.style.height="auto";e.style.heig
 function ckCount(t){const c=ST[t];let d=0,n=0;CKSEC.forEach(([s])=>c[s].forEach(r=>{n++;if(r.done)d++}));return[d,n]}
 function ckMeter(t){const m=$("#m-"+t);if(!m)return;const[d,n]=ckCount(t),cl=m.querySelector(".cells");cl.innerHTML="";for(let i=0;i<n;i++){const x=document.createElement("i");if(i<d)x.className="on";cl.appendChild(x)}m.querySelector(".ct").textContent=`${d} / ${n} done`}
 function ckRender(t,focusSel){const P=$(t==="con"?"#pCon":"#pAct"),c=ST[t],M=CKDEF[t];stopRec();P.innerHTML="";P.classList.toggle("hide-due-dates",!c.due);
- P.insertAdjacentHTML("beforeend",`<div class="ckhd"><h2>${M.name} checklist</h2><p class="hint">${esc(M.sub)} Autosaves on this device.</p></div>`);
+ P.insertAdjacentHTML("beforeend",`<div class="ckhd"><h2>${M.name} checklist</h2><p class="ckfor">For: <b>${esc(hv(D().name)||"Untitled action")}</b></p><p class="hint">${esc(M.sub)} Each saved summation has its own checklist. Autosaves on this device.</p></div>`);
+ const old=ckOld(t);if(old){const w=document.createElement("div");w.className="ckold";w.setAttribute("role","note");
+  w.innerHTML=`<p>This summation was saved before checklists were kept per summation, so its ${esc(M.name)} checklist starts blank. The old shared checklist${hv(old.head[M.titleK])?` (“${esc(hv(old.head[M.titleK]))}”)`:""} is kept on this device.</p><button type="button" class="btn" id="ckold-${t}">Copy the old shared checklist here</button>`;
+  P.appendChild(w);w.querySelector("button").onclick=()=>{CK()[t]=ckLoad(t);ckSave(t,1);ckRender(t,"#add-"+t+"-pre");toast("Copied the old shared checklist","confirm")}}
  if(!SR)P.insertAdjacentHTML("beforeend",NOSR_NOTE);
  const tools=document.createElement("div");tools.className="cktools";
  const sw=chip("checkbox","due-"+t,"Due dates",c.due,on=>{c.due=on;ckSave(t);P.classList.toggle("hide-due-dates",!on)});const si=sw.querySelector("input");si.id="due-"+t;si.setAttribute("aria-label","Enable due dates");
@@ -1083,7 +1172,7 @@ function ckRender(t,focusSel){const P=$(t==="con"?"#pCon":"#pAct"),c=ST[t],M=CKD
 
 /* ---- tabs ---- */
 const TABS=[["sum","main"],["sbx","pSbx"],["con","pCon"],["act","pAct"]],TAB={cur:"sum"};
-function tabGo(t,focus,keep){if(!TABS.some(x=>x[0]===t))t="sum";if(document.body.classList.contains("driving"))return;const was=TAB.cur;if(was!==t)stopRec();TAB.cur=t;document.body.dataset.tab=t;
+function tabGo(t,focus,keep){if(!TABS.some(x=>x[0]===t))t="sum";if(document.body.classList.contains("driving"))return;const was=TAB.cur;if(was!==t)stopRec();if(was==="sbx"&&t!=="sbx")sfx("back");TAB.cur=t;document.body.dataset.tab=t;
  TABS.forEach(([id,pid])=>{const b=$("#tab-"+id),on=id===t;b.setAttribute("aria-selected",on);b.tabIndex=on?0:-1;$("#"+pid).hidden=!on});
  if(!keep){try{localStorage.setItem("summpub.tab",t)}catch(e){}}
  if(t==="sbx")sbxLoad();if((t==="con"||t==="act")&&(was!==t||!$(t==="con"?"#pCon":"#pAct").firstChild))ckRender(t);
@@ -1100,7 +1189,7 @@ function sbxIco(){const f=$("#sbxF"),t=$("#pSbx .tabtools");if(!f||!t||$("#pSbx"
  const k=d&&d.querySelector("header.top .k"),h=d&&d.querySelector("header.top");if(!k||!h)return;const r=k.getBoundingClientRect(),hr=h.getBoundingClientRect();
  t.style.top=Math.round(f.offsetTop+f.clientTop+r.top+r.height/2-22)+"px";t.style.right=Math.max(0,Math.round(f.offsetParent.clientWidth-(f.offsetLeft+f.clientLeft+hr.right)))+"px";
  if(!f._sbxI){f._sbxI=1;d.addEventListener("scroll",sbxIco,{passive:true});f.contentWindow.addEventListener("resize",sbxIco)}}
-$("#sbxF").addEventListener("load",()=>{const f=$("#sbxF");f._sbxI=0;sbxLap();sbxIco()});
+$("#sbxF").addEventListener("load",()=>{const f=$("#sbxF");f._sbxI=0;try{sfxWire(f.contentDocument)}catch(e){}sbxLap();sbxIco()});
 function sbxLap(){const f=$("#sbxF");let d=null;try{d=f&&f.contentDocument}catch(e){}if(!d||!d.documentElement)return;const h=d.documentElement,on=matchMedia("(min-width:1024px)").matches;if(h.classList.contains("embed-lap")!==on){h.classList.toggle("embed-lap",on);try{f.contentWindow.dispatchEvent(new Event("resize"))}catch(e){}}}// sandbox: 2 columns in the app laptop layout (frame >= 720px)
 $("#pSbx .tabtools").addEventListener("focusin",()=>{const t=$("#pSbx .tabtools");if(parseFloat(t.style.top)<0){try{$("#sbxF").contentWindow.scrollTo(0,0)}catch(e){}}});
 addEventListener("resize",()=>{sbxSize();sbxLap();sbxIco();document.querySelectorAll(".ckp:not([hidden]) .lblin textarea,.ckp:not([hidden]) .wrapin textarea").forEach(grow)});
@@ -1117,7 +1206,7 @@ function sumHigh(){const d=ST.sum,it=[];SUMHI.forEach(([k,l])=>{const a=sumAns(F
 function sumSec(si){const d=ST.sum,sec=S[si],it=[];sec.f.forEach(f=>{if(!f.k||f.ty==="legacy")return;const a=sumAns(f,d);if(a)it.push({k:"kv",q:f.l.replace(/:$/,""),a,max:8});if(f.k==="pc_sa"||f.k==="sc_sa"){const b=balLine(d,f.k.slice(0,2));if(b)it.push({k:"txt",s:b,m:1})}});
  return{ctx:"Summation",title:sec.t,items:it.length?it:[{k:"txt",s:"No answers yet.",m:1}]}}
 const ckRowHas=(s,r)=>r.done||CKF[s].some(k=>hv(r[k]));
-function ckUsed(t){const c=ST[t];return CKDEF[t].head.some(([k])=>hv(c.head[k]))||hv(c.head[CKDEF[t].legK])||CKSEC.some(([s])=>c[s].some(r=>ckRowHas(s,r)))}
+function ckUsed(t,c=ST[t]){return CKDEF[t].head.some(([k])=>hv(c.head[k]))||hv(c.head[CKDEF[t].legK])||CKSEC.some(([s])=>c[s].some(r=>ckRowHas(s,r)))}
 function ckItems(t,s){const c=ST[t];return c[s].map(r=>({k:"row",done:r.done,s:hv(r.l)||"(untitled)",r:hv(s==="roles"?r.name:r.who),note:s==="pre"?(c.due?dueCaps(r.due):""):s==="roles"&&hv(r.mat)?"NEEDS: "+hv(r.mat):""}))}
 function ckHeadItems(t){const c=ST[t],lg=ckLeg(t),o=CKDEF[t].head.filter(([k])=>hv(c.head[k])).map(([k,l,ty])=>({k:"kv",q:l,a:ckVal(ty,c.head[k]),max:4}));if(lg)o.push({k:"kv",q:"Previously entered",a:lg,max:4});return o}
 function ckStatus(t){const[d,n]=ckCount(t);return{ctx:CKDEF[t].name,title:"Pre-event",items:[...ckHeadItems(t),{k:"meter",d,n},...ckItems(t,"pre")]}}
@@ -1265,7 +1354,7 @@ async function l6Make(kind,pick){ST.sandbox=sbxRead();const ms=lblModels(TAB.cur
 const IMG={url:null,purl:null,file:null,w:null};
 async function fileMake(w){const[a,b]=w.split(":");if(a==="l6png"||a==="l6pdf")return l6Make(a.slice(2),b);
  const r=imBuild(w);if(MONO.on)monoInv(r.cv);const blob=await toPng(r.cv);return blob?{blob,prev:blob,name:r.name,type:"image/png",what:"Image"}:null}
-async function shareImg(w){let r=null;try{r=await fileMake(w)}catch(e){console.warn("export:",e);return toast("Export failed")}if(!r)return toast("Export failed on this device");IMG.w=w;
+async function shareImg(w){let r=null;try{r=await fileMake(w)}catch(e){console.warn("export:",e);return toast("Export failed")}if(!r)return toast("Export failed on this device");IMG.w=w;sfx("export-done");
  [IMG.url,IMG.purl].forEach(u=>u&&URL.revokeObjectURL(u));IMG.url=URL.createObjectURL(r.blob);IMG.purl=r.prev===r.blob?null:URL.createObjectURL(r.prev);try{IMG.file=new File([r.blob],r.name,{type:r.type})}catch(e){IMG.file=null}
  const pdf=r.type==="application/pdf";$("#iPrev").src=IMG.purl||IMG.url;$("#iPrev").alt=pdf?"Preview of the first label page":"Preview of the exported image";
  const a=$("#iDl");a.href=IMG.url;a.download=r.name;a.querySelector(".bt").textContent=pdf?"Download PDF":"Download PNG";$("#iShare .bt").textContent=pdf?"Share PDF":"Share image";
@@ -1488,7 +1577,7 @@ ${edited?`<div class="ctl2"><button type="button" class="btn sm" data-a="reset">
   if(a==="reset"){L=null;say="Spiral links and order reset"}
   else if(a==="up"||a==="dn"){const j=sel+(a==="up"?-1:1);if(j<0||j>=N.length)return;[L.o[sel],L.o[j]]=[L.o[j],L.o[sel]];say=`Moved to node ${j+1} of ${N.length}`}
   else{const i=a==="lb"?sel-3:sel;if(i<0||i+3>=N.length)return;const p=pk(N[i].k,N[i+3].k);say=cut.has(p)?"Re-linked":"Unlinked";L.x=cut.has(p)?L.x.filter(y=>y!==p):[...L.x,p];L.o=LY.o.length?L.o:[]}
-  spSave(L);spSelK=N[sel].k;if(a!=="reset")SPF.open=true;spCam={yaw,pitch};spShow();toast(say);
+  spSave(L);spSelK=N[sel].k;if(a!=="reset")SPF.open=true;spCam={yaw,pitch};spShow();toast(say,a==="reset"?"click":say==="Re-linked"?"link":say==="Unlinked"?"unlink":"drop");
   const V2=$("#spiralV"),c2=V2.querySelector("canvas"),fb=fa&&V2.querySelector(`.spfull [data-a=${fa}]`);(fb&&!fb.disabled&&!fb.closest("[hidden]")?fb:c2||V2).focus()}
  // edit/open buttons ignore activations for 350ms after the panel opens, for 1s after every node tap/selection, and (touch/pen) a press within 48px of the last node tap for 1.5s: a stray or repeated tap must never edit the spiral
  F.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||b.disabled)return;if(/^(up|dn|lb|la|open)$/.test(b.dataset.a)&&spGuard()){e.preventDefault();return}act(b.dataset.a,b.dataset.a)});
@@ -1514,7 +1603,7 @@ ${edited?`<div class="ctl2"><button type="button" class="btn sm" data-a="reset">
  const tick=t=>{if(!SP)return;if(auto&&!document.hidden){yaw+=Math.min(50,t-(lt||t))*0.00025;draw()}lt=t;SP.raf=auto?requestAnimationFrame(tick):0};
  addEventListener("resize",size);if(window.ResizeObserver){SP.ro=new ResizeObserver(()=>size());SP.ro.observe(cv)}size();announce();if(auto)SP.raf=requestAnimationFrame(tick)}
 
-render();tabInit();
+render();tabInit();render.ck=1;
 if("serviceWorker" in navigator&&location.protocol!=="file:"){const ctl=navigator.serviceWorker.controller,had=!!ctl&&ctl.scriptURL===new URL("sw.js",location.href).href;let shown=false;
  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had&&!shown){shown=true;$("#upd").classList.add("on")}});
  navigator.serviceWorker.register("sw.js").then(r=>{document.addEventListener("visibilitychange",()=>{if(!document.hidden)r.update().catch(()=>{})})}).catch(()=>{})}
