@@ -969,7 +969,7 @@ addEventListener("beforeprint",()=>musPause("print"));addEventListener("afterpri
 try{const mqp=matchMedia("print"),h=e=>e.matches?musPause("print"):musResume("print");mqp.addEventListener?mqp.addEventListener("change",h):mqp.addListener(h)}catch(e){}   // Safari: print media query
 musUi();
 
-/* ---------- v10b: chiptune sound effects (made in code with Web Audio; no audio files) ---------- */
+/* ---------- v10b: chiptune sound effects (generated in code with Web Audio; no audio files) ---------- */
 // Off by default, saved as summpub.sfx ("1"/"0"). Music is the master: a sound plays only while SFX is on AND the music is on
 // (the music button showing it is playing). Silent while dictation runs; in driving mode only confirm and error play.
 // Engine and table from the v10B sound spec, as given. One AudioContext: the music's (MUS.ac) when it exists.
