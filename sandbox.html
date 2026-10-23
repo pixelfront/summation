@@ -2,6 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark">
+<meta name="format-detection" content="telephone=no,email=no,address=no,date=no">
 <meta name="theme-color" content="#000">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>Sandbox Dialectics</title>
@@ -139,6 +140,9 @@ dialog .row .btn{flex:1 1 40%}
 #embRm{display:none;font-size:12px;color:var(--mute);border:1px dashed var(--mute);padding:4px 8px;margin:6px 0 0}
 #emb.rm #embRm{display:block}
 #emb .credit{font-size:12px;color:var(--mute);margin:8px 0 0}
+#emb .credits{font-size:11px;line-height:1.45;color:var(--mute);margin:6px 0 0;padding:0;list-style:none;overflow-wrap:anywhere;word-break:break-word}
+#emb .credits li{margin:4px 0 0}#emb .credits .src{overflow-wrap:anywhere;-webkit-touch-callout:none}
+main{padding-bottom:calc(83px + env(safe-area-inset-bottom))}html{scroll-padding-bottom:calc(83px + env(safe-area-inset-bottom))}   /* toolbar (3+8+48+8 = 67px) + 16px + safe area: the last card scrolls fully clear of the sticky toolbar */
 @media print{
  body{background:#fff;color:#000}body::before,body::after,.card::after{display:none}
  .addbar,.bar,.tools,#toast,#emb,.linkpanel,.rng,.ends,.row,.ctl,.chip .x,#empty .btn,dialog,.stages .r2 .btn,.addstage{display:none!important}
@@ -205,6 +209,12 @@ dialog .row .btn{flex:1 1 40%}
   <p class="note" id="embF">No contradiction or slider yet: resting at 50 / 50.</p>
   <p class="note">The glow follows the principal contradiction: the further its balance is from 50 / 50, the brighter the red and the faster the spin.</p>
   <p class="credit">Bust models: Achilleas Kasmetlis, tamraz, boris3dstudio (CC BY), simplified.</p>
+  <ul class="credits" id="embCr" aria-label="Bust model credits">
+   <li>Marx bust (model title not recorded): by Achilleas Kasmetlis, licence CC BY 4.0, source <span class="src">https://www.printables.com/model/824393-low-poly-karl-marx-bust</span>, simplified.</li>
+   <li>Lenin bust (model title not recorded): by tamraz (3D Art Studio), licence CC BY 3.0, source <span class="src">https://www.thingiverse.com/thing:286624</span>, simplified.</li>
+   <li>Stalin bust (model title not recorded): by boris3dstudio, licence CC BY 3.0, source <span class="src">https://www.thingiverse.com/thing:3660116</span>, simplified.</li>
+   <li>Simplified means: reduced to 500 triangles, plinth cropped (Marx, Stalin), re-oriented and rescaled. The addresses are plain text, not links; nothing is loaded from them.</li>
+  </ul>
  </section>
 </main>
 <div class="bar" role="group" aria-label="Sandbox actions">
@@ -822,7 +832,7 @@ const MODELS={star:{name:"Red star",plate:"RED STAR",mk:makeStar},hs:{name:"Hamm
 Object.keys(BUSTS).forEach(k=>{const B=BUSTS[k];MODELS[k]={name:B.n+" bust",plate:B.n.toUpperCase(),bust:1,mk:()=>makeBust(B)}});
 const MG=k=>MODELS[k].m||(MODELS[k].m=MODELS[k].mk());
 const S={k:"star",yaw:-20,pitch:12,vy:0,vp:0,spin:false,drag:null,tie:50,src:"",raf:0,last:0};
-const DEF={yaw:-20,pitch:12};
+const DEF={yaw:-20,pitch:12},DEFS={marx:{yaw:0,pitch:5},lenin:{yaw:0,pitch:5},stalin:{yaw:-12,pitch:5}},DF=()=>DEFS[S.k]||DEF;   // each bust starts facing the viewer
 let cv=cv0;
 function mvp(aspect){const f=1/Math.tan(15*D2R),n=.1,fa=20,dist=4.3;
  const cy=Math.cos(S.yaw*D2R),sy=Math.sin(S.yaw*D2R),cp=Math.cos(-S.pitch*D2R),sp=Math.sin(-S.pitch*D2R);
@@ -913,11 +923,11 @@ function bind(c){
  c.addEventListener("pointerup",up);c.addEventListener("pointercancel",up);
  c.addEventListener("keydown",e=>{const st=e.shiftKey?5:15;let h=true;
   if(e.key==="ArrowLeft")S.yaw-=st;else if(e.key==="ArrowRight")S.yaw+=st;else if(e.key==="ArrowUp")S.pitch=clampP(S.pitch-st);else if(e.key==="ArrowDown")S.pitch=clampP(S.pitch+st);
-  else if(e.key==="Home"){S.yaw=DEF.yaw;S.pitch=DEF.pitch}else h=false;
+  else if(e.key==="Home"){S.yaw=DF().yaw;S.pitch=DF().pitch}else h=false;
   if(h){e.preventDefault();S.vy=S.vp=0;draw();label();say(desc())}});
  // a lost WebGL context (iOS memory pressure) falls back to Canvas 2D on a fresh canvas
  c.addEventListener("webglcontextlost",e=>{e.preventDefault();const n=c.cloneNode(false);c.replaceWith(n);cv=n;GL=null;C2=n.getContext("2d");$e("#embM").textContent="CANVAS 2D";bind(n);draw()})}
-function pick(k){if(!MODELS[k])return;S.k=k;document.querySelectorAll("#emb [data-emb]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.emb===k)));
+function pick(k){if(!MODELS[k])return;S.k=k;S.yaw=DF().yaw;S.pitch=DF().pitch;S.vy=S.vp=0;document.querySelectorAll("#emb [data-emb]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.emb===k)));
  $e("#embT").textContent=MODELS[k].name;$e("#embP").textContent=MODELS[k].plate;draw();label()}
 function tieTxt(){const t=Math.round(tension()*100);return`BALANCE ${S.tie} / ${100-S.tie} · TENSION ${t} · GLOW ${t<34?"LOW":t<67?"MEDIUM":"HIGH"}`}
 // called by refresh() on every sandbox change
@@ -925,7 +935,7 @@ function tie(v,src){v=Math.max(0,Math.min(100,Math.round(+v)));if(!isFinite(v))v
  $e("#embS").textContent=tieTxt();$e("#embF").textContent=src?"From: "+src:"No contradiction or slider yet: resting at 50 / 50.";if(ch&&!S.raf)draw()}
 document.querySelectorAll("#emb [data-emb]").forEach(b=>b.addEventListener("click",()=>pick(b.dataset.emb)));
 $e("#embSpin").onclick=()=>{if(reduced())return;S.spin=!S.spin;$e("#embSpin").setAttribute("aria-pressed",String(S.spin));kick();if(!S.spin)label()};
-$e("#embReset").onclick=()=>{S.yaw=DEF.yaw;S.pitch=DEF.pitch;S.vy=S.vp=0;S.spin=false;$e("#embSpin").setAttribute("aria-pressed","false");draw();label();say("Reset to the starting view")};
+$e("#embReset").onclick=()=>{S.yaw=DF().yaw;S.pitch=DF().pitch;S.vy=S.vp=0;S.spin=false;$e("#embSpin").setAttribute("aria-pressed","false");draw();label();say("Reset to the starting view")};
 function rmApply(){$e("#emb").classList.toggle("rm",reduced());const b=$e("#embSpin");b.disabled=reduced();if(reduced()){S.spin=false;S.vy=S.vp=0;b.setAttribute("aria-pressed","false")}draw()}
 RM.addEventListener&&RM.addEventListener("change",rmApply);
 let rz;addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(()=>{if(!S.raf)draw()},60)});
