@@ -1,0 +1,54 @@
+/* ---------- 2. CRATE (flip lid, stencil, cross-brace) ---------- */
+.sk-crate{--view:scale(.88) rotateX(-26deg) rotateY(-14deg);--wy:455px;--hy:370px;--hh:200px;--hw:320px}
+.sk-crate .c-wall{background:repeating-linear-gradient(transparent 0 23px,#f2f2f2 23px 24.5px),#050505}
+.sk-crate .c-front{left:-140px;top:-46px;width:280px;height:92px;transform:translateZ(70px);overflow:hidden;
+ clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+.sk-crate .c-front svg{position:absolute;inset:0;width:100%;height:100%}
+.sk-crate .c-front svg path{fill:none;stroke:#f2f2f2;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.sk-crate .c-front .stencil{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#000;padding:4px 8px;border:1px solid var(--red);font-size:11px}
+.sk-crate .c-front .c-no{position:absolute;right:16px;bottom:10px;font-size:9px;letter-spacing:.14em;color:var(--mute);background:#000;padding:0 4px}
+.sk-crate .c-back{left:-140px;top:-46px;width:280px;height:92px;transform:translateZ(-70px)}
+.sk-crate .c-side{left:-70px;top:-46px;width:140px;height:92px}
+.sk-crate .c-l{transform:translateX(-140px) rotateY(-90deg)}.c-r{transform:translateX(140px) rotateY(90deg)}
+.sk-crate .c-floor{left:-140px;top:-70px;width:280px;height:140px;transform:translateY(46px) rotateX(90deg);border-color:#777;
+ background:linear-gradient(#ff2a2a22 1px,transparent 1px) 0 0/100% 12px,radial-gradient(ellipse,#2a0000,#050505 70%)}
+[data-open="1"] .c-floor{background:linear-gradient(#ff2a2a55 1px,transparent 1px) 0 0/100% 12px,radial-gradient(ellipse,#ff2a2a,#3a0000 55%,#050505 85%)}
+.sk-crate .c-lid{left:-140px;top:0;width:280px;height:140px;transform-origin:50% 0;transform:translateY(-46px) translateZ(-70px) rotateX(90deg);
+ background:linear-gradient(90deg,transparent 0 30px,#f2f2f2 30px 31.5px,transparent 31.5px calc(100% - 31.5px),#f2f2f2 calc(100% - 31.5px) calc(100% - 30px),transparent 0),#060606;
+ transition:transform .3s cubic-bezier(.55,0,.9,.4);display:grid;place-items:center}
+[data-open="1"] .c-lid{transform:translateY(-46px) translateZ(-70px) rotateX(198deg);transition:transform .6s cubic-bezier(.16,1.5,.4,1)}
+.sk-crate .c-lid .stencil{transform:rotate(180deg) scaleX(-1);font-size:13px;color:#555}
+[data-open="1"] .c-lid .stencil{color:#555}
+.sk-crate .c-glow{left:-120px;top:-150px;width:240px;height:110px;border:0;background:linear-gradient(to top,#ff2a2a44,transparent);opacity:0;transition:opacity .4s}
+[data-open="1"] .c-glow{opacity:1}
+
+/* ---------- 3. CASSETTE (upright shell, eject slot) ---------- */
+.sk-cassette{--view:scale(.9) rotateX(-16deg) rotateY(14deg);--wy:470px;--hy:380px;--hh:180px;--hw:320px}
+.sk-cassette .k-front{left:-150px;top:-68px;width:300px;height:136px;transform:translateZ(18px);
+ clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%,0 10px)}
+.sk-cassette .k-label{position:absolute;left:14px;right:14px;top:12px;height:96px;border:1.5px solid #f2f2f2;background:linear-gradient(#1a1a1a 1px,transparent 1px) 0 26px/100% 14px}
+.sk-cassette .k-label .stencil{position:absolute;left:10px;top:7px;font-size:10px}
+.sk-cassette .k-label .k-sa{position:absolute;right:10px;top:6px;font-size:11px;font-weight:800;color:#000;background:var(--red);padding:0 5px}
+.sk-cassette .k-win{position:absolute;left:50%;top:34px;width:160px;height:44px;margin-left:-80px;border:1.5px solid #f2f2f2;background:#000;display:flex;justify-content:space-between;align-items:center;padding:0 12px}
+.sk-cassette .k-reel{width:34px;height:34px;border-radius:50%;border:1.5px solid #f2f2f2;background:repeating-conic-gradient(#f2f2f2 0 8deg,transparent 8deg 60deg);
+ -webkit-mask-image:radial-gradient(circle,transparent 5px,#000 6px);mask-image:radial-gradient(circle,transparent 5px,#000 6px)}
+[data-open="1"] .k-reel{animation:spin 2.4s linear infinite;background:repeating-conic-gradient(#ff2a2a 0 8deg,transparent 8deg 60deg);border-color:#ff2a2a}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sk-cassette .k-tape{flex:1;height:2px;background:#555;margin:0 6px}
+.sk-cassette .k-trap{position:absolute;left:60px;right:60px;bottom:0;height:22px;border:1.5px solid #f2f2f2;border-bottom:0;clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 100%,0 100%);background:repeating-linear-gradient(90deg,transparent 0 10px,#333 10px 11px)}
+.sk-cassette .k-screw{position:absolute;width:7px;height:7px;border:1px solid #888;border-radius:50%}
+.sk-cassette .k-back{left:-150px;top:-68px;width:300px;height:136px;transform:translateZ(-18px)}
+.sk-cassette .k-top{left:-150px;top:-18px;width:300px;height:36px;transform:translateY(-68px) rotateX(90deg)}
+.sk-cassette .k-slot{position:absolute;left:30px;right:30px;top:12px;height:10px;background:#000;border:1px solid #666}
+[data-open="1"] .k-slot{background:#ff2a2a;box-shadow:0 0 14px #ff2a2a;border-color:#ff2a2a}
+.sk-cassette .k-side{left:-18px;top:-68px;width:36px;height:136px}
+.sk-cassette .k-l{transform:translateX(-150px) rotateY(-90deg)}.k-r{transform:translateX(150px) rotateY(90deg)}
+.sk-cassette .k-beam{left:-120px;top:-188px;width:240px;height:120px;border:0;background:linear-gradient(to top,#ff2a2a40,transparent);opacity:0;transition:opacity .4s}
+[data-open="1"] .k-beam{opacity:1}
+.sk-cassette .k-eject{position:absolute;right:20px;bottom:4px;font-size:9px;letter-spacing:.14em;color:#555}
+[data-open="1"] .k-eject{color:var(--red)}
+
+.sk-cassette .k-s1{left:5px;top:5px}.k-s2{right:5px;top:5px}.k-s3{left:5px;bottom:5px}.k-s4{right:5px;bottom:5px}
+@media (prefers-reduced-motion:reduce){.world *{transition-duration:0s!important;animation:none!important}}
+/* cassette: cards rise from the top slot */
+.sk-cassette .cards{perspective-origin:50% 70%}

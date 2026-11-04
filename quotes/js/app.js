@@ -8,7 +8,7 @@ if(P.has('shot'))document.body.classList.add('shot');
 document.body.insertAdjacentHTML('beforeend',CHROME_DEFS);wireMute($('#mute'));
 const live=$('#live'),views={box:$('#boxView'),card:$('#cardView'),make:$('#makeView'),send:$('#sendView')},holo=$('#holo');let cur='box';
 function show(v,focusEl){Object.entries(views).forEach(([k,el])=>el.hidden=k!==v);cur=v;
- $('#crumb').textContent={box:'CARD BOX \u00b7 B TERMINAL DRAWER',card:'CARD \u00b7 ROTATE + EXPORT',make:'NEW CARD',send:'SEND BY QR \u00b7 ONE COPY'}[v];
+ $('#crumb').textContent={box:'CARD BOX \u00b7 '+(window.SKINUI?SKINUI.crumb():'B TERMINAL DRAWER'),card:'CARD \u00b7 ROTATE + EXPORT',make:'NEW CARD',send:'SEND BY QR \u00b7 ONE COPY'}[v];
  if(v!=='card')VIEWER.stop();window.scrollTo(0,0);if(focusEl)setTimeout(()=>focusEl.focus({preventScroll:true}),30)}
 function view(d,rot){show('card');VIEWER.load(d,rot);$('#exp').hidden=true;holo.checked=!!d.holo;
  $('#cardH').textContent=`${cardNo(d)} \u00b7 ${d.sh.toUpperCase()}${d.recv?' \u00b7 RECEIVED':''}`;

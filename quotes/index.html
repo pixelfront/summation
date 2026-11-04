@@ -4,7 +4,7 @@
 <meta name="theme-color" content="#000000">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>Quote Deck v2 · M5 box + card + creator + QR send</title>
+<title>Quote Deck v2 · layouts + box skins</title>
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/face.css">
 <link rel="stylesheet" href="css/box.css">
@@ -13,22 +13,29 @@
 <link rel="stylesheet" href="css/creator.css">
 <link rel="stylesheet" href="css/send.css">
 <link rel="stylesheet" href="css/shell.css">
+<link rel="stylesheet" href="css/skins.css">
+<link rel="stylesheet" href="css/layouts.css">
 </head><body>
 <header class="top"><span class="crumbs"><b>QUOTE DECK v2</b> · <span id="crumb">CARD BOX</span></span><button type="button" id="mute" aria-pressed="false">SND</button></header>
 <main id="boxView" class="boxmain" aria-labelledby="boxH">
 <h1 class="sr" id="boxH">Card box</h1>
-<div id="scene" class="scene box-b" data-open="0">
- <div class="layer l-back" aria-hidden="true"><div class="world"><div class="pc b-top"><span class="stencil">QUOTE DECK // TERMINAL</span><i class="b-vent"></i></div>
-<div class="pc b-side b-l"></div><div class="pc b-side b-r"></div>
-<div class="pc b-front"><i class="b-slot"></i></div>
-<div class="b-drawer"><div class="pc b-tfloor"></div><div class="pc b-tside b-tl"></div><div class="pc b-tside b-tr"></div></div></div></div>
- <div class="cards" id="cards" role="group" aria-label="Cards floating above the box"></div>
- <div class="layer l-front" aria-hidden="true"><div class="world"><div class="pc b-tfront"><span class="b-led"></span><span class="b-cmd"><span id="bCmd">&gt; DECK_07 </span><i class="b-cur"></i></span><i class="b-pull"></i></div></div></div>
- <button type="button" class="hit" id="boxHit" aria-expanded="false" aria-controls="cards" aria-label="Card box, closed. Tap to open"></button>
+<div class="laybar" id="laybar" role="radiogroup" aria-label="Card layout">
+ <button type="button" role="radio" data-layout="fan" aria-checked="true"><svg viewBox="0 0 24 16" aria-hidden="true"><path d="M4 14l3-11 4 1-2 11zM10 3h4v11h-4zM15 4l4-1 1 11-4 1z"/></svg><span>FAN</span></button>
+ <button type="button" role="radio" data-layout="grid" aria-checked="false"><svg viewBox="0 0 24 16" aria-hidden="true"><path d="M3 2h5v5H3zM10 2h5v5h-5zM17 2h4v5h-4zM3 9h5v5H3zM10 9h5v5h-5zM17 9h4v5h-4z"/></svg><span>GRID</span></button>
+ <button type="button" role="radio" data-layout="gallery" aria-checked="false"><svg viewBox="0 0 24 16" aria-hidden="true"><path d="M8 1h8v10H8zM3 13h3v2H3zM8 13h3v2H8zM13 13h3v2h-3zM18 13h3v2h-3z"/></svg><span>GALLERY</span></button>
+ <button type="button" role="radio" data-layout="pickup" aria-checked="false"><svg viewBox="0 0 24 16" aria-hidden="true"><path d="M3 5l5-2 2 5-5 2zM11 9l5 1-1 5-5-1zM15 2l5 1-1 5-5-1z"/></svg><span>PICKUP</span></button>
 </div>
-<p class="hint" id="hint">Tap or flick up on the terminal to slide the drawer out. Swipe the cards to spin the carousel. Scrub sideways on the terminal to shuffle. <span id="deckCount"></span></p>
+<div id="scene" class="scene box-b sk-terminal" data-open="0">
+ <div class="layer l-back" aria-hidden="true"><div class="world" id="worldBack"></div></div>
+ <div class="cards" id="cards" role="group" aria-label="Cards floating above the box"></div>
+ <div class="layer l-front" aria-hidden="true"><div class="world" id="worldFront"></div></div>
+ <button type="button" class="hit" id="boxHit" aria-expanded="false" aria-controls="cards" aria-label="Card box, closed. Tap to open"></button>
+ <button type="button" class="fs-btn fs-corner" id="fsOpen" aria-label="Full screen card view" aria-haspopup="dialog"><svg class="fs-ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7V2h5M13 2h5v5M18 13v5h-5M7 18H2v-5"/></svg></button>
+</div>
+<p class="hint" id="hint">Tap or flick up on the box to open it. Swipe the fan to turn it; in Pickup, drag cards around. Scrub sideways on the box to shuffle. <span id="deckCount"></span></p>
 <p class="hint" id="empty" hidden>The box is empty.</p>
 <div class="ctlrow"><button type="button" id="toggle" class="pri" aria-controls="cards">Open box</button><button type="button" id="shuffle">Shuffle</button><button type="button" id="prev" aria-label="Previous card">&#9664;</button><button type="button" id="next" aria-label="Next card">&#9654;</button><button type="button" id="receive">Receive</button><button type="button" id="make">New card</button><button type="button" id="restore" hidden>Restore deck</button></div>
+<div class="skinbar" id="skinbar" role="radiogroup" aria-label="Box style"><span class="lbl" aria-hidden="true">BOX</span><button type="button" role="radio" data-skin="terminal" aria-checked="true">TERMINAL</button><button type="button" role="radio" data-skin="crate" aria-checked="false">CRATE</button><button type="button" role="radio" data-skin="cassette" aria-checked="false">CASSETTE</button></div>
 <section id="pick" class="ctl" hidden aria-labelledby="pickH"><h2 id="pickH">PICKED</h2><p id="pickTxt"></p><p class="pickmeta" id="pickMeta"></p>
 <div class="row"><button type="button" id="pickView" class="pri">Rotate / export</button><button type="button" id="pickSend">Send by QR</button><button type="button" id="pickBack">Back to box</button></div></section>
 </main>
@@ -89,12 +96,20 @@
 <div class="sendfoot"><button type="button" id="sendDone" class="pri" hidden>Done · back to box</button></div>
 <p class="note">Honour system: your copy burns only after the receiver's accept code (transfer id + nonce + hash of the bytes received) is scanned. Cancel or a 2-minute timeout unlocks the card with nothing burned. Nothing goes through a server; the camera picture never leaves the phone.</p>
 </div></section>
+<div id="fs" class="fs" role="dialog" aria-modal="true" aria-label="Full screen card view" hidden>
+ <div class="fs-bar"><span class="fs-title" id="fsTitle">FAN</span><button type="button" id="fsClose" class="fs-close" aria-label="Exit full screen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4l12 12M16 4L4 16"/></svg></button></div>
+ <div class="fs-stage" id="fsStage"></div>
+ <div class="fs-foot laybar mini" id="fsFoot" role="radiogroup" aria-label="Card layout (full screen)"></div>
+</div>
 <p class="sr" aria-live="polite" id="live"></p>
 <script src="js/card.js"></script>
 <script src="js/store.js"></script>
 <script src="js/sfx.js"></script>
 <script src="js/sfx-extra.js"></script>
+<script src="js/skins.js"></script>
+<script src="js/layouts.js"></script>
 <script src="js/box.js"></script>
+<script src="js/layout-ui.js"></script>
 <script src="js/viewer.js"></script>
 <script src="js/export.js"></script>
 <script src="vendor/qrcodegen.min.js"></script>
