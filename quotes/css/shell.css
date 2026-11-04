@@ -1,0 +1,10 @@
+/* App shell (header, view heads) (not part of the card component). From sandbox app.css header + vhead. */
+.crumbs{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top #mute{min-width:72px;justify-content:center}
+.vhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 4px}
+.vhead h2{margin:0;font-size:13px;letter-spacing:.14em;color:var(--ink)}
+.top{flex-wrap:nowrap}
+
+/* M4 design fixes: red NEW tag in view headers; New card button keeps its own width when it wraps alone */
+.vhead h2 b{color:#000;background:var(--red);padding:0 6px;margin-right:.15em} /* the real space after </b> gives the rest of the gap */
+.ctlrow #make{flex:0 0 auto;min-width:130px}

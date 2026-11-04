@@ -1,0 +1,28 @@
+/* Ported from sandbox v2 src/app.css (quote slot, long quotes, card view, export) + creator.css (.f-trot). */
+/* quote slot + long quotes (from ../src/long.css) */
+.qslot{flex:1;min-height:0;display:flex;flex-direction:column;position:relative;z-index:5;background:#000}
+.qslot>.b-q{flex:1}
+.b-q span{display:block}
+.lq-well{position:relative;flex:1;min-height:0;display:flex}
+.lq-scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:12px 22px 10px 18px;font-size:15px;line-height:1.28;font-weight:800;text-transform:uppercase;scrollbar-width:none;touch-action:pan-y;
+ -webkit-mask-image:linear-gradient(transparent 0,#000 var(--ft,0px),#000 calc(100% - var(--fb,0px)),transparent 100%);mask-image:linear-gradient(transparent 0,#000 var(--ft,0px),#000 calc(100% - var(--fb,0px)),transparent 100%)}
+.lq-scroll::-webkit-scrollbar{display:none}
+.lq-scroll:focus-visible{outline:2px solid var(--red);outline-offset:-4px}
+.mc .lq-scroll,.thumb .lq-scroll{overflow:hidden}
+.rail{position:absolute;right:7px;top:12px;bottom:10px;width:3px;background:#2a2a2a}
+.rail i{position:absolute;left:-1px;width:5px;background:var(--red);top:0;height:30%}
+.qm{color:var(--red);font-style:normal}
+.more{position:absolute;right:14px;bottom:6px;z-index:6;font-size:9px;font-weight:800;letter-spacing:.14em;color:#000;background:var(--red);padding:2px 5px;transition:opacity .2s}
+.more.gone{opacity:0}
+.tag.recv{display:block!important;left:8px;right:auto;top:8px;color:#000;background:#5dffb0;border-color:#5dffb0}
+.pickmeta{font-size:11px;color:var(--mute);letter-spacing:.08em;margin:0}
+/* card view */
+#cardView .stage{padding:34px 0 22px;touch-action:none}
+#cardView .card{will-change:transform}
+.exp{margin-top:14px}.exp h2{margin:0;font-size:13px;letter-spacing:.14em}
+.exp img{display:block;width:min(100%,300px);margin:4px auto;background:repeating-conic-gradient(#151515 0 25%,#0b0b0b 0 50%) 0 0/16px 16px}
+a.btn{font:inherit;font-size:13px;letter-spacing:.06em;min-height:44px;padding:0 14px;background:#000;color:var(--ink);border:2px solid #777;display:inline-flex;align-items:center;text-decoration:none;text-transform:uppercase}
+.flash{animation:flash .35s ease-out}@keyframes flash{from{filter:brightness(2.2)}to{filter:none}}
+body.shot .ctl.exp:not([hidden]){display:grid}
+.f-trot{display:block;font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.16em;margin-top:3px;line-height:1}
+@media (prefers-reduced-motion:reduce){.flash{animation:none}.more{transition:none}}

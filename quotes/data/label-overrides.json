@@ -1,0 +1,157 @@
+{
+ "note": "Manual decisions on top of tools/build_authors.py. Rule: label only writers who self-identified as Trotskyists and did not later break with or renounce Trotskyism. See AUTHORS-CATALOG.md.",
+ "overrides": {
+  "hansen": {
+   "trotskyite": true,
+   "why": "Secretary to Trotsky in Coyoacán, then decades a leader of the US SWP and the Fourth International (MIA Hansen archive + ETOL). Self-described Trotskyist."
+  },
+  "held-walter": {
+   "trotskyite": true,
+   "why": "German IKD member, Trotsky's secretary in Norway, Fourth International (MIA Held archive). Murdered by the NKVD 1942 as a Trotskyist."
+  },
+  "dowson": {
+   "trotskyite": true,
+   "why": "Leader of Canadian Trotskyism (Workers Party/RWP/LSA) for 40 years (MIA Dowson archive)."
+  },
+  "vitale": {
+   "trotskyite": true,
+   "why": "Chilean Trotskyist historian, Fourth International militant, MIR co-founder (MIA Vitale archive)."
+  },
+  "bensaid": {
+   "trotskyite": true,
+   "why": "Leader of the French LCR and the Fourth International (USFI); wrote 'Les trotskysmes' from inside the movement (MIA Bensaïd archive)."
+  },
+  "sejake": {
+   "trotskyite": true,
+   "why": "South African trade unionist who became a Trotskyist (Marxist Workers Tendency / CWI) (MIA Sejake archive)."
+  },
+  "hadden": {
+   "trotskyite": true,
+   "why": "Leader of the Militant / Socialist Party in Northern Ireland, CWI (Trotskyist) (MIA Hadden archive)."
+  },
+  "harman": {
+   "trotskyite": true,
+   "why": "Leading IS/SWP (Britain) theoretician; the IST describes itself as part of the Trotskyist tradition (MIA Harman archive)."
+  },
+  "molyneux": {
+   "trotskyite": true,
+   "why": "SWP (Britain) / IST; author of 'Leon Trotsky's Theory of Revolution'; self-described Trotskyist (MIA Molyneux archive)."
+  },
+  "rosdolsky": {
+   "trotskyite": true,
+   "why": "MIA bio: 'At the beginning of the thirties, he joined the Trotskyist movement and till the end of his life he identified' with it."
+  },
+  "reed-evelyn": {
+   "trotskyite": true,
+   "why": "MIA: 'Member of the American Trotskyist movement' (SWP, lifelong)."
+  },
+  "hirson": {
+   "trotskyite": true,
+   "why": "MIA: 'South African Trotskyist', organiser for the Workers International League."
+  },
+  "alexander": {
+   "trotskyite": true,
+   "why": "MIA: 'South African Trotskyist'."
+  },
+  "burnham": {
+   "trotskyite": false,
+   "why": "Self-ID'd as a Trotskyist in the 1930s; broke with Trotsky in 1940 and renounced Marxism (MIA: 'broke with Trotsky')."
+  },
+  "shachtma": {
+   "trotskyite": false,
+   "why": "Founder of US Trotskyism; broke with Trotsky in 1940 (Workers Party), later renounced Trotskyism for right social democracy."
+  },
+  "morrow-felix": {
+   "trotskyite": false,
+   "why": "SWP Trotskyist until expelled in 1946; MIA notes he then rejected the revolutionary perspective and left Marxism."
+  },
+  "draper": {
+   "trotskyite": false,
+   "why": "SWP/FI in 1938-40, then Shachtman's Workers Party and 'Third Camp' Independent Socialism; did not keep the Trotskyist label."
+  },
+  "braverman": {
+   "trotskyite": false,
+   "why": "MIA time-boxes it: 'US Trotskyist in 1930s/40s'; left the SWP (Cochranites) in 1953, later Monthly Review."
+  },
+  "rawick": {
+   "trotskyite": false,
+   "why": "Trotskyist in youth (SWP/Workers Party), later broke to Johnson-Forest / Facing Reality autonomism."
+  },
+  "munis": {
+   "trotskyite": false,
+   "why": "Spanish Trotskyist in the 1930s-40s; broke with the Fourth International in 1948 and repudiated Trotskyism ('For a Second Communist Manifesto')."
+  },
+  "tagore": {
+   "trotskyite": false,
+   "why": "MIA: favoured Permanent Revolution 'but remained independent of the Fourth International'; no self-ID as Trotskyist."
+  },
+  "dunayevskaya": {
+   "trotskyite": false,
+   "why": "Trotsky's secretary and a Trotskyist 1928-1951 (Johnson-Forest), then broke and founded Marxist-Humanism. Not auto-labelled, per the brief."
+  },
+  "ciliga": {
+   "trotskyite": false,
+   "why": "MIA: 'sympathizer of the Left Opposition'; later anti-communist. Left Opposition sympathy is not self-ID."
+  },
+  "camejo": {
+   "trotskyite": false,
+   "why": "SWP leader into the 1980s, then broke and later joined the Greens."
+  },
+  "marcy": {
+   "trotskyite": false,
+   "why": "SWP until 1959, then founded Workers World, which broke with Trotskyism."
+  },
+  "boggs": {
+   "trotskyite": false,
+   "why": "Johnson-Forest Tendency inside US Trotskyism, broke in 1951; later independent."
+  },
+  "gorman": {
+   "trotskyite": false,
+   "why": "Johnson-Forest Tendency, broke with Trotskyism in 1951."
+  },
+  "deutscher": {
+   "trotskyite": false,
+   "why": "Polish Left Oppositionist; opposed founding the Fourth International in 1938 and stayed independent. Trotsky's biographer, not a self-ID'd Trotskyist after 1938."
+  },
+  "eastman": {
+   "trotskyite": false,
+   "why": "Translator and supporter of Trotsky, never a member of a Trotskyist group; later anti-communist."
+  },
+  "riazanov": {
+   "trotskyite": false,
+   "why": "The only 'Trotskyist' in his MIA text is the Stalinist charge of 1937. Not self-ID."
+  },
+  "baracchi": {
+   "trotskyite": false,
+   "why": "MIA: 'joined Trotskyists 1939'. How long he stayed is unconfirmed, so no label yet (follow-up)."
+  },
+  "serge": {
+   "trotskyite": false,
+   "why": "Left Opposition; broke with Trotsky in the late 1930s; never self-ID'd as a Trotskyist."
+  },
+  "rosmer": {
+   "trotskyite": false,
+   "why": "Left Opposition co-founder; broke with Trotsky's organisation in 1930; friend, not a self-ID'd Trotskyist."
+  },
+  "nin": {
+   "trotskyite": false,
+   "why": "Left Opposition; broke with Trotsky in 1935 to found the POUM."
+  },
+  "lanti": {
+   "trotskyite": false,
+   "why": "MIA: 'Never a Trotskyist'."
+  },
+  "levy-benny": {
+   "trotskyite": false,
+   "why": "Gauche Prolétarienne was Maoist; MIA's 'Trotskyist' sits in a list of phases, later Islamist/Judaism. Not labelled."
+  },
+  "james-clr": {
+   "trotskyite": false,
+   "why": "Trotskyist 1934-1951 (Johnson-Forest), then broke with Trotskyism. Not auto-labelled, per the brief."
+  },
+  "gorkin": {
+   "trotskyite": false,
+   "why": "POUM leader. Broke with Trotsky in the 1930s, later anti-communist. 'Trotskyist' in his MIA archive is article-title text."
+  }
+ }
+}

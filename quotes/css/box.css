@@ -1,0 +1,40 @@
+.boxmain{max-width:480px;margin:0 auto;padding:0 12px}
+.scene{position:relative;height:600px;margin:4px auto 0;max-width:420px;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden;
+ background:linear-gradient(#000,#000) ,repeating-linear-gradient(transparent 0 3px,#ffffff05 3px 4px);background-blend-mode:normal}
+.scene::before{content:"";position:absolute;inset:0;pointer-events:none;background:
+ linear-gradient(#1a1a1a 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,#1a1a1a 1px,transparent 1px) 0 0/28px 28px;opacity:.55;
+ -webkit-mask-image:linear-gradient(transparent,#000 55%,#000 80%,transparent);mask-image:linear-gradient(transparent,#000 55%,#000 80%,transparent)}
+.scene::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:9;background:repeating-linear-gradient(transparent 0 2px,#00000038 2px 3px)}
+.layer{position:absolute;inset:0;pointer-events:none;perspective:900px;perspective-origin:50% 30%}
+.l-back{z-index:1}.l-front{z-index:3}
+.world{position:absolute;left:50%;top:var(--wy,450px);width:0;height:0;transform-style:preserve-3d;transform:var(--view)}
+.world *{transform-style:preserve-3d}
+.pc{position:absolute;box-sizing:border-box}
+.cards{position:absolute;inset:0;z-index:2;perspective:1000px;perspective-origin:50% 40%;pointer-events:none}
+.mc{position:absolute;left:50%;top:0;width:300px;height:420px;margin-left:-150px;padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;
+ transform-origin:50% 50%;opacity:0;-webkit-tap-highlight-color:transparent;text-transform:none;letter-spacing:0;min-height:0;display:block}
+[data-open="1"] .cards{pointer-events:auto}
+.mc .card{width:300px;height:420px;pointer-events:none}
+.mc-sway{display:block;width:300px;height:420px}
+[data-open="1"] .mc:not(.is-sel) .mc-sway{animation:sway 3.6s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(.6deg)}}
+.mc:focus-visible{outline:none}.mc:focus-visible .card{outline:6px solid var(--red);outline-offset:10px}
+.mc.is-sel .card{filter:drop-shadow(0 0 22px #ff2a2a66)}
+.mc.burning .mc-sway{animation:burn .76s steps(14) forwards!important}
+.mc.burning .mc-sway::after{content:"";position:absolute;left:-10px;right:-10px;height:10px;top:0;background:#ff2a2a;box-shadow:0 0 30px 10px #ff2a2a;animation:scan .76s steps(14) forwards}
+@keyframes burn{0%{clip-path:inset(0 -40px 0 -40px);filter:brightness(1)}20%{filter:brightness(1.6) saturate(0)}100%{clip-path:inset(100% -40px 0 -40px);filter:brightness(2) saturate(0)}}
+@keyframes scan{from{top:0}to{top:100%}}
+.hit{position:absolute;left:50%;top:var(--hy,380px);width:var(--hw,300px);height:var(--hh,170px);margin-left:calc(var(--hw,300px)/-2);z-index:4;background:none;border:0;min-height:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none}
+.hit:focus-visible{outline:2px dashed var(--red);outline-offset:-2px}
+.scene.thud .layer{animation:thud .22s cubic-bezier(.3,1.6,.5,1)}
+@keyframes thud{0%{transform:translateY(0)}35%{transform:translateY(4px)}100%{transform:translateY(0)}}
+.ctlrow{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0 10px}
+.ctlrow button{flex:1 1 auto;justify-content:center}
+#pick{margin-top:6px}#pick p{margin:0;font-size:13px;line-height:1.45}
+a.btn{font:inherit;font-size:13px;letter-spacing:.06em;min-height:44px;padding:0 14px;background:#000;color:var(--ink);border:2px solid #777;display:inline-flex;align-items:center;text-decoration:none;text-transform:uppercase}
+.top nav button{min-width:44px;min-height:44px;padding:0 8px;font-size:11px}
+.top nav button[aria-pressed="true"]{color:var(--mute)}
+.stencil{font-weight:800;letter-spacing:.18em;font-size:10px;color:var(--red);white-space:nowrap}
+body.shot .top{display:flex}body.shot .hint{display:none}
+@media (prefers-reduced-motion:reduce){.mc-sway{animation:none!important}.world *,.layer *{transition-duration:0s!important;animation:none!important}.scene.thud .layer{animation:none}.mc.burning .mc-sway::after{display:none}}
+.nolidanim .world *{transition:none!important}

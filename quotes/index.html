@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Quote Deck v2 · M5 box + card + creator + QR send</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/face.css">
+<link rel="stylesheet" href="css/box.css">
+<link rel="stylesheet" href="css/box-b.css">
+<link rel="stylesheet" href="css/card-view.css">
+<link rel="stylesheet" href="css/creator.css">
+<link rel="stylesheet" href="css/send.css">
+<link rel="stylesheet" href="css/shell.css">
+</head><body>
+<header class="top"><span class="crumbs"><b>QUOTE DECK v2</b> · <span id="crumb">CARD BOX</span></span><button type="button" id="mute" aria-pressed="false">SND</button></header>
+<main id="boxView" class="boxmain" aria-labelledby="boxH">
+<h1 class="sr" id="boxH">Card box</h1>
+<div id="scene" class="scene box-b" data-open="0">
+ <div class="layer l-back" aria-hidden="true"><div class="world"><div class="pc b-top"><span class="stencil">QUOTE DECK // TERMINAL</span><i class="b-vent"></i></div>
+<div class="pc b-side b-l"></div><div class="pc b-side b-r"></div>
+<div class="pc b-front"><i class="b-slot"></i></div>
+<div class="b-drawer"><div class="pc b-tfloor"></div><div class="pc b-tside b-tl"></div><div class="pc b-tside b-tr"></div></div></div></div>
+ <div class="cards" id="cards" role="group" aria-label="Cards floating above the box"></div>
+ <div class="layer l-front" aria-hidden="true"><div class="world"><div class="pc b-tfront"><span class="b-led"></span><span class="b-cmd"><span id="bCmd">&gt; DECK_07 </span><i class="b-cur"></i></span><i class="b-pull"></i></div></div></div>
+ <button type="button" class="hit" id="boxHit" aria-expanded="false" aria-controls="cards" aria-label="Card box, closed. Tap to open"></button>
+</div>
+<p class="hint" id="hint">Tap or flick up on the terminal to slide the drawer out. Swipe the cards to spin the carousel. Scrub sideways on the terminal to shuffle. <span id="deckCount"></span></p>
+<p class="hint" id="empty" hidden>The box is empty.</p>
+<div class="ctlrow"><button type="button" id="toggle" class="pri" aria-controls="cards">Open box</button><button type="button" id="shuffle">Shuffle</button><button type="button" id="prev" aria-label="Previous card">&#9664;</button><button type="button" id="next" aria-label="Next card">&#9654;</button><button type="button" id="receive">Receive</button><button type="button" id="make">New card</button><button type="button" id="restore" hidden>Restore deck</button></div>
+<section id="pick" class="ctl" hidden aria-labelledby="pickH"><h2 id="pickH">PICKED</h2><p id="pickTxt"></p><p class="pickmeta" id="pickMeta"></p>
+<div class="row"><button type="button" id="pickView" class="pri">Rotate / export</button><button type="button" id="pickSend">Send by QR</button><button type="button" id="pickBack">Back to box</button></div></section>
+</main>
+<main id="cardView" hidden aria-labelledby="cardH">
+<div class="vhead"><h2 id="cardH">CARD</h2><button type="button" id="cardBack">&#9664; Box</button></div>
+<div id="stage" class="stage" tabindex="0" role="group" aria-roledescription="quote card" aria-describedby="hint2"></div>
+<p class="hint" id="hint2">Drag to spin it any way. Two fingers twist. Double-tap to straighten. Long quotes: drag inside the text to scroll.</p>
+<p class="pickmeta" id="vMeta" style="text-align:center;margin-bottom:12px"></p>
+<div class="ctl" role="group" aria-label="Card controls">
+ <div class="row"><button type="button" id="flip" class="pri" aria-controls="stage">Flip card</button><button type="button" id="twistL" aria-label="Twist left 15 degrees">&#8634; Twist</button><button type="button" id="twistR" aria-label="Twist right 15 degrees">Twist &#8635;</button><button type="button" id="reset">Straighten</button></div>
+ <div class="row"><button type="button" id="spin">Flick spin</button><button type="button" id="motion">Use phone tilt</button></div>
+ <label class="chk"><input type="checkbox" id="snapBack">Snap back flat when I let go</label>
+ <label class="chk"><input type="checkbox" id="holo">Holo foil</label>
+ <div class="row"><button type="button" id="export" class="pri">Export PNG</button><button type="button" id="cardSend">Send by QR</button></div>
+ <p class="note">Keys: arrows spin, Q and E twist, Enter flips, 0 straightens. Export captures exactly what you see, including the current scroll position of a long quote.</p>
+</div>
+<section id="exp" class="ctl exp" hidden aria-labelledby="expH"><h2 id="expH">EXPORT</h2>
+ <img id="expImg" alt="">
+ <div class="row"><button type="button" id="expShare" class="pri">Share / Save</button><a class="btn" id="expDl" download="quote-card.png" href="#">Download PNG</a><button type="button" id="expClose">Close</button></div>
+ <p class="note" id="expNote"></p></section>
+</main>
+<main id="makeView" hidden aria-labelledby="makeH">
+<div class="vhead"><h2 id="makeH"><b>NEW</b> CARD · MIA WRITERS</h2><button type="button" id="mkCancel">&#9664; Box</button></div>
+<div class="ctl">
+ <div class="au-combo"><label class="mk-lbl" for="auQ">Writer (marxists.org)</label>
+  <input id="auQ" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="auList" autocomplete="off" spellcheck="false" placeholder="Search a name, section or year">
+  <div class="au-filt" id="auFilt" role="group" aria-label="Filter writers"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="photo" aria-pressed="false">With photo</button><button type="button" data-f="trot" aria-pressed="false">(Trotskyite)</button></div>
+  <p class="au-count" id="auCount" aria-live="polite"></p>
+  <ul id="auList" role="listbox" aria-label="Writers" hidden></ul></div>
+ <div id="auPicked" hidden></div>
+ <div><label class="mk-lbl" for="mkQ">Quote</label><textarea id="mkQ" rows="4" placeholder="Paste the quote"></textarea></div>
+ <div><label class="mk-lbl" for="mkSrc">Source</label><input id="mkSrc" type="text" placeholder="Work, year" autocomplete="off"></div>
+ <div class="mk-prev" id="mkPrev" aria-label="Card preview"></div>
+ <div class="row"><button type="button" id="mkFlip">Show back</button><button type="button" id="mkAdd" class="pri" disabled>Add to box</button></div>
+ <p class="mk-stats" id="auStats">Loading writer list…</p>
+ <p class="mk-credit">Writer list and most portraits: Marxists Internet Archive (marxists.org), public domain as far as MIA knows; credit MIA. Where MIA had none, a free-licensed photo from Wikimedia Commons is bundled and credited on the writer and on the card back (author and licence). All photos ship with the page; nothing is looked up online. Writers with no usable photo get the wireframe bust. Cards you make are saved in this browser on this device only; nothing is uploaded.</p>
+</div></main>
+<section id="sendView" hidden aria-labelledby="sendH"><div class="send-wrap">
+<div class="vhead"><h2 id="sendH">SEND BY QR · ONE COPY</h2><button type="button" id="sendClose">Cancel</button></div>
+<ol class="steps" id="steps" aria-label="Hand-off steps"><li>OFFER</li><li>RECEIVE</li><li>ACCEPT</li><li>BURN</li></ol>
+<div class="panes">
+ <section class="pane" id="paneA" aria-labelledby="aTitle"><h3 id="aTitle">PHONE A · SENDER (YOU)</h3>
+  <div class="thumbrow"><div class="thumb" id="thumbA"></div><dl class="pl" id="plStats"></dl></div>
+  <div class="qrbox"><canvas id="qrA" width="600" height="600" role="img" aria-label="Offer QR code"></canvas><canvas id="vfA" width="360" height="360" hidden role="img" aria-label="Camera view, looking for the accept code"></canvas><video id="camA" hidden playsinline muted aria-label="Camera"></video></div>
+  <div class="fstrip" id="stripA" aria-hidden="true"></div>
+  <p class="stat" id="statA"></p>
+  <div class="row" id="aRow"><button type="button" id="aSim" class="pri" disabled>Scan accept (simulate)</button><button type="button" id="aCam" disabled>Scan accept (camera)</button></div>
+ </section>
+ <section class="pane rx" id="paneB" aria-labelledby="bTitle"><h3 id="bTitle">PHONE B · RECEIVER (SIMULATED HERE)</h3>
+  <div class="qrbox"><canvas id="vfB" width="360" height="360" role="img" aria-label="Camera view of the sender's screen"></canvas><canvas id="qrB" width="600" height="600" hidden role="img" aria-label="Accept QR code"></canvas><video id="camB" hidden playsinline muted aria-label="Camera"></video></div>
+  <div class="fstrip" id="stripB" aria-hidden="true"></div>
+  <p class="stat" id="statB" aria-live="off"></p>
+  <div class="row" id="bRow"><button type="button" id="bSim" class="pri">Point at Phone A (simulate)</button><button type="button" id="bCam">Use camera</button></div>
+  <div class="gotcard" id="gotB" hidden></div>
+ </section>
+</div>
+<label class="chk"><input type="checkbox" id="soloB" checked>Show simulated Phone B (turn off when using two real phones)</label>
+<div class="sendfoot"><button type="button" id="sendDone" class="pri" hidden>Done · back to box</button></div>
+<p class="note">Honour system: your copy burns only after the receiver's accept code (transfer id + nonce + hash of the bytes received) is scanned. Cancel or a 2-minute timeout unlocks the card with nothing burned. Nothing goes through a server; the camera picture never leaves the phone.</p>
+</div></section>
+<p class="sr" aria-live="polite" id="live"></p>
+<script src="js/card.js"></script>
+<script src="js/store.js"></script>
+<script src="js/sfx.js"></script>
+<script src="js/sfx-extra.js"></script>
+<script src="js/box.js"></script>
+<script src="js/viewer.js"></script>
+<script src="js/export.js"></script>
+<script src="vendor/qrcodegen.min.js"></script>
+<script src="vendor/jsQR.min.js"></script>
+<script src="js/qr.js"></script>
+<script src="js/authors.js"></script>
+<script src="js/creator.js"></script>
+<script src="js/app.js"></script>
+</body></html>
