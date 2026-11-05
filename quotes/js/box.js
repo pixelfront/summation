@@ -15,8 +15,8 @@ const vis=()=>order;
 function build(){const prev=order.map(i=>deck[i]&&deck[i].id);deck=currentDeck();wrap.innerHTML='';
  els=deck.map((d,i)=>{const b=document.createElement('button');b.type='button';b.className='mc';b.dataset.i=i;
   b.setAttribute('aria-label',`${cardNo(d)}, ${d.who}${d.recv?', received':''}: \u201c${d.q}\u201d`);
-  b.innerHTML=`<span class="mc-sway" style="animation-delay:${(-i*.41).toFixed(2)}s">${cardHTML(d)}</span>`;wrap.appendChild(b);
-  fitQuote(b.querySelector('.card'),d);return b});
+  const tape=document.body.dataset.skin==='cassette';b.innerHTML=`<span class="mc-sway" style="animation-delay:${(-i*.41).toFixed(2)}s">${tape?tapeHTML(d):cardHTML(d)}</span>`;wrap.appendChild(b);
+  if(!tape)fitQuote(b.querySelector('.card'),d);return b});
  // keep the shuffled order across a rebuild (e.g. back from the card view); new cards join at the end
  const ids=deck.map(d=>d.id),kept=prev.map(id=>ids.indexOf(id)).filter(i=>i>=0);
  order=kept.concat(deck.map((_,i)=>i).filter(i=>!kept.includes(i)));if(off>=order.length)off=0;
@@ -51,13 +51,13 @@ function setOpen(v){if(busy||v===open)return;open=v;sel=-1;scene.dataset.open=v?
  else{SFX.close();layout({dur:.32,ease:'cubic-bezier(.5,0,.8,.2)'});if(!RM.matches)setTimeout(()=>{scene.classList.remove('thud');void scene.offsetWidth;scene.classList.add('thud')},C.thud)}
  showPick();live.textContent=v?`Box open. ${n()} cards float above it.`:'Box closed.'}
 function select(i){if(busy)return;if(i>=0&&LAYOUTS.fs&&window.LAYOUTUI){LAYOUTUI.exitFS(true)}sel=i;i>=0?SFX.select():SFX.click();layout({dur:.5});showPick();
- if(i>=0){live.textContent=`Picked ${deck[i].who}.`;setTimeout(()=>$('#pickView').focus({preventScroll:true}),RM.matches?0:300)}}
+ if(i>=0){live.textContent=`Picked ${deck[i].who}.`;setTimeout(()=>{$('#pickView').focus({preventScroll:true});pick.scrollIntoView({block:'nearest',behavior:RM.matches?'auto':'smooth'})},RM.matches?0:300)}}
 function showPick(){const i=sel;pick.hidden=i<0;if(i<0)return;const d=deck[i];
- const ps=$('#pickSend');ps.hidden=ps.disabled=isSample(d.id); /* demo cards: no Send */
+ const ps=$('#pickSend');ps.hidden=ps.disabled=isSample(d.id);$('#pickNoSend').hidden=!isSample(d.id); /* demo cards: no Send */
  $('#pickH').textContent=`PICKED \u00b7 ${cardNo(d)}${d.recv?' \u00b7 RECEIVED':''}`;
- const m=els[i].querySelector('.card').dataset.qmode;
+ const ce=els[i].querySelector('.card'),m=ce?ce.dataset.qmode:'tape';
  $('#pickTxt').textContent=`\u201c${d.q.length>140?d.q.slice(0,137)+'\u2026':d.q}\u201d \u2014 ${d.who}, ${d.src}`;
- $('#pickMeta').textContent=`${d.q.length} chars \u00b7 ${m==='scroll'?'scroll well':'shrink to fit'}${photoSrc(d)?' \u00b7 has photo':''}`}
+ $('#pickMeta').textContent=`${d.q.length} chars \u00b7 ${m==='tape'?'on cassette':m==='scroll'?'scroll well':'shrink to fit'}${photoSrc(d)?' \u00b7 has photo':''}`}
 async function shuffle(){if(busy||!n())return;if(!open){setOpen(true);await wait(RM.matches?0:700)}
  busy=true;sel=-1;showPick();if(LAYOUTS.name==='pickup')LAYOUTS.drop();const v=order.slice(),N=v.length,nv=v.slice();
  for(let k=N-1;k>0;k--){const j=Math.random()*(k+1)|0;[nv[k],nv[j]]=[nv[j],nv[k]]}
@@ -92,7 +92,7 @@ let cd=null,dragged=false,lastTick=0;
 wrap.addEventListener('pointerdown',e=>{dragged=false;if(!(open||LAYOUTS.fs)||busy)return;cd={x0:e.clientX,y0:e.clientY,off0:off,moved:false,id:e.pointerId};
  const el=e.target.closest&&e.target.closest('.mc');if(LAYOUTS.name==='pickup'&&el&&sel<0){const d=deck[+el.dataset.i],p=LAYOUTS.lift(d.id,n());cd.el=el;cd.id0=d.id;cd.p0={fx:p.fx,fy:p.fy};layout({dur:0})}});
 wrap.addEventListener('pointermove',e=>{if(!cd)return;const dx=e.clientX-cd.x0,dy=e.clientY-cd.y0;
- if(!cd.moved&&Math.hypot(dx,dy)>9){cd.moved=true;dragged=true;try{wrap.setPointerCapture(cd.id)}catch(_){}}
+ if(!cd.moved&&Math.hypot(dx,dy)>9){/* feedback: a mostly vertical pan (not a Pickup card grab, not full screen) is a page scroll: let go */if(!cd.el&&!LAYOUTS.fs&&Math.abs(dy)>Math.abs(dx)*1.2){cd=null;return}cd.moved=true;dragged=true;try{wrap.setPointerCapture(cd.id)}catch(_){}}
  if(cd.moved&&cd.el){const[W,H]=dims(),p=LAYOUTS.spot(cd.id0,n());cd.el.classList.add('dragging');p.fx=Math.min(1,Math.max(0,cd.p0.fx+dx/(W*.7)));p.fy=Math.min(1,Math.max(0,cd.p0.fy+dy/(H*.7)));layout({dur:0});return}
  if(cd.moved&&sel<0&&LAYOUTS.scrolls()&&Math.abs(dx)>Math.abs(dy)*.7){off=cd.off0-dx/C.step;const r=Math.round(off);if(r!==lastTick){lastTick=r;SFX.tick(r)}layout({dur:0})}});
 function endDrag(e){if(!cd)return;const C0=cd;cd=null;if(C0.moved)setTimeout(()=>{dragged=false},0);if(C0.el)C0.el.classList.remove('dragging');if(!C0.moved)return;if(C0.el){layout({dur:0});return}const dx=e.clientX-C0.x0,dy=e.clientY-C0.y0;

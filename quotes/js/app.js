@@ -1,7 +1,7 @@
 // M4: boot waits for STORE.ready (IndexedDB load) before the first box build is used.
 // M2 app shell: two views on one page. Box (Box B carousel) -> Card (M1 viewer: rotate, flip, export).
 // URL params: ?state=open|sel|shuffle [&id=c03|&sel=k] [&off=k] [&lidnow]  ·  ?view=card&card=1..7 [&side=back]
-//   ·  ?view=make [&q=search] [&filt=all|photo|trot] [&author=id] [&flip=1] [&open]   (no quote/src prefill since M5)
+//   ·  ?view=make [&q=search] [&filt=all|photo] [&author=id] [&flip=1] [&open]   (no quote/src prefill since M5)
 //   ·  ?view=send&card=<id> [&auto=1&stop=frames|rx|got]  ·  ?view=receive  ·  &shot
 window.APP=(()=>{const $=s=>document.querySelector(s);const P=new URLSearchParams(location.search);
 if(P.has('shot'))document.body.classList.add('shot');

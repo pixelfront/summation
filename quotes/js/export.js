@@ -62,7 +62,7 @@ function foil(x,r,ctx){const s=getComputedStyle(ctx.card),v=n=>s.getPropertyValu
  x.fillStyle='#fff';for(let yy=r.top;yy<r.bottom;yy+=9)for(let xx=r.left;xx<r.right;xx+=9){const d=Math.hypot(xx-px,yy-py);if(d<rr){x.globalAlpha=t*.6*(1-d/rr);x.fillRect(xx,yy,1.2,1.2)}}
  x.globalCompositeOperation='overlay';x.globalAlpha=1;const gl=x.createRadialGradient(px,py,0,px,py,C.width*.6);gl.addColorStop(0,'rgba(255,255,255,.5)');gl.addColorStop(.58,'rgba(255,255,255,.08)');gl.addColorStop(1,'rgba(255,255,255,0)');
  x.fillStyle=gl;x.fillRect(r.left,r.top,r.width,r.height);x.restore()}
-function render(){const {card}=window.CARD,b=window.CARD.showingBack,face=b?window.CARD.back:window.CARD.front;
+function render(side){const {card}=window.CARD,b=side?side==='back':window.CARD.showingBack,face=b?window.CARD.back:window.CARD.front;
  const keep=card.style.transform;card.style.transform=b?'rotateY(180deg)':'none';
  const cr=card.getBoundingClientRect(),S=OUT/cr.width,cv=document.createElement('canvas');cv.width=OUT;cv.height=Math.round(cr.height*S);
  const x=cv.getContext('2d');x.scale(S,S);x.translate(-cr.left,-cr.top);
@@ -83,6 +83,6 @@ async function run(){SFX.shutter();window.CARD.card.classList.remove('flash');vo
  $('#expShare').onclick=()=>navigator.share({files:[f],title:'Quote card'}).catch(()=>{});
  note.textContent=`${cv.width}\u00d7${cv.height} PNG of the ${side}. ${can?'Share opens the iPhone share sheet (Save Image is in there).':'Download saves the file.'} Made on this device; nothing uploaded.`;
  document.getElementById('live').textContent='Card exported';if(!document.body.classList.contains('shot'))box.scrollIntoView({behavior:'smooth',block:'nearest'})}
-$('#export').addEventListener('click',run);$('#expClose').addEventListener('click',()=>{box.hidden=true;$('#export').focus()});
+$('#export').addEventListener('click',()=>run());$('#expClose').addEventListener('click',()=>{box.hidden=true;$('#export').focus()});
 window.exportCard=render;window.runExport=run;
 })();

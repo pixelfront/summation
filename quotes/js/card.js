@@ -65,8 +65,11 @@ const SAMPLE_DECK=[
  {id:'c03',who:"Mao Zedong",sh:"Mao",q:"A revolution is not a dinner party.",src:"Report on the Peasant Movement in Hunan, 1927",holo:1},
  {id:'c04',who:"Karl Marx",sh:"Marx",q:"Men make their own history, but they do not make it as they please; they do not make it under self-selected circumstances, but under circumstances existing already, given and transmitted from the past. The tradition of all dead generations weighs like a nightmare on the brains of the living.",src:"The Eighteenth Brumaire of Louis Bonaparte, 1852",photo:'marx',author:'marx'},
  {id:'c05',who:"Karl Marx",sh:"Marx",q:"The history of all hitherto existing society is the history of class struggles. Freeman and slave, patrician and plebeian, lord and serf, guild-master and journeyman, in a word, oppressor and oppressed, stood in constant opposition to one another, carried on an uninterrupted, now hidden, now open fight, a fight that each time ended, either in a revolutionary reconstitution of society at large, or in the common ruin of the contending classes.",src:"Manifesto of the Communist Party, 1848",photo:'marx',author:'marx',holo:1},
- {id:'c06',who:"Leon Trotsky (Trotskyite)",sh:"Trotsky",q:"Life is beautiful. Let the future generations cleanse it of all evil, oppression and violence, and enjoy it to the full.",src:"Testament, 1940",photo:'trotsky',author:'trotsky',trot:1},
  {id:'c07',who:"Joseph Stalin",sh:"Stalin",q:"Cadres decide everything.",src:"Speech to Red Army graduates, 1935"}];
 // M5 (Chair decision): demo cards are never sendable, so Restore deck cannot mint transferable copies.
-const isSample=id=>SAMPLE_DECK.some(x=>x.id===id);
+// feedback: c06 (Trotskyite) left the stock deck; its id stays reserved as a sample so an old copy can never be sent.
+const isSample=id=>id==='c06'||SAMPLE_DECK.some(x=>x.id===id);
 SAMPLE_DECK.forEach((d,i)=>d.no=i+1);
+// feedback: Cassette skin shows each quote on a 3D tape (front label = quote, spine = name). Pure CSS 3D.
+function tapeHTML(d){const q=d.q.length>150?d.q.slice(0,147)+'\u2026':d.q;
+ return `<span class="tape3d" aria-hidden="true"><span class="tp tp-front"><span class="tp-lbl"><span class="tp-h"><b>${esc(d.sh)}</b><i>${cardNo(d)}</i><em>A</em></span><span class="tp-q">\u201c${esc(q)}\u201d</span><span class="tp-src">${esc(d.who)} \u00b7 ${esc(d.src)}</span></span><span class="tp-win"><i class="tp-reel"></i><i class="tp-band"></i><i class="tp-reel"></i></span><span class="tp-trap"></span></span><span class="tp tp-back"></span><span class="tp tp-top"><b>${esc(d.sh)}</b></span><span class="tp tp-bot"></span><span class="tp tp-l"></span><span class="tp tp-r"></span></span>`}

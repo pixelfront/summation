@@ -11,11 +11,10 @@ window.SKINS={
 <div class="pc c-floor"></div><div class="pc c-lid"><span class="stencil">THIS SIDE UP \u25B2</span></div>`,
   front:`<div class="pc c-front c-wall"><svg viewBox="0 0 280 92" preserveAspectRatio="none"><path d="M0 0L280 92M280 0L0 92M0 6h280M0 86h280"/></svg>
 <span class="stencil">QUOTE DECK \u25AE CARDS</span><span class="c-no cnt">DECK_07</span></div>`},
- cassette:{label:'Cassette',crumb:'CASSETTE',
-  back:`<div class="pc k-beam"></div><div class="pc k-back"></div><div class="pc k-side k-l"></div><div class="pc k-side k-r"></div>
-<div class="pc k-top"><i class="k-slot"></i></div>
-<div class="pc k-front"><div class="k-label"><span class="stencil">QUOTE DECK // TAPE</span><span class="k-sa">A</span>
-<div class="k-win"><i class="k-reel"></i><i class="k-tape"></i><i class="k-reel"></i></div></div><i class="k-trap"></i>
-<i class="k-screw k-s1"></i><i class="k-screw k-s2"></i><i class="k-screw k-s3"></i><i class="k-screw k-s4"></i>
-<span class="k-eject">EJECT \u25B2 <span class="cnt">07</span></span></div>`,
-  front:``}};
+ cassette:{label:'Cassette',crumb:'CASSETTE SHELF',
+  /* feedback: a wire tape shelf; tapes slide out of it carrying the quote */
+  back:`<div class="pc k-beam"></div><div class="pc sh-back"><span class="stencil">QUOTE DECK // TAPE SHELF</span></div>
+<div class="pc sh-side sh-l"></div><div class="pc sh-side sh-r"></div>
+<div class="pc sh-row sh-r1">${'<i class="sh-sp"></i>'.repeat(9)}</div><div class="pc sh-row sh-r2">${'<i class="sh-sp"></i>'.repeat(9)}</div>
+<div class="pc sh-board sh-b1"></div><div class="pc sh-board sh-b2"></div><div class="pc sh-board sh-b3"></div>`,
+  front:`<div class="pc sh-lip"><span class="k-eject">EJECT \u25B2 <span class="cnt">07</span></span></div>`}};

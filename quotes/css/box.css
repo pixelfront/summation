@@ -1,5 +1,5 @@
 .boxmain{max-width:480px;margin:0 auto;padding:0 12px}
-.scene{position:relative;height:600px;margin:4px auto 0;max-width:420px;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden;
+.scene{position:relative;height:600px;margin:4px auto 0;max-width:420px;touch-action:pan-y; /* feedback: vertical page scroll wins on iPhone */user-select:none;-webkit-user-select:none;overflow:hidden;
  background:linear-gradient(#000,#000) ,repeating-linear-gradient(transparent 0 3px,#ffffff05 3px 4px);background-blend-mode:normal}
 .scene::before{content:"";position:absolute;inset:0;pointer-events:none;background:
  linear-gradient(#1a1a1a 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,#1a1a1a 1px,transparent 1px) 0 0/28px 28px;opacity:.55;
@@ -24,7 +24,7 @@
 .mc.burning .mc-sway::after{content:"";position:absolute;left:-10px;right:-10px;height:10px;top:0;background:#ff2a2a;box-shadow:0 0 30px 10px #ff2a2a;animation:scan .76s steps(14) forwards}
 @keyframes burn{0%{clip-path:inset(0 -40px 0 -40px);filter:brightness(1)}20%{filter:brightness(1.6) saturate(0)}100%{clip-path:inset(100% -40px 0 -40px);filter:brightness(2) saturate(0)}}
 @keyframes scan{from{top:0}to{top:100%}}
-.hit{position:absolute;left:50%;top:var(--hy,380px);width:var(--hw,300px);height:var(--hh,170px);margin-left:calc(var(--hw,300px)/-2);z-index:4;background:none;border:0;min-height:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none}
+.hit{position:absolute;left:50%;top:var(--hy,380px);width:var(--hw,300px);height:var(--hh,170px);margin-left:calc(var(--hw,300px)/-2);z-index:4;background:none;border:0;min-height:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:pan-y}
 .hit:focus-visible{outline:2px dashed var(--red);outline-offset:-2px}
 .scene.thud .layer{animation:thud .22s cubic-bezier(.3,1.6,.5,1)}
 @keyframes thud{0%{transform:translateY(0)}35%{transform:translateY(4px)}100%{transform:translateY(0)}}
@@ -38,3 +38,7 @@ a.btn{font:inherit;font-size:13px;letter-spacing:.06em;min-height:44px;padding:0
 body.shot .top{display:flex}body.shot .hint{display:none}
 @media (prefers-reduced-motion:reduce){.mc-sway{animation:none!important}.world *,.layer *{transition-duration:0s!important;animation:none!important}.scene.thud .layer{animation:none}.mc.burning .mc-sway::after{display:none}}
 .nolidanim .world *{transition:none!important}
+
+/* feedback: only Pickup cards (free drag) and full screen block the page pan */
+body[data-layout="pickup"] .mc,.fs-on .scene,.fs-stage,.fs-stage .cards{touch-action:none}
+.mc{touch-action:pan-y}

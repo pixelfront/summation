@@ -63,7 +63,7 @@ const STORE=(()=>{
   burn(id){if(!s.burned.includes(id))s.burned.push(id);s.made=s.made.filter(c=>c.id!==id);s.received=s.received.filter(c=>c.id!==id);
    tx(t=>{wipe(t,id);t.objectStore('tombstones').put({id})})},
   // canReceive(id): 'ok' | 'burned' (tombstone: this card already left this phone; never take it back) | 'held'
-  canReceive(id){return s.burned.includes(id)?'burned':(s.made.some(x=>x.id===id)||s.received.some(x=>x.id===id)||SAMPLE_IDS.has(id))?'held':'ok'},
+  canReceive(id){return s.burned.includes(id)?'burned':(s.made.some(x=>x.id===id)||s.received.some(x=>x.id===id)||SAMPLE_IDS.has(id)||id==='c06')?'held':'ok'},
   // receive(c): stores a received card. Refuses burned or held ids (returns the reason); tombstones are never cleared.
   receive(c){const why=api.canReceive(c.id);if(why!=='ok')return why;c=Object.assign(clean(c),{recv:1});s.received.push(c);tx(t=>putCard(t,c,'received'));return 'ok'},
   // update(c): re-save a made/received card after an edit (e.g. holo toggle)

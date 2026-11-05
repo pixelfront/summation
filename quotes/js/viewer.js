@@ -62,7 +62,7 @@ function loop(t){if(!running)return;const dt=Math.min(50,t-lt);lt=t;
  let R=q;if(idle&&!drag&&!frozen)R=qm(qm(qa(1,0,0,Math.sin(t/1500)*7),qa(0,1,0,Math.sin(t/2100)*14)),q);
  if(o.x||o.y)R=qm(qm(qa(1,0,0,o.x),qa(0,1,0,o.y)),R);
  apply(R);requestAnimationFrame(loop)}
-function load(d,rot){data=d;{const cs=document.querySelector('#cardSend');if(cs)cs.hidden=cs.disabled=isSample(d.id)} /* demo cards: no Send */stage.innerHTML=cardHTML(d,true);card=stage.firstElementChild;card.removeAttribute('aria-hidden');card.classList.add('interactive');card.id='card';
+function load(d,rot){data=d;{const cs=document.querySelector('#cardSend');if(cs)cs.hidden=cs.disabled=isSample(d.id);const ns=document.querySelector('#cardNoSend');if(ns)ns.hidden=!isSample(d.id)} /* demo cards: no Send */stage.innerHTML=cardHTML(d,true);card=stage.firstElementChild;card.removeAttribute('aria-hidden');card.classList.add('interactive');card.id='card';
  front=card.querySelector('#front');back=card.querySelector('#back');back.setAttribute('aria-hidden','true');showingBack=false;
  const r=fitQuote(card,d);$('#vMeta').textContent=`${d.q.length} chars \u00b7 ${r.mode==='scroll'?`scroll well, ${r.px}px type (huge or still overflowing at ${LQ.FLOOR}px)`:`shrink to fit, ${r.px}px type`}${photoSrc(d)?' \u00b7 photo':''}`;
  const sc=card.querySelector('.lq-scroll');if(sc){sc.tabIndex=0}
