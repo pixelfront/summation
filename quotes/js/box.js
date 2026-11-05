@@ -54,10 +54,11 @@ function select(i){if(busy)return;if(i>=0&&LAYOUTS.fs&&window.LAYOUTUI){LAYOUTUI
  if(i>=0){live.textContent=`Picked ${deck[i].who}.`;setTimeout(()=>{$('#pickView').focus({preventScroll:true});pick.scrollIntoView({block:'nearest',behavior:RM.matches?'auto':'smooth'})},RM.matches?0:300)}}
 function showPick(){const i=sel;pick.hidden=i<0;if(i<0)return;const d=deck[i];
  const ps=$('#pickSend');ps.hidden=ps.disabled=isSample(d.id);$('#pickNoSend').hidden=!isSample(d.id); /* demo cards: no Send */
- $('#pickH').textContent=`PICKED \u00b7 ${cardNo(d)}${d.recv?' \u00b7 RECEIVED':''}`;
+ $('#pickH').textContent=`PICKED \u00b7 ${cardNo(d)}`;
  const ce=els[i].querySelector('.card'),m=ce?ce.dataset.qmode:'tape';
  $('#pickTxt').textContent=`\u201c${d.q.length>140?d.q.slice(0,137)+'\u2026':d.q}\u201d \u2014 ${d.who}, ${d.src}`;
- $('#pickMeta').textContent=`${d.q.length} chars \u00b7 ${m==='tape'?'on cassette':m==='scroll'?'scroll well':'shrink to fit'}${photoSrc(d)?' \u00b7 has photo':''}`}
+ $('#pickMeta').textContent=`${d.q.length} chars \u00b7 ${m==='tape'?'on cassette':m==='scroll'?'scroll well':'shrink to fit'}${photoSrc(d)?' \u00b7 has photo':''}${d.recv?' \u00b7 Received by QR':''}${d.rar==='g'?' \u00b7 gold trim':d.rar==='h'?' \u00b7 holo rare':''}${d.pk?' \u00b7 from a pack':''}`;
+ const pb=$('#pickBurn');if(pb)pb.setAttribute('aria-label',`Burn ${d.sh} for good`)}
 async function shuffle(){if(busy||!n())return;if(!open){setOpen(true);await wait(RM.matches?0:700)}
  busy=true;sel=-1;showPick();if(LAYOUTS.name==='pickup')LAYOUTS.drop();const v=order.slice(),N=v.length,nv=v.slice();
  for(let k=N-1;k>0;k--){const j=Math.random()*(k+1)|0;[nv[k],nv[j]]=[nv[j],nv[k]]}
@@ -111,6 +112,13 @@ $('#shuffle').addEventListener('click',shuffle);
 $('#pickBack').addEventListener('click',()=>{const i=sel;select(-1);if(i>=0)els[i].focus({preventScroll:true})});
 $('#pickView').addEventListener('click',()=>{if(sel>=0)APP.view(deck[sel])});
 $('#pickSend').addEventListener('click',()=>{if(sel>=0&&!isSample(deck[sel].id))APP.send(deck[sel])});
+// 3A: burn any card by hand (char + curl + embers). Made/received cards ask once first; demo cards just burn (Restore brings them back).
+async function incinerate(id){const i=deck.findIndex(d=>d.id===id);if(i<0||busy)return false;const d=deck[i];
+ if(BURNFX.needsAsk(d)&&!(await BURNFX.ask(d)))return false;
+ window.SPEAK&&SPEAK.stop('burn');busy=true;pick.hidden=true;const host=(window.CASES&&CASES.active()&&CASES.el(id))||els[i].querySelector('.card')||els[i];
+ await BURNFX.play(host);STORE.burn(id);busy=false;sel=-1;build();layout({dur:.4});showPick();if(window.CASES)CASES.refresh();
+ $('#restore').hidden=!STORE.sampleBurned();live.textContent=`${d.sh} burned. ${isSample(d.id)?'Restore samples brings demo cards back.':'It is gone from this phone.'}`;return true}
+$('#pickBurn').addEventListener('click',()=>{if(sel>=0)incinerate(deck[sel].id)});
 $('#restore').addEventListener('click',()=>{STORE.reset();build();sel=-1;$('#restore').hidden=true;layout({rise:open?1:0,stagger:.04});SFX.click();live.textContent='Sample cards restored. Your own cards are kept.'});
 $('#prev').addEventListener('click',()=>step(-1));$('#next').addEventListener('click',()=>step(1));
 build();layout({dur:0});
@@ -118,7 +126,7 @@ $('#restore').hidden=!STORE.sampleBurned();
 // Pickup entry: stack in the middle, then fly out (reduced motion: straight to the spots)
 function scatter(){if(RM.matches||!open||sel>=0){layout({dur:0});return}const[W,H]=dims(),s=LAYOUTS.stackScale(W,H);
  order.forEach((i,k)=>put(els[i],{x:0,y:H/2,rz:(k-n()/2)*2,s,zi:k},0));void wrap.offsetWidth;requestAnimationFrame(()=>layout({stagger:.03,dur:.55}))}
-return{setOpen,select,layout,shuffle,burn,scatter,get els(){return els},rebuild(){build();layout({dur:0});$('#restore').hidden=!STORE.sampleBurned()},
+return{setOpen,select,layout,shuffle,burn,incinerate,scatter,get els(){return els},rebuild(){build();layout({dur:0});$('#restore').hidden=!STORE.sampleBurned()},
  focusId(id){const i=deck.findIndex(d=>d.id===id),k=order.indexOf(i);if(k<0)return;sel=-1;off=k;layout({dur:0});showPick();announceFocus()},
  get deck(){return deck},get sel(){return sel},get open(){return open},get order(){return order.map(i=>deck[i].id)},
  initState(st){if(P.has('lidnow'))scene.classList.add('nolidanim');

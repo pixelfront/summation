@@ -1,0 +1,49 @@
+/* 1A cassette J-card cases (CASSETTE box style). Replaces the floating shelf scene. */
+body.cases-on #laybar,body.cases-on #scene,body.cases-on #hint,body.cases-on #toggle,body.cases-on #shuffle,body.cases-on #prev,body.cases-on #next{display:none!important}
+.cases{margin:10px 0 8px}
+.shelf{display:flex;gap:4px;overflow-x:auto;padding:6px 2px 10px;border-bottom:2px solid var(--line);scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+.spine{flex:0 0 auto;scroll-snap-align:start;min-width:44px;min-height:132px;padding:8px 0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px;
+ background:#f2f2ec;color:#000;border:2px solid #f2f2ec;font-size:11px;letter-spacing:.12em}
+.spine b{writing-mode:vertical-rl;transform:rotate(180deg);font-weight:800;white-space:nowrap}
+.spine i{font-style:normal;font-size:10px;color:#444}
+.spine.mine{background:#000;color:#f2f2ec;border-color:#f2f2ec}.spine.mine i{color:#aaa}
+.spine[aria-selected="true"]{background:var(--red);border-color:var(--red);color:#000}.spine[aria-selected="true"] i{color:#000}
+.caserow{display:flex;gap:14px;overflow-x:auto;padding:16px 4px 58px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+.caserow.rise .case{animation:caseUp .24s ease-out both}
+.caserow.rise .case:nth-child(2){animation-delay:.03s}.caserow.rise .case:nth-child(3){animation-delay:.06s}.caserow.rise .case:nth-child(n+4){animation-delay:.09s}
+@keyframes caseUp{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.case{position:relative;flex:0 0 auto;width:236px;height:162px;scroll-snap-align:center;perspective:700px}
+.case-shell{position:absolute;inset:0;padding:0;border:0;background:none;display:block;min-height:0;z-index:2;transform-style:preserve-3d}
+.case-base{position:absolute;inset:0;border:2px solid #cfcfcf;background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 2px,transparent 2px 4px)}
+.case-lid{position:absolute;inset:0;transform-origin:50% 0;transition:transform .28s ease-out;z-index:3;border:2px solid #e6e6e6;background:rgba(255,255,255,.04);
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 22px 0 0 -20px rgba(255,255,255,.25);backface-visibility:hidden}
+.case.open .case-lid{transform:rotateX(110deg)}
+.jc{position:absolute;inset:5px;display:grid;grid-template-columns:22px 66px 1fr;background:#f2f2ec;color:#000;overflow:hidden}
+.jc-spine{background:#fff;border-right:1.5px solid #000;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:4px 0}
+.jc-spine b{writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;letter-spacing:.12em;font-weight:800;white-space:nowrap;overflow:hidden;max-height:110px}
+.jc-spine i{font-style:normal;font-size:8px}
+.jc-photo{position:relative;background:#111;overflow:hidden;border-right:1.5px solid #000}
+.jc-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.2)}
+.jc-bust{position:absolute;left:4px;right:4px;bottom:0}.jc-bust svg{display:block;width:100%;height:auto}.jc-bust path{stroke:#f2f2f2;fill:none;stroke-width:1.6;vector-effect:non-scaling-stroke}
+.jc-paper{display:flex;flex-direction:column;gap:4px;padding:0 0 4px;min-width:0;position:relative}
+.jc-bar{background:var(--red);color:#000;font-size:10px;font-weight:800;letter-spacing:.06em;padding:3px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-transform:uppercase}
+.jc-q{font-size:10px;line-height:1.3;padding:0 6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;text-transform:none;letter-spacing:0}
+.jc-src{font-size:8px;color:#444;padding:0 6px;margin-top:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-transform:none;letter-spacing:0}
+.jc-rar{position:absolute;right:4px;bottom:16px;font-size:8px;font-weight:800;letter-spacing:.12em;padding:1px 4px;border:1.5px solid}
+.jc-rar.g{color:#7a5d00;border-color:#d4af37;background:#fff5cc}.jc-rar.h{color:#000;border-color:#000;background:linear-gradient(115deg,#ff2a2a,#ffcf4a,#5dffb0,#4ac8ff,#a46bff)}
+/* the tape inside: slides down 40px when the case opens */
+.case-tape{position:absolute;left:14px;right:14px;top:16px;height:132px;padding:0;border:0;background:none;min-height:0;z-index:1;transition:transform .22s ease-out .12s;display:block}
+.case.open .case-tape{transform:translateY(40px);z-index:4}
+.ct{position:absolute;inset:0;background:#141414;border:2px solid #f2f2f2;display:block}
+.ct-lbl{position:absolute;left:10px;right:10px;top:8px;height:58px;background:#f2f2ec;color:#000;padding:3px 6px;display:grid;grid-template-columns:1fr auto;align-content:start;gap:2px 6px;text-align:left}
+.ct-lbl b{font-size:11px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ct-lbl em{font-style:normal;font-size:10px;font-weight:800;background:var(--red);padding:0 4px}
+.ct-q{grid-column:1/-1;font-size:9px;line-height:1.25;text-transform:none;letter-spacing:0;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.ct-win{position:absolute;left:50%;top:72px;width:130px;height:34px;margin-left:-65px;border:1.5px solid #f2f2f2;background:#000;display:flex;align-items:center;justify-content:space-between;padding:0 8px}
+.ct-reel{width:24px;height:24px;border-radius:50%;border:1.5px solid #f2f2f2;background:repeating-conic-gradient(#f2f2f2 0 8deg,transparent 8deg 60deg)}
+.ct-band{flex:1;height:2px;background:#555;margin:0 5px}
+.ct-trap{position:absolute;left:40px;right:40px;bottom:0;height:16px;border:1.5px solid #f2f2f2;border-bottom:0;clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 100%,0 100%)}
+.case.open .ct-reel{animation:reel 1.6s linear infinite}
+@keyframes reel{to{transform:rotate(360deg)}}
+.case-tape:focus-visible .ct,.case-shell:focus-visible .case-lid{outline:2px solid var(--red);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.caserow.rise .case{animation:none}.case-lid,.case-tape{transition:none}.case.open .ct-reel{animation:none}}

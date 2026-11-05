@@ -1,0 +1,36 @@
+/* Mega pass: settings sheet, read aloud, burn, gold trim, burn confirm. Look B. */
+.topbtns{display:flex;gap:6px;flex:0 0 auto}
+.top #setBtn{min-width:56px;justify-content:center}
+.top #setBtn[aria-expanded="true"]{border-color:var(--red);color:var(--red)}
+.setv{max-width:448px;margin:12px auto;gap:12px}
+.themebar{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.themebar button{justify-content:center;font-weight:700;letter-spacing:.1em}
+.themebar button[aria-checked="true"]{border-color:var(--red);color:var(--red)}
+.themebar button[aria-checked="true"]::before{content:"\25A0";margin-right:4px}
+.mu{justify-content:flex-start;text-align:left;gap:10px;text-transform:none;letter-spacing:.02em}
+.mu svg,.spk svg{width:20px;height:20px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.mu span{flex:1}.mu .mu-st{font-size:11px;letter-spacing:.14em;padding:2px 6px;border:1.5px solid currentColor}
+.mu[aria-pressed="true"]{border-color:var(--red);color:var(--red)}
+.mu[aria-pressed="true"] .mu-st{background:var(--red);color:#000;border-color:var(--red)}
+/* 4A read aloud: in the turn-controls row, 44px */
+.spk{min-width:44px;min-height:44px;justify-content:center}
+.spk[aria-pressed="true"]{border-color:var(--red);color:#000;background:var(--red)}
+.spk[disabled]{opacity:.45}
+/* 3A burn */
+button.burnbtn{border-color:#7a1a1a;color:#ff6b6b}
+.burn-host{position:relative}
+.char-front{position:absolute;inset:0;z-index:40;pointer-events:none;transform:translateZ(2px);mix-blend-mode:normal}
+.ember-cv{position:fixed;z-index:900;pointer-events:none}
+.ash-outline{position:fixed;z-index:899;pointer-events:none;border:2px dashed #555;opacity:.9;transition:opacity .2s linear;
+ clip-path:polygon(6% 0,100% 0,100% 95.7%,94% 100%,0 100%,0 4.3%)}
+.ash-outline.gone{opacity:0}
+.burnask{position:fixed;inset:0;z-index:950;display:grid;place-items:center;padding:16px;background:rgba(0,0,0,.72)}
+.burnask .ctl{max-width:380px;width:100%}
+.burnask p{margin:0;font-size:14px;line-height:1.5;color:var(--ink)}
+/* 6A gold trim: double inset #d4af37 border, visual only */
+.gold-trim{position:absolute;inset:7px;border:2px solid #d4af37;pointer-events:none;z-index:6;
+ clip-path:polygon(6% 0,100% 0,100% 95.7%,94% 100%,0 100%,0 4.3%)}
+.gold-trim>i{position:absolute;inset:4px;border:1px solid #d4af37;opacity:.85}
+.rar-gold .b-bar,.rar-gold .bar{box-shadow:inset 0 -2px 0 #d4af37}
+/* 2A export row with three buttons wraps nicely */
+#exportApng{border-color:#555}

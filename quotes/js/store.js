@@ -28,7 +28,7 @@ const STORE=(()=>{
  const blobToData=b=>new Promise((ok,no)=>{const f=new FileReader();f.onload=()=>ok(f.result);f.onerror=()=>no(f.error);f.readAsDataURL(b)});
  // queue one write transaction; failures are logged, the in-memory state stays authoritative for this session
  function tx(fn){if(!db)return q;q=q.then(()=>{const t=db.transaction(['cards','photos','tombstones'],'readwrite');fn(t);return done(t)}).catch(e=>console.warn('STORE write failed',e));return q}
- const FIELDS=['id','no','who','sh','q','src','notes','holo','trot','author','pc','photo','recv'];
+ const FIELDS=['id','no','who','sh','q','src','notes','holo','trot','author','pc','photo','recv','rar','pk'];
  function okPhoto(p){return typeof p==='string'&&(/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(p)||/^a:[a-z0-9_-]{1,60}$/i.test(p))}
  function clean(c){const o={};for(const k of FIELDS)if(c[k]!=null)o[k]=c[k];if(o.photo&&!okPhoto(o.photo)){o.photo='';o.pc=''}return o}
  function putCard(t,c,kind){c=clean(c);if(!seqOf.has(c.id))seqOf.set(c.id,++seq);const rec=Object.assign({},c,{kind,seq:seqOf.get(c.id)});

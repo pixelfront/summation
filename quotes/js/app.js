@@ -6,12 +6,13 @@
 window.APP=(()=>{const $=s=>document.querySelector(s);const P=new URLSearchParams(location.search);
 if(P.has('shot'))document.body.classList.add('shot');
 document.body.insertAdjacentHTML('beforeend',CHROME_DEFS);wireMute($('#mute'));
-const live=$('#live'),views={box:$('#boxView'),card:$('#cardView'),make:$('#makeView'),send:$('#sendView')},holo=$('#holo');let cur='box';
+const live=$('#live'),views={box:$('#boxView'),card:$('#cardView'),make:$('#makeView'),send:$('#sendView'),pack:$('#packView')},holo=$('#holo');let cur='box';
 function show(v,focusEl){Object.entries(views).forEach(([k,el])=>el.hidden=k!==v);cur=v;
- $('#crumb').textContent={box:'CARD BOX \u00b7 '+(window.SKINUI?SKINUI.crumb():'B TERMINAL DRAWER'),card:'CARD \u00b7 ROTATE + EXPORT',make:'NEW CARD',send:'SEND BY QR \u00b7 ONE COPY'}[v];
+ $('#crumb').textContent={box:'CARD BOX \u00b7 '+(window.SKINUI?SKINUI.crumb():'B TERMINAL DRAWER'),card:'CARD \u00b7 ROTATE + EXPORT',make:'NEW CARD',send:'SEND BY QR \u00b7 ONE COPY',pack:'PACKS \u00b7 TEAR + FAN'}[v];
+ window.SPEAK&&SPEAK.stop('view');if(v!=='pack'&&window.PACKS)PACKS.leave();if(v==='box'&&window.CASES)CASES.refresh();
  if(v!=='card')VIEWER.stop();window.scrollTo(0,0);if(focusEl)setTimeout(()=>focusEl.focus({preventScroll:true}),30)}
 function view(d,rot){show('card');VIEWER.load(d,rot);$('#exp').hidden=true;holo.checked=!!d.holo;
- $('#cardH').textContent=`${cardNo(d)} \u00b7 ${d.sh.toUpperCase()}${d.recv?' \u00b7 RECEIVED':''}`;
+ $('#cardH').textContent=`${cardNo(d)} \u00b7 ${d.sh.toUpperCase()}`;
  $('#stage').focus({preventScroll:true});live.textContent=`Card view. ${d.who}. Drag to spin it.`}
 $('#cardBack').addEventListener('click',()=>{const id=VIEWER.data&&VIEWER.data.id;show('box');BOX.rebuild();BOX.initState('open');
  const i=BOX.deck.findIndex(d=>d.id===id);if(i>=0)BOX.select(i)});
@@ -117,9 +118,10 @@ async function autoRun(){const stp=P.get('stop');if(stp==='frames')return;await 
 function boot(){if(P.get('view')==='make'){show('make');CREATOR.preset()}
 else if(P.get('view')==='send'){const d=currentDeck().find(d=>d.id===P.get('card'));if(!d||isSample(d.id)){show('box');BOX.rebuild();BOX.initState();live.textContent=d?NO_SEND:'That card is not in your box.'}else send(d)}
 else if(P.get('view')==='receive')send(null,'receive');
+else if(P.get('view')==='packs'){show('pack');if(window.PACKS)PACKS.enter(P);else document.addEventListener('DOMContentLoaded',()=>PACKS.enter(P))} // boot can run before packs.js has loaded
 else if(P.get('view')==='card'){const k=Math.max(0,Math.min(SAMPLE_DECK.length-1,(parseInt(P.get('card'),10)||1)-1));
  view(SAMPLE_DECK[k],P.get('side')==='back'?{ry:180}:null)}
 else{show('box');BOX.rebuild();BOX.initState(P.get('state'))}
 document.documentElement.dataset.store=STORE.persistent?'idb':'memory'}
-show(({make:'make',card:'card',send:'send',receive:'send'})[P.get('view')]||'box');STORE.ready.then(boot);
+show(({make:'make',card:'card',send:'send',receive:'send',packs:'pack'})[P.get('view')]||'box');STORE.ready.then(boot);
 return{show,view,send,get sending(){return S}}})();

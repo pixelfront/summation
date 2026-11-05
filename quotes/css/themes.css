@@ -1,0 +1,53 @@
+/* 9A themes: Dark (default, unchanged) / Light / Voxel / Blueprint. Set by js/theme.js on <html data-theme>, stored locally (qc-theme).
+   Themes change the app chrome; cards keep their printed Look B faces in every theme. */
+/* ---------- LIGHT: #f4f4ef paper, #000 ink, #d10000 red (AA on paper) ---------- */
+html[data-theme="light"]{--bg:#f4f4ef;--panel:#fff;--ink:#000;--mute:#4a4a4a;--red:#d10000;--line:#cfcfc6;color-scheme:light}
+html[data-theme="light"],html[data-theme="light"] body{background:#f4f4ef;color:#000}
+html[data-theme="light"] .top{border-bottom-color:#cfcfc6}
+html[data-theme="light"] .ctl{border-color:#cfcfc6;background:#fff}
+html[data-theme="light"] button:where(:not(.scene *,.fs *,.pk-fan *,.cases *)),html[data-theme="light"] .file{background:#fff;color:#000;border-color:#555}
+html[data-theme="light"] button.pri:where(:not(.scene *)){border-color:#d10000;color:#d10000}
+html[data-theme="light"] select,html[data-theme="light"] input[type=text],html[data-theme="light"] textarea{background:#fff;color:#000;border-color:#777}
+html[data-theme="light"] button.burnbtn{border-color:#a30000;color:#a30000}
+html[data-theme="light"] .spk[aria-pressed="true"],html[data-theme="light"] .mu[aria-pressed="true"] .mu-st{color:#fff}
+html[data-theme="light"] .skinbar button,html[data-theme="light"] .laybar button{border-color:#999}
+html[data-theme="light"] .scene{background:#000;outline:2px solid #000}           /* the box world stays a dark screen on paper */
+html[data-theme="light"] .spine.mine{background:#000}
+html[data-theme="light"] .case-base{border-color:#000;background:rgba(0,0,0,.04)}
+html[data-theme="light"] .case-lid{border-color:#000;background:rgba(0,0,0,.03)}
+html[data-theme="light"] .pk-back{background:repeating-linear-gradient(45deg,#000 0 6px,#140000 6px 12px)}
+html[data-theme="light"] .burnask{background:rgba(244,244,239,.85)}
+html[data-theme="light"] .top nav a{color:#000;border-color:#999}
+/* ---------- VOXEL: same palette, blocky pixel shading, 4px steps, no smoothing ---------- */
+html[data-theme="voxel"]{--panel:#0d0d0d;-webkit-font-smoothing:none;font-smooth:never}
+html[data-theme="voxel"] body{background:#000 linear-gradient(#000,#000);image-rendering:pixelated}
+html[data-theme="voxel"] img,html[data-theme="voxel"] canvas{image-rendering:pixelated}
+html[data-theme="voxel"] button:where(:not(.scene *,.fs *,.pk-fan *,.cases *)),html[data-theme="voxel"] .file{border-width:4px;border-color:#f2f2f2;box-shadow:4px 4px 0 #555,8px 8px 0 #222;margin:0 8px 8px 0;font-weight:700}
+html[data-theme="voxel"] button:where(:not(.scene *,.fs *)):active{transform:translate(4px,4px);box-shadow:0 0 0 #555}
+html[data-theme="voxel"] button.pri:where(:not(.scene *)){border-color:#ff2a2a;box-shadow:4px 4px 0 #7a0000,8px 8px 0 #2a0000}
+html[data-theme="voxel"] .ctl{clip-path:none;border-width:4px;border-color:#f2f2f2;box-shadow:inset -4px -4px 0 #2a2a2a,inset 4px 4px 0 #1a1a1a}
+html[data-theme="voxel"] .top{border-bottom:4px solid #f2f2f2}
+html[data-theme="voxel"] *{transition-timing-function:steps(4,end)!important;animation-timing-function:steps(6,end)!important}
+html[data-theme="voxel"] .spine,html[data-theme="voxel"] .case-lid,html[data-theme="voxel"] .ct{border-width:4px}
+html[data-theme="voxel"] input[type=text],html[data-theme="voxel"] textarea,html[data-theme="voxel"] select{border-width:4px}
+html[data-theme="voxel"] .themebar button,html[data-theme="voxel"] .skinbar button,html[data-theme="voxel"] .laybar button{box-shadow:4px 4px 0 #333;margin:0 4px 4px 0}
+/* ---------- BLUEPRINT: #0b2545 sheet, #fff lines, #ff2a2a accent, 24px grid ---------- */
+html[data-theme="blueprint"]{--bg:#0b2545;--panel:#0e2c52;--ink:#fff;--mute:#c9d6ea;--line:#4f6f99;color-scheme:dark}
+html[data-theme="blueprint"],html[data-theme="blueprint"] body{background-color:#0b2545}
+html[data-theme="blueprint"] body{background-image:linear-gradient(rgba(255,255,255,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.09) 1px,transparent 1px);background-size:24px 24px;background-attachment:fixed}
+html[data-theme="blueprint"] .ctl{background:rgba(11,37,69,.92);border-color:#fff;border-width:1px;border-style:solid}
+html[data-theme="blueprint"] button:where(:not(.scene *,.fs *,.pk-fan *,.cases *)),html[data-theme="blueprint"] .file{background:#0b2545;border-color:#fff;border-width:1.5px;color:#fff}
+html[data-theme="blueprint"] button.pri:where(:not(.scene *)){border-color:#ff2a2a;color:#ff8a8a} /* #ff8a8a: AA on #0b2545; #ff2a2a kept for lines */
+html[data-theme="blueprint"] .ctl h2,html[data-theme="blueprint"] .themebar button[aria-checked="true"],html[data-theme="blueprint"] .skinbar button[aria-checked="true"]{color:#ff8a8a}
+html[data-theme="blueprint"] select,html[data-theme="blueprint"] input[type=text],html[data-theme="blueprint"] textarea{background:#0b2545;color:#fff;border-color:#c9d6ea;border-width:1.5px}
+html[data-theme="blueprint"] .top{border-bottom:1px solid #fff}
+html[data-theme="blueprint"] .scene{background:transparent}
+html[data-theme="blueprint"] button.burnbtn{color:#ffb0b0}
+html[data-theme="blueprint"] .burnask{background:rgba(11,37,69,.85)}
+html[data-theme="blueprint"] .case-base,html[data-theme="blueprint"] .case-lid{border-color:#fff;border-width:1px}
+html[data-theme="blueprint"] .pb-foil{background:linear-gradient(115deg,#06182e 0%,#1d4170 35%,#06182e 55%,#29548a 70%,#06182e 90%)}
+/* cards and the box world are printed/lit objects: they keep the Look B dark palette in every theme */
+html[data-theme="light"] :is(.scene,.card,.fs,.ct,.pk-back),html[data-theme="blueprint"] :is(.card,.fs,.ct,.pk-back),html[data-theme="voxel"] .card{
+ --bg:#000;--panel:#0b0b0b;--ink:#f2f2f2;--mute:#a6a6a6;--red:#ff2a2a;--line:#2a2a2a;color:#f2f2f2}
+html[data-theme="light"] .laybar button[aria-checked="true"]{color:#fff}
+html[data-theme="light"] .laybar button[aria-checked="true"] svg path{fill:#fff;stroke:#fff}

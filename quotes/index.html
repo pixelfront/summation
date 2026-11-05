@@ -4,7 +4,8 @@
 <meta name="theme-color" content="#000000">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>Quote Deck v2 · feedback build</title>
+<title>Quote Deck v2</title>
+<script src="js/theme.js"></script>
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/face.css">
 <link rel="stylesheet" href="css/box.css">
@@ -15,10 +16,21 @@
 <link rel="stylesheet" href="css/shell.css">
 <link rel="stylesheet" href="css/skins.css">
 <link rel="stylesheet" href="css/layouts.css">
+<link rel="stylesheet" href="css/mega.css">
+<link rel="stylesheet" href="css/cases.css">
+<link rel="stylesheet" href="css/packs.css">
+<link rel="stylesheet" href="css/themes.css">
 </head><body>
-<header class="top"><span class="crumbs"><b>QUOTE DECK v2</b> · <span id="crumb">CARD BOX</span></span><button type="button" id="mute" aria-pressed="false">SND</button></header>
+<header class="top"><span class="crumbs"><b>QUOTE DECK v2</b> · <span id="crumb">CARD BOX</span></span><span class="topbtns"><button type="button" id="setBtn" aria-expanded="false" aria-controls="setView">SET</button><button type="button" id="mute" aria-pressed="false">SND</button></span></header>
+<section id="setView" class="ctl setv" hidden aria-labelledby="setH"><h2 id="setH">SETTINGS</h2>
+ <div class="themebar" id="themeBar" role="radiogroup" aria-label="Theme"><button type="button" role="radio" data-theme="dark" aria-checked="true">Dark</button><button type="button" role="radio" data-theme="light" aria-checked="false">Light</button><button type="button" role="radio" data-theme="voxel" aria-checked="false">Voxel</button><button type="button" role="radio" data-theme="blueprint" aria-checked="false">Blueprint</button></div>
+ <button type="button" id="musicBtn" class="mu" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 15V4l10-2v11M7 15a2.5 2.5 0 1 1-2.5-2.5A2.5 2.5 0 0 1 7 15zM17 13a2.5 2.5 0 1 1-2.5-2.5A2.5 2.5 0 0 1 17 13z"/></svg><span>Music: The Internationale (chiptune)</span><b class="mu-st">OFF</b></button>
+ <p class="note">Music is off by default and only starts when you tap it. It is an original 8-bit arrangement of the 1888 melody by Pierre De Geyter (public domain), played by this phone; there is no audio file and nothing streams. SND OFF silences it too.</p>
+ <p class="note">Theme, music and sound choices are saved on this device only.</p>
+ <div class="row"><button type="button" id="setClose" class="pri">Done</button></div></section>
 <main id="boxView" class="boxmain" aria-labelledby="boxH">
 <h1 class="sr" id="boxH">Card box</h1>
+<div id="cases" class="cases" hidden></div>
 <div class="laybar" id="laybar" role="radiogroup" aria-label="Card layout">
  <button type="button" role="radio" data-layout="fan" aria-checked="true"><svg viewBox="0 0 24 16" aria-hidden="true"><path d="M4 14l3-11 4 1-2 11zM10 3h4v11h-4zM15 4l4-1 1 11-4 1z"/></svg><span>FAN</span></button>
  <button type="button" role="radio" data-layout="grid" aria-checked="false"><svg viewBox="0 0 24 16" aria-hidden="true"><path d="M3 2h5v5H3zM10 2h5v5h-5zM17 2h4v5h-4zM3 9h5v5H3zM10 9h5v5h-5zM17 9h4v5h-4z"/></svg><span>GRID</span></button>
@@ -34,10 +46,10 @@
 </div>
 <p class="hint" id="hint">Tap or flick up on the box to open it. Swipe the fan to turn it; in Pickup, drag cards around. Scrub sideways on the box to shuffle. <span id="deckCount"></span></p>
 <p class="hint" id="empty" hidden>The box is empty.</p>
-<div class="ctlrow"><button type="button" id="toggle" class="pri" aria-controls="cards">Open box</button><button type="button" id="shuffle">Shuffle</button><button type="button" id="prev" aria-label="Previous card">&#9664;</button><button type="button" id="next" aria-label="Next card">&#9654;</button><button type="button" id="receive">Receive</button><button type="button" id="make">New card</button><button type="button" id="restore" hidden>Restore deck</button></div>
+<div class="ctlrow"><button type="button" id="toggle" class="pri" aria-controls="cards">Open box</button><button type="button" id="shuffle">Shuffle</button><button type="button" id="prev" aria-label="Previous card">&#9664;</button><button type="button" id="next" aria-label="Next card">&#9654;</button><button type="button" id="receive">Receive</button><button type="button" id="make">New card</button><button type="button" id="packs" class="pri">Packs</button><button type="button" id="restore" hidden>Restore deck</button></div>
 <div class="skinbar" id="skinbar" role="radiogroup" aria-label="Box style"><span class="lbl" aria-hidden="true">BOX</span><button type="button" role="radio" data-skin="terminal" aria-checked="true">TERMINAL</button><button type="button" role="radio" data-skin="crate" aria-checked="false">CRATE</button><button type="button" role="radio" data-skin="cassette" aria-checked="false">CASSETTE</button></div>
 <section id="pick" class="ctl" hidden aria-labelledby="pickH"><h2 id="pickH">PICKED</h2><p id="pickTxt"></p><p class="pickmeta" id="pickMeta"></p>
-<div class="row"><button type="button" id="pickView" class="pri">Rotate / export</button><button type="button" id="pickSend">Send by QR</button><button type="button" id="pickBack">Back to box</button></div><p class="note" id="pickNoSend" hidden>Sample cards stay in every box, so they can't be sent. Make your own card (New card) to send one by QR.</p></section>
+<div class="row"><button type="button" id="pickView" class="pri">Rotate / export</button><button type="button" id="pickSend">Send by QR</button><button type="button" id="pickBurn" class="burnbtn">Burn</button><button type="button" id="pickBack">Back to box</button></div><p class="note" id="pickNoSend" hidden>Sample cards stay in every box, so they can't be sent. Make your own card (New card) to send one by QR.</p></section>
 </main>
 <main id="cardView" hidden aria-labelledby="cardH">
 <div class="vhead"><h2 id="cardH">CARD</h2><button type="button" id="cardBack">&#9664; Box</button></div>
@@ -45,11 +57,11 @@
 <p class="hint" id="hint2">Drag to spin it any way. Two fingers twist. Double-tap to straighten. Long quotes: drag inside the text to scroll.</p>
 <p class="pickmeta" id="vMeta" style="text-align:center;margin-bottom:12px"></p>
 <div class="ctl" role="group" aria-label="Card controls">
- <div class="row"><button type="button" id="flip" class="pri" aria-controls="stage">Flip card</button><button type="button" id="twistL" aria-label="Twist left 15 degrees">&#8634; Twist</button><button type="button" id="twistR" aria-label="Twist right 15 degrees">Twist &#8635;</button><button type="button" id="reset">Straighten</button></div>
+ <div class="row"><button type="button" id="flip" class="pri" aria-controls="stage">Flip card</button><button type="button" id="twistL" aria-label="Twist left 15 degrees">&#8634; Twist</button><button type="button" id="twistR" aria-label="Twist right 15 degrees">Twist &#8635;</button><button type="button" id="reset">Straighten</button><button type="button" id="speak" class="spk" aria-pressed="false" aria-label="Read the quote aloud"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8h3l4-4v12l-4-4H3zM13 7a4 4 0 0 1 0 6M15.5 4.5a7.5 7.5 0 0 1 0 11"/></svg><span class="sp-t">Read</span></button></div>
  <div class="row"><button type="button" id="spin">Flick spin</button><button type="button" id="motion">Use phone tilt</button></div>
  <label class="chk"><input type="checkbox" id="snapBack">Snap back flat when I let go</label>
  <label class="chk"><input type="checkbox" id="holo">Holo foil</label>
- <div class="row"><button type="button" id="export" class="pri">Export PNG</button><button type="button" id="exportGif">Export rotating GIF</button><p class="note" id="cardNoSend" hidden>Sample cards stay in every box, so they can't be sent. Make your own card (New card) to send one by QR.</p><button type="button" id="cardSend">Send by QR</button></div>
+ <div class="row"><button type="button" id="export" class="pri">Export PNG</button><button type="button" id="exportGif">Export rotating GIF</button><button type="button" id="exportApng">Export HD APNG</button><p class="note" id="cardNoSend" hidden>Sample cards stay in every box, so they can't be sent. Make your own card (New card) to send one by QR.</p><button type="button" id="cardSend">Send by QR</button><button type="button" id="cardBurn" class="burnbtn">Burn card</button></div>
  <p class="note">Keys: arrows spin, Q and E twist, Enter flips, 0 straightens. Export captures exactly what you see, including the current scroll position of a long quote.</p>
 </div>
 <section id="exp" class="ctl exp" hidden aria-labelledby="expH"><h2 id="expH">EXPORT</h2>
@@ -100,6 +112,36 @@
 <div class="sendfoot"><button type="button" id="sendDone" class="pri" hidden>Done · back to box</button></div>
 <p class="note">Honour system: your copy burns only after the receiver's accept code (transfer id + nonce + hash of the bytes received) is scanned. Cancel or a 2-minute timeout unlocks the card with nothing burned. Nothing goes through a server; the camera picture never leaves the phone.</p>
 </div></section>
+<main id="packView" hidden aria-labelledby="packH">
+<div class="vhead"><h2 id="packH">PACKS</h2><button type="button" id="packBack">&#9664; Box</button></div>
+<section id="packPick" aria-label="Choose a pack">
+ <p class="hint">Pick a pack. Each has 7 cards: about 1 in 10 has gold trim, about 1 in 50 is a holo rare. Cards you pull go into your box.</p>
+ <div class="packgrid" id="packGrid"></div>
+ <div class="ctl pdfin"><h2>PDF &#8594; PACKS</h2><p class="note">Turn a text PDF into your own packs. The text is read on this phone; the PDF and its words are never uploaded. Scanned PDFs (photos of pages) have no text to read. Mao packs already include the full <i>Quotations from Chairman Mao</i> (bundled).</p>
+ <div class="row"><label class="file btn" id="pdfPickL"><input type="file" id="pdfPick" accept="application/pdf,.pdf">Import PDF</label></div><p class="note" id="pdfStat" aria-live="polite"></p></div>
+</section>
+<section id="packOpen" hidden aria-labelledby="packOpenH">
+ <h3 class="sr" id="packOpenH">Open the pack</h3>
+ <div class="pk-stage" id="pkStage">
+  <div class="foil" id="foil" aria-hidden="true"><div class="foil-lip" id="foilLip"><i class="tearline"></i></div><div class="foil-body"><b id="foilName">MAO</b><span id="foilSub">7 CARDS</span><span class="foil-hint" id="foilHint">swipe &#8594; across the top to tear</span></div></div>
+  <div class="tearzone" id="tearZone" role="button" tabindex="0" aria-label="Tear the pack open (or use the Open pack button)"></div>
+  <div class="pk-fan" id="pkFan" role="group" aria-label="Cards from this pack"></div>
+ </div>
+ <div class="row pk-row"><button type="button" id="pkOpenBtn" class="pri">Open pack</button><button type="button" id="pkTilt" aria-pressed="false">Tilt shimmer</button><button type="button" id="pkAnother" hidden>Another pack</button><button type="button" id="pkDone" hidden>Done &#183; to box</button></div>
+ <p class="note" id="pkNote"></p>
+</section>
+<section id="pdfReview" hidden aria-labelledby="pdfRevH" class="ctl">
+ <h2 id="pdfRevH">REVIEW QUOTES</h2>
+ <p class="note" id="pdfRevInfo"></p>
+ <label class="mk-lbl" for="pdfWho">Writer (goes on every card)</label><input id="pdfWho" type="text" autocomplete="off" spellcheck="false" placeholder="Who said these?">
+ <label class="mk-lbl" for="pdfSrc">Source</label><input id="pdfSrc" type="text" autocomplete="off">
+ <div class="row"><button type="button" id="pdfAll">Keep all</button><button type="button" id="pdfNone">Keep none</button></div>
+ <ol class="pdflist" id="pdfList"></ol>
+ <p class="note" id="pdfCount" aria-live="polite"></p>
+ <div class="row"><button type="button" id="pdfMake" class="pri">Make packs</button><button type="button" id="pdfCancel">Cancel</button></div>
+</section>
+</main>
+<div id="burnAsk" class="burnask" role="alertdialog" aria-modal="true" aria-labelledby="burnAskH" aria-describedby="burnAskTxt" hidden><div class="ctl"><h2 id="burnAskH">BURN FOR GOOD?</h2><p id="burnAskTxt"></p><div class="row"><button type="button" id="burnYes" class="burnbtn">Burn it</button><button type="button" id="burnNo" class="pri">Keep it</button></div></div></div>
 <div id="fs" class="fs" role="dialog" aria-modal="true" aria-label="Full screen card view" hidden>
  <div class="fs-bar"><span class="fs-title" id="fsTitle">FAN</span><button type="button" id="fsClose" class="fs-close" aria-label="Exit full screen"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4l12 12M16 4L4 16"/></svg></button></div>
  <div class="fs-stage" id="fsStage"></div>
@@ -123,4 +165,12 @@
 <script src="js/authors.js"></script>
 <script src="js/creator.js"></script>
 <script src="js/app.js"></script>
+<script src="js/music.js"></script>
+<script src="js/speak.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/burn.js"></script>
+<script src="js/apng.js"></script>
+<script src="js/mega.js"></script>
+<script src="js/cases.js"></script>
+<script src="js/packs.js"></script>
 </body></html>

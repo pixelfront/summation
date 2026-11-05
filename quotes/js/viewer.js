@@ -45,7 +45,7 @@ $('#motion').addEventListener('click',async()=>{try{
  addEventListener('deviceorientation',e=>{if(e.gamma==null)return;o.y=cl(e.gamma,-30,30)*.9;o.x=cl(e.beta-45,-30,30)*-.7});
  wake();$('#motion').textContent='Phone tilt on';$('#motion').setAttribute('aria-pressed','true')}catch(_){live.textContent='Phone tilt is not available'}});
 function label(){if(!data)return;stage.setAttribute('aria-label',`${cardNo(data)} quote card, ${data.holo?'holo':'matte'} finish, showing the ${showingBack?'back':'front'}. \u201c${data.q}\u201d, ${data.who}, ${data.src}. Drag to spin. Arrow keys spin, Q and E twist, Enter flips, 0 straightens.`)}
-function faces(b){if(b===showingBack)return;showingBack=b;card.classList.toggle('show-back',b);
+function faces(b){if(b===showingBack)return;showingBack=b;window.SPEAK&&SPEAK.stop('turn');card.classList.toggle('show-back',b);
  front.setAttribute('aria-hidden',b);back.setAttribute('aria-hidden',!b);label();live.textContent=b?'Showing the back':'Showing the front';if(vel)SFX.tick(b?2:5)}
 function apply(Q){const m=mat(Q);
  card.style.transform=`matrix3d(${[m[0],m[3],m[6],0,m[1],m[4],m[7],0,m[2],m[5],m[8],0,0,0,0,1].map(v=>v.toFixed(5)).join(',')})`;
@@ -62,13 +62,13 @@ function loop(t){if(!running)return;const dt=Math.min(50,t-lt);lt=t;
  let R=q;if(idle&&!drag&&!frozen)R=qm(qm(qa(1,0,0,Math.sin(t/1500)*7),qa(0,1,0,Math.sin(t/2100)*14)),q);
  if(o.x||o.y)R=qm(qm(qa(1,0,0,o.x),qa(0,1,0,o.y)),R);
  apply(R);requestAnimationFrame(loop)}
-function load(d,rot){data=d;{const cs=document.querySelector('#cardSend');if(cs)cs.hidden=cs.disabled=isSample(d.id);const ns=document.querySelector('#cardNoSend');if(ns)ns.hidden=!isSample(d.id)} /* demo cards: no Send */stage.innerHTML=cardHTML(d,true);card=stage.firstElementChild;card.removeAttribute('aria-hidden');card.classList.add('interactive');card.id='card';
+function load(d,rot){window.SPEAK&&SPEAK.stop('load');data=d;{const cs=document.querySelector('#cardSend');if(cs)cs.hidden=cs.disabled=isSample(d.id);const ns=document.querySelector('#cardNoSend');if(ns)ns.hidden=!isSample(d.id)} /* demo cards: no Send */stage.innerHTML=cardHTML(d,true);card=stage.firstElementChild;card.removeAttribute('aria-hidden');card.classList.add('interactive');card.id='card';
  front=card.querySelector('#front');back=card.querySelector('#back');back.setAttribute('aria-hidden','true');showingBack=false;
- const r=fitQuote(card,d);$('#vMeta').textContent=`${d.q.length} chars \u00b7 ${r.mode==='scroll'?`scroll well, ${r.px}px type (huge or still overflowing at ${LQ.FLOOR}px)`:`shrink to fit, ${r.px}px type`}${photoSrc(d)?' \u00b7 photo':''}`;
+ const r=fitQuote(card,d);$('#vMeta').textContent=`${d.q.length} chars \u00b7 ${r.mode==='scroll'?`scroll well, ${r.px}px type (huge or still overflowing at ${LQ.FLOOR}px)`:`shrink to fit, ${r.px}px type`}${photoSrc(d)?' \u00b7 photo':''}${d.recv?' \u00b7 Received by QR':''}${d.rar==='g'?' \u00b7 gold trim':d.rar==='h'?' \u00b7 holo rare':''}`;
  const sc=card.querySelector('.lq-scroll');if(sc){sc.tabIndex=0}
  q=[1,0,0,0];vel=anim=null;idle=!RM.matches;frozen=false;
  if(rot){q=qm(qm(qa(1,0,0,rot.rx||0),qa(0,1,0,rot.ry||0)),qa(0,0,1,rot.rz||0));frozen=true;idle=false}
  apply(q);label();if(!running){running=true;lt=performance.now();requestAnimationFrame(loop)}}
-function stop(){running=false}
+function stop(){running=false;window.SPEAK&&SPEAK.stop('close')}
 window.CARD={get card(){return card},get front(){return front},get back(){return back},get showingBack(){return showingBack},name:()=>data?data.who:'card',short:()=>data?data.sh:'card'};
 return{load,stop,get data(){return data}}})();
