@@ -82,7 +82,7 @@ async function run(){
   ok('APNG corner is transparent',aClear===0,aClear+' opaque corners');
   const man=await (await fetch('photos/manifest.json')).json();
   ok('manifest images',Array.isArray(man.images)&&man.images.length>=20,String(man.images.length));
-  ok('manifest fields',man.images.every(p=>p.source&&p.licence&&p.credit&&p.file&&p.author&&p.id));
+  ok('manifest fields',man.images.every(p=>p.licence&&p.credit&&p.file&&p.author&&p.id&&(p.provenance==='contributor-supplied-unverified'?p.source==='':!!p.source)));
   await POOL.load();POOL.reset();
   const lenin=POOL.take('lenin',7).map(p=>p.id);
   ok('lenin no early repeat',new Set(lenin.slice(0,6)).size===6&&lenin[6]===lenin[0],lenin.join(','));

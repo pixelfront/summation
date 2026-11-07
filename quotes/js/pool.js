@@ -14,6 +14,9 @@ function idsFor(author){return (MAN&&MAN.images||[]).filter(p=>p.author===author
 function take(author,n){if(!MAN)return[];const ids=idsFor(author);if(!ids.length||n<=0)return[];
  const known=new Set(ids),st=state(),b=st[author]||{rest:[],used:[]};
  b.rest=(b.rest||[]).filter(id=>known.has(id));b.used=(b.used||[]).filter(id=>known.has(id));
+ // New manifest ids join the cards still to deal. Already dealt ids stay put, so a saved choice is not reshuffled and a photo is not repeated early.
+ const seen=new Set(b.rest.concat(b.used));const fresh=ids.filter(id=>!seen.has(id));
+ if(fresh.length)b.rest=b.rest.concat(shuffle(fresh));
  if(!b.rest.length&&!b.used.length)b.rest=shuffle(ids.slice());
  const out=[];for(let k=0;k<n;k++){if(!b.rest.length){b.rest=b.used.slice();b.used=[]}
   if(!b.rest.length)break;const id=b.rest.shift();b.used.push(id);if(byId[id])out.push(byId[id])}
