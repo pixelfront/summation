@@ -62,7 +62,7 @@
  <label class="chk"><input type="checkbox" id="snapBack">Snap back flat when I let go</label>
  <label class="chk"><input type="checkbox" id="holo">Holo foil</label>
  <div class="row"><button type="button" id="export" class="pri">Export PNG</button><button type="button" id="exportGif">Export rotating GIF</button><button type="button" id="exportApng">Export HD APNG</button><button type="button" id="reforge">Reforge</button><p class="note" id="cardNoSend" hidden>Sample cards stay in every box, so they can't be sent. Make your own card (New card) to send one by QR.</p><button type="button" id="cardSend">Send by QR</button><button type="button" id="cardBurn" class="burnbtn">Burn card</button><button type="button" id="reforgeUndo" hidden>Undo reforge</button></div>
- <p class="note">Keys: arrows spin, Q and E twist, Enter flips, 0 straightens. Export captures exactly what you see, including the current scroll position of a long quote. Rotating export is a GIF or an animated PNG (APNG), not a video.</p>
+ <p class="note">Keys: arrows spin, Q and E twist, Enter flips, 0 straightens. A saved PNG, GIF, or animated PNG fits the whole quote on the back, because those files cannot scroll. On screen, a very long quote can still scroll. Rotating export is a GIF or an animated PNG (APNG).</p>
 </div>
 <section id="exp" class="ctl exp" hidden aria-labelledby="expH"><h2 id="expH">EXPORT</h2>
  <img id="expImg" alt="">
@@ -147,7 +147,7 @@
 <section id="packOpen" hidden aria-labelledby="packOpenH">
  <h3 class="sr" id="packOpenH">Open the pack</h3>
  <div class="pk-stage" id="pkStage">
-  <canvas id="foilCv" class="foilcv" width="460" height="680" aria-hidden="true"></canvas>
+  <canvas id="foilCv" class="foilcv" width="500" height="740" aria-hidden="true"></canvas>
   <div class="foil" id="foil" hidden><div class="foil-lip" id="foilLip"></div><b id="foilName">MAO</b><span id="foilSub">7 CARDS</span><span id="foilHint"></span></div>
   <div class="tearzone" id="tearZone" role="button" tabindex="0" aria-label="Tear the pack open (or use the Open pack button)"></div>
   <div class="pk-fan" id="pkFan" role="group" aria-label="Cards from this pack"></div>

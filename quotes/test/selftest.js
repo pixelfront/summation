@@ -51,6 +51,11 @@ async function run(){
   ok('photo card loaded',!!photo&&photo.naturalWidth>0,photo?photo.naturalWidth+'px':'missing');
   const gif=await GIFX.make();
   ok('GIF bytes',gif[0]===0x47&&gif[1]===0x49&&gif[2]===0x46,gif.length+' bytes');
+  const fit=window.__exportFit;
+  ok('saved back fits the whole quote',!!(fit&&fit.ok&&fit.scroll<=fit.client&&!fit.more),fit?`px ${fit.px} ${fit.scroll}/${fit.client} more=${fit.more} tail=${fit.bodyTail}`:'no fit record');
+  ok('saved back includes the quote ending',!!(fit&&/contending classes/.test(fit.bodyTail)),fit&&fit.bodyTail);
+  ok('saved back keeps author and credit',!!(fit&&/marx/i.test(fit.author)&&/photo/i.test(fit.credit)),fit&&(fit.author+' | '+fit.credit));
+  ok('on-screen long quote still scrolls',document.querySelector('#card').dataset.qmode==='scroll'&&!!document.querySelector('#card .more'));
   const gFrames=await decode(gif,'image/gif');
   ok('GIF frame count',gFrames.length===86,String(gFrames.length));
   const gDur=gFrames.map(f=>f.duration);
@@ -60,6 +65,12 @@ async function run(){
   const gFront=bbox(gFrames[0].cv,'gif'),gBack=bbox(gFrames[43].cv,'gif'),gEdge=bbox(gFrames[22].cv,'gif');
   ok('GIF faces are wide',gFront&&gBack&&gFront.w>200&&gBack.w>200,`front ${gFront&&gFront.w} back ${gBack&&gBack.w}`);
   ok('GIF edge is thin',gEdge&&gEdge.w<gFront.w*0.45&&gEdge.w>=8,gEdge&&String(gEdge.w));
+  const backCv=gFrames[43].cv,bw=backCv.width,bh=backCv.height,bd=backCv.getContext('2d').getImageData(0,0,bw,bh).data;
+  let badge=0,lowText=0;
+  for(let y=(bh*0.50)|0;y<(bh*0.72)|0;y++)for(let x=(bw*0.55)|0;x<(bw*0.94)|0;x++){const i=(y*bw+x)*4;if(bd[i]>200&&bd[i+1]<80&&bd[i+2]<80)badge++}
+  for(let y=(bh*0.58)|0;y<(bh*0.74)|0;y++)for(let x=(bw*0.14)|0;x<(bw*0.86)|0;x++){const i=(y*bw+x)*4;if(bd[i]>165&&bd[i+1]>165&&bd[i+2]>165)lowText++}
+  ok('saved GIF back has no SCROLL badge',badge<120,'red pixels '+badge);
+  ok('saved GIF back has the lower quote',lowText>80,'light pixels '+lowText);
   const apng=await APNGX.make();
   ok('APNG signature',apng[0]===137&&apng[1]===80, (apng.length/1048576).toFixed(2)+' MB');
   const aFrames=await decode(apng,'image/png');
