@@ -44,7 +44,7 @@ $('#motion').addEventListener('click',async()=>{try{
  if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==='function'){if(await DeviceOrientationEvent.requestPermission()!=='granted'){live.textContent='Tilt permission was not given';return}}
  addEventListener('deviceorientation',e=>{if(e.gamma==null)return;o.y=cl(e.gamma,-30,30)*.9;o.x=cl(e.beta-45,-30,30)*-.7});
  wake();$('#motion').textContent='Phone tilt on';$('#motion').setAttribute('aria-pressed','true')}catch(_){live.textContent='Phone tilt is not available'}});
-function label(){if(!data)return;stage.setAttribute('aria-label',`${cardNo(data)} quote card, ${data.holo?'holo':'matte'} finish, showing the ${showingBack?'back':'front'}. \u201c${data.q}\u201d, ${data.who}, ${data.src}. Drag to spin. Arrow keys spin, Q and E twist, Enter flips, 0 straightens.`)}
+function label(){if(!data)return;const cr=data.pc?` Photo credit: ${data.pc}.`:'';stage.setAttribute('aria-label',`${cardNo(data)} quote card, ${data.holo?'holo':'matte'} finish, showing the ${showingBack?'back':'front'}. \u201c${data.q}\u201d, ${data.who}, ${data.src}.${cr} Drag to spin. Arrow keys spin, Q and E twist, Enter flips, 0 straightens.`)}
 function faces(b){if(b===showingBack)return;showingBack=b;window.SPEAK&&SPEAK.stop('turn');card.classList.toggle('show-back',b);
  front.setAttribute('aria-hidden',b);back.setAttribute('aria-hidden',!b);label();live.textContent=b?'Showing the back':'Showing the front';if(vel)SFX.tick(b?2:5)}
 function apply(Q){const m=mat(Q);

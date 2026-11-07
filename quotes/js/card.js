@@ -10,7 +10,7 @@ const PHOTO_DIR='assets/authors/';
 // M5: random card ids (no clock). 72 random bits, base64url, prefix 'q'. Old 'm'+time ids from M3/M4 still load.
 const newCardId=()=>{const a=new Uint8Array(9);crypto.getRandomValues(a);return 'q'+btoa(String.fromCharCode(...a)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')};
 const LEGACY_ID=/^m[0-9a-z]{6,10}$/;
-const photoSrc=d=>!d.photo?'':d.photo.startsWith('data:')?d.photo:PHOTO_DIR+encodeURIComponent(d.photo.replace(/^a:/,''))+'.jpg';
+const photoSrc=d=>!d.photo?'':d.photo.startsWith('data:')?d.photo:d.photo.startsWith('p:')?'assets/packs/'+encodeURIComponent(d.photo.slice(2))+'.jpg':PHOTO_DIR+encodeURIComponent(d.photo.replace(/^a:/,''))+'.jpg';
 const FRAME='<svg class="frame" aria-hidden="true" viewBox="0 0 300 420" preserveAspectRatio="none"><polygon class="fr-matte" points="18,1 299,1 299,402 282,419 1,419 1,18" stroke="#ff2a2a" stroke-width="2"/><polygon class="fr-holo" points="18,1 299,1 299,402 282,419 1,419 1,18" stroke="url(#chrome)" stroke-width="2"/><polygon class="fr-holo" points="22,6 294,6 294,399 279,414 6,414 6,22" stroke="#ffffff40" stroke-width="1"/></svg>';
 const CHROME_DEFS='<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".25" stop-color="#7a7a7a"/><stop offset=".5" stop-color="#f2f2f2"/><stop offset=".75" stop-color="#5a5a5a"/><stop offset="1" stop-color="#d8d8d8"/></linearGradient></defs></svg>';
 // ---- long quotes: shrink-to-fit by default, scroll well for huge excerpts.

@@ -18,6 +18,8 @@ const SFX=(()=>{let ctx=null,muted=localStorage.getItem('qc-mute')==='1';
   burn(){for(let k=0;k<7;k++)blip(1800-k*210,.05,'sawtooth',.03,k*.06,.7);blip(60,.25,'square',.05,.42,.8)},
   flip(){blip(600,.09,'triangle',.05,0,1.8)},
   shutter(){blip(2400,.02,'square',.04);blip(900,.05,'square',.04,.03,.5)},
+  tear(){for(let k=0;k<5;k++)blip(180+k*90,.04,'sawtooth',.03,k*.03,.4);blip(90,.12,'square',.04,.16)},
+  reforge(){blip(180,.2,'sawtooth',.04,0,3);blip(880,.08,'square',.03,.22,.6)},
   get muted(){return muted},
   setMuted(v){muted=!!v;localStorage.setItem('qc-mute',muted?'1':'0')}};
  return api})();

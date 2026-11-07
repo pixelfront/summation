@@ -3,7 +3,7 @@
 // so box.js and creator.js are unchanged. Reads are synchronous from an in-memory mirror; every change is written
 // through to IndexedDB in one queued transaction. STORE.ready resolves once the saved state has been loaded.
 //
-// DB "quote-deck-v2", version 1:
+// DB "quote-deck-v2", version 2:
 //   cards       keyPath id   {id, kind:'made'|'received', seq, ...card fields}; a data: photo is moved out to `photos`
 //                            and the card keeps photo:'idb' (restored to a data: URL on load, so export stays untainted)
 //   photos      keyPath id   {id, blob}  (Blob of the card's own photo; only for photos that travelled in, not bundled ones)
@@ -14,30 +14,30 @@
 // If IndexedDB is unavailable (file://, some private modes) the STORE runs in memory and STORE.persistent is false.
 const BASE_DECK=SAMPLE_DECK; // creator.js name for the built-in cards
 const STORE=(()=>{
- const DB='quote-deck-v2',VER=1,SAMPLE_IDS=new Set(SAMPLE_DECK.map(d=>d.id));
+ const DB='quote-deck-v2',VER=2,STORES=['cards','photos','tombstones','reforges'],SAMPLE_IDS=new Set(SAMPLE_DECK.map(d=>d.id));
  let s={burned:[],received:[],made:[]},seq=0,db=null,q=Promise.resolve();const seqOf=new Map();
  const copy=()=>({burned:s.burned.slice(),received:s.received.slice(),made:s.made.slice()});
  const req=r=>new Promise((ok,no)=>{r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});
  const done=t=>new Promise((ok,no)=>{t.oncomplete=()=>ok();t.onerror=t.onabort=()=>no(t.error||new Error('tx aborted'))});
  function open(){return new Promise((ok,no)=>{if(!('indexedDB' in window))return no(new Error('no indexedDB'));
   let r;try{r=indexedDB.open(DB,VER)}catch(e){return no(e)}
-  r.onupgradeneeded=()=>{const d=r.result;for(const n of['cards','photos','tombstones'])if(!d.objectStoreNames.contains(n))d.createObjectStore(n,{keyPath:'id'})};
+  r.onupgradeneeded=()=>{const d=r.result;for(const n of STORES)if(!d.objectStoreNames.contains(n))d.createObjectStore(n,{keyPath:'id'})};
   r.onsuccess=()=>{const d=r.result;d.onversionchange=()=>d.close();ok(d)};r.onerror=()=>no(r.error);r.onblocked=()=>no(new Error('blocked'))})}
  function dataToBlob(u){const m=/^data:([^;,]*)(;base64)?,(.*)$/s.exec(u);if(!m)return null;const raw=m[2]?atob(m[3]):decodeURIComponent(m[3]);
   const a=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)a[i]=raw.charCodeAt(i);return new Blob([a],{type:m[1]||'image/jpeg'})}
  const blobToData=b=>new Promise((ok,no)=>{const f=new FileReader();f.onload=()=>ok(f.result);f.onerror=()=>no(f.error);f.readAsDataURL(b)});
  // queue one write transaction; failures are logged, the in-memory state stays authoritative for this session
- function tx(fn){if(!db)return q;q=q.then(()=>{const t=db.transaction(['cards','photos','tombstones'],'readwrite');fn(t);return done(t)}).catch(e=>console.warn('STORE write failed',e));return q}
+ function tx(fn){if(!db)return q;q=q.then(()=>{const t=db.transaction(STORES,'readwrite');fn(t);return done(t)}).catch(e=>console.warn('STORE write failed',e));return q}
  const FIELDS=['id','no','who','sh','q','src','notes','holo','trot','author','pc','photo','recv','rar','pk'];
- function okPhoto(p){return typeof p==='string'&&(/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(p)||/^a:[a-z0-9_-]{1,60}$/i.test(p))}
+ function okPhoto(p){return typeof p==='string'&&(/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(p)||/^a:[a-z0-9_-]{1,60}$/i.test(p)||/^p:[a-z0-9-]{1,40}$/i.test(p))}
  function clean(c){const o={};for(const k of FIELDS)if(c[k]!=null)o[k]=c[k];if(o.photo&&!okPhoto(o.photo)){o.photo='';o.pc=''}return o}
  function putCard(t,c,kind){c=clean(c);if(!seqOf.has(c.id))seqOf.set(c.id,++seq);const rec=Object.assign({},c,{kind,seq:seqOf.get(c.id)});
   if(typeof rec.photo==='string'&&rec.photo.startsWith('data:')){const b=dataToBlob(rec.photo);if(b){t.objectStore('photos').put({id:c.id,blob:b});rec.photo='idb'}}
   else t.objectStore('photos').delete(c.id);
   t.objectStore('cards').put(rec)}
  function wipe(t,id){seqOf.delete(id);t.objectStore('cards').delete(id);t.objectStore('photos').delete(id)}
- async function load(){db=await open();const t=db.transaction(['cards','photos','tombstones'],'readonly');
-  const [cards,photos,tombs]=await Promise.all(['cards','photos','tombstones'].map(n=>req(t.objectStore(n).getAll())));
+ async function load(){db=await open();const t=db.transaction(STORES,'readonly');
+  const [cards,photos,tombs,reforges]=await Promise.all(STORES.map(n=>req(t.objectStore(n).getAll())));
   const ph=Object.fromEntries(await Promise.all(photos.map(async p=>[p.id,await blobToData(p.blob)])));
   const burned=tombs.map(x=>x.id),dead=new Set(burned);
   cards.sort((a,b)=>a.seq-b.seq);seq=cards.reduce((m,c)=>Math.max(m,c.seq||0),0);
@@ -46,6 +46,9 @@ const STORE=(()=>{
    if(c.photo==='idb')c.photo=ph[c.id]||'';Object.assign(c,clean(c));for(const k of Object.keys(c))if(!FIELDS.includes(k))delete c[k];(r.kind==='received'?out.received:out.made).push(c)}
   // keep anything made before the DB finished opening
   for(const c of s.made)if(!out.made.some(x=>x.id===c.id))out.made.push(c);
+  const own=Object.fromEntries(await Promise.all((reforges||[]).map(async p=>[p.id,await blobToData(p.blob)])));
+  const stamp=c=>{if(own[c.id]){c.photo=own[c.id];c.pc='Photo: own image'}};
+  out.made.forEach(stamp);out.received.forEach(stamp);SAMPLE_DECK.forEach(stamp);
   s={burned:[...new Set(burned.concat(s.burned))],received:out.received,made:out.made};
   if(stale.length)tx(t=>stale.forEach(id=>wipe(t,id))); // a card record next to its tombstone should not exist; clean up
   return copy()}
@@ -75,7 +78,10 @@ const STORE=(()=>{
   sampleBurned(){return s.burned.some(id=>SAMPLE_IDS.has(id))},
   flush(){return q.then(()=>{})},
   // wipeAll(): clear every store (not wired to UI; for tests / a future "erase all" setting)
-  wipeAll(){s={burned:[],received:[],made:[]};return tx(t=>['cards','photos','tombstones'].forEach(n=>t.objectStore(n).clear()))}};
+  wipeAll(){s={burned:[],received:[],made:[]};return tx(t=>STORES.forEach(n=>t.objectStore(n).clear()))},
+  // Reforge keeps a card's own JPEG here, including sample cards that have no cards-store row.
+  saveReforge(id,blob){return tx(t=>t.objectStore('reforges').put({id,blob}))},
+  dropReforge(id){return tx(t=>t.objectStore('reforges').delete(id))}};
  api.ready=load().then(st=>{api.persistent=true;return st}).catch(e=>{console.warn('IndexedDB unavailable, cards stay in memory this session:',e&&e.message);db=null;return copy()});
  return api})();
 function currentDeck(){const s=STORE.get();return BASE_DECK.concat(s.made,s.received).filter(d=>!s.burned.includes(d.id))}

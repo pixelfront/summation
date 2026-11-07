@@ -1,0 +1,719 @@
+{
+ "verified": "2026-11-07",
+ "verifier": "Commons file pages read for this pass. Not an independent legal opinion.",
+ "processing": "Each file was redrawn to grayscale, given a light grain, cover-cropped to 500×700, and saved as JPEG with an APP0 marker only. No EXIF, GPS, APP1 or APP13.",
+ "cache": "These JPEGs are not in the service-worker precache. The first request for a card's photo is stored by the existing runtime cache, so a photo already shown still loads offline. The first install does not download the pool.",
+ "count": 29,
+ "totalBytes": 1610652,
+ "gaps": [
+  "Marx: four photographs. Later prints, rotations and colourisations of the same sittings were not counted.",
+  "Engels: five photographs. The coloured 1891 file was not used, because a tint is not a new photograph.",
+  "Mao Zedong in 1924.jpg is a colourised picture and was not used. Mao Zedong (1920) 02.jpg looked like a closer crop of the 1920 portrait and was not used. Yan'an group file looked colourised and was not used.",
+  "Photograph of Mao Zedong with Evans Carlson circa 1937.jpg was downloaded and is a different sitting, but its licence template was not re-read after a Commons rate limit, so it is excluded.",
+  "Castro pool is one photograph. Excluded: Montreal 1959 (tagged Not-PD-US-URAA and PD-Canada); UN General Assembly 1960 (PD-USNWR plus Copyright-tag-still-required); Augusto Martinez Sanchez 1960 (PD-Cuba, not confirmed to cover this photograph); 1972 Prague (PD-CzechGov, not confirmed to cover this photograph). Poster and mural files were not used.",
+  "Kim Il Sung: three photographs. Excluded: Kim Il-sung Portrait.jpg (a 2019 photograph of a portrait, CC BY 2.5, not a sitting); Poland 1956 (credit URL on the file was a reddit link); Kim Il-sung 1946.JPG (PD-Japan-oldphoto while the stated source was Korean People Journal); the 1948 group photograph (a crowd, and a weak portrait); Kim Il-sung 1958.jpg (about 123 px wide).",
+  "PD-North Korea and PD-1996 are the Commons tags printed on those Kim files. This pass did not get a separate legal opinion. Reviewers who do not accept those tags should drop kim-1946.jpg and kim-1950.jpg.",
+  "Karl Marx 001.jpg uses a generic {{PD}} template. The file names John Jabez Edwin Mayall and a date before 24 August 1875, and LicenseShortName was Public domain.",
+  "Some files were fetched through Commons at a maximum width of 1400 px. fetchedPixels is that download, not always the master scan.",
+  "Lenin 1921 and some other scans are smaller than 500×700. They were not invented up to a false sharpness; the JPEG is soft.",
+  "No crop, flip or tint of one photograph was given a second id."
+ ],
+ "images": [
+  {
+   "id": "marx-1861",
+   "file": "assets/packs/marx-1861.jpg",
+   "author": "marx",
+   "authorShown": "Karl Marx",
+   "date": "May 1861",
+   "occasion": "Studio portrait. File date: taken in May 1861.",
+   "source": "https://commons.wikimedia.org/wiki/File:Karl_Marx,_May_1861.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-old-70",
+   "credit": "Photo: Richard Beard, May 1861, public domain, via Wikimedia Commons",
+   "artist": "Richard Beard",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    890,
+    1428
+   ],
+   "outputBytes": 76599,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "marx-1872",
+   "file": "assets/packs/marx-1872.jpg",
+   "author": "marx",
+   "authorShown": "Karl Marx",
+   "date": "File title says 1872. Commons DateTimeOriginal read 2024-05-28, which is not used here as the sitting date.",
+   "occasion": "Bust portrait, different pose from the 1875 Mayall sitting.",
+   "source": "https://commons.wikimedia.org/wiki/File:Karl_Marx_in_1872.png",
+   "licence": "CC BY-SA 3.0 de",
+   "licenceTemplate": "Cc-by-sa-3",
+   "credit": "Photo: Bundesarchiv, BildY 10-MEI110-18478, CC BY-SA 3.0 de, via Wikimedia Commons",
+   "artist": "Unknown author; credit line on the file: BArch, BildY10-MEI110-18478 / CC-BY-SA 3.0",
+   "note": "Derivative of a CC BY-SA 3.0 de file. ShareAlike stays on this JPEG.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1920,
+    2680
+   ],
+   "outputBytes": 53771,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "marx-1875",
+   "file": "assets/packs/marx-1875.jpg",
+   "author": "marx",
+   "authorShown": "Karl Marx",
+   "date": "Before 24 August 1875",
+   "occasion": "Seated studio portrait.",
+   "source": "https://commons.wikimedia.org/wiki/File:Karl_Marx_001.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD (generic template name on the file; LicenseShortName was Public domain)",
+   "credit": "Photo: John Jabez Edwin Mayall, before 24 August 1875, public domain, via Wikimedia Commons",
+   "artist": "John Jabez Edwin Mayall",
+   "note": "Credit on the file: International Institute of Social History. The wikitext tag seen was the generic {{PD}}, not a country-specific expiry tag. Included because the file names the photographer and a date in 1875.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1428,
+    2048
+   ],
+   "outputBytes": 70412,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "marx-1882",
+   "file": "assets/packs/marx-1882.jpg",
+   "author": "marx",
+   "authorShown": "Karl Marx",
+   "date": "The clipping printed on this file says the photograph was taken in Algiers and is inscribed end of April 1882. Catalogue date on the file: circa 1882-1910.",
+   "occasion": "Portrait oval on a printed clipping, not the whole page.",
+   "source": "https://commons.wikimedia.org/wiki/File:An_Interesting_Photograph_of_Karl_Marx.jpg",
+   "licence": "CC0",
+   "licenceTemplate": "cc-zero",
+   "credit": "Photo: New York Public Library, CC0, via Wikimedia Commons",
+   "artist": "The New York Public Library",
+   "note": "Bundled JPEG is the portrait oval from that clipping, not the surrounding article text.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    761,
+    461
+   ],
+   "outputBytes": 63091,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "engels-1840s",
+   "file": "assets/packs/engels-1840s.jpg",
+   "author": "engels",
+   "authorShown": "Frederick Engels",
+   "date": "File date range: between 1840 and 1859",
+   "occasion": "Seated portrait. Photographer not named on the file.",
+   "source": "https://commons.wikimedia.org/wiki/File:Friedrich_Engels-1840-cropped.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-old",
+   "credit": "Photo: unknown photographer, between 1840 and 1859, public domain, via Wikimedia Commons",
+   "artist": "Unknown author",
+   "note": "The filename says cropped. This is one photograph, not an extra crop of another pool image.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    427,
+    600
+   ],
+   "outputBytes": 41489,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "engels-1860",
+   "file": "assets/packs/engels-1860.jpg",
+   "author": "engels",
+   "authorShown": "Frederick Engels",
+   "date": "circa 1860",
+   "occasion": "Oval studio portrait.",
+   "source": "https://commons.wikimedia.org/wiki/File:Friedrich_Engels,_c._1860.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-scan",
+   "credit": "Photo: Amsler & Ruthardt, circa 1860, public domain, via Wikimedia Commons",
+   "artist": "Amsler & Ruthardt",
+   "note": "Tag on the file is PD-scan, whose default underlying-work tag is PD-old. The file dates the photograph circa 1860.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1920,
+    2532
+   ],
+   "outputBytes": 63787,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "engels-1877",
+   "file": "assets/packs/engels-1877.jpg",
+   "author": "engels",
+   "authorShown": "Frederick Engels",
+   "date": "May 1877",
+   "occasion": "Profile studio portrait.",
+   "source": "https://commons.wikimedia.org/wiki/File:Friedrich_Engels_portrait.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-old-auto-expired",
+   "credit": "Photo: William Hall, May 1877, public domain, via Wikimedia Commons",
+   "artist": "William Hall (1826-1898)",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    945,
+    1437
+   ],
+   "outputBytes": 67603,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "engels-1888",
+   "file": "assets/packs/engels-1888.jpg",
+   "author": "engels",
+   "authorShown": "Frederick Engels",
+   "date": "1888",
+   "occasion": "Seated portrait with the photographer's mount.",
+   "source": "https://commons.wikimedia.org/wiki/File:Friedrich_Engels_1888-2.2.1.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-Art",
+   "credit": "Photo: W. E. Debenham, 1888, public domain, via Wikimedia Commons",
+   "artist": "W. E. Debenham",
+   "note": "Different frame from the 1891 Debenham head-and-shoulders portrait. The photographer mount line was left out of this crop; it is still the same 1888 photograph.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1731,
+    2500
+   ],
+   "outputBytes": 50587,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "engels-1891",
+   "file": "assets/packs/engels-1891.jpg",
+   "author": "engels",
+   "authorShown": "Frederick Engels",
+   "date": "1891",
+   "occasion": "Head-and-shoulders profile.",
+   "source": "https://commons.wikimedia.org/wiki/File:Friedrich_Engels_(1891).jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-old-70",
+   "credit": "Photo: William Elliott Debenham, 1891, public domain, via Wikimedia Commons",
+   "artist": "William Elliott Debenham (1839-1924)",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    993,
+    1163
+   ],
+   "outputBytes": 56023,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "lenin-1897",
+   "file": "assets/packs/lenin-1897.jpg",
+   "author": "lenin",
+   "authorShown": "V. I. Lenin",
+   "date": "February 1897",
+   "occasion": "St Petersburg cabinet card, Wesenberg studio.",
+   "source": "https://commons.wikimedia.org/wiki/File:Lenin_1897.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-old",
+   "credit": "Photo: Photostudio Wesenberg, February 1897, public domain, via Wikimedia Commons",
+   "artist": "Unknown (Photostudio Wesenberg)",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    606,
+    1011
+   ],
+   "outputBytes": 48887,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "lenin-1900",
+   "file": "assets/packs/lenin-1900.jpg",
+   "author": "lenin",
+   "authorShown": "V. I. Lenin",
+   "date": "February 1900",
+   "occasion": "Moscow cabinet card, Mebius studio. Different sitting from the 1897 card.",
+   "source": "https://commons.wikimedia.org/wiki/File:Lenin_1900.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-old",
+   "credit": "Photo: Y. Mebius, February 1900, public domain, via Wikimedia Commons",
+   "artist": "Y. Mebius",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    655,
+    1056
+   ],
+   "outputBytes": 52457,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "lenin-1916",
+   "file": "assets/packs/lenin-1916.jpg",
+   "author": "lenin",
+   "authorShown": "V. I. Lenin",
+   "date": "February 1916",
+   "occasion": "Switzerland.",
+   "source": "https://commons.wikimedia.org/wiki/File:Lenin_in_Switzerland.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-1923, PD-Switzerland-old-unknown, PD-anon-70-EU",
+   "credit": "Photo: Wilhelm Plier, February 1916, public domain, via Wikimedia Commons",
+   "artist": "Wilhelm Plier",
+   "note": "File says the image was extracted from another file.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1298,
+    1652
+   ],
+   "outputBytes": 57723,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "lenin-1919",
+   "file": "assets/packs/lenin-1919.jpg",
+   "author": "lenin",
+   "authorShown": "V. I. Lenin",
+   "date": "March 1919",
+   "occasion": "Close portrait.",
+   "source": "https://commons.wikimedia.org/wiki/File:Lenin_loc_ggbain.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "LOC-image, PD-Russia",
+   "credit": "Photo: Viktor Bulla, March 1919, public domain, Library of Congress, via Wikimedia Commons",
+   "artist": "Viktor Bulla",
+   "note": "Library of Congress Prints and Photographs, digital ID ggbain.34971, as stated on the file.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1920,
+    2698
+   ],
+   "outputBytes": 47767,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "lenin-1920",
+   "file": "assets/packs/lenin-1920.jpg",
+   "author": "lenin",
+   "authorShown": "V. I. Lenin",
+   "date": "April 1920",
+   "occasion": "Formal three-quarter portrait.",
+   "source": "https://commons.wikimedia.org/wiki/File:Lenin_in_1920.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-Russia",
+   "credit": "Photo: unknown, presumably official, April 1920, public domain, via Wikimedia Commons",
+   "artist": "Unknown, presumably official",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1920,
+    2616
+   ],
+   "outputBytes": 61692,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "lenin-1921",
+   "file": "assets/packs/lenin-1921.jpg",
+   "author": "lenin",
+   "authorShown": "V. I. Lenin",
+   "date": "26 May 1921",
+   "occasion": "Informal portrait. The Commons file is small (about 417×521).",
+   "source": "https://commons.wikimedia.org/wiki/File:Lenin_1921.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-old-100-expired",
+   "credit": "Photo: unspecified, 26 May 1921, public domain, via Wikimedia Commons",
+   "artist": "unspecified",
+   "note": "Source pixels are below 500×700, so this JPEG is a mild enlargement and looks softer.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    417,
+    521
+   ],
+   "outputBytes": 63880,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "stalin-1894",
+   "file": "assets/packs/stalin-1894.jpg",
+   "author": "stalin",
+   "authorShown": "Joseph Stalin",
+   "date": "File title says 1893. Commons DateTimeOriginal read 1894.",
+   "occasion": "Youth portrait, oval.",
+   "source": "https://commons.wikimedia.org/wiki/File:Joseph_Stalin_in_1893.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-old",
+   "credit": "Photo: unknown photographer, 1893/1894, public domain, via Wikimedia Commons",
+   "artist": "Unknown author",
+   "note": "Both the title year and the metadata year are recorded. Neither was chosen over the other.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1706,
+    2419
+   ],
+   "outputBytes": 59913,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "stalin-1902",
+   "file": "assets/packs/stalin-1902.jpg",
+   "author": "stalin",
+   "authorShown": "Joseph Stalin",
+   "date": "1 April 1902 (file date)",
+   "occasion": "Profile portrait.",
+   "source": "https://commons.wikimedia.org/wiki/File:%D0%98%D0%BE%D1%81%D0%B8%D1%84_%D0%92%D0%B8%D1%81%D1%81%D0%B0%D1%80%D0%B8%D0%BE%D0%BD%D0%BE%D0%B2%D0%B8%D1%87_%D0%94%D0%B6%D1%83%D0%B3%D0%B0%D1%88%D0%B2%D0%B8%D0%BB%D0%B8_(%D0%A1%D1%82%D0%B0%D0%BB%D0%B8%D0%BD)_%D0%B2_1902_%D0%B3%D0%BE%D0%B4%D1%83_%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8C_%D1%84%D0%BE%D1%82%D0%BE.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-old",
+   "credit": "Photo: unknown photographer, 1902 profile, public domain, via Wikimedia Commons",
+   "artist": "Unknown author",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    539,
+    762
+   ],
+   "outputBytes": 69831,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "stalin-1943",
+   "file": "assets/packs/stalin-1943.jpg",
+   "author": "stalin",
+   "authorShown": "Joseph Stalin",
+   "date": "28 November 1943",
+   "occasion": "Tehran, in uniform and cap. Crop of a U.S. Signal Corps photograph; the uncropped frame is not a second pool photo.",
+   "source": "https://commons.wikimedia.org/wiki/File:Cropped_Stalin_1943.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-USGov-Military-Army",
+   "credit": "Photo: U.S. Signal Corps, 28 November 1943, public domain, via Wikimedia Commons",
+   "artist": "U.S. Signal Corps",
+   "note": "File credit: http://hdl.loc.gov/loc.pnp/cph.3a33351",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    970,
+    1426
+   ],
+   "outputBytes": 50255,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "stalin-1945",
+   "file": "assets/packs/stalin-1945.jpg",
+   "author": "stalin",
+   "authorShown": "Joseph Stalin",
+   "date": "17 July 1945",
+   "occasion": "Potsdam. Different frame from the 1943 cap portrait.",
+   "source": "https://commons.wikimedia.org/wiki/File:Josef_Stalin_-_NARA_-_198797.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-USGov",
+   "credit": "Photo: U.S. National Archives (NARA 198797), 17 July 1945, public domain, via Wikimedia Commons",
+   "artist": "Unknown author or not provided",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    785,
+    1089
+   ],
+   "outputBytes": 42804,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "stalin-1948",
+   "file": "assets/packs/stalin-1948.jpg",
+   "author": "stalin",
+   "authorShown": "Joseph Stalin",
+   "date": "1948",
+   "occasion": "TASS studio portrait.",
+   "source": "https://commons.wikimedia.org/wiki/File:J.V._Stalin_TASS_Portrait.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-1996, PD-Russia",
+   "credit": "Photo: V. Kovrigin for TASS, 1948, public domain, via Wikimedia Commons",
+   "artist": "V. Kovrigin for TASS",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1920,
+    2518
+   ],
+   "outputBytes": 55882,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "mao-1920",
+   "file": "assets/packs/mao-1920.jpg",
+   "author": "mao",
+   "authorShown": "Mao Zedong",
+   "date": "1920",
+   "occasion": "Early studio portrait.",
+   "source": "https://commons.wikimedia.org/wiki/File:Mao_Zedong_(1920)_01.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-China-expired",
+   "credit": "Photo: unknown photographer, 1920, public domain, via Wikimedia Commons",
+   "artist": "Unknown author",
+   "note": "A second 1920 file looked like a closer crop of a similar portrait and was not added.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    336,
+    438
+   ],
+   "outputBytes": 33901,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "mao-1935",
+   "file": "assets/packs/mao-1935.jpg",
+   "author": "mao",
+   "authorShown": "Mao Zedong",
+   "date": "1935",
+   "occasion": "Cap, outdoor or rough wall behind.",
+   "source": "https://commons.wikimedia.org/wiki/File:Mao_Zedong,_1935.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-China-1996",
+   "credit": "Photo: unknown photographer, 1935, public domain, via Wikimedia Commons",
+   "artist": "Unknown photographer",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    578,
+    750
+   ],
+   "outputBytes": 58840,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "mao-1937-snow",
+   "file": "assets/packs/mao-1937-snow.jpg",
+   "author": "mao",
+   "authorShown": "Mao Zedong",
+   "date": "1937",
+   "occasion": "Standing, outdoor, alone.",
+   "source": "https://commons.wikimedia.org/wiki/File:Mao_Zedong_1937.jpg",
+   "licence": "CC0",
+   "licenceTemplate": "cc-zero",
+   "credit": "Photo: Edgar Snow, 1937, CC0, via Wikimedia Commons",
+   "artist": "Edgar Snow",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1000,
+    1272
+   ],
+   "outputBytes": 40901,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "mao-1940",
+   "file": "assets/packs/mao-1940.jpg",
+   "author": "mao",
+   "authorShown": "Mao Zedong",
+   "date": "1940",
+   "occasion": "Head-and-shoulders, no cap.",
+   "source": "https://commons.wikimedia.org/wiki/File:Mao_Zedong_(1940).jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-China-1996",
+   "credit": "Photo: unknown photographer, 1940, public domain, via Wikimedia Commons",
+   "artist": "Unknown author",
+   "note": "",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    733,
+    1002
+   ],
+   "outputBytes": 45831,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "mao-cap",
+   "file": "assets/packs/mao-cap.jpg",
+   "author": "mao",
+   "authorShown": "Mao Zedong",
+   "date": "circa 1950",
+   "occasion": "Seated, cap, name badge. The Commons file is in colour; this copy is grayscale.",
+   "source": "https://commons.wikimedia.org/wiki/File:Mao_Zedong_with_cap.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-China",
+   "credit": "Photo: People's Republic of China Printing Office, circa 1950, public domain, via Wikimedia Commons",
+   "artist": "The People's Republic of China Printing Office",
+   "note": "Not the same frame as the 1935 cap photograph.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    875,
+    1196
+   ],
+   "outputBytes": 57885,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "castro-1959",
+   "file": "assets/packs/castro-1959.jpg",
+   "author": "castro",
+   "authorShown": "Fidel Castro",
+   "date": "15 April 1959",
+   "occasion": "MATS terminal, Washington, at microphones.",
+   "source": "https://commons.wikimedia.org/wiki/File:Fidel_Castro_-_MATS_Terminal_Washington_1959.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-USNWR",
+   "credit": "Photo: US News & World Report collection, Library of Congress, 15 April 1959, public domain, via Wikimedia Commons",
+   "artist": "Not named on the file",
+   "note": "Permission line on the file is {{PD-USNWR}}.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1920,
+    2140
+   ],
+   "outputBytes": 53730,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "kim-1927",
+   "file": "assets/packs/kim-1927.jpg",
+   "author": "kim",
+   "authorShown": "Kim Il Sung",
+   "date": "1927 (file: Taken in 1927)",
+   "occasion": "Student-cap portrait. Identity is the file title.",
+   "source": "https://commons.wikimedia.org/wiki/File:Kim_Il-sung_in_1927.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-China, PD-US",
+   "credit": "Photo: unknown photographer, 1927, public domain, via Wikimedia Commons",
+   "artist": "Unknown author",
+   "note": "File credit: Kim Il-sung, With the Century, vol. 1, Foreign Languages Publishing House, Pyongyang, page cited on the file as [xxiv].",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    405,
+    557
+   ],
+   "outputBytes": 53507,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "kim-1946",
+   "file": "assets/packs/kim-1946.jpg",
+   "author": "kim",
+   "authorShown": "Kim Il Sung",
+   "date": "Title says 1946 elections. Commons DateTimeOriginal read 2024-07-27 and was not used as the occasion.",
+   "occasion": "At a table, flags behind. Identity is the file title.",
+   "source": "https://commons.wikimedia.org/wiki/File:Kim_Il_Sung_during_1946_elections.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-North Korea, PD-old-50",
+   "credit": "Photo: unknown photographer, titled 1946 elections, public domain, via Wikimedia Commons",
+   "artist": "File artist field mixed a public-domain template into the name. Treated as unknown.",
+   "note": "Commons tags only. Not a separate legal opinion on DPRK or US copyright.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    425,
+    518
+   ],
+   "outputBytes": 76729,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  },
+  {
+   "id": "kim-1950",
+   "file": "assets/packs/kim-1950.jpg",
+   "author": "kim",
+   "authorShown": "Kim Il Sung",
+   "date": "1950, from the file title Kim Il-sung in 1950",
+   "occasion": "Head-and-shoulders in a suit. Different sitting from the 1927 and 1946 pictures.",
+   "source": "https://commons.wikimedia.org/wiki/File:Kim_Il-sung_in_1950.jpg",
+   "licence": "Public domain",
+   "licenceTemplate": "PD-North Korea, PD-1996",
+   "credit": "Photo: unknown author, 1950, public domain, via Wikimedia Commons",
+   "artist": "unknown author",
+   "note": "Wikitext: {{PD-North Korea}}{{PD-1996|country=kp}}. Not a separate legal opinion.",
+   "verified": "Wikimedia Commons file page (wikitext licence templates and imageinfo) read on 2026-11-07. Not an independent legal opinion.",
+   "fetchedPixels": [
+    1440,
+    1947
+   ],
+   "outputBytes": 34875,
+   "jpegQuality": 76,
+   "appMarkers": [
+    "APP0"
+   ]
+  }
+ ]
+}

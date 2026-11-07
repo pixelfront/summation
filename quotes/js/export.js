@@ -63,12 +63,15 @@ function foil(x,r,ctx){const s=getComputedStyle(ctx.card),v=n=>s.getPropertyValu
  x.globalCompositeOperation='overlay';x.globalAlpha=1;const gl=x.createRadialGradient(px,py,0,px,py,C.width*.6);gl.addColorStop(0,'rgba(255,255,255,.5)');gl.addColorStop(.58,'rgba(255,255,255,.08)');gl.addColorStop(1,'rgba(255,255,255,0)');
  x.fillStyle=gl;x.fillRect(r.left,r.top,r.width,r.height);x.restore()}
 function render(side){const {card}=window.CARD,b=side?side==='back':window.CARD.showingBack,face=b?window.CARD.back:window.CARD.front;
- const keep=card.style.transform;card.style.transform=b?'rotateY(180deg)':'none';
+ // The back face is visibility:hidden unless .show-back is set, and paint() skips hidden boxes,
+ // so a back export used to be a blank black card. Show the requested face, then put the class back.
+ const keep=card.style.transform,had=card.classList.contains('show-back');
+ card.classList.toggle('show-back',!!b);card.style.transform=b?'rotateY(180deg)':'none';
  const cr=card.getBoundingClientRect(),S=OUT/cr.width,cv=document.createElement('canvas');cv.width=OUT;cv.height=Math.round(cr.height*S);
  const x=cv.getContext('2d');x.scale(S,S);x.translate(-cr.left,-cr.top);
  const W=cr.width,H=cr.height,L=cr.left,T=cr.top;x.beginPath();[[.06,0],[1,0],[1,.95714],[.94,1],[0,1],[0,.04286]].forEach(([a,c],i)=>x[i?'lineTo':'moveTo'](L+a*W,T+c*H));x.closePath();x.clip();
  x.fillStyle='#000';x.fillRect(L,T,W,H);
- try{for(const c of face.children)paint(x,c,1,{card,cr})}finally{card.style.transform=keep}
+ try{for(const c of face.children)paint(x,c,1,{card,cr})}finally{card.style.transform=keep;card.classList.toggle('show-back',had)}
  return cv}
 const box=$('#exp'),img=$('#expImg'),dl=$('#expDl'),note=$('#expNote');let blob=null,u=null;
 async function run(){SFX.shutter();window.CARD.card.classList.remove('flash');void window.CARD.card.offsetWidth;window.CARD.card.classList.add('flash');

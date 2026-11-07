@@ -22,29 +22,28 @@ async function encode(W,H,frames,delayMs,onp){const parts=[new Uint8Array([137,8
  parts.push(chunk('IHDR',cat([u32(W),u32(H),new Uint8Array([8,6,0,0,0])])));
  parts.push(chunk('acTL',cat([u32(frames.length),u32(0)])));
  for(let i=0;i<frames.length;i++){const f=frames[i];
-  parts.push(chunk('fcTL',cat([u32(seq++),u32(f.w),u32(f.h),u32(f.x),u32(f.y),u16(delayMs),u16(1000),new Uint8Array([1,0])])));
+  const ms=f.delayMs!=null?f.delayMs:delayMs;
+  parts.push(chunk('fcTL',cat([u32(seq++),u32(f.w),u32(f.h),u32(f.x),u32(f.y),u16(ms),u16(1000),new Uint8Array([1,0])])));
   const z=await zlib(filter(f.px,f.w,f.h));
   parts.push(i===0?chunk('IDAT',z):chunk('fdAT',cat([u32(seq++),z])));if(onp)onp(i+1,frames.length)}
  parts.push(chunk('IEND',new Uint8Array(0)));return cat(parts)}
 function bbox(d,W,H){let x0=W,y0=H,x1=-1,y1=-1;for(let y=0;y<H;y++){const o=y*W*4;for(let x=0;x<W;x++)if(d[o+x*4+3]){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}}
  return x1<0?{x:0,y:0,w:1,h:1}:{x:x0,y:y0,w:x1-x0+1,h:y1-y0+1}}
-async function make(onp,opt){opt=opt||{};const F=window.exportCard('front'),B=window.exportCard('back'),W=opt.w||540,H=Math.round(F.height*W/F.width),N=opt.n||24;
- const cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d',{willReadFrequently:true}),frames=[];
- for(let k=0;k<N;k++){const a=k/N*2*Math.PI,c=Math.cos(a),face=c>=0?F:B,sx=Math.max(.02,Math.abs(c));
-  x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,W,H);
-  x.setTransform(sx*.9,Math.sin(a)*.04,0,.9,W/2,H*.05);x.drawImage(face,-W/2,0,W,H);
-  x.setTransform(1,0,0,1,0,0);x.globalCompositeOperation='source-atop';x.fillStyle=`rgba(0,0,0,${(1-sx)*.45})`;x.fillRect(0,0,W,H);x.globalCompositeOperation='source-over';
+async function make(onp,opt){opt=opt||{};const F=window.exportCard('front'),B=window.exportCard('back');
+ const built=await window.SPIN.build(F,B,{faceW:opt.w||400,bg:null},onp),frames=[];
+ const W=built.layout.W,H=built.layout.H;
+ for(let k=0;k<built.frames.length;k++){const cv=built.frames[k].cv,x=cv.getContext('2d',{willReadFrequently:true});
   const d=x.getImageData(0,0,W,H).data,bb=k===0?{x:0,y:0,w:W,h:H}:bbox(d,W,H);
   const px=new Uint8ClampedArray(bb.w*bb.h*4);for(let y=0;y<bb.h;y++)px.set(d.subarray(((bb.y+y)*W+bb.x)*4,((bb.y+y)*W+bb.x+bb.w)*4),y*bb.w*4);
-  frames.push(Object.assign(bb,{px}));if(k%4===3)await new Promise(r=>setTimeout(r,0))}
- return encode(W,H,frames,opt.delay||80,onp)}
+  frames.push(Object.assign(bb,{px,delayMs:built.frames[k].delayMs}))}
+ const bytes=await encode(W,H,frames,0,null);bytes._layout=built.layout;bytes._frames=frames.length;return bytes}
 let u=null;const btn=$('#exportApng');
 btn.addEventListener('click',async()=>{const note=$('#expNote'),live=$('#live');btn.disabled=true;const lbl=btn.textContent;btn.textContent='Making APNG\u2026';
  try{const bytes=await make((i,n)=>{btn.textContent=`APNG ${i}/${n}`}),blob=new Blob([bytes],{type:'image/png'});if(u)URL.revokeObjectURL(u);u=URL.createObjectURL(blob);
   const fn=`${(window.CARD.short()||'card').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'card'}-spin-hd.png`;
   const img=$('#expImg'),dl=$('#expDl');img.src=u;img.alt='Animated transparent PNG of the card turning';dl.href=u;dl.download=fn;dl.textContent='Download APNG';$('#exp').hidden=false;
   const f=new File([blob],fn,{type:'image/png'}),can=navigator.canShare&&navigator.canShare({files:[f]});$('#expShare').hidden=!can;$('#expShare').onclick=()=>navigator.share({files:[f],title:'Quote card'}).catch(()=>{});
-  note.textContent=`HD animated PNG, transparent background, 540 px wide, 24 frames, ${(bytes.length/1048576).toFixed(1)} MB. Plays in Safari and Photos on iPhone. Made on this device; nothing uploaded.`;live.textContent='Animated PNG exported'}
+  const L=bytes._layout;note.textContent=`Animated PNG (APNG), not a video. Transparent background. Card face is 400 px wide inside a ${L?L.W+'\u00d7'+L.H:''} canvas. Full 360\u00b0 turn, front and back each held 0.9 s, ${bytes._frames||''} frames, ${(bytes.length/1048576).toFixed(1)} MB. Plays in Safari and Photos. Made on this device; nothing uploaded.`;live.textContent='Animated PNG exported'}
  catch(e){note.textContent='APNG export failed: '+(e&&e.message);$('#exp').hidden=false;live.textContent='APNG export failed'}
  finally{btn.disabled=false;btn.textContent=lbl}});
 window.APNGX={make,encode,crc};})();

@@ -10,7 +10,9 @@
 .pb-n{font-size:11px;color:var(--mute);text-align:center;letter-spacing:.08em}
 .pdfin{margin-top:4px}
 /* stage */
-.pk-stage{position:relative;height:370px;margin:8px 0 6px;overflow:visible}
+.pk-stage{position:relative;height:390px;margin:8px 0 6px;overflow:visible}
+.foilcv{position:absolute;left:50%;top:6px;width:232px;height:342px;margin-left:-116px;z-index:4;pointer-events:none;filter:drop-shadow(0 16px 10px rgba(0,0,0,.55))}
+.foil[hidden]{display:none!important}
 .foil{position:absolute;left:50%;top:18px;width:220px;height:330px;margin-left:-110px;z-index:5;transition:transform .3s ease-in,opacity .3s}
 .foil.gone{transform:translateY(60px) scale(.9);opacity:0;pointer-events:none}
 .foil-body,.foil-lip{position:absolute;left:0;right:0;border:2px solid var(--red);
@@ -47,7 +49,7 @@
 .r-holo.up .pk-front{filter:drop-shadow(0 0 8px rgba(164,107,255,.8))}
 .pk-row{justify-content:center}
 @media (prefers-reduced-motion:reduce){.foil-body,.foil-lip{animation:none;background-position:40% 0}.foil-lip.torn{animation:none;opacity:0}
- .pk-card,.pk-in,.foil{transition:none}}
+ .pk-card,.pk-in,.foil,.foilcv{transition:none!important}}
 /* PDF review */
 #pdfReview{margin-top:8px}
 .pdflist{margin:0;padding:0 0 0 22px;display:grid;gap:10px;max-height:none}

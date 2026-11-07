@@ -14,26 +14,24 @@ function lzw(px){const out=[];let cur=0,bits=0,size=9;const put=c=>{cur|=c<<bits
   put(w);if(next<4096){dict.set(key,next++);if(next>(1<<size)&&size<12)size++}else{put(CLR);dict=new Map();next=258;size=9}w=k}
  put(w);put(EOI);if(bits>0)out.push(cur&255);return out}
 function encode(W,H,frames,delay){const b=[];const s=t=>{for(const c of t)b.push(c.charCodeAt(0))},w16=v=>b.push(v&255,v>>8&255);
+ const delays=Array.isArray(delay)?delay:frames.map(()=>delay);
  s('GIF89a');w16(W);w16(H);b.push(0xF7,0,0);for(const v of PAL)b.push(v);
  b.push(0x21,0xFF,11);s('NETSCAPE2.0');b.push(3,1,0,0,0);
- for(const f of frames){b.push(0x21,0xF9,4,0,delay&255,delay>>8,0,0);b.push(0x2C);w16(0);w16(0);w16(W);w16(H);b.push(0);b.push(8);
+ for(let fi=0;fi<frames.length;fi++){const f=frames[fi],dl=delays[fi]|0;b.push(0x21,0xF9,4,0,dl&255,dl>>8,0,0);b.push(0x2C);w16(0);w16(0);w16(W);w16(H);b.push(0);b.push(8);
   const d=lzw(f);for(let i=0;i<d.length;i+=255){const n=Math.min(255,d.length-i);b.push(n);for(let j=0;j<n;j++)b.push(d[i+j])}b.push(0)}
  b.push(0x3B);return new Uint8Array(b)}
-async function make(){const F=window.exportCard('front'),B=window.exportCard('back'),W=300,H=Math.round(F.height*W/F.width),N=24;
- const cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d',{willReadFrequently:true}),frames=[];
- for(let k=0;k<N;k++){const a=k/N*2*Math.PI,c=Math.cos(a),face=c>=0?F:B,sx=Math.max(.02,Math.abs(c));
-  x.setTransform(1,0,0,1,0,0);x.fillStyle='#000';x.fillRect(0,0,W,H);
-  x.setTransform(sx*.9,Math.sin(a)*.04,0,.9,W/2,H*.05);x.drawImage(face,-W/2,0,W,H);
-  x.setTransform(1,0,0,1,0,0);x.fillStyle=`rgba(0,0,0,${(1-sx)*.45})`;x.fillRect(0,0,W,H);
-  frames.push(quant(x.getImageData(0,0,W,H).data,W*H));if(k%6===5)await new Promise(r=>setTimeout(r,0))}
- return encode(W,H,frames,8)}
+async function make(){const F=window.exportCard('front'),B=window.exportCard('back');
+ const built=await window.SPIN.build(F,B,{faceW:300,bg:'#000'}),frames=[],delays=[];
+ for(const f of built.frames){const cv=f.cv,x=cv.getContext('2d',{willReadFrequently:true});
+  frames.push(quant(x.getImageData(0,0,cv.width,cv.height).data,cv.width*cv.height));delays.push(f.delayCs)}
+ const bytes=encode(built.layout.W,built.layout.H,frames,delays);bytes._layout=built.layout;bytes._frames=built.frames.length;return bytes}
 let u=null;
 $('#exportGif').addEventListener('click',async()=>{const btn=$('#exportGif'),note=$('#expNote'),live=$('#live');btn.disabled=true;btn.textContent='Making GIF\u2026';
  try{const bytes=await make(),blob=new Blob([bytes],{type:'image/gif'});if(u)URL.revokeObjectURL(u);u=URL.createObjectURL(blob);
   const fn=`${(window.CARD.short()||'card').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'card'}-spin.gif`;
   const img=$('#expImg'),dl=$('#expDl');img.src=u;img.alt='Rotating GIF of the card';dl.href=u;dl.download=fn;dl.textContent='Download GIF';$('#exp').hidden=false;
   const f=new File([blob],fn,{type:'image/gif'}),can=navigator.canShare&&navigator.canShare({files:[f]});$('#expShare').hidden=!can;$('#expShare').onclick=()=>navigator.share({files:[f],title:'Quote card'}).catch(()=>{});
-  note.textContent=`300 px rotating GIF, 24 frames, ${(bytes.length/1024).toFixed(0)} KB. Made on this device; nothing uploaded.`;live.textContent='GIF exported'}
+  note.textContent=`Rotating GIF (not a video). Card face is 300 px wide inside a ${bytes._layout?bytes._layout.W+'×'+bytes._layout.H:''} canvas. Full 360° turn, front and back each held 0.9 s, ${bytes._frames||''} frames, black background, ${(bytes.length/1024).toFixed(0)} KB. Made on this device; nothing uploaded.`;live.textContent='GIF exported'}
  catch(e){note.textContent='GIF export failed: '+(e&&e.message);$('#exp').hidden=false;live.textContent='GIF export failed'}
  finally{btn.disabled=false;btn.textContent='Export rotating GIF'}});
 // PNG run resets the download label

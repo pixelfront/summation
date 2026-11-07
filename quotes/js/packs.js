@@ -10,7 +10,17 @@
 // URL for tests/shots: ?view=packs[&pack=mao][&rig=ch|gh|...][&tear=1][&flip=all]
 window.PACKS=(()=>{const $=s=>document.querySelector(s),live=$('#live'),RM=matchMedia('(prefers-reduced-motion: reduce)');
 const UKEY='qc-userpacks',wait=ms=>new Promise(r=>setTimeout(r,RM.matches?0:ms));
-let DATA=null,RED=null,cur=null,dealt=[],tilt=null,idleRaf=0,rig=null,P0=null;
+let DATA=null,RED=null,cur=null,dealt=[],tilt=null,idleRaf=0,rig=null,P0=null,foil=null,foilOn=0,foilSeen=true;
+const foilCv=$('#foilCv');
+if(foilCv&&window.IntersectionObserver)new IntersectionObserver(es=>{foilSeen=!!es[0]&&es[0].isIntersecting},{threshold:.05}).observe(foilCv);
+function drawFoil(){if(!foilCv||!cur||!window.FOIL)return;if(!foil)foil=FOIL.make(foilCv.width,foilCv.height);
+ const x=foilCv.getContext('2d');foil.draw(x,{name:(cur.a.sh||'').toUpperCase(),sub:cur.a.user?'7 CARDS':'7 CARDS',holo:!!cur.holo,user:!!cur.a.user,tear:cur.tear||0,path:cur.path||[],light:cur.light||{x:.36,y:.32},curl:cur.curl||0})}
+function foilLoop(t){if(!foilOn)return;foilOn=requestAnimationFrame(foilLoop);
+ if(document.hidden||!foilSeen)return;if(!cur)return;
+ if(!cur.lightHold||performance.now()-cur.lightHold>700){if(!RM.matches){const k=t/1500;cur.light={x:.38+Math.sin(k)*.22,y:.33+Math.cos(k*.7)*.05}}}
+ drawFoil()}
+function startFoil(){if(foilOn)return;drawFoil();if(RM.matches)return;foilOn=requestAnimationFrame(foilLoop)}
+function stopFoil(){cancelAnimationFrame(foilOn);foilOn=0}
 async function load(){if(DATA)return DATA;const r=await fetch('data/packs.json');DATA=await r.json();return DATA}
 async function red(){if(RED)return RED;const r=await fetch('data/redbook.json');RED=await r.json();return RED}
 function upacks(){try{return JSON.parse(localStorage.getItem(UKEY)||'[]')}catch(_){return[]}}
@@ -27,37 +37,50 @@ async function enter(P){P0=P||null;APP.show('pack');$('#packPick').hidden=false;
  try{await load()}catch(e){$('#packGrid').textContent='Packs did not load.';return}grid();red().then(grid).catch(()=>{});
  if(P&&P.get('rig'))rig=P.get('rig').split('');
  if(P&&P.get('pack')){await pick(P.get('pack'));if(P.get('tear'))await tear();if(P.get('flip')==='all')for(const c of dealt)flip(c,true)}}
-function leave(){stopIdle();$('#packOpen').hidden=true}
+function leave(){stopIdle();stopFoil();$('#packOpen').hidden=true}
 // ---------- one pack ----------
 function info(id){if(id.startsWith('u:')){const u=upacks().find(x=>'u:'+x.id===id);return u&&{id,who:u.who,sh:u.sh,user:u}}
  const a=DATA.authors.find(x=>x.id===id);return a&&Object.assign({},a)}
 async function pick(id){const a=info(id);if(!a)return;if(a.user&&!left(a.user)){live.textContent='That PDF pack is used up.';return}
  if(id==='mao')await red().catch(()=>{});
- cur={a,torn:false};dealt=[];$('#packPick').hidden=true;$('#packOpen').hidden=false;$('#pkFan').innerHTML='';
- const f=$('#foil');f.className='foil'+(a.user?' user':'');f.hidden=false;$('#foilLip').className='foil-lip';$('#foilName').textContent=a.sh.toUpperCase();
- $('#foilSub').textContent=a.user?'7 CARDS \u00b7 FROM YOUR PDF':'7 CARDS \u00b7 MARXIST QUOTES';$('#foilHint').hidden=false;
- $('#tearZone').hidden=false;$('#pkOpenBtn').hidden=false;$('#pkAnother').hidden=true;$('#pkDone').hidden=true;$('#pkNote').textContent='';
- live.textContent=`${a.who} pack. Swipe across the top to tear it, or tap Open pack.`;window.scrollTo(0,0)}
+ cur={a,torn:false,tear:0,path:[],curl:0,light:{x:.36,y:.32},rolls:Array.from({length:7},()=>roll())};cur.holo=cur.rolls.some(r=>r==='h');dealt=[];
+ try{await POOL.load()}catch(_){}
+ $('#packPick').hidden=true;$('#packOpen').hidden=false;$('#pkFan').innerHTML='';
+ $('#foilName').textContent=a.sh.toUpperCase();$('#foilSub').textContent='7 CARDS';
+ if(foilCv){foilCv.hidden=false;foilCv.style.transition='none';foilCv.style.transform='';foilCv.style.opacity='1'}
+ $('#tearZone').hidden=false;$('#tearZone').setAttribute('aria-label',`${a.who} pack, 7 cards, sealed foil wrapper. Drag along the top crimp to tear it, or use Open pack.`);
+ $('#pkOpenBtn').hidden=false;$('#pkAnother').hidden=true;$('#pkDone').hidden=true;$('#pkNote').textContent='';
+ startFoil();document.documentElement.dataset.packReady='1';live.textContent=`${a.who} pack. Drag along the top to tear the wrapper, or tap Open pack.`;window.scrollTo(0,0)}
 function roll(){if(rig&&rig.length){const c=rig.shift();return c==='h'?'h':c==='g'?'g':''}const r=Math.random();return r<.02?'h':r<.12?'g':''}
 function pool(a){if(a.user){const u=a.user,s=u.opened*7;return u.q.slice(s,s+7).map(q=>({q,src:u.src}))}
  let p=DATA.pools[a.id].slice();if(a.id==='mao'&&RED)p=p.concat(RED.q.map(([q,src])=>({q,src,url:RED.source,via:'marxists.org',rb:1})));
  const out=[];for(let k=0;k<7&&p.length;k++)out.push(p.splice(Math.random()*p.length|0,1)[0]);return out}
-function mkCard(a,e,no){const d={id:newCardId(),no,who:a.who,sh:a.sh,q:e.q,src:e.src||'',pk:1};
+function mkCard(a,e,no,ph){const d={id:newCardId(),no,who:a.who,sh:a.sh,q:e.q,src:e.src||'',pk:1};
  if(e.url)d.notes=`${e.rb?'Quotations from Chairman Mao \u00b7 ':''}Source: ${e.url}${e.via?` (via ${e.via})`:''}`;
- if(a.photo){d.photo='a:'+a.photo;if(a.pc)d.pc=a.pc;else d.author=a.id}
- const r=roll();if(r)d.rar=r;if(r==='h')d.holo=1;return d}
+ if(ph){d.photo='p:'+ph.id;d.pc=ph.credit||''}
+ else if(a.photo){d.photo='a:'+a.photo;if(a.pc)d.pc=a.pc;else d.author=a.id}
+ const r=(cur.rolls&&cur.rolls.length)?cur.rolls.shift():roll();if(r)d.rar=r;if(r==='h')d.holo=1;return d}
+async function playTear(){if(RM.matches){cur.tear=1;cur.path=[{x:.08,y:.08},{x:.92,y:.08}];drawFoil();return}
+ const t0=performance.now();await new Promise(res=>{const step=t=>{const k=Math.min(1,(t-t0)/680);cur.tear=Math.max(cur.tear||0,k);
+  cur.path=[];for(let i=0;i<=12;i++){const u=i/12;if(u>k+0.02)break;cur.path.push({x:.08+u*.84,y:.075+Math.sin(u*18)*.012})}
+  if(k<1)requestAnimationFrame(step);else res()};requestAnimationFrame(step)});
+ const t1=performance.now();await new Promise(res=>{const step=t=>{cur.curl=Math.min(1,(t-t1)/460);if(cur.curl<1)requestAnimationFrame(step);else res()};requestAnimationFrame(step)})}
 async function tear(){if(!cur||cur.torn)return;cur.torn=true;const a=cur.a;
- const lip=$('#foilLip');lip.classList.add('torn');$('#foilHint').hidden=true;$('#tearZone').hidden=true;$('#pkOpenBtn').hidden=true;
- if(window.SFX&&SFX.burn&&!SFX.muted)try{(SFX.tear||SFX.click)()}catch(_){}
+ $('#tearZone').hidden=true;$('#pkOpenBtn').hidden=true;
+ if(window.SFX&&!SFX.muted)try{(SFX.tear||SFX.click)()}catch(_){}
+ if((cur.tear||0)<.98)await playTear();else if(!RM.matches){const t1=performance.now();await new Promise(res=>{const step=t=>{cur.curl=Math.min(1,(t-t1)/460);if(cur.curl<1)requestAnimationFrame(step);else res()};requestAnimationFrame(step)})}
  const es=pool(a);if(!es.length){$('#pkNote').textContent='This pack is empty.';return}
- const s=STORE.get();let no=nextNo();const cards=es.map(e=>mkCard(a,e,no++));
+ let photos=[];try{await POOL.load();photos=POOL.take(a.user?'':a.id,es.length)}catch(_){}
+ const s=STORE.get();let no=nextNo();const cards=es.map((e,i)=>mkCard(a,e,no++,photos[i]));
  const rank=d=>d.rar==='h'?2:d.rar==='g'?1:0;cards.sort((x,y)=>rank(x)-rank(y)); // rares last
  s.made=(s.made||[]).concat(cards);STORE.set(s);
  if(a.user){const all=upacks(),u=all.find(x=>x.id===a.user.id);if(u){u.opened++;saveU(all)}}
- await wait(300);$('#foil').classList.add('gone');
+ await wait(RM.matches?0:180);
+ if(foilCv && !(P0&&P0.get('holdfoil'))){if(RM.matches){foilCv.hidden=true}else{foilCv.style.transition='transform .55s ease-in, opacity .55s';foilCv.style.transform='translateY(36px) rotate(7deg) scale(.7)';foilCv.style.opacity='0'}}
  const fan=$('#pkFan'),N=cards.length;
  cards.forEach((d,k)=>{const b=document.createElement('button');b.type='button';b.className='pk-card'+(d.rar==='g'?' r-gold':d.rar==='h'?' r-holo':'');
-  const mid=(N-1)/2,t=k-mid;b.style.setProperty('--fx',(t*33).toFixed(1)+'px');b.style.setProperty('--fy',(Math.abs(t)*Math.abs(t)*3).toFixed(1)+'px');b.style.setProperty('--fr',(t*5).toFixed(1)+'deg');b.style.zIndex=10+k;
+  const mid=(N-1)/2,t=k-mid;if(RM.matches){b.style.setProperty('--fx','0px');b.style.setProperty('--fy',(k*6)+'px');b.style.setProperty('--fr','0deg')}
+  else{b.style.setProperty('--fx',(t*33).toFixed(1)+'px');b.style.setProperty('--fy',(Math.abs(t)*Math.abs(t)*3).toFixed(1)+'px');b.style.setProperty('--fr',(t*5).toFixed(1)+'deg')}b.style.zIndex=10+k;
   b.innerHTML=`<span class="pk-in"><span class="pk-back" aria-hidden="true"><b>\u2605</b><i>${esc(a.sh.toUpperCase())}</i></span><span class="pk-front">${cardHTML(d)}</span></span>`;
   b.setAttribute('aria-label',`Card ${k+1} of ${N}, face down. Tap to flip.`);b.dataset.k=k;b._d=d;fan.appendChild(b);fitQuote(b.querySelector('.card'),d);
   b.addEventListener('click',()=>{if(!b.classList.contains('up'))flip(b);else{const d0=b._d;APP.view(STORE.get().made.find(x=>x.id===d0.id)||d0)}});dealt.push(b)});
@@ -65,7 +88,7 @@ async function tear(){if(!cur||cur.torn)return;cur.torn=true;const a=cur.a;
  SFX.done&&SFX.done();$('#pkAnother').hidden=false;$('#pkDone').hidden=false;
  const g=cards.filter(d=>d.rar==='g').length,h=cards.filter(d=>d.rar==='h').length;
  $('#pkNote').textContent=`${N} cards added to your box${g?` \u00b7 ${g} gold`:''}${h?` \u00b7 ${h} holo rare`:''}. Tap a card to flip it; tap again to open it.`;
- live.textContent=`Pack open. ${N} cards fanned out face down and saved to your box. ${h?'A holo rare is in this pack! ':g?'A gold card is in this pack! ':''}Tap each card to flip it.`;
+ document.documentElement.dataset.packTorn='1';live.textContent=`Pack open. ${N} cards fanned out face down and saved to your box. ${h?'A holo rare is in this pack! ':g?'A gold card is in this pack! ':''}Tap each card to flip it.`;
  startIdle()}
 function flip(b,quiet){b.classList.add('up');const d=b._d;b.setAttribute('aria-label',`${d.rar==='h'?'Holo rare: ':d.rar==='g'?'Gold: ':''}${d.who}: \u201c${d.q}\u201d, ${d.src}. Tap to open in the card view.`);
  if(!quiet){if(d.rar&&SFX.done)SFX.done();else SFX.click&&SFX.click();live.textContent=`${d.rar==='h'?'Holo rare! ':d.rar==='g'?'Gold trim! ':''}${d.who}: ${d.q.length>120?d.q.slice(0,117)+'\u2026':d.q}`}}
@@ -86,12 +109,19 @@ $('#pkTilt').addEventListener('click',async()=>{const btn=$('#pkTilt');if(tilt){
   btn.setAttribute('aria-pressed','true');btn.textContent='Tilt shimmer on';live.textContent='Tilt your phone to move the foil.'}catch(_){live.textContent='Phone tilt is not available here.'}});
 // ---------- tear gesture: horizontal swipe across the top band; vertical moves are left to page scroll ----------
 (()=>{const z=$('#tearZone');let st=null;
- z.addEventListener('pointerdown',e=>{if(!cur||cur.torn)return;st={x:e.clientX,y:e.clientY,w:$('#foil').getBoundingClientRect().width,id:e.pointerId,ok:true}});
- z.addEventListener('pointermove',e=>{if(!st||e.pointerId!==st.id)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;
-  if(Math.abs(dy)>40&&Math.abs(dy)>Math.abs(dx)){st=null;$('#foilLip').style.setProperty('--tp','0');return} // a scroll, not a tear
-  const p=Math.max(0,Math.min(1,Math.abs(dx)/(st.w*.6)));$('#foilLip').style.setProperty('--tp',p.toFixed(3));if(p>=1){st=null;tear()}},{passive:true});
- const end=()=>{if(st){st=null;$('#foilLip').style.setProperty('--tp','0')}};z.addEventListener('pointerup',end);z.addEventListener('pointercancel',end);
+ function spring(){if(!cur||cur.torn)return;const from=cur.tear||0;if(RM.matches){cur.tear=0;cur.path=[];drawFoil();return}
+  const t0=performance.now();const step=t=>{if(!cur||cur.torn)return;const k=Math.min(1,(t-t0)/260);cur.tear=from*(1-k);if(k<1)requestAnimationFrame(step);else{cur.tear=0;cur.path=[]}};requestAnimationFrame(step)}
+ z.addEventListener('pointerdown',e=>{if(!cur||cur.torn)return;const r=foilCv.getBoundingClientRect();st={x:e.clientX,y:e.clientY,w:r.width,top:r.top,h:r.height,id:e.pointerId}});
+ z.addEventListener('pointermove',e=>{if(!st||!cur||e.pointerId!==st.id||cur.torn)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;
+  if(Math.abs(dy)>48&&Math.abs(dy)>Math.abs(dx)*1.2){st=null;spring();return}
+  const p=Math.max(0,Math.min(1,dx/(st.w*.62)));cur.tear=p;cur.lightHold=performance.now();
+  const nx=(e.clientX-(foilCv.getBoundingClientRect().left))/st.w,ny=Math.max(.04,Math.min(.2,(e.clientY-st.top)/st.h));
+  cur.path=(cur.path||[]).concat([{x:Math.max(0,Math.min(1,nx)),y:ny}]).slice(-24);
+  cur.light={x:nx,y:ny};if(RM.matches)drawFoil();if(p>=1){st=null;tear()}},{passive:true});
+ const end=()=>{if(st&&cur&&!cur.torn){st=null;if((cur.tear||0)<1)spring()}};z.addEventListener('pointerup',end);z.addEventListener('pointercancel',end);
  z.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tear()}})})();
+$('#pkStage').addEventListener('pointermove',e=>{if(!cur||cur.torn||!foilCv)return;const r=foilCv.getBoundingClientRect();
+ cur.light={x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};cur.lightHold=performance.now();if(RM.matches)drawFoil()},{passive:true});
 $('#pkOpenBtn').addEventListener('click',tear);
 $('#pkAnother').addEventListener('click',()=>{const id=cur&&(cur.a.user?'u:'+cur.a.user.id:cur.a.id);if(id)pick(id).then(()=>{if(cur&&cur.a.user&&!left(upacks().find(x=>'u:'+x.id===id)||{q:[],opened:0}))grid()})});
 $('#pkDone').addEventListener('click',()=>{APP.show('box');BOX.rebuild();BOX.initState('open');live.textContent='Back to the box. Your pack cards are in it.'});

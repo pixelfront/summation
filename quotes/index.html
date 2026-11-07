@@ -61,13 +61,37 @@
  <div class="row"><button type="button" id="spin">Flick spin</button><button type="button" id="motion">Use phone tilt</button></div>
  <label class="chk"><input type="checkbox" id="snapBack">Snap back flat when I let go</label>
  <label class="chk"><input type="checkbox" id="holo">Holo foil</label>
- <div class="row"><button type="button" id="export" class="pri">Export PNG</button><button type="button" id="exportGif">Export rotating GIF</button><button type="button" id="exportApng">Export HD APNG</button><p class="note" id="cardNoSend" hidden>Sample cards stay in every box, so they can't be sent. Make your own card (New card) to send one by QR.</p><button type="button" id="cardSend">Send by QR</button><button type="button" id="cardBurn" class="burnbtn">Burn card</button></div>
- <p class="note">Keys: arrows spin, Q and E twist, Enter flips, 0 straightens. Export captures exactly what you see, including the current scroll position of a long quote.</p>
+ <div class="row"><button type="button" id="export" class="pri">Export PNG</button><button type="button" id="exportGif">Export rotating GIF</button><button type="button" id="exportApng">Export HD APNG</button><button type="button" id="reforge">Reforge</button><p class="note" id="cardNoSend" hidden>Sample cards stay in every box, so they can't be sent. Make your own card (New card) to send one by QR.</p><button type="button" id="cardSend">Send by QR</button><button type="button" id="cardBurn" class="burnbtn">Burn card</button><button type="button" id="reforgeUndo" hidden>Undo reforge</button></div>
+ <p class="note">Keys: arrows spin, Q and E twist, Enter flips, 0 straightens. Export captures exactly what you see, including the current scroll position of a long quote. Rotating export is a GIF or an animated PNG (APNG), not a video.</p>
 </div>
 <section id="exp" class="ctl exp" hidden aria-labelledby="expH"><h2 id="expH">EXPORT</h2>
  <img id="expImg" alt="">
  <div class="row"><button type="button" id="expShare" class="pri">Share / Save</button><a class="btn" id="expDl" download="quote-card.png" href="#">Download PNG</a><button type="button" id="expClose">Close</button></div>
  <p class="note" id="expNote"></p></section>
+<section id="rf" class="ctl rf" hidden aria-labelledby="rfH">
+ <h2 id="rfH">REFORGE</h2>
+ <p class="note" id="rfNote">The new picture replaces only the image. The card keeps its number, words, writer, rarity and where it came from. The picture is redrawn on this phone so location data is removed, and it is saved only on this device.</p>
+ <input id="rfFile" type="file" accept="image/*" hidden>
+ <div id="rfCrop" hidden>
+  <canvas id="rfCv" width="500" height="700" aria-label="Crop. Drag to move the picture. Pinch or use the zoom buttons."></canvas>
+  <div class="row">
+   <button type="button" id="rfZoomOut" aria-label="Zoom out">−</button>
+   <button type="button" id="rfZoomIn" aria-label="Zoom in">+</button>
+   <button type="button" id="rfCropOk" class="pri">Use this crop</button>
+   <button type="button" id="rfCropCancel">Cancel</button>
+  </div>
+  <p class="note">Drag to move. Pinch, or the plus and minus buttons, to zoom.</p>
+ </div>
+ <div id="rfPrev" hidden>
+  <p class="note">Before is on the left. After is on the right. Drag the slider.</p>
+  <div class="rf-split" id="rfSplit">
+   <canvas id="rfOld" width="500" height="700" aria-hidden="true"></canvas>
+   <canvas id="rfNew" width="500" height="700" aria-hidden="true"></canvas>
+   <input id="rfRange" type="range" min="2" max="98" value="50" aria-label="Before and after split">
+  </div>
+  <div class="row"><button type="button" id="rfConfirm" class="pri">Confirm</button><button type="button" id="rfPrevCancel">Cancel</button></div>
+ </div>
+</section>
 </main>
 <main id="makeView" hidden aria-labelledby="makeH">
 <div class="vhead"><h2 id="makeH"><b>NEW</b> CARD · MIA WRITERS</h2><button type="button" id="mkCancel">&#9664; Box</button></div>
@@ -123,7 +147,8 @@
 <section id="packOpen" hidden aria-labelledby="packOpenH">
  <h3 class="sr" id="packOpenH">Open the pack</h3>
  <div class="pk-stage" id="pkStage">
-  <div class="foil" id="foil" aria-hidden="true"><div class="foil-lip" id="foilLip"><i class="tearline"></i></div><div class="foil-body"><b id="foilName">MAO</b><span id="foilSub">7 CARDS</span><span class="foil-hint" id="foilHint">swipe &#8594; across the top to tear</span></div></div>
+  <canvas id="foilCv" class="foilcv" width="460" height="680" aria-hidden="true"></canvas>
+  <div class="foil" id="foil" hidden><div class="foil-lip" id="foilLip"></div><b id="foilName">MAO</b><span id="foilSub">7 CARDS</span><span id="foilHint"></span></div>
   <div class="tearzone" id="tearZone" role="button" tabindex="0" aria-label="Tear the pack open (or use the Open pack button)"></div>
   <div class="pk-fan" id="pkFan" role="group" aria-label="Cards from this pack"></div>
  </div>
@@ -158,6 +183,7 @@
 <script src="js/layout-ui.js"></script>
 <script src="js/viewer.js"></script>
 <script src="js/export.js"></script>
+<script src="js/spin.js"></script>
 <script src="js/gif.js"></script>
 <script src="vendor/qrcodegen.min.js"></script>
 <script src="vendor/jsQR.min.js"></script>
@@ -172,5 +198,8 @@
 <script src="js/apng.js"></script>
 <script src="js/mega.js"></script>
 <script src="js/cases.js"></script>
+<script src="js/foil.js"></script>
+<script src="js/pool.js"></script>
 <script src="js/packs.js"></script>
+<script src="js/reforge.js"></script>
 </body></html>
