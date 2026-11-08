@@ -26,14 +26,17 @@
 #guessView{padding-bottom:24px}
 #gzQuote{font-size:18px;line-height:1.4;margin:8px 0 12px}
 #gzChoices{display:grid;gap:8px}
-.gz-choice{display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:center;min-height:96px;width:100%;text-align:left;padding:8px;background:#000}
-.gz-spin{width:64px;height:84px;overflow:hidden;border:2px solid var(--red);background:#111;display:grid;place-items:center}
-.gz-spin img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
-.gz-spin[data-empty]::after{content:"NO PHOTO";font-size:9px;letter-spacing:.08em;color:var(--mute)}
-.gz-name{font-size:20px;font-weight:800;line-height:1.15;letter-spacing:.02em;color:var(--ink);text-transform:none}
-@media (prefers-reduced-motion:no-preference){#gzChoices.gz-live .gz-spin{animation:gzspin 2.8s linear infinite}}
-@keyframes gzspin{0%,100%{transform:rotateY(-24deg)}50%{transform:rotateY(24deg)}}
-.gz-choice.done .gz-spin{animation:none}
+.gz-choice{display:grid;grid-template-columns:100px 1fr;gap:14px;align-items:center;min-height:132px;width:100%;text-align:left;padding:10px 12px;background:#000;color:#f2f2f2}
+.gz-stage{position:relative;display:block;width:78px;height:110px;perspective:560px;pointer-events:none}
+.gz-card{position:absolute;inset:0;display:block;transform-style:preserve-3d}
+.gz-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:#111;border:3px solid var(--inkc,#ff2a2a)}
+.gz-front img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;display:block;filter:none}
+.gz-back{transform:rotateY(180deg);background:linear-gradient(165deg,color-mix(in srgb,var(--inkc,#ff2a2a) 78%,#000),#050505 72%)}
+.gz-back::before{content:"";position:absolute;inset:8px;border:2px solid var(--inkc,#ff2a2a)}
+.gz-name{font-size:22px;font-weight:800;line-height:1.15;letter-spacing:.01em;color:#f2f2f2;text-transform:none}
+@media (prefers-reduced-motion:no-preference){#gzChoices.gz-live .gz-card{animation:gzturn 5.6s linear infinite}}
+@keyframes gzturn{0%,24%{transform:rotateY(0deg)}46%,68%{transform:rotateY(180deg)}100%{transform:rotateY(360deg)}}
+.gz-choice.done .gz-card{animation:none;transform:rotateY(0deg)}
 .gz-choice.right{border-color:#5dffb0;outline:3px solid #5dffb0}
 .gz-choice.wrong{opacity:.55}
 .mc-sway{display:block;width:300px;height:420px}

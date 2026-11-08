@@ -35,9 +35,9 @@ function choose(id){if(!ready)return;const a=byId[id];if(!a||(a.t&&!showTrot()))
  pickd.hidden=false;render();live.textContent=`${a.d} picked${a.p?', with photo':', no photo, bust placeholder'}.`}
 function draft(){const a=author,fn=freeName();return{id:'preview',no:nextNo(),who:a?a.d:fn||'Pick or type a writer',sh:a?surname(a.n):fn?cleanTxt(surname(fn),40):'\u2014',q:q.value.trim()||'Type the quote. Short ones go big, long ones shrink, huge ones get the scroll well.',
  src:src.value.trim()||(a?'Source, year':''),photo:ownPhoto||(a&&a.p?'a:'+a.id:''),pc:ownPhoto?'Photo: own image':(a&&a.p&&a.pc?a.pc:''),trot:a&&a.t?1:0,author:a?a.id:'',notes:a?`${[a.s||'',yearsOf(a)].filter(Boolean).join(' \u00b7 ')}`:''}}
-function render(){const d=draft();const c=cardClasses(d);
- prev.innerHTML=`<div class="${c.cls}${flip?' show-back':''}" data-len="${c.len}" data-bar="${c.bar}" aria-hidden="true">${frontHTML(d)}${backHTML(d)}</div>`;
- const el=prev.firstElementChild;el.style.transform=flip?'rotateY(180deg)':'';fitQuote(el,d);$('#mkAdd').disabled=!(author||freeName())||!q.value.trim();
+function render(){const d=draft();
+ prev.innerHTML=cardHTML(d,true);
+ const el=prev.firstElementChild;el.classList.toggle('show-back',flip);el.style.transform=flip?'rotateY(180deg)':'';fitQuote(el,d);$('#mkAdd').disabled=!(author||freeName())||!q.value.trim();
  const mf=$('#mkFree');mf.hidden=!!author||!freeName();mf.textContent=`Typed name: ${freeName()} (not from the list${ownPhoto?'':', wireframe bust unless you add an image'})`;
  $('#mkFlip').textContent=flip?'Show front':'Show back'}
 function nextNo(){const s=STORE.get();return Math.max(0,...BASE_DECK.map(d=>d.no),...s.received.map(d=>d.no||0),...(s.made||[]).map(d=>d.no||0))+1}
