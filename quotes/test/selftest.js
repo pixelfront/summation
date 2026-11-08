@@ -119,6 +119,8 @@ async function run(){
   ok('no third-party requests',hosts.length===0,hosts.slice(0,4).join(','));
   const sw=await (await fetch('/sw.js')).text();
   ok('pack photos are not precached',sw.indexOf('assets/packs/')<0);
+  ok('upgrade fetch bypasses the HTTP cache',sw.indexOf('summation-public-v14')>=0&&sw.indexOf('cache:"reload"')>=0);
+  ok('pack photo url is cache-busted',photoSrc({photo:'p:kim-banquet'})==='assets/packs/kim-banquet.jpg?v=14');
   const src=document.createElement('canvas');src.width=80;src.height=80;const sx=src.getContext('2d');sx.fillStyle='#884422';sx.fillRect(0,0,80,80);sx.fillStyle='#e8d0b0';sx.fillRect(20,10,40,30);
   const blob=await new Promise(r=>src.toBlob(r,'image/jpeg',.9));
   const probe=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=URL.createObjectURL(blob)});
