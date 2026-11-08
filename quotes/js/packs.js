@@ -14,10 +14,10 @@ let DATA=null,RED=null,cur=null,dealt=[],tilt=null,idleRaf=0,rig=null,P0=null,fo
 const foilCv=$('#foilCv');
 if(foilCv&&window.IntersectionObserver)new IntersectionObserver(es=>{foilSeen=!!es[0]&&es[0].isIntersecting},{threshold:.05}).observe(foilCv);
 function drawFoil(){if(!foilCv||!cur||!window.FOIL)return;if(!foil)foil=FOIL.make(foilCv.width,foilCv.height);
- const x=foilCv.getContext('2d');foil.draw(x,{name:(cur.a.sh||'').toUpperCase(),sub:cur.a.user?'7 CARDS':'7 CARDS',holo:!!cur.holo,user:!!cur.a.user,tear:cur.tear||0,path:cur.path||[],light:cur.light||{x:.36,y:.32},curl:cur.curl||0})}
+ const x=foilCv.getContext('2d');foil.draw(x,{name:(cur.a.sh||'').toUpperCase(),sub:'7 CARDS',user:!!cur.a.user,tear:cur.tear||0,path:cur.path||[],light:cur.light||{x:.36,y:.32},curl:cur.curl||0,sweep:cur.sweep,flash:cur.flash||0,lift:cur.lift||0,shake:cur.shake||0})}
 function foilLoop(t){if(!foilOn)return;foilOn=requestAnimationFrame(foilLoop);
- if(document.hidden||!foilSeen)return;if(!cur)return;
- if(!cur.lightHold||performance.now()-cur.lightHold>700){if(!RM.matches){const k=t/1500;cur.light={x:.38+Math.sin(k)*.22,y:.33+Math.cos(k*.7)*.05}}}
+ if(document.hidden||!foilSeen)return;if(!cur||cur.hold)return;
+ if(!cur.lightHold||performance.now()-cur.lightHold>700){if(!RM.matches){const k=t/1500;cur.light={x:.38+Math.sin(k)*.22,y:.33+Math.cos(k*.7)*.05};cur.sweep=(t/1800)%1}}
  drawFoil()}
 function startFoil(){if(foilOn)return;drawFoil();if(RM.matches)return;foilOn=requestAnimationFrame(foilLoop)}
 function stopFoil(){cancelAnimationFrame(foilOn);foilOn=0}
@@ -36,14 +36,18 @@ function grid(){const a=DATA.authors.map(x=>{const n=DATA.pools[x.id].length+(x.
 async function enter(P){P0=P||null;APP.show('pack');$('#packPick').hidden=false;$('#packOpen').hidden=true;$('#pdfReview').hidden=true;
  try{await load()}catch(e){$('#packGrid').textContent='Packs did not load.';return}grid();red().then(grid).catch(()=>{});
  if(P&&P.get('rig'))rig=P.get('rig').split('');
- if(P&&P.get('pack')){await pick(P.get('pack'));if(P.get('tear'))await tear();if(P.get('flip')==='all')for(const c of dealt)flip(c,true)}}
+ if(P&&P.get('pack')){await pick(P.get('pack'));const shot=P.get('shot');
+  if(shot==='1'){cur.hold=true;cur.light={x:.34,y:.3};cur.sweep=.2;drawFoil();document.documentElement.dataset.packShot='1'}
+  else if(shot==='3'){cur.hold=true;cur.tear=.72;cur.flash=.9;cur.light={x:.5,y:.16};drawFoil();document.documentElement.dataset.packShot='3'}
+  else if(shot==='5'){await showProofStack();document.documentElement.dataset.packShot='5'}
+  else{if(P.get('tear'))await tear();if(P.get('flip')==='all')for(const c of dealt)flip(c,true)}}}
 function leave(){stopIdle();stopFoil();$('#packOpen').hidden=true}
 // ---------- one pack ----------
 function info(id){if(id.startsWith('u:')){const u=upacks().find(x=>'u:'+x.id===id);return u&&{id,who:u.who,sh:u.sh,user:u}}
  const a=DATA.authors.find(x=>x.id===id);return a&&Object.assign({},a)}
 async function pick(id){const a=info(id);if(!a)return;if(a.user&&!left(a.user)){live.textContent='That PDF pack is used up.';return}
  if(id==='mao')await red().catch(()=>{});
- cur={a,torn:false,tear:0,path:[],curl:0,light:{x:.36,y:.32},rolls:Array.from({length:7},()=>roll())};cur.holo=cur.rolls.some(r=>r==='h');dealt=[];
+ opening=false;cur={a,torn:false,tear:0,path:[],curl:0,flash:0,lift:0,shake:0,sweep:.2,light:{x:.36,y:.32},rolls:Array.from({length:7},()=>roll())};cur.holo=cur.rolls.some(r=>r==='h');dealt=[];
  try{await POOL.load()}catch(_){}
  $('#packPick').hidden=true;$('#packOpen').hidden=false;$('#pkFan').innerHTML='';
  $('#foilName').textContent=a.sh.toUpperCase();$('#foilSub').textContent='7 CARDS';
@@ -60,12 +64,20 @@ function mkCard(a,e,no,ph){const d={id:newCardId(),no,who:a.who,sh:a.sh,q:e.q,sr
  if(ph){d.photo='p:'+ph.id;d.pc=ph.credit||''}
  else if(a.photo){d.photo='a:'+a.photo;if(a.pc)d.pc=a.pc;else d.author=a.id}
  const r=(cur.rolls&&cur.rolls.length)?cur.rolls.shift():roll();if(r)d.rar=r;if(r==='h')d.holo=1;return d}
-async function playTear(){if(RM.matches){cur.tear=1;cur.path=[{x:.08,y:.08},{x:.92,y:.08}];drawFoil();return}
- const t0=performance.now();await new Promise(res=>{const step=t=>{const k=Math.min(1,(t-t0)/680);cur.tear=Math.max(cur.tear||0,k);
-  cur.path=[];for(let i=0;i<=12;i++){const u=i/12;if(u>k+0.02)break;cur.path.push({x:.08+u*.84,y:.075+Math.sin(u*18)*.012})}
-  if(k<1)requestAnimationFrame(step);else res()};requestAnimationFrame(step)});
- const t1=performance.now();await new Promise(res=>{const step=t=>{cur.curl=Math.min(1,(t-t1)/460);if(cur.curl<1)requestAnimationFrame(step);else res()};requestAnimationFrame(step)})}
-async function tear(){if(!cur||cur.torn)return;cur.torn=true;const a=cur.a;
+async function playTear(){if(RM.matches){cur.tear=1;cur.flash=0;drawFoil();foilCv.style.transition='opacity .18s linear';foilCv.style.opacity='0';await wait(180);return}
+ const t0=performance.now();
+ await new Promise(res=>{const step=t=>{const k=Math.min(1,(t-t0)/380);cur.lift=Math.sin(k*Math.PI)*.9;cur.shake=(1-k)*k*4;drawFoil();if(k<1)requestAnimationFrame(step);else{cur.lift=0;cur.shake=0;res()}};requestAnimationFrame(step)});
+ const t1=performance.now();
+ await new Promise(res=>{const step=t=>{const k=Math.min(1,(t-t1)/520);cur.tear=k;cur.flash=k<.72?k*1.2:Math.max(0,1-(k-.72)/.28);drawFoil();if(k<1)requestAnimationFrame(step);else res()};requestAnimationFrame(step)});
+ cur.flash=0;drawFoil();
+ foilCv.style.transition='transform .55s ease-in, opacity .55s ease-in';foilCv.style.transform='translateY(70px) rotate(8deg) scale(.82)';foilCv.style.opacity='0';await wait(520)}
+async function showProofStack(){cur.hold=true;cur.torn=true;foilCv.style.opacity='0';const fan=$('#pkFan');fan.innerHTML='';
+ for(let k=0;k<7;k++){const b=document.createElement('div');b.className='pk-card in pk-proof';b.style.zIndex=10+k;
+  b.style.setProperty('--fx','0px');b.style.setProperty('--fy',(36-k*4)+'px');b.style.setProperty('--fr','0deg');
+  b.innerHTML='<span class="pk-in"><span class="pk-back" aria-hidden="true"><b>\u2605</b><i>QUOTE</i></span></span>';fan.appendChild(b)}
+ const glow=document.createElement('div');glow.className='pk-rare on';fan.appendChild(glow);$('#tearZone').hidden=true;$('#pkOpenBtn').hidden=true}
+let opening=false;
+async function tear(){if(!cur||cur.torn||opening)return;opening=true;cur.torn=true;const a=cur.a;
  $('#tearZone').hidden=true;$('#pkOpenBtn').hidden=true;
  if(window.SFX&&!SFX.muted)try{(SFX.tear||SFX.click)()}catch(_){}
  if((cur.tear||0)<.98)await playTear();else if(!RM.matches){const t1=performance.now();await new Promise(res=>{const step=t=>{cur.curl=Math.min(1,(t-t1)/460);if(cur.curl<1)requestAnimationFrame(step);else res()};requestAnimationFrame(step)})}
@@ -75,12 +87,11 @@ async function tear(){if(!cur||cur.torn)return;cur.torn=true;const a=cur.a;
  const rank=d=>d.rar==='h'?2:d.rar==='g'?1:0;cards.sort((x,y)=>rank(x)-rank(y)); // rares last
  s.made=(s.made||[]).concat(cards);STORE.set(s);
  if(a.user){const all=upacks(),u=all.find(x=>x.id===a.user.id);if(u){u.opened++;saveU(all)}}
- await wait(RM.matches?0:180);
- if(foilCv && !(P0&&P0.get('holdfoil'))){if(RM.matches){foilCv.hidden=true}else{foilCv.style.transition='transform .55s ease-in, opacity .55s';foilCv.style.transform='translateY(36px) rotate(7deg) scale(.7)';foilCv.style.opacity='0'}}
+ await wait(RM.matches?40:80);
  const fan=$('#pkFan'),N=cards.length;
  cards.forEach((d,k)=>{const b=document.createElement('button');b.type='button';b.className='pk-card'+(d.rar==='g'?' r-gold':d.rar==='h'?' r-holo':'');
-  const mid=(N-1)/2,t=k-mid;if(RM.matches){b.style.setProperty('--fx','0px');b.style.setProperty('--fy',(k*6)+'px');b.style.setProperty('--fr','0deg')}
-  else{b.style.setProperty('--fx',(t*33).toFixed(1)+'px');b.style.setProperty('--fy',(Math.abs(t)*Math.abs(t)*3).toFixed(1)+'px');b.style.setProperty('--fr',(t*5).toFixed(1)+'deg')}b.style.zIndex=10+k;
+  const mid=(N-1)/2,t=k-mid;b._fan={fx:(RM.matches?0:t*33).toFixed(1)+'px',fy:(RM.matches?k*6:Math.abs(t)*Math.abs(t)*3).toFixed(1)+'px',fr:(RM.matches?0:t*5).toFixed(1)+'deg'};
+  b.style.setProperty('--fx','0px');b.style.setProperty('--fy',(40-k*4)+'px');b.style.setProperty('--fr','0deg');b.style.zIndex=10+k;
   b.innerHTML=`<span class="pk-in"><span class="pk-back" aria-hidden="true"><b>\u2605</b><i>${esc(a.sh.toUpperCase())}</i></span><span class="pk-front">${cardHTML(d)}</span></span>`;
   b.setAttribute('aria-label',`Card ${k+1} of ${N}, face down. Tap to flip.`);b.dataset.k=k;b._d=d;fan.appendChild(b);fitQuote(b.querySelector('.card'),d);
   b.addEventListener('pointerdown',e=>{b._g={x:e.clientX,y:e.clientY,t:performance.now(),moved:false}});
@@ -89,7 +100,13 @@ async function tear(){if(!cur||cur.torn)return;cur.torn=true;const a=cur.a;
   b.addEventListener('click',()=>{const g=b._g;b._g=null;if(!g||g.moved||performance.now()-g.t>400)return;if(!b.classList.contains('up'))flip(b)});
   b.addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();if(!b.classList.contains('up'))flip(b)}else if(e.key==='Enter'){e.preventDefault();openDealt(b)}});
   dealt.push(b)});
- for(const b of dealt){b.classList.add('in');if(!RM.matches)await wait(90)}
+ for(const b of dealt)b.classList.add('in');
+ const rare=cards.some(d=>d.rar);
+ if(rare){const glow=document.createElement('div');glow.className='pk-rare on';fan.appendChild(glow)}
+ await wait(RM.matches?60:680);
+ if(rare){const g=fan.querySelector('.pk-rare');if(g)g.remove()}
+ if(!RM.matches){for(const b of dealt){b.style.setProperty('--fx',b._fan.fx);b.style.setProperty('--fy',b._fan.fy);b.style.setProperty('--fr',b._fan.fr);await wait(70)}
+ }else dealt.forEach(b=>{b.style.setProperty('--fx',b._fan.fx);b.style.setProperty('--fy',b._fan.fy);b.style.setProperty('--fr',b._fan.fr)})
  SFX.done&&SFX.done();$('#pkAnother').hidden=false;$('#pkDone').hidden=false;
  const g=cards.filter(d=>d.rar==='g').length,h=cards.filter(d=>d.rar==='h').length;
  $('#pkNote').textContent=`${N} cards added to your box${g?` \u00b7 ${g} gold`:''}${h?` \u00b7 ${h} holo rare`:''}. Tap a card to flip it. Open reads it.`;
@@ -122,14 +139,16 @@ $('#pkTilt').addEventListener('click',async()=>{const btn=$('#pkTilt');if(tilt){
 (()=>{const z=$('#tearZone');let st=null;
  function spring(){if(!cur||cur.torn)return;const from=cur.tear||0;if(RM.matches){cur.tear=0;cur.path=[];drawFoil();return}
   const t0=performance.now();const step=t=>{if(!cur||cur.torn)return;const k=Math.min(1,(t-t0)/260);cur.tear=from*(1-k);if(k<1)requestAnimationFrame(step);else{cur.tear=0;cur.path=[]}};requestAnimationFrame(step)}
- z.addEventListener('pointerdown',e=>{if(!cur||cur.torn)return;const r=foilCv.getBoundingClientRect();st={x:e.clientX,y:e.clientY,w:r.width,top:r.top,h:r.height,id:e.pointerId}});
+ z.addEventListener('pointerdown',e=>{if(!cur||cur.torn||opening)return;const r=foilCv.getBoundingClientRect();st={x:e.clientX,y:e.clientY,t:performance.now(),w:r.width,top:r.top,h:r.height,id:e.pointerId,moved:false}});
  z.addEventListener('pointermove',e=>{if(!st||!cur||e.pointerId!==st.id||cur.torn)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;
-  if(Math.abs(dy)>48&&Math.abs(dy)>Math.abs(dx)*1.2){st=null;spring();return}
+  if(Math.hypot(dx,dy)>10)st.moved=true;
+  if(Math.abs(dy)>18&&Math.abs(dy)>Math.abs(dx)*1.15){st=null;spring();return}
   const p=Math.max(0,Math.min(1,dx/(st.w*.62)));cur.tear=p;cur.lightHold=performance.now();
   const nx=(e.clientX-(foilCv.getBoundingClientRect().left))/st.w,ny=Math.max(.04,Math.min(.2,(e.clientY-st.top)/st.h));
   cur.path=(cur.path||[]).concat([{x:Math.max(0,Math.min(1,nx)),y:ny}]).slice(-24);
   cur.light={x:nx,y:ny};if(RM.matches)drawFoil();if(p>=1){st=null;tear()}},{passive:true});
- const end=()=>{if(st&&cur&&!cur.torn){st=null;if((cur.tear||0)<1)spring()}};z.addEventListener('pointerup',end);z.addEventListener('pointercancel',end);
+ const end=e=>{if(!st||!cur||cur.torn){st=null;return}const s0=st;st=null;const dist=e&&e.clientX!=null?Math.hypot(e.clientX-s0.x,e.clientY-s0.y):99;
+  if(!s0.moved&&dist<10&&performance.now()-s0.t<400){tear();return}if((cur.tear||0)<1)spring()};z.addEventListener('pointerup',end);z.addEventListener('pointercancel',()=>{if(st){st=null;spring()}});
  z.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tear()}})})();
 $('#pkStage').addEventListener('pointermove',e=>{if(!cur||cur.torn||!foilCv)return;const r=foilCv.getBoundingClientRect();
  cur.light={x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};cur.lightHold=performance.now();if(RM.matches)drawFoil()},{passive:true});

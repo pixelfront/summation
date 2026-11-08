@@ -45,6 +45,8 @@
 .pk-back b{font-size:34px}.pk-back i{font-style:normal;font-size:10px;letter-spacing:.14em}
 .pk-front{transform:rotateY(180deg)}
 .pk-front .card{width:300px;height:420px;transform:scale(.42);transform-origin:0 0;pointer-events:none}
+.pk-rare{position:absolute;left:50%;top:78px;width:150px;height:200px;margin-left:-75px;z-index:30;pointer-events:none;opacity:0;border-radius:8px;box-shadow:0 0 24px 10px rgba(255,42,42,.55)}
+.pk-rare.on{opacity:1}
 .r-gold.up .pk-front{filter:drop-shadow(0 0 6px rgba(212,175,55,.75))}
 .r-holo.up .pk-front{filter:drop-shadow(0 0 8px rgba(164,107,255,.8))}
 .pk-row{justify-content:center}
