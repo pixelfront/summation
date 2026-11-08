@@ -99,9 +99,12 @@
 <div class="ctl">
  <div class="au-combo"><label class="mk-lbl" for="auQ">Writer: pick from marxists.org list, or type any name</label>
   <input id="auQ" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="auList" autocomplete="off" spellcheck="false" placeholder="Search a name, section or year">
-  <div class="au-filt" id="auFilt" role="group" aria-label="Filter writers"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="photo" aria-pressed="false">With photo</button></div>
+  <div class="au-filt" id="auFilt" role="group" aria-label="Filter writers"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="photo" aria-pressed="false">With photo</button><button type="button" id="auTime" aria-pressed="false">Timeline</button></div>
   <p class="au-count" id="auCount" aria-live="polite"></p>
-  <ul id="auList" role="listbox" aria-label="Writers" hidden></ul></div>
+  <canvas id="auSpiral" hidden width="360" height="280" aria-hidden="true"></canvas>
+  <p id="auUndated" class="note" hidden></p>
+  <ul id="auList" role="listbox" aria-label="Writers"></ul>
+  <button type="button" id="auUse" class="pri" hidden>Use this author</button></div>
  <div id="auPicked" hidden></div>
  <p class="mk-free" id="mkFree" hidden aria-live="polite"></p>
  <div class="mk-photo"><label class="mk-lbl" for="mkImg">Your own image (optional)</label><input id="mkImg" type="file" accept="image/*"><button type="button" id="mkImgClear" hidden>Remove image</button>
@@ -150,7 +153,7 @@
  <div class="pk-stage" id="pkStage">
   <canvas id="foilCv" class="foilcv" width="500" height="740" aria-hidden="true"></canvas>
   <div class="foil" id="foil" hidden><div class="foil-lip" id="foilLip"></div><b id="foilName">MAO</b><span id="foilSub">7 CARDS</span><span id="foilHint"></span></div>
-  <div class="tearzone" id="tearZone" role="button" tabindex="0" aria-label="Tear the pack open (or use the Open pack button)"></div>
+  <div class="tearzone" id="tearZone" role="button" tabindex="0" aria-label="Open pack. A tap opens it. Scrolling does not."></div>
   <div class="pk-fan" id="pkFan" role="group" aria-label="Cards from this pack"></div>
  </div>
  <div class="row pk-row"><button type="button" id="pkOpenBtn" class="pri">Open pack</button><button type="button" id="pkCardOpen" hidden>Open</button><button type="button" id="pkTilt" aria-pressed="false">Tilt shimmer</button><button type="button" id="pkAnother" hidden>Another pack</button><button type="button" id="pkDone" hidden>Done &#183; to box</button></div>
