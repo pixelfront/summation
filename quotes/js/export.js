@@ -109,7 +109,7 @@ async function run(){SFX.shutter();window.CARD.card.classList.remove('flash');vo
   document.getElementById('live').textContent='Export failed';return}if(u)URL.revokeObjectURL(u);u=URL.createObjectURL(blob);
  img.src=u;img.alt=`Exported ${side} of the card, ${cv.width} by ${cv.height} pixels`;dl.href=u;dl.download=fn;box.hidden=false;
  const f=new File([blob],fn,{type:'image/png'});const can=navigator.canShare&&navigator.canShare({files:[f]});$('#expShare').hidden=!can;
- $('#expShare').onclick=()=>navigator.share({files:[f],title:'Quote card'}).catch(()=>{});
+ $('#expShare').onclick=()=>navigator.share({files:[f],title:'Quote card'}).then(()=>window.STATS&&STATS.exported()).catch(()=>{});
  note.textContent=`${cv.width}\u00d7${cv.height} PNG of the ${side}. ${can?'Share opens the iPhone share sheet (Save Image is in there).':'Download saves the file.'} Made on this device; nothing uploaded.`;
  document.getElementById('live').textContent='Card exported';if(!document.body.classList.contains('shot'))box.scrollIntoView({behavior:'smooth',block:'nearest'})}
 $('#export').addEventListener('click',()=>run());$('#expClose').addEventListener('click',()=>{box.hidden=true;$('#export').focus()});

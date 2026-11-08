@@ -20,6 +20,19 @@
 .mc .card.show-back .back{transform:none}
 #fanOpen{position:absolute;z-index:8;top:8px;left:50%;transform:translateX(-50%);min-height:44px;min-width:92px;padding:0 16px;background:#111;color:#f2f2ec;border:2px solid #c9a227;letter-spacing:.14em;font-weight:700}
 #fanOpen[hidden]{display:none}
+.statbox{margin:12px 0;padding:10px 12px;border:2px solid #333;font-size:13px;line-height:1.45}
+.statbox ul{margin:6px 0;padding-left:18px}
+.statbox li{margin:4px 0}
+#guessView{padding-bottom:24px}
+#gzQuote{font-size:18px;line-height:1.4;margin:8px 0 12px}
+#gzChoices{display:grid;gap:8px}
+.gz-choice{min-height:48px;text-align:left;padding:8px 12px}
+@media (prefers-reduced-motion:no-preference){#gzChoices.gz-live .gz-choice{animation:gzspin 1.1s linear infinite}
+.gz-choice.right{animation:gzpulse .45s ease-out 2}}
+@keyframes gzspin{to{transform:rotateY(360deg)}}
+@keyframes gzpulse{50%{outline:4px solid #ff2a2a}}
+.gz-choice.done{animation:none}
+.gz-choice.wrong{opacity:.55}
 .mc-sway{display:block;width:300px;height:420px}
 [data-open="1"] .mc:not(.is-sel) .mc-sway{animation:sway 3.6s ease-in-out infinite}
 @keyframes sway{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(.6deg)}}

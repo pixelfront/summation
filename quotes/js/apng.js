@@ -42,7 +42,7 @@ btn.addEventListener('click',async()=>{const note=$('#expNote'),live=$('#live');
  try{const bytes=await make((i,n)=>{btn.textContent=`APNG ${i}/${n}`}),blob=new Blob([bytes],{type:'image/png'});if(u)URL.revokeObjectURL(u);u=URL.createObjectURL(blob);
   const fn=`${(window.CARD.short()||'card').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'card'}-spin-hd.png`;
   const img=$('#expImg'),dl=$('#expDl');img.src=u;img.alt='Animated transparent PNG of the card turning';dl.href=u;dl.download=fn;dl.textContent='Download APNG';$('#exp').hidden=false;
-  const f=new File([blob],fn,{type:'image/png'}),can=navigator.canShare&&navigator.canShare({files:[f]});$('#expShare').hidden=!can;$('#expShare').onclick=()=>navigator.share({files:[f],title:'Quote card'}).catch(()=>{});
+  const f=new File([blob],fn,{type:'image/png'}),can=navigator.canShare&&navigator.canShare({files:[f]});$('#expShare').hidden=!can;$('#expShare').onclick=()=>navigator.share({files:[f],title:'Quote card'}).then(()=>window.STATS&&STATS.exported()).catch(()=>{});
   const L=bytes._layout;note.textContent=`Animated PNG (APNG), not a video. Transparent background. Card face is 400 px wide inside a ${L?L.W+'\u00d7'+L.H:''} canvas. Full 360\u00b0 turn, front and back each held 0.9 s, ${bytes._frames||''} frames, ${(bytes.length/1048576).toFixed(1)} MB. Plays in Safari and Photos. Made on this device; nothing uploaded.`;live.textContent='Animated PNG exported'}
  catch(e){note.textContent='APNG export failed: '+(e&&e.message);$('#exp').hidden=false;live.textContent='APNG export failed'}
  finally{btn.disabled=false;btn.textContent=lbl}});

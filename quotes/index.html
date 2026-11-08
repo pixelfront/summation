@@ -27,6 +27,8 @@
  <button type="button" id="musicBtn" class="mu" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 15V4l10-2v11M7 15a2.5 2.5 0 1 1-2.5-2.5A2.5 2.5 0 0 1 7 15zM17 13a2.5 2.5 0 1 1-2.5-2.5A2.5 2.5 0 0 1 17 13z"/></svg><span>Music: The Internationale (chiptune)</span><b class="mu-st">OFF</b></button>
  <p class="note">Music is off by default and only starts when you tap it. It is an original 8-bit arrangement of the 1888 melody by Pierre De Geyter (public domain), played by this phone; there is no audio file and nothing streams. SND OFF silences it too.</p>
  <p class="note">Theme, music and sound choices are saved on this device only.</p>
+ <button type="button" id="statReset">Reset counts to zero</button>
+ <p class="note">Reset clears the counts only. Cards in the box stay. The date changes to today.</p>
  <div class="row"><button type="button" id="setClose" class="pri">Done</button></div></section>
 <main id="boxView" class="boxmain" aria-labelledby="boxH">
 <h1 class="sr" id="boxH">Card box</h1>
@@ -47,7 +49,8 @@
 </div>
 <p class="hint" id="hint">Tap or flick up on the box to open it. Swipe the fan to turn it. A quick tap flips the card you touched. Open reads it. In Pickup, drag cards around. Scrub sideways on the box to shuffle. <span id="deckCount"></span></p>
 <p class="hint" id="empty" hidden>The box is empty.</p>
-<div class="ctlrow"><button type="button" id="toggle" class="pri" aria-controls="cards">Open box</button><button type="button" id="shuffle">Shuffle</button><button type="button" id="prev" aria-label="Previous card">&#9664;</button><button type="button" id="next" aria-label="Next card">&#9654;</button><button type="button" id="receive">Receive</button><button type="button" id="make">New card</button><button type="button" id="packs" class="pri">Packs</button><button type="button" id="restore" hidden>Restore deck</button></div>
+<div class="ctlrow"><button type="button" id="toggle" class="pri" aria-controls="cards">Open box</button><button type="button" id="shuffle">Shuffle</button><button type="button" id="prev" aria-label="Previous card">&#9664;</button><button type="button" id="next" aria-label="Next card">&#9654;</button><button type="button" id="receive">Receive</button><button type="button" id="make">New card</button><button type="button" id="packs" class="pri">Packs</button><button type="button" id="guess">Guess</button><button type="button" id="restore" hidden>Restore deck</button></div>
+<section class="statbox" id="statBox" aria-label="Counts on this phone"></section>
 <div class="skinbar" id="skinbar" role="radiogroup" aria-label="Box style"><span class="lbl" aria-hidden="true">BOX</span><button type="button" role="radio" data-skin="terminal" aria-checked="true">TERMINAL</button><button type="button" role="radio" data-skin="crate" aria-checked="false">CRATE</button><button type="button" role="radio" data-skin="cassette" aria-checked="false">CASSETTE</button></div>
 <section id="pick" class="ctl" hidden aria-labelledby="pickH"><h2 id="pickH">PICKED</h2><p id="pickTxt"></p><p class="pickmeta" id="pickMeta"></p>
 <div class="row"><button type="button" id="pickView" class="pri">Rotate / export</button><button type="button" id="pickSend">Send by QR</button><button type="button" id="pickBurn" class="burnbtn">Burn</button><button type="button" id="pickBack">Back to box</button></div><p class="note" id="pickNoSend" hidden>Sample cards stay in every box, so they can't be sent. Make your own card (New card) to send one by QR.</p></section>
@@ -140,6 +143,15 @@
 <div class="sendfoot"><button type="button" id="sendDone" class="pri" hidden>Done · back to box</button></div>
 <p class="note">Honour system: your copy burns only after the receiver's accept code (transfer id + nonce + hash of the bytes received) is scanned. Cancel or a 2-minute timeout unlocks the card with nothing burned. Nothing goes through a server; the camera picture never leaves the phone.</p>
 </div></section>
+<main id="guessView" hidden aria-labelledby="guessH">
+<div class="vhead"><h2 id="guessH">GUESS THE WRITER</h2><button type="button" id="guessBack">&#9664; Box</button></div>
+<p class="note">The quote is shown alone. The writer and the source are added to this screen only after you answer. They are still in the quote file on this phone. This is not a lock against reading that file.</p>
+<p id="gzScore"></p>
+<p id="gzQuote"></p>
+<div id="gzChoices" role="group" aria-label="Three writers. Pick one."></div>
+<p id="gzResult" hidden aria-live="polite"></p>
+<div class="row"><button type="button" id="gzNext">Another quote</button></div>
+</main>
 <main id="packView" hidden aria-labelledby="packH">
 <div class="vhead"><h2 id="packH">PACKS</h2><button type="button" id="packBack">&#9664; Box</button></div>
 <section id="packPick" aria-label="Choose a pack">
@@ -179,6 +191,7 @@
 <p class="sr" aria-live="polite" id="live"></p>
 <script src="js/card.js"></script>
 <script src="js/store.js"></script>
+<script src="js/stats.js"></script>
 <script src="js/sfx.js"></script>
 <script src="js/sfx-extra.js"></script>
 <script src="js/skins.js"></script>
@@ -194,6 +207,7 @@
 <script src="js/qr.js"></script>
 <script src="js/authors.js"></script>
 <script src="js/creator.js"></script>
+<script src="js/guess.js"></script>
 <script src="js/app.js"></script>
 <script src="js/music.js"></script>
 <script src="js/speak.js"></script>

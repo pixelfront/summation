@@ -30,7 +30,7 @@ $('#exportGif').addEventListener('click',async()=>{const btn=$('#exportGif'),not
  try{const bytes=await make(),blob=new Blob([bytes],{type:'image/gif'});if(u)URL.revokeObjectURL(u);u=URL.createObjectURL(blob);
   const fn=`${(window.CARD.short()||'card').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'card'}-spin.gif`;
   const img=$('#expImg'),dl=$('#expDl');img.src=u;img.alt='Rotating GIF of the card';dl.href=u;dl.download=fn;dl.textContent='Download GIF';$('#exp').hidden=false;
-  const f=new File([blob],fn,{type:'image/gif'}),can=navigator.canShare&&navigator.canShare({files:[f]});$('#expShare').hidden=!can;$('#expShare').onclick=()=>navigator.share({files:[f],title:'Quote card'}).catch(()=>{});
+  const f=new File([blob],fn,{type:'image/gif'}),can=navigator.canShare&&navigator.canShare({files:[f]});$('#expShare').hidden=!can;$('#expShare').onclick=()=>navigator.share({files:[f],title:'Quote card'}).then(()=>window.STATS&&STATS.exported()).catch(()=>{});
   note.textContent=`Rotating GIF (not a video). Card face is 300 px wide inside a ${bytes._layout?bytes._layout.W+'×'+bytes._layout.H:''} canvas. Full 360° turn, front and back each held 0.9 s, ${bytes._frames||''} frames, black background, ${(bytes.length/1024).toFixed(0)} KB. Made on this device; nothing uploaded.`;live.textContent='GIF exported'}
  catch(e){note.textContent='GIF export failed: '+(e&&e.message);$('#exp').hidden=false;live.textContent='GIF export failed'}
  finally{btn.disabled=false;btn.textContent='Export rotating GIF'}});

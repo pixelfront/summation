@@ -63,12 +63,12 @@ const STORE=(()=>{
     const tb=t.objectStore('tombstones'),nb=new Set(s.burned);for(const id of s.burned)if(!prev.burned.includes(id))tb.put({id});
     for(const id of prev.burned)if(!nb.has(id))tb.delete(id)})},
   // burn(id): drop the card (made or received) and its photo; leave only {id} as a tombstone
-  burn(id){if(!s.burned.includes(id))s.burned.push(id);s.made=s.made.filter(c=>c.id!==id);s.received=s.received.filter(c=>c.id!==id);
-   tx(t=>{wipe(t,id);t.objectStore('tombstones').put({id})})},
+  burn(id){const fresh=!s.burned.includes(id);if(fresh)s.burned.push(id);s.made=s.made.filter(c=>c.id!==id);s.received=s.received.filter(c=>c.id!==id);
+   tx(t=>{wipe(t,id);t.objectStore('tombstones').put({id})});if(fresh&&window.STATS)STATS.burned(id)},
   // canReceive(id): 'ok' | 'burned' (tombstone: this card already left this phone; never take it back) | 'held'
   canReceive(id){return s.burned.includes(id)?'burned':(s.made.some(x=>x.id===id)||s.received.some(x=>x.id===id)||SAMPLE_IDS.has(id)||id==='c06')?'held':'ok'},
   // receive(c): stores a received card. Refuses burned or held ids (returns the reason); tombstones are never cleared.
-  receive(c){const why=api.canReceive(c.id);if(why!=='ok')return why;c=Object.assign(clean(c),{recv:1});s.received.push(c);tx(t=>putCard(t,c,'received'));return 'ok'},
+  receive(c){const why=api.canReceive(c.id);if(why!=='ok')return why;c=Object.assign(clean(c),{recv:1});s.received.push(c);tx(t=>putCard(t,c,'received'));if(window.STATS)STATS.received(c.id);return 'ok'},
   // update(c): re-save a made/received card after an edit (e.g. holo toggle)
   update(c){const kind=s.made.includes(c)?'made':s.received.includes(c)?'received':'';if(kind)tx(t=>putCard(t,c,kind))},
   // reset(): "Restore deck" brings back burned SAMPLE cards only. Made and received cards stay; tombstones of
