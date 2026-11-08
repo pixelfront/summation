@@ -126,6 +126,7 @@ else if(P.get('view')==='card'){const k=Math.max(0,Math.min(SAMPLE_DECK.length-1
  view(SAMPLE_DECK[k],P.get('side')==='back'?{ry:180}:null)}
 else{show('box');BOX.rebuild();BOX.initState(P.get('state'))}
 document.documentElement.dataset.store=STORE.persistent?'idb':'memory';
+if(window.STATS)STATS.render();
 if(P.get('selftest')){const sc=document.createElement('script');sc.src='test/selftest.js';document.body.appendChild(sc)}}
 show(({make:'make',card:'card',send:'send',receive:'send',packs:'pack'})[P.get('view')]||'box');STORE.ready.then(boot);
 return{show,view,send,get sending(){return S}}})();

@@ -2,6 +2,7 @@
 // Older cards already in the box are not copied into those numbers.
 window.STATS=(()=>{
 const KEY='qc-stats',$=s=>document.querySelector(s);
+// Browser-local calendar date. Do not use toISOString().slice(0,10): that is the UTC day, so a Mountain Time evening is already the next date.
 function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function blank(){return {since:today(),made:0,handed:0,exported:0,received:0,burned:0,packs:0,seen:{made:[],handed:[],received:[],burned:[],packs:[]}}}
 function load(){try{const o=JSON.parse(localStorage.getItem(KEY)||'');if(o&&o.since&&o.seen&&o.seen.made)return o}catch(_){}
@@ -10,7 +11,9 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(_){}}
 let st=load();
 function once(bucket,id){id=String(id||'');if(!id)return false;if(st.seen[bucket].indexOf(id)>=0)return false;st.seen[bucket].push(id);return true}
 function bump(field,bucket,id){if(!once(bucket,id))return false;st[field]++;save();render();return true}
-function render(){const el=$('#statBox');if(!el)return;const box=window.STORE?STORE.get():{made:[],received:[]};
+function render(){const el=$('#statBox');if(!el)return;
+ // STORE is a top-level const, so it is not on window. Reading window.STORE made this line stay at 0.
+ const box=(typeof STORE!=='undefined'&&STORE&&STORE.get)?STORE.get():{made:[],received:[]};
  el.innerHTML=`<p><b>Since ${st.since}</b>. These counts started at zero. Cards already in the box were not added to them.</p>
 <ul>
 <li><b>Made ${st.made}</b>. A card saved from New card, or a card saved from a pack you made out of a PDF.</li>
@@ -34,5 +37,8 @@ const api={
  get(){return JSON.parse(JSON.stringify(st))}
 };
 document.addEventListener('DOMContentLoaded',render);if(document.readyState!=='loading')render();
+// The first paint often runs while IndexedDB is still restoring made/received, so the inventory line would stay at 0
+// for the rest of the visit. Refresh it when the saved box arrives. This does not increment lifetime counts.
+if(typeof STORE!=='undefined'&&STORE.ready&&typeof STORE.ready.then==='function')STORE.ready.then(()=>render());
 const reset=$('#statReset');if(reset)reset.addEventListener('click',()=>{api.reset();const live=$('#live');if(live)live.textContent='Counts reset to zero. Cards in the box were kept.'});
 return api})();
