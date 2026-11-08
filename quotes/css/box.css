@@ -14,7 +14,9 @@
 .mc{position:absolute;left:50%;top:0;width:300px;height:420px;margin-left:-150px;padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;
  transform-origin:50% 50%;opacity:0;-webkit-tap-highlight-color:transparent;text-transform:none;letter-spacing:0;min-height:0;display:block}
 [data-open="1"] .cards{pointer-events:auto}
+.mc{pointer-events:none}
 .mc .card{width:300px;height:420px;pointer-events:none}
+.mc .face{pointer-events:auto;touch-action:pan-y}
 .mc .card.show-back .back{transform:none}
 #fanOpen{position:absolute;z-index:8;top:8px;left:50%;transform:translateX(-50%);min-height:44px;min-width:92px;padding:0 16px;background:#111;color:#f2f2ec;border:2px solid #c9a227;letter-spacing:.14em;font-weight:700}
 #fanOpen[hidden]{display:none}
