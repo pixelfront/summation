@@ -26,7 +26,6 @@ const SONGS={
  solidarity:{name:'Solidarity Forever',bpm:108,lead:SOLID,chords:SOLID_CH,rights:'Original chiptune of John Brown\'s Body, the tune named in the March 1916 IWW songbook.'},
  moved:{name:'We Shall Not Be Moved',bpm:96,lead:MOVED,chords:MOVED_CH,rights:'Original chiptune of the traditional spiritual I Shall Not Be Moved.'}
 };
-const PENDING=['Joe Hill (Hayes/Robinson, 1938): not cleared, not included.','Bread and Roses (Kohlsaat): unresolved, not included. Not the Fariña melody.','Red Sun in the Sky: requested, rights still pending, not included and not marked dropped.','I\'m on My Way to the Freedom Land: unresolved, not included.','March of the Volunteers: not included. Nie Er\'s music is a separate question from the anthem-use law, and it is not treated as cleared here.'];
 let songId='internationale';
 const TONES={G:[7,11,2],C:[0,4,7],D7:[2,6,9,0],Em:[4,7,11],Am:[9,0,4],Bm:[11,2,6],A7:[9,1,4,7],B7:[11,3,6,9],E7:[4,8,11,2]};
 const ROOT={G:43,C:48,D7:50,Em:40,Am:45,Bm:47,A7:45,B7:47,E7:40};
@@ -100,4 +99,4 @@ async function renderBuffer(notes,bpm,seconds){const rate=22050,off=new OfflineA
   const at=.05+(+n.t||0)*sp,du=Math.max(.05,(+n.d||1)*sp*.9);v.gain.setValueAtTime(.2,at);v.gain.linearRampToValueAtTime(0,at+du);o.connect(v);v.connect(off.destination);o.start(at);o.stop(at+du+.02)});
  return off.startRendering()}
 try{const saved=localStorage.getItem('qc-track');if(saved&&SONGS[saved])loadSong(saved)}catch(_){}
-return{start,stop,toggle,bind,setTrack,setLoop,blip,preview,endPreview,renderBuffer,get on(){return on},get pref(){return pref()},get song(){return songId},songs:SONGS,pending:PENDING,get beats(){return LEN},refresh(){markSongs();upd()}}})();
+return{start,stop,toggle,bind,setTrack,setLoop,blip,preview,endPreview,renderBuffer,get on(){return on},get pref(){return pref()},get song(){return songId},songs:SONGS,get beats(){return LEN},refresh(){markSongs();upd()}}})();

@@ -13,15 +13,7 @@ const PACK_REV='14';
 const newCardId=()=>{const a=new Uint8Array(9);crypto.getRandomValues(a);return 'q'+btoa(String.fromCharCode(...a)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')};
 const LEGACY_ID=/^m[0-9a-z]{6,10}$/;
 const photoSrc=d=>!d.photo?'':d.photo.startsWith('data:')?d.photo:d.photo.startsWith('p:')?'assets/packs/'+encodeURIComponent(d.photo.slice(2))+'.jpg?v='+PACK_REV:PHOTO_DIR+encodeURIComponent(d.photo.replace(/^a:/,''))+'.jpg';
-const FRAME='<svg class="frame" aria-hidden="true" viewBox="0 0 300 420" preserveAspectRatio="none"><polygon class="fr-matte" points="18,1 299,1 299,402 282,419 1,419 1,18" stroke-width="5"/><polygon class="fr-holo" points="18,1 299,1 299,402 282,419 1,419 1,18" stroke="url(#chrome)" stroke-width="2"/><polygon class="fr-holo" points="22,6 294,6 294,399 279,414 6,414 6,22" stroke="#ffffff40" stroke-width="1"/></svg>';
-// One ink per writer. The photograph is never recolored. Monochrome sources stay monochrome.
-const INKS={marx:'#ff2a2a',engels:'#14e09a',lenin:'#ffc53d',mao:'#ff4fd8',stalin:'#7ecbff',castro:'#d6ff4a','kim-il-sung':'#ff8a3d',kim:'#ff8a3d'};
-const INK_CYCLE=['#ff2a2a','#14e09a','#ffc53d','#ff4fd8','#7ecbff','#d6ff4a','#ff8a3d','#c9a0ff'];
-const BY_SH={marx:'#ff2a2a',engels:'#14e09a',lenin:'#ffc53d',mao:'#ff4fd8',stalin:'#7ecbff',castro:'#d6ff4a',kim:'#ff8a3d','kim il sung':'#ff8a3d'};
-function inkOf(d){const id=String(d.author||'').replace(/^a:/,'');if(INKS[id])return INKS[id];
- const photo=String(d.photo||'').replace(/^a:/,'').replace(/^p:/,'').replace(/^pd-/,'');if(INKS[photo])return INKS[photo];
- const sh=String(d.sh||'').toLowerCase();if(BY_SH[sh])return BY_SH[sh];
- const s=String(d.sh||d.who||'x');let h=0;for(let i=0;i<s.length;i++)h=(h*33+s.charCodeAt(i))>>>0;return INK_CYCLE[h%INK_CYCLE.length]}
+const FRAME='<svg class="frame" aria-hidden="true" viewBox="0 0 300 420" preserveAspectRatio="none"><polygon class="fr-matte" points="18,1 299,1 299,402 282,419 1,419 1,18" stroke="#ff2a2a" stroke-width="2"/><polygon class="fr-holo" points="18,1 299,1 299,402 282,419 1,419 1,18" stroke="url(#chrome)" stroke-width="2"/><polygon class="fr-holo" points="22,6 294,6 294,399 279,414 6,414 6,22" stroke="#ffffff40" stroke-width="1"/></svg>';
 const CHROME_DEFS='<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".25" stop-color="#7a7a7a"/><stop offset=".5" stop-color="#f2f2f2"/><stop offset=".75" stop-color="#5a5a5a"/><stop offset="1" stop-color="#d8d8d8"/></linearGradient></defs></svg>';
 // ---- long quotes: shrink-to-fit by default, scroll well for huge excerpts.
 const LQ={HUGE:320,FLOOR:12,WELL:15,COMPACT:130};
@@ -34,7 +26,6 @@ function quoteBlock(d,mode){return mode==='scroll'
 function frontHTML(d,id){const ph=photoSrc(d);
  return `<div class="face front"${id?` id="${id}"`:''}>
  <div class="win hero"><div class="lyr bgl"><div class="grid"></div><div class="mid"></div>${ph?`<img class="ph-bg" alt="" src="${ph}">`:''}</div><div class="lyr subj"><div class="bust">${BUST}</div>${ph?`<img class="ph-img" alt="" src="${ph}">`:''}</div><span class="tag">NO PHOTO</span></div>
- <i class="ink-band" aria-hidden="true"></i>
  <span class="f-no">${cardNo(d)}</span>
  <div class="f-plate"><b>${esc(d.sh)}</b>${d.trot?'<i class="f-trot">(TROTSKYITE)</i>':''}</div>
  <div class="fx shine"></div><div class="fx holo"></div><div class="fx spark"></div><div class="fx glare"></div>${FRAME}${d.rar==='g'?'<i class="gold-trim" aria-hidden="true"><i></i></i>':''}</div>`}
@@ -43,11 +34,11 @@ function backHTML(d,id){return `<div class="face back"${id?` id="${id}"`:''}>
  <div class="qslot">${quoteBlock(d,'fit')}</div>
  <div class="b-foot"><b>${esc(d.who)}</b><span>${esc(d.src)}</span></div>
  ${d.notes?`<div class="bk-notes"><span class="bk-h">Notes</span><p>${esc(d.notes)}</p></div>`:''}
- <div class="bk-cr"><svg class="emb" aria-hidden="true" viewBox="0 0 120 120"><polygon points="60,8 73,45 112,45 80,68 92,106 60,83 28,106 40,68 8,45 47,45" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/></svg><span>Quote deck · ${d.photo?(d.recv?'photo travelled by QR':d.pc?esc(d.pc.replace(/^Photo: /,'photo: ')):d.author?'photo: marxists.org (MIA)':'photo public domain'):'photo placeholder'}</span></div>
+ <div class="bk-cr"><svg class="emb" aria-hidden="true" viewBox="0 0 120 120"><polygon points="60,8 73,45 112,45 80,68 92,106 60,83 28,106 40,68 8,45 47,45" fill="none" stroke="#ff2a2a" stroke-width="6" stroke-linejoin="round"/></svg><span>Quote deck · ${d.photo?(d.recv?'photo travelled by QR':d.pc?esc(d.pc.replace(/^Photo: /,'photo: ')):d.author?'photo: marxists.org (MIA)':'photo public domain'):'photo placeholder'}</span></div>
  <div class="fx shine"></div><div class="fx holo"></div><div class="fx glare"></div>${FRAME}${d.rar==='g'?'<i class="gold-trim" aria-hidden="true"><i></i></i>':''}</div>`}
 function cardClasses(d){const L=d.q.length,bl=d.sh.length;return{cls:`card${d.holo||d.rar==='h'?' holo-on':''}${d.rar==='g'?' rar-gold':d.rar==='h'?' rar-holo':''}${photoSrc(d)?' has-photo':''}`,len:L<45?'s':L<80?'m':L<130?'l':'xl',bar:bl<=7?'s':bl<=10?'m':'l'}}
 function cardHTML(d,withBack){const c=cardClasses(d);const named=withBack===true;
- return `<div class="${c.cls}" style="--inkc:${inkOf(d)}" data-len="${c.len}" data-bar="${c.bar}" aria-hidden="true">${frontHTML(d,named?'front':'')}${withBack?backHTML(d,named?'back':''):''}</div>`}
+ return `<div class="${c.cls}" data-len="${c.len}" data-bar="${c.bar}" aria-hidden="true">${frontHTML(d,named?'front':'')}${withBack?backHTML(d,named?'back':''):''}</div>`}
 // Must run while the card is laid out (display != none). Returns {mode,px}.
 function fitQuote(cardEl,d){const slot=cardEl.querySelector('.qslot');let mode=d.q.length>LQ.HUGE?'scroll':'fit',px=0;
  if(!slot){cardEl.dataset.qmode=mode;return{mode,px:0}} // front-only card (carousel, thumbs): the quote lives on the back

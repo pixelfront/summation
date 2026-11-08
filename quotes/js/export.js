@@ -34,10 +34,9 @@ function paint(x,el,a,ctx){const cs=getComputedStyle(el);if(cs.display==='none'|
  if(cs.filter&&cs.filter!=='none'&&'filter'in x)x.filter=cs.filter;
  if(col(cs.backgroundColor)){x.fillStyle=cs.backgroundColor;x.fillRect(r.left,r.top,r.width,r.height)}
  if(el.classList.contains('grid')){const ho=ctx.card.classList.contains('holo-on');const cx=r.left+r.width/2,cy=r.top+r.height*.92,R=Math.hypot(r.width,r.height);
-  const ink=(getComputedStyle(ctx.card).getPropertyValue('--inkc')||'#ff2a2a').trim();
   const g=x.createRadialGradient(cx,ho?r.top+r.height*.7:cy,0,cx,ho?r.top+r.height*.7:cy,R*.75);g.addColorStop(0,ho?'#4a4a4a':'#1a0000');g.addColorStop(1,ho?'#141414':'#000');
-  x.fillStyle=g;x.fillRect(r.left,r.top,r.width,r.height);if(!ctx.card.classList.contains('has-photo'))rays(x,cx,cy,R,9,1.4,ink,1)}
- if(el.classList.contains('bk')){const ink=(getComputedStyle(ctx.card).getPropertyValue('--inkc')||'#ff2a2a').trim();rays(x,r.left+r.width/2,r.top+r.height*1.2,r.height*2,10,2,ink,.18)}
+  x.fillStyle=g;x.fillRect(r.left,r.top,r.width,r.height);rays(x,cx,cy,R,9,1.4,'#ff2a2a',1)}
+ if(el.classList.contains('bk')){rays(x,r.left+r.width/2,r.top+r.height*1.2,r.height*2,10,2,'rgba(255,42,42,.08)',1)}
  if(el.classList.contains('bk-notes')){x.save();x.fillStyle='#262626';for(let y=r.top+24+21;y<r.bottom;y+=22)x.fillRect(r.left,y,r.width,1);x.restore()}
  if(el.classList.contains('mid')){x.strokeStyle='#f2f2f2';x.lineWidth=2;x.beginPath();x.ellipse(r.left+r.width/2,r.top+r.height/2,r.width/2-1,r.height/2-1,0,0,7);x.stroke()}
  if(el.tagName==='IMG'&&el.complete&&el.naturalWidth){const k=Math.max(r.width/el.naturalWidth,r.height/el.naturalHeight),w=el.naturalWidth*k,h=el.naturalHeight*k;const op=(cs.objectPosition||'50% 50%').split(' ').map(v=>/%$/.test(v)?parseFloat(v)/100:.5);x.drawImage(el,r.left+(r.width-w)*op[0],r.top+(r.height-h)*(op[1]==null?.5:op[1]),w,h)}

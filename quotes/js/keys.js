@@ -31,14 +31,13 @@ function useMusic(){if(!state.notes.length){say('Record a loop before using it a
  say('This loop is the music now. It stays silent until you turn music on.');
  if(window.MUSIC.on){MUSIC.stop();MUSIC.start()}
  return true}
-function buildSongs(){const box=$('#songList'),rights=$('#songRights'),pend=$('#songPending');if(!box||!window.MUSIC)return;
+function buildSongs(){const box=$('#songList'),rights=$('#songRights');if(!box||!window.MUSIC)return;
  box.innerHTML='';
  Object.entries(MUSIC.songs).forEach(([id,s])=>{const b=document.createElement('button');b.type='button';b.dataset.song=id;b.textContent=s.name;b.setAttribute('aria-pressed','false');
   b.addEventListener('click',()=>{MUSIC.setTrack(id);if(rights)rights.textContent=s.rights});box.appendChild(b)});
  const loop=document.createElement('button');loop.type='button';loop.dataset.song='loop';loop.textContent='Your loop';loop.setAttribute('aria-pressed','false');
  loop.addEventListener('click',useMusic);box.appendChild(loop);
  if(rights)rights.textContent=(MUSIC.songs[MUSIC.song]&&MUSIC.songs[MUSIC.song].rights)||'';
- if(pend){pend.innerHTML='';MUSIC.pending.forEach(t=>{const li=document.createElement('li');li.textContent=t;pend.appendChild(li)})}
  MUSIC.refresh()}
 function buildKeys(){const root=$('#keyDeck');if(!root)return;
  root.innerHTML=`<h2>KEYBOARD</h2>

@@ -26,7 +26,6 @@ function show(){if(!round)return;const q=$('#gzQuote'),box=$('#gzChoices'),res=$
  q.textContent=round.quote;q.setAttribute('aria-label','Quote');
  box.innerHTML='';box.classList.toggle('gz-live',!RM.matches);res.hidden=true;res.textContent='';
  round.choices.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.className='gz-choice';b.setAttribute('aria-label',c.who);
-  b.style.setProperty('--inkc',inkOf({author:c.id,sh:c.sh,who:c.who,photo:c.photo}));
   const stage=document.createElement('span');stage.className='gz-stage';stage.setAttribute('aria-hidden','true');
   const card=document.createElement('span');card.className='gz-card';
   const front=document.createElement('span');front.className='gz-face gz-front';

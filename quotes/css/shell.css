@@ -14,5 +14,4 @@
 .keyrow button{min-height:48px;font:600 14px ui-monospace,Menlo,monospace}
 .keyrow button small{display:block;font-weight:400}
 .keyctl fieldset{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:6px 8px;border:1px solid #333}
-#songPending{margin:0 0 8px;padding-left:1.1em}
 .keydeck label{display:flex;align-items:center;gap:8px;margin:0}

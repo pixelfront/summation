@@ -119,7 +119,7 @@ async function run(){
   ok('no third-party requests',hosts.length===0,hosts.slice(0,4).join(','));
   const sw=await (await fetch('/sw.js')).text();
   ok('pack photos are not precached',sw.indexOf('assets/packs/')<0);
-  ok('upgrade fetch bypasses the HTTP cache',sw.indexOf('summation-public-v19')>=0&&sw.indexOf('cache:"reload"')>=0&&sw.indexOf('life-dates.json')>=0);
+  ok('upgrade fetch bypasses the HTTP cache',sw.indexOf('summation-public-v20')>=0&&sw.indexOf('cache:"reload"')>=0&&sw.indexOf('life-dates.json')>=0);
   ok('pack photo url is cache-busted',photoSrc({photo:'p:kim-banquet'})==='assets/packs/kim-banquet.jpg?v=14');
   const sid='st'+Math.random().toString(36).slice(2);
   const m0=STATS.get().made,h0=STATS.get().handed,e0=STATS.get().exported,b0=STATS.get().burned,p0=STATS.get().packs,r0=STATS.get().received;
