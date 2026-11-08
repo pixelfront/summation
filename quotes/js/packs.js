@@ -49,7 +49,7 @@ async function pick(id){const a=info(id);if(!a)return;if(a.user&&!left(a.user)){
  $('#foilName').textContent=a.sh.toUpperCase();$('#foilSub').textContent='7 CARDS';
  if(foilCv){foilCv.hidden=false;foilCv.style.transition='none';foilCv.style.transform='';foilCv.style.opacity='1'}
  $('#tearZone').hidden=false;$('#tearZone').setAttribute('aria-label',`${a.who} pack, 7 cards, sealed foil wrapper. Drag along the top crimp to tear it, or use Open pack.`);
- $('#pkOpenBtn').hidden=false;$('#pkAnother').hidden=true;$('#pkDone').hidden=true;$('#pkNote').textContent='';
+ $('#pkOpenBtn').hidden=false;$('#pkAnother').hidden=true;$('#pkDone').hidden=true;$('#pkCardOpen').hidden=true;packFocus=null;$('#pkNote').textContent='';
  startFoil();document.documentElement.dataset.packReady='1';live.textContent=`${a.who} pack. Drag along the top to tear the wrapper, or tap Open pack.`;window.scrollTo(0,0)}
 function roll(){if(rig&&rig.length){const c=rig.shift();return c==='h'?'h':c==='g'?'g':''}const r=Math.random();return r<.02?'h':r<.12?'g':''}
 function pool(a){if(a.user){const u=a.user,s=u.opened*7;return u.q.slice(s,s+7).map(q=>({q,src:u.src}))}
@@ -83,15 +83,26 @@ async function tear(){if(!cur||cur.torn)return;cur.torn=true;const a=cur.a;
   else{b.style.setProperty('--fx',(t*33).toFixed(1)+'px');b.style.setProperty('--fy',(Math.abs(t)*Math.abs(t)*3).toFixed(1)+'px');b.style.setProperty('--fr',(t*5).toFixed(1)+'deg')}b.style.zIndex=10+k;
   b.innerHTML=`<span class="pk-in"><span class="pk-back" aria-hidden="true"><b>\u2605</b><i>${esc(a.sh.toUpperCase())}</i></span><span class="pk-front">${cardHTML(d)}</span></span>`;
   b.setAttribute('aria-label',`Card ${k+1} of ${N}, face down. Tap to flip.`);b.dataset.k=k;b._d=d;fan.appendChild(b);fitQuote(b.querySelector('.card'),d);
-  b.addEventListener('click',()=>{if(!b.classList.contains('up'))flip(b);else{const d0=b._d;APP.view(STORE.get().made.find(x=>x.id===d0.id)||d0)}});dealt.push(b)});
+  b.addEventListener('pointerdown',e=>{b._g={x:e.clientX,y:e.clientY,t:performance.now(),moved:false}});
+  b.addEventListener('pointermove',e=>{if(b._g&&Math.hypot(e.clientX-b._g.x,e.clientY-b._g.y)>10)b._g.moved=true});
+  b.addEventListener('pointercancel',()=>{if(b._g)b._g.moved=true});
+  b.addEventListener('click',()=>{const g=b._g;b._g=null;if(!g||g.moved||performance.now()-g.t>400)return;if(!b.classList.contains('up'))flip(b)});
+  b.addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();if(!b.classList.contains('up'))flip(b)}else if(e.key==='Enter'){e.preventDefault();openDealt(b)}});
+  dealt.push(b)});
  for(const b of dealt){b.classList.add('in');if(!RM.matches)await wait(90)}
  SFX.done&&SFX.done();$('#pkAnother').hidden=false;$('#pkDone').hidden=false;
  const g=cards.filter(d=>d.rar==='g').length,h=cards.filter(d=>d.rar==='h').length;
- $('#pkNote').textContent=`${N} cards added to your box${g?` \u00b7 ${g} gold`:''}${h?` \u00b7 ${h} holo rare`:''}. Tap a card to flip it; tap again to open it.`;
- document.documentElement.dataset.packTorn='1';live.textContent=`Pack open. ${N} cards fanned out face down and saved to your box. ${h?'A holo rare is in this pack! ':g?'A gold card is in this pack! ':''}Tap each card to flip it.`;
+ $('#pkNote').textContent=`${N} cards added to your box${g?` \u00b7 ${g} gold`:''}${h?` \u00b7 ${h} holo rare`:''}. Tap a card to flip it. Open reads it.`;
+ document.documentElement.dataset.packTorn='1';live.textContent=`Pack open. ${N} cards fanned out face down and saved to your box. ${h?'A holo rare is in this pack! ':g?'A gold card is in this pack! ':''}Tap a card to flip it. Open reads it.`;
  startIdle()}
-function flip(b,quiet){b.classList.add('up');const d=b._d;b.setAttribute('aria-label',`${d.rar==='h'?'Holo rare: ':d.rar==='g'?'Gold: ':''}${d.who}: \u201c${d.q}\u201d, ${d.src}. Tap to open in the card view.`);
+let packFocus=null;
+function openDealt(b){const d0=b&&b._d;if(!d0)return;APP.view(STORE.get().made.find(x=>x.id===d0.id)||d0)}
+function flip(b,quiet){b.classList.add('up');packFocus=b;const d=b._d;b.setAttribute('aria-label',`${d.rar==='h'?'Holo rare: ':d.rar==='g'?'Gold: ':''}${d.who}: \u201c${d.q}\u201d, ${d.src}. Open reads this card.`);
+ const ob=$('#pkCardOpen');if(ob){ob.hidden=false;ob.setAttribute('aria-label',`Open ${d.who} in the card view`)}
  if(!quiet){if(d.rar&&SFX.done)SFX.done();else SFX.click&&SFX.click();live.textContent=`${d.rar==='h'?'Holo rare! ':d.rar==='g'?'Gold trim! ':''}${d.who}: ${d.q.length>120?d.q.slice(0,117)+'\u2026':d.q}`}}
+$('#pkCardOpen').addEventListener('click',()=>openDealt(packFocus));
+$('#pkFan').addEventListener('keydown',e=>{if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;const cards=[...$('#pkFan').querySelectorAll('.pk-card')];
+ const i=cards.indexOf(document.activeElement);if(i<0)return;e.preventDefault();cards[(i+(e.key==='ArrowRight'?1:-1)+cards.length)%cards.length].focus()});
 // ---------- holo shimmer: finger + idle sweep + optional tilt ----------
 function setV(c,mx,my,t){const s=c.style;s.setProperty('--sx',(50+mx*50).toFixed(1)+'%');s.setProperty('--sy',(50+my*50).toFixed(1)+'%');s.setProperty('--ang',(mx*60-my*30).toFixed(1)+'deg');s.setProperty('--tilt',t.toFixed(3))}
 let touchT=0;

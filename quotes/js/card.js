@@ -35,8 +35,8 @@ function backHTML(d,id){return `<div class="face back"${id?` id="${id}"`:''}>
  <div class="bk-cr"><svg class="emb" aria-hidden="true" viewBox="0 0 120 120"><polygon points="60,8 73,45 112,45 80,68 92,106 60,83 28,106 40,68 8,45 47,45" fill="none" stroke="#ff2a2a" stroke-width="6" stroke-linejoin="round"/></svg><span>Quote deck · ${d.photo?(d.recv?'photo travelled by QR':d.pc?esc(d.pc.replace(/^Photo: /,'photo: ')):d.author?'photo: marxists.org (MIA)':'photo public domain'):'photo placeholder'}</span></div>
  <div class="fx shine"></div><div class="fx holo"></div><div class="fx glare"></div>${FRAME}${d.rar==='g'?'<i class="gold-trim" aria-hidden="true"><i></i></i>':''}</div>`}
 function cardClasses(d){const L=d.q.length,bl=d.sh.length;return{cls:`card${d.holo||d.rar==='h'?' holo-on':''}${d.rar==='g'?' rar-gold':d.rar==='h'?' rar-holo':''}${photoSrc(d)?' has-photo':''}`,len:L<45?'s':L<80?'m':L<130?'l':'xl',bar:bl<=7?'s':bl<=10?'m':'l'}}
-function cardHTML(d,withBack){const c=cardClasses(d);
- return `<div class="${c.cls}" data-len="${c.len}" data-bar="${c.bar}" aria-hidden="true">${frontHTML(d,withBack?'front':'')}${withBack?backHTML(d,'back'):''}</div>`}
+function cardHTML(d,withBack){const c=cardClasses(d);const named=withBack===true;
+ return `<div class="${c.cls}" data-len="${c.len}" data-bar="${c.bar}" aria-hidden="true">${frontHTML(d,named?'front':'')}${withBack?backHTML(d,named?'back':''):''}</div>`}
 // Must run while the card is laid out (display != none). Returns {mode,px}.
 function fitQuote(cardEl,d){const slot=cardEl.querySelector('.qslot');let mode=d.q.length>LQ.HUGE?'scroll':'fit',px=0;
  if(!slot){cardEl.dataset.qmode=mode;return{mode,px:0}} // front-only card (carousel, thumbs): the quote lives on the back

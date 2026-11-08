@@ -38,12 +38,20 @@ function paint(ctx,F,B,angleDeg,L,opt){opt=opt||{};
    ctx.strokeStyle='#6a3030';ctx.lineWidth=1.25;ctx.stroke();continue}
   if(off.width!==W||off.height!==H){off.width=W;off.height=H}
   const o=off.getContext('2d');o.setTransform(1,0,0,1,0,0);o.clearRect(0,0,W,H);o.imageSmoothingEnabled=true;
-  const cols=40,img=f.img;
-  for(let i=0;i<cols;i++){const u0=i/cols,u1=(i+1)/cols;
-   const x0=f.mirror?(0.5-u0)*fw:(u0-0.5)*fw,x1=f.mirror?(0.5-u1)*fw:(u1-0.5)*fw;
+  // One piece when the face is square to the camera. In perspective, strips overlap by 2px
+  // so canvas rounding cannot open a transparent slit between them (the shutter lines).
+  const img=f.img,faceOn=Math.abs(c)>0.985;
+  const strip=(u0,u1,x0,x1,grow)=>{
    const p00=proj(x0,-hh,f.z0),p10=proj(x1,-hh,f.z0),p01=proj(x0,hh,f.z0);
-   o.setTransform(p10[0]-p00[0],p10[1]-p00[1],p01[0]-p00[0],p01[1]-p00[1],p00[0],p00[1]);
-   o.drawImage(img,u0*img.width,0,Math.max(1,(u1-u0)*img.width),img.height,0,0,1,1)}
+   let vx=p10[0]-p00[0],vy=p10[1]-p00[1];const len=Math.hypot(vx,vy)||1;
+   if(grow){vx*=1+grow/len;vy*=1+grow/len}
+   o.setTransform(vx,vy,p01[0]-p00[0],p01[1]-p00[1],p00[0],p00[1]);
+   let sx=u0*img.width,sw=(u1-u0)*img.width;if(grow){sx=Math.max(0,sx-1);sw=Math.min(img.width-sx,sw+2)}
+   o.drawImage(img,sx,0,Math.max(1,sw),img.height,0,0,1,1)};
+  if(faceOn){const x0=f.mirror?hw:-hw,x1=f.mirror?-hw:hw;strip(0,1,x0,x1,0)}
+  else{const cols=64;for(let i=0;i<cols;i++){const u0=i/cols,u1=(i+1)/cols;
+   const x0=f.mirror?(0.5-u0)*fw:(u0-0.5)*fw,x1=f.mirror?(0.5-u1)*fw:(u1-0.5)*fw;
+   strip(u0,u1,x0,x1,i===cols-1?0:2)}}
   o.setTransform(1,0,0,1,0,0);
   if(f.shade<0.995){o.globalCompositeOperation='source-atop';o.fillStyle=`rgba(0,0,0,${((1-f.shade)*0.72).toFixed(3)})`;o.fillRect(0,0,W,H);o.globalCompositeOperation='source-over'}
   ctx.drawImage(off,0,0)}}

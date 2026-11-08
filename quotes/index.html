@@ -42,9 +42,10 @@
  <div class="cards" id="cards" role="group" aria-label="Cards floating above the box"></div>
  <div class="layer l-front" aria-hidden="true"><div class="world" id="worldFront"></div></div>
  <button type="button" class="hit" id="boxHit" aria-expanded="false" aria-controls="cards" aria-label="Card box, closed. Tap to open"></button>
+ <button type="button" id="fanOpen" hidden>Open</button>
  <button type="button" class="fs-btn fs-corner" id="fsOpen" aria-label="Full screen card view" aria-haspopup="dialog"><svg class="fs-ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7V2h5M13 2h5v5M18 13v5h-5M7 18H2v-5"/></svg></button>
 </div>
-<p class="hint" id="hint">Tap or flick up on the box to open it. Swipe the fan to turn it; in Pickup, drag cards around. Scrub sideways on the box to shuffle. <span id="deckCount"></span></p>
+<p class="hint" id="hint">Tap or flick up on the box to open it. Swipe the fan to turn it. A quick tap flips the front card. Open reads it. In Pickup, drag cards around. Scrub sideways on the box to shuffle. <span id="deckCount"></span></p>
 <p class="hint" id="empty" hidden>The box is empty.</p>
 <div class="ctlrow"><button type="button" id="toggle" class="pri" aria-controls="cards">Open box</button><button type="button" id="shuffle">Shuffle</button><button type="button" id="prev" aria-label="Previous card">&#9664;</button><button type="button" id="next" aria-label="Next card">&#9654;</button><button type="button" id="receive">Receive</button><button type="button" id="make">New card</button><button type="button" id="packs" class="pri">Packs</button><button type="button" id="restore" hidden>Restore deck</button></div>
 <div class="skinbar" id="skinbar" role="radiogroup" aria-label="Box style"><span class="lbl" aria-hidden="true">BOX</span><button type="button" role="radio" data-skin="terminal" aria-checked="true">TERMINAL</button><button type="button" role="radio" data-skin="crate" aria-checked="false">CRATE</button><button type="button" role="radio" data-skin="cassette" aria-checked="false">CASSETTE</button></div>
@@ -152,7 +153,7 @@
   <div class="tearzone" id="tearZone" role="button" tabindex="0" aria-label="Tear the pack open (or use the Open pack button)"></div>
   <div class="pk-fan" id="pkFan" role="group" aria-label="Cards from this pack"></div>
  </div>
- <div class="row pk-row"><button type="button" id="pkOpenBtn" class="pri">Open pack</button><button type="button" id="pkTilt" aria-pressed="false">Tilt shimmer</button><button type="button" id="pkAnother" hidden>Another pack</button><button type="button" id="pkDone" hidden>Done &#183; to box</button></div>
+ <div class="row pk-row"><button type="button" id="pkOpenBtn" class="pri">Open pack</button><button type="button" id="pkCardOpen" hidden>Open</button><button type="button" id="pkTilt" aria-pressed="false">Tilt shimmer</button><button type="button" id="pkAnother" hidden>Another pack</button><button type="button" id="pkDone" hidden>Done &#183; to box</button></div>
  <p class="note" id="pkNote"></p>
 </section>
 <section id="pdfReview" hidden aria-labelledby="pdfRevH" class="ctl">

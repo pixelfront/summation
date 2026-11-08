@@ -1,7 +1,7 @@
 // 1A: in the CASSETTE box style the abstract shelf is replaced by vintage J-card cases.
 // Shelf = row of spines (one per writer, plus MINE = cards you made or received; pack cards file under their writer).
 // Tap a spine -> that writer's cases slide up (240 ms). Each tape has its own case: clear shell + J-card insert
-// (spine strip, grayscale photo, #f2f2ec paper panel with red name bar). Tap a case -> lid hinges open 110deg (280 ms)
+// (spine strip, photo in its own colour, #f2f2ec paper panel with red name bar). Tap a case -> lid hinges open 110deg (280 ms)
 // and the tape slides out 40 px (220 ms, 120 ms delay). Tap the tape -> the PICKED panel (View / Send / Burn).
 // Reduced motion: instant state changes. Rebuilt from STORE whenever the box rebuilds.
 window.CASES=(()=>{const $=s=>document.querySelector(s),root=$('#cases'),live=$('#live'),RM=matchMedia('(prefers-reduced-motion: reduce)');

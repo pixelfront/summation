@@ -16,6 +16,13 @@ async function decode(buf,type){const dec=new ImageDecoder({data:buf,type});awai
  for(let i=0;i<track.frameCount;i++){const r=await dec.decode({frameIndex:i});const img=r.image;const cv=document.createElement('canvas');
   cv.width=img.displayWidth;cv.height=img.displayHeight;cv.getContext('2d').drawImage(img,0,0);frames.push({cv,duration:img.duration});img.close()}
  dec.close();return frames}
+function shutterSlit(cv,mode){const bb=bbox(cv,mode);if(!bb||bb.w<36)return 0;
+ const w=cv.width,h=cv.height,d=cv.getContext('2d').getImageData(0,0,w,h).data;
+ const lum=(x,y)=>{const i=(y*w+x)*4;return d[i]+d[i+1]+d[i+2]};
+ const hole=(x,y)=>{const i=(y*w+x)*4;if(mode==='gif')return lum(x,y)<18&&lum(x-1,y)>160&&lum(x+1,y)>160;return d[i+3]<20&&d[(y*w+(x-1))*4+3]>40&&d[(y*w+(x+1))*4+3]>40};
+ let worst=0;const x0=bb.x0+14,x1=bb.x1-14,y0=bb.y0+8,y1=bb.y1-8;if(x1<=x0||y1<=y0)return 0;
+ for(let x=Math.max(1,x0);x<=Math.min(w-2,x1);x++){let run=0;for(let y=y0;y<=y1;y++){if(hole(x,y)){run++;if(run>worst)worst=run}else run=0}}
+ return worst}
 function jpegApps(bytes){const apps=[];let i=2;if(bytes[0]!==0xFF||bytes[1]!==0xD8)return null;
  while(i+4<bytes.length){if(bytes[i]!==0xFF)break;const m=bytes[i+1];if(m===0xD9||m===0xDA)break;if(m===0xD8){i+=2;continue}const ln=(bytes[i+2]<<8)|bytes[i+3];
   if(m>=0xE0&&m<=0xEF)apps.push(m);i+=2+ln}return apps}
@@ -32,8 +39,8 @@ async function run(){
   const fx=F.getContext('2d');fx.fillStyle='#ff2040';fx.fillRect(0,0,100,280);fx.fillStyle='#2040ff';fx.fillRect(100,0,100,280);
   const bx=B.getContext('2d');bx.fillStyle='#f2f2f2';bx.fillRect(0,0,100,280);bx.fillStyle='#101010';bx.fillRect(100,0,100,280);
   const built=await SPIN.build(F,B,{faceW:160,bg:null});
-  let marginFail=0,frontOk=false,backOk=false,minW=1e9,holdW=0;
-  built.frames.forEach(f=>{const bb=bbox(f.cv,'a');if(!bb||bb.x0<4||bb.y0<4||f.cv.width-1-bb.x1<4||f.cv.height-1-bb.y1<4)marginFail++;
+  let marginFail=0,frontOk=false,backOk=false,minW=1e9,holdW=0,slitMax=0;
+  built.frames.forEach(f=>{const g=shutterSlit(f.cv,'a');if(g>slitMax)slitMax=g;const bb=bbox(f.cv,'a');if(!bb||bb.x0<4||bb.y0<4||f.cv.width-1-bb.x1<4||f.cv.height-1-bb.y1<4)marginFail++;
    if(!bb)return;if(bb.w<minW)minW=bb.w;if(f.angle===0)holdW=bb.w;
    if(f.angle===0){const L=mean(f.cv,bb.x0+4,bb.y0+8,20,40),R=mean(f.cv,bb.x1-24,bb.y0+8,20,40);frontOk=L.r>L.b+30&&R.b>R.r+30}
    if(f.angle===180){const L=mean(f.cv,bb.x0+4,bb.y0+8,16,40),R=mean(f.cv,bb.x1-20,bb.y0+8,16,40);backOk=L.r>R.r+40}});
@@ -41,6 +48,7 @@ async function run(){
   ok('front not mirrored',frontOk);
   ok('back upright, not mirrored',backOk);
   ok('edge-on is a strip',minW>=8&&holdW>0&&minW<holdW*0.45,minW+' vs '+holdW);
+  ok('no shutter slit in any turn frame',slitMax<12,'longest interior slit '+slitMax+' px');
   await waitImgs();
   const back=exportCard('back'),front=exportCard('front');
   const red=pxCount(back,(r,g,b)=>r>180&&g<80&&b<80),light=pxCount(back,(r,g,b)=>r>170&&g>170&&b>170);
@@ -60,8 +68,9 @@ async function run(){
   ok('GIF frame count',gFrames.length===86,String(gFrames.length));
   const gDur=gFrames.map(f=>f.duration);
   ok('GIF hold duration',gDur[0]>=800000&&gDur[43]>=800000,gDur[0]+' / '+gDur[43]);
-  let gMargin=0;gFrames.forEach(f=>{const bb=bbox(f.cv,'gif');if(!bb||bb.x0<4||bb.y0<4||f.cv.width-1-bb.x1<4||f.cv.height-1-bb.y1<4)gMargin++});
+  let gMargin=0,gShut=0;gFrames.forEach(f=>{const bb=bbox(f.cv,'gif');if(!bb||bb.x0<4||bb.y0<4||f.cv.width-1-bb.x1<4||f.cv.height-1-bb.y1<4)gMargin++;const s=shutterSlit(f.cv,'gif');if(s>gShut)gShut=s});
   ok('GIF decoded margin ≥4',gMargin===0,gMargin+' frames');
+  ok('GIF decoded frames have no shutter slits',gShut<28,'longest interior slit '+gShut+' px');
   const gFront=bbox(gFrames[0].cv,'gif'),gBack=bbox(gFrames[43].cv,'gif'),gEdge=bbox(gFrames[22].cv,'gif');
   ok('GIF faces are wide',gFront&&gBack&&gFront.w>200&&gBack.w>200,`front ${gFront&&gFront.w} back ${gBack&&gBack.w}`);
   ok('GIF edge is thin',gEdge&&gEdge.w<gFront.w*0.45&&gEdge.w>=8,gEdge&&String(gEdge.w));
@@ -76,13 +85,31 @@ async function run(){
   const aFrames=await decode(apng,'image/png');
   ok('APNG frame count',aFrames.length===86,String(aFrames.length));
   ok('APNG hold duration',aFrames[0].duration>=800000&&aFrames[43].duration>=800000,aFrames[0].duration+' / '+aFrames[43].duration);
-  let aMargin=0,aClear=0;aFrames.forEach(f=>{const bb=bbox(f.cv,'a');if(!bb||bb.x0<4||bb.y0<4||f.cv.width-1-bb.x1<4||f.cv.height-1-bb.y1<4)aMargin++;
-   const c=f.cv.getContext('2d').getImageData(2,2,1,1).data;if(c[3]!==0)aClear++});
+  let aMargin=0,aClear=0,aShut=0;aFrames.forEach(f=>{const bb=bbox(f.cv,'a');if(!bb||bb.x0<4||bb.y0<4||f.cv.width-1-bb.x1<4||f.cv.height-1-bb.y1<4)aMargin++;
+   const c=f.cv.getContext('2d').getImageData(2,2,1,1).data;if(c[3]!==0)aClear++;const s=shutterSlit(f.cv,'a');if(s>aShut)aShut=s});
   ok('APNG decoded margin ≥4',aMargin===0,aMargin+' frames');
+  ok('APNG decoded frames have no shutter slits',aShut<28,'longest interior slit '+aShut+' px');
   ok('APNG corner is transparent',aClear===0,aClear+' opaque corners');
   const man=await (await fetch('photos/manifest.json')).json();
   ok('manifest images',Array.isArray(man.images)&&man.images.length>=20,String(man.images.length));
-  ok('manifest fields',man.images.every(p=>p.licence&&p.credit&&p.file&&p.author&&p.id&&(p.provenance==='contributor-supplied-unverified'?p.source==='':!!p.source)));
+  ok('manifest fields',man.images.every(p=>p.licence&&p.credit&&p.file&&p.author&&p.id&&typeof p.colour==='boolean'&&(p.provenance==='contributor-supplied-unverified'?p.source==='':!!p.source)));
+  const kim=man.images.find(p=>p.id==='kim-banquet'),marx=man.images.find(p=>p.id==='marx-1861');
+  ok('kim banquet flagged colour',!!(kim&&kim.colour===true));
+  ok('marx 1861 flagged monochrome',!!(marx&&marx.colour===false));
+  async function chromaOf(url){const img=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=url});
+   const c=document.createElement('canvas');c.width=48;c.height=48;const g=c.getContext('2d');g.drawImage(img,0,0,48,48);const d=g.getImageData(0,0,48,48).data;let n=0;
+   for(let i=0;i<d.length;i+=4)if(Math.max(d[i],d[i+1],d[i+2])-Math.min(d[i],d[i+1],d[i+2])>14)n++;return n}
+  ok('banquet file keeps colour',kim&&(await chromaOf(kim.file))>80);
+  ok('marx file stays grey',marx&&(await chromaOf(marx.file))<40);
+  const shown=document.querySelector('#card .ph-img');
+  ok('card photo is not forced grey',!!shown&&!/grayscale/.test(getComputedStyle(shown).filter),shown?getComputedStyle(shown).filter:'missing');
+  if(kim){const kimImg=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=kim.file});
+   const fc=document.createElement('canvas');fc.width=200;fc.height=280;fc.getContext('2d').drawImage(kimImg,0,0,200,280);
+   const L2=SPIN.layout(160,224),held=document.createElement('canvas');held.width=L2.W;held.height=L2.H;
+   SPIN.paint(held.getContext('2d'),fc,fc,0,L2,{});
+   const mid=held.getContext('2d').getImageData((held.width/2)|0,(held.height/2)|0,24,24).data;let chroma=0;
+   for(let i=0;i<mid.length;i+=4)if(Math.max(mid[i],mid[i+1],mid[i+2])-Math.min(mid[i],mid[i+1],mid[i+2])>12)chroma++;
+   ok('turntable keeps colour on a colour photo',chroma>20,String(chroma));}
   await POOL.load();POOL.reset();
   const lenin=POOL.take('lenin',7).map(p=>p.id);
   ok('lenin no early repeat',new Set(lenin.slice(0,6)).size===6&&lenin[6]===lenin[0],lenin.join(','));
@@ -117,9 +144,13 @@ async function run(){
   const strip=document.createElement('canvas');strip.width=gFrames[0].cv.width*4;strip.height=gFrames[0].cv.height;const sctx=strip.getContext('2d');
   [0,22,43,64].forEach((n,i)=>sctx.drawImage(gFrames[n].cv,i*gFrames[0].cv.width,0));
   strip.id='gifStrip';document.body.appendChild(strip);
+  const mid=gFrames[15].cv,zoom=document.createElement('canvas');zoom.width=mid.width;zoom.height=mid.height;zoom.getContext('2d').drawImage(mid,0,0);
+  zoom.id='gifAngle';document.body.appendChild(zoom);
+  window.__gifBytes=gif;window.__apngBytes=apng;
   lines.push('GIF '+gif.length+' bytes, APNG '+apng.length+' bytes, canvas '+gif._layout.W+'×'+gif._layout.H);
  }catch(e){ok('selftest threw',false,e&&(e.stack||e.message)||String(e))}
  out.textContent=lines.join('\n')+'\n'+(failed?'FAILED '+failed:'ALL PASS');
+ out.dataset.done='1';
  document.documentElement.dataset.selftest=failed?'fail':'pass';
 }
 function live(){return ($('#live')&&$('#live').textContent)||''}

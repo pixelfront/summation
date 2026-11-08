@@ -32,7 +32,7 @@
 .tearzone:focus-visible{outline:2px solid var(--red)}
 /* fan */
 .pk-fan{position:absolute;inset:0}
-.pk-card{position:absolute;left:50%;top:60px;width:126px;height:176px;margin-left:-63px;padding:0;border:0;background:none;min-height:0;display:block;perspective:800px;
+.pk-card{position:absolute;left:50%;top:60px;width:126px;height:176px;margin-left:-63px;padding:0;border:0;background:none;min-height:0;display:block;perspective:800px;touch-action:pan-y;
  transform:translate(0,140px) scale(.7);opacity:0;transition:transform .42s cubic-bezier(.2,1.2,.35,1),opacity .2s}
 .pk-card.in{transform:translate(var(--fx),var(--fy)) rotate(var(--fr));opacity:1}
 .pk-card.up:focus-visible{z-index:40!important}
