@@ -106,12 +106,16 @@
 <div class="ctl">
  <div class="au-combo"><label class="mk-lbl" for="auQ">Writer: pick from marxists.org list, or type any name</label>
   <input id="auQ" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="auList" autocomplete="off" spellcheck="false" placeholder="Search a name, section or year">
-  <div class="au-filt" id="auFilt" role="group" aria-label="Filter writers"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="photo" aria-pressed="false">With photo</button><button type="button" id="auTime" aria-pressed="false">Timeline</button></div>
+  <div class="au-filt" id="auFilt" role="group" aria-label="Filter writers"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="photo" aria-pressed="false">With photo</button><button type="button" id="auTime" aria-pressed="false">By year</button></div>
   <p class="au-count" id="auCount" aria-live="polite"></p>
-  <canvas id="auSpiral" hidden width="360" height="280" aria-hidden="true"></canvas>
+  <div id="auChron" hidden>
+   <div class="chron-nav"><button type="button" id="chronPrev">Earlier</button><b id="chronEra">Years</b><button type="button" id="chronNext">Later</button></div>
+   <div id="chronList" class="chron-list" role="list" aria-label="Writers in year order"></div>
+   <p id="chronPeek" class="note"></p>
+  </div>
+  <button type="button" id="auUse" class="pri" hidden>Use this author</button>
   <p id="auUndated" class="note" hidden></p>
-  <ul id="auList" role="listbox" aria-label="Writers"></ul>
-  <button type="button" id="auUse" class="pri" hidden>Use this author</button></div>
+  <ul id="auList" role="listbox" aria-label="Writers"></ul></div>
  <div id="auPicked" hidden></div>
  <p class="mk-free" id="mkFree" hidden aria-live="polite"></p>
  <div class="mk-photo"><label class="mk-lbl" for="mkImg">Your own image (optional)</label><input id="mkImg" type="file" accept="image/*"><button type="button" id="mkImgClear" hidden>Remove image</button>
@@ -149,7 +153,7 @@
 </div></section>
 <main id="guessView" hidden aria-labelledby="guessH">
 <div class="vhead"><h2 id="guessH">GUESS THE WRITER</h2><button type="button" id="guessBack">&#9664; Box</button></div>
-<p class="note">The quote is shown alone. The writer and the source are added to this screen only after you answer. They are still in the quote file on this phone. This is not a lock against reading that file.</p>
+<p class="note">The quote is shown alone. Three portraits turn. Their names stay still, and either the name or the picture is the answer. The writer and the source are added to this screen only after you answer. They are still in the quote file on this phone. This is not a lock against reading that file.</p>
 <p id="gzScore"></p>
 <p id="gzQuote"></p>
 <div id="gzChoices" role="group" aria-label="Three writers. Pick one."></div>

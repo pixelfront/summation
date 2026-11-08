@@ -26,9 +26,9 @@ function search(){if(!ready){cnt.textContent='Loading writer list\u2026';return}
  cnt.textContent=`${hits.length} of ${AU.length} writers`;
  inp.setAttribute('aria-activedescendant',act>=0?'au-'+act:'');
  inp.setAttribute('aria-expanded','true');const use=$('#auUse');if(use)use.hidden=act<0;
- if(timelineOn)drawSpiral();const cur=act>=0?list.querySelector('.act'):null;if(cur)cur.scrollIntoView({block:'nearest'})}
+ if(timelineOn)renderChron();const cur=act>=0?list.querySelector('.act'):null;if(cur&&!timelineOn)cur.scrollIntoView({block:'nearest'})}
 function highlight(i){act=i;list.querySelectorAll('li[data-id]').forEach((li,k)=>{const on=k===i;li.classList.toggle('act',on);li.setAttribute('aria-selected',String(on))});
- inp.setAttribute('aria-activedescendant',i>=0?'au-'+i:'');const use=$('#auUse');if(use)use.hidden=i<0;if(timelineOn)drawSpiral();
+ inp.setAttribute('aria-activedescendant',i>=0?'au-'+i:'');const use=$('#auUse');if(use)use.hidden=i<0;if(timelineOn)renderChron();
  if(i>=0)live.textContent=`${hits[i].d} selected. Use this author to confirm.`}
 function choose(id){if(!ready)return;const a=byId[id];if(!a||(a.t&&!showTrot()))return;author=a;inp.value=a.d;SFX.click&&SFX.click();
  pickd.innerHTML=`<span class="au-th big">${thumb(a)}</span><span class="au-tx"><b>${esc(a.d)}</b><small>${esc([a.s||'',yearsOf(a)].filter(Boolean).join(' \u00b7 '))}</small><small>${a.p?(a.pc?esc(a.pc):'Photo: Marxists Internet Archive (believed public domain)'):'No usable portrait: card uses the wireframe bust'}</small></span>`;
@@ -41,15 +41,18 @@ function render(){const d=draft();const c=cardClasses(d);
  const mf=$('#mkFree');mf.hidden=!!author||!freeName();mf.textContent=`Typed name: ${freeName()} (not from the list${ownPhoto?'':', wireframe bust unless you add an image'})`;
  $('#mkFlip').textContent=flip?'Show front':'Show back'}
 function nextNo(){const s=STORE.get();return Math.max(0,...BASE_DECK.map(d=>d.no),...s.received.map(d=>d.no||0),...(s.made||[]).map(d=>d.no||0))+1}
-let timelineOn=false,spiralView={x:0,y:0,z:1},spDrag=null;
-function placed(){return hits.filter(a=>a.lb)}
-function drawSpiral(){const cv=$('#auSpiral');if(!cv||cv.hidden)return;const ctx=cv.getContext('2d');const W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);ctx.fillStyle='#050505';ctx.fillRect(0,0,W,H);
- const rows=placed();if(!rows.length){ctx.fillStyle='#aaa';ctx.font='14px ui-monospace,Menlo,monospace';ctx.fillText('No sourced years in this search.',16,40);return}
- const y0=Math.min(...rows.map(a=>a.lb)),cx=W/2+spiralView.x,cy=H/2+spiralView.y;
- rows.forEach(a=>{const turn=(a.lb-y0)/100,ang=turn*Math.PI*2-Math.PI/2,rad=(16+turn*26)*spiralView.z;a._px=cx+Math.cos(ang)*rad;a._py=cy+Math.sin(ang)*rad;
-  const on=act>=0&&hits[act]&&hits[act].id===a.id;ctx.beginPath();ctx.arc(a._px,a._py,on?6:3.5,0,7);ctx.fillStyle=on?'#ff2a2a':'#f2f2f2';ctx.fill()});
- const u=hits.filter(a=>!a.lb);const box=$('#auUndated');if(box){box.hidden=false;box.textContent=(u.length?`Undated, not placed: ${u.slice(0,12).map(a=>a.d).join(', ')}${u.length>12?` and ${u.length-12} more`:''}. Pick them from the list. `:'')+'Years on the spiral were read from a Wikipedia opening. The old list year-text is not used.'}}
-function nodeAt(x,y){let best=null,bd=144;for(const a of placed()){if(a._px==null)continue;const d=(a._px-x)**2+(a._py-y)**2;if(d<bd){bd=d;best=a}}return best}
+let timelineOn=false,eraAt=0;
+function placed(){return hits.filter(a=>a.lb).slice().sort((a,b)=>a.lb-b.lb||a.d.localeCompare(b.d))}
+function renderChron(){const box=$('#chronList');if(!box||!timelineOn)return;
+ const rows=placed();let era='',html='';
+ rows.forEach(a=>{const decade=Math.floor(a.lb/10)*10;if(decade!==era){era=decade;html+=`<h3 class="chron-era" data-era="${decade}">${decade}s</h3>`}
+  const on=act>=0&&hits[act]&&hits[act].id===a.id;
+  html+=`<button type="button" class="chron-row${on?' act':''}" role="listitem" data-id="${a.id}" aria-pressed="${on}"><b>${yearsOf(a)}</b><span>${thumb(a)}<strong>${esc(a.d)}</strong><small>${esc([a.lp,a.s].filter(Boolean).join(' \u00b7 '))}</small></span></button>`});
+ const keep=box.scrollTop;box.innerHTML=html||'<p class="note">No sourced years in this search.</p>';box.scrollTop=keep;
+ box.querySelectorAll('.chron-row').forEach(b=>b.addEventListener('click',()=>{const i=hits.findIndex(h=>h.id===b.dataset.id);if(i>=0)highlight(i);const a=byId[b.dataset.id];const peek=$('#chronPeek');if(peek&&a)peek.textContent=`${a.d}, ${yearsOf(a)}${a.lp?'. Wikipedia page '+a.lp+'.':'.'} Use this author to confirm.`}));
+ const u=hits.filter(a=>!a.lb);const und=$('#auUndated');if(und){und.hidden=false;und.textContent=u.length?`No sourced year, not on this timeline: ${u.length} writers. Switch off By year and pick them from the name list.`:'Everyone in this search has a sourced year.'}
+ const eras=[...box.querySelectorAll('.chron-era')];if(eraAt>=eras.length)eraAt=Math.max(0,eras.length-1);const cur=eras[eraAt];const lab=$('#chronEra');if(lab)lab.textContent=cur?cur.textContent:'Years'}
+function stepEra(dir){const box=$('#chronList'),eras=[...box.querySelectorAll('.chron-era')];if(!eras.length)return;eraAt=Math.max(0,Math.min(eras.length-1,eraAt+dir));box.scrollTop=eras[eraAt].offsetTop;const lab=$('#chronEra');if(lab)lab.textContent=eras[eraAt].textContent}
 inp.addEventListener('input',()=>{if(author&&inp.value!==author.d){author=null;pickd.hidden=true}act=0;search();render()});inp.addEventListener('focus',search);
 inp.addEventListener('keydown',e=>{const n=hits.length;
  if(e.key==='ArrowDown'){e.preventDefault();highlight(Math.min(n-1,act+1));$('#au-'+act)?.scrollIntoView({block:'nearest'})}
@@ -62,15 +65,11 @@ list.addEventListener('pointermove',e=>{if(lg&&Math.hypot(e.clientX-lg.x,e.clien
 list.addEventListener('pointercancel',()=>{if(lg)lg.moved=true});
 list.addEventListener('pointerup',e=>{if(!lg)return;const g=lg;lg=null;if(g.moved||performance.now()-g.t>500)return;const li=e.target.closest('li[data-id]');if(!li||li.dataset.id!==g.id)return;const i=hits.findIndex(a=>a.id===li.dataset.id);if(i>=0)highlight(i)});
 $('#auUse').addEventListener('click',()=>{if(act>=0&&hits[act])choose(hits[act].id)});
-$('#auTime').addEventListener('click',()=>{timelineOn=!timelineOn;const b=$('#auTime');b.setAttribute('aria-pressed',String(timelineOn));const cv=$('#auSpiral');cv.hidden=!timelineOn;cv.setAttribute('aria-hidden','true');
- if(!timelineOn){$('#auUndated').hidden=true}else drawSpiral();live.textContent=timelineOn?'Timeline on. The list is still how you choose. The spiral uses sourced birth years only.':'Timeline off.'});
-const sp=$('#auSpiral');
-const spPts=new Map();
-sp.addEventListener('pointerdown',e=>{spPts.set(e.pointerId,{x:e.clientX,y:e.clientY});spDrag={id:e.pointerId,x:e.clientX,y:e.clientY,ox:spiralView.x,oy:spiralView.y,moved:false,t:performance.now(),z:spiralView.z};try{sp.setPointerCapture(e.pointerId)}catch(_){}});
-sp.addEventListener('pointermove',e=>{const p=spPts.get(e.pointerId);if(p){p.x=e.clientX;p.y=e.clientY}if(spPts.size===2){const [a,b]=[...spPts.values()];const dist=Math.hypot(a.x-b.x,a.y-b.y)||1;if(!spDrag.dist)spDrag.dist=dist;spiralView.z=Math.max(.55,Math.min(2.6,spDrag.z*(dist/spDrag.dist)));drawSpiral();return}if(!spDrag||e.pointerId!==spDrag.id)return;const dx=e.clientX-spDrag.x,dy=e.clientY-spDrag.y;if(Math.hypot(dx,dy)>8)spDrag.moved=true;if(spDrag.moved){spiralView.x=spDrag.ox+dx;spiralView.y=spDrag.oy+dy;drawSpiral()}});
-sp.addEventListener('pointerup',e=>{spPts.delete(e.pointerId);if(!spDrag)return;const g=spDrag;if(spPts.size)return;spDrag=null;if(g.moved||performance.now()-g.t>500)return;const r=sp.getBoundingClientRect(),x=(e.clientX-r.left)*(sp.width/r.width),y=(e.clientY-r.top)*(sp.height/r.height);const a=nodeAt(x,y);if(!a)return;const i=hits.findIndex(h=>h.id===a.id);if(i>=0)highlight(i)});
-sp.addEventListener('pointercancel',()=>{spPts.clear();spDrag=null});
-sp.addEventListener('wheel',e=>{if(sp.hidden)return;e.preventDefault();spiralView.z=Math.max(.6,Math.min(2.4,spiralView.z*(e.deltaY>0?.9:1.1)));drawSpiral()},{passive:false});
+$('#auTime').addEventListener('click',()=>{timelineOn=!timelineOn;const b=$('#auTime');b.setAttribute('aria-pressed',String(timelineOn));
+ $('#auChron').hidden=!timelineOn;$('#auList').hidden=timelineOn;if(!timelineOn)$('#auUndated').hidden=true;else{eraAt=0;renderChron()}
+ live.textContent=timelineOn?'By year. Earlier and Later move one decade. The names do not move on their own.':'Name list.'});
+$('#chronPrev').addEventListener('click',()=>stepEra(-1));
+$('#chronNext').addEventListener('click',()=>stepEra(1));
 document.querySelectorAll('#auFilt button[data-f]').forEach(b=>b.addEventListener('click',()=>{filt=b.dataset.f;document.querySelectorAll('#auFilt button[data-f]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));act=0;search();inp.focus()}));
 q.addEventListener('input',render);src.addEventListener('input',render);
 $('#mkFlip').addEventListener('click',()=>{flip=!flip;render()});

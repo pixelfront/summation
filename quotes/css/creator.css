@@ -12,6 +12,18 @@
 .au-filt button[aria-pressed=true]{background:var(--red);color:#000;border-color:var(--red)}
 .au-count{font-size:11px;color:var(--mute);letter-spacing:.08em;margin:6px 0 0}
 #auList{list-style:none;margin:6px 0 0;padding:0;max-height:min(52vh,420px);overflow-y:auto;border:2px solid var(--red);background:#050505;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch}
+#auChron{margin-top:8px}
+.chron-nav{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.chron-nav button{flex:1}
+#chronEra{min-width:4.2em;text-align:center;color:var(--ink)}
+.chron-list{position:relative;max-height:min(46vh,420px);overflow:auto;border:2px solid #333;background:#050505;touch-action:pan-y}
+.chron-era{position:sticky;top:0;margin:0;padding:8px 10px;background:var(--red);color:#000;font-size:14px;z-index:1}
+.chron-row{display:grid;grid-template-columns:96px 1fr;gap:8px;align-items:center;width:100%;min-height:64px;padding:6px 8px;text-align:left;border:0;border-bottom:1px solid #222;background:transparent;color:inherit;text-transform:none;letter-spacing:0}
+.chron-row.act{background:#1a0000;box-shadow:inset 4px 0 0 var(--red)}
+.chron-row b{color:var(--red);font-size:13px}
+.chron-row strong{display:block;font-size:14px;text-transform:uppercase}
+.chron-row small{display:block;color:var(--mute);font-size:11px;font-weight:400}
+.chron-row img{width:36px;height:48px;object-fit:cover;float:left;margin-right:8px}
 #auList li{display:flex;align-items:center;gap:10px;min-height:56px;padding:4px 10px 4px 4px;border-bottom:1px solid #222;cursor:pointer}
 #auList li.act,#auList li[aria-selected="true"]{background:#1a0000;box-shadow:inset 3px 0 0 var(--red)}
 #auUse{margin-top:8px;min-height:44px}
