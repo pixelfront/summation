@@ -6,9 +6,9 @@
 window.APP=(()=>{const $=s=>document.querySelector(s);const P=new URLSearchParams(location.search);
 if(P.has('shot'))document.body.classList.add('shot');
 document.body.insertAdjacentHTML('beforeend',CHROME_DEFS);wireMute($('#mute'));
-const live=$('#live'),views={box:$('#boxView'),card:$('#cardView'),make:$('#makeView'),send:$('#sendView'),pack:$('#packView')},holo=$('#holo');let cur='box';
+const live=$('#live'),views={box:$('#boxView'),card:$('#cardView'),make:$('#makeView'),send:$('#sendView'),pack:$('#packView'),guess:$('#guessView')},holo=$('#holo');let cur='box';
 function show(v,focusEl){Object.entries(views).forEach(([k,el])=>el.hidden=k!==v);cur=v;
- $('#crumb').textContent={box:'CARD BOX \u00b7 '+(window.SKINUI?SKINUI.crumb():'B TERMINAL DRAWER'),card:'CARD \u00b7 ROTATE + EXPORT',make:'NEW CARD',send:'SEND BY QR \u00b7 ONE COPY',pack:'PACKS \u00b7 TEAR + FAN'}[v];
+ $('#crumb').textContent={box:'CARD BOX \u00b7 '+(window.SKINUI?SKINUI.crumb():'B TERMINAL DRAWER'),card:'CARD \u00b7 ROTATE + EXPORT',make:'NEW CARD',send:'SEND BY QR \u00b7 ONE COPY',pack:'PACKS \u00b7 TEAR + FAN',guess:'GUESS THE WRITER'}[v];
  window.SPEAK&&SPEAK.stop('view');if(v!=='pack'&&window.PACKS)PACKS.leave();if(v==='box'&&window.CASES)CASES.refresh();
  if(v!=='card')VIEWER.stop();window.scrollTo(0,0);if(focusEl)setTimeout(()=>focusEl.focus({preventScroll:true}),30)}
 function view(d,rot){show('card');VIEWER.load(d,rot);$('#exp').hidden=true;holo.checked=!!d.holo;
@@ -91,7 +91,7 @@ async function onAccept(r){if(!S||S.accepted||!S.offer)return;const a=QRX.parseA
  S.accepted=true;stopAll();S.phase='done';steps(3);showOnly(A,'qr');clearVF(A.qr,'ACCEPT \u2713');
  A.stat.innerHTML='<b>ACCEPT VERIFIED</b> \u00b7 id, nonce and hash match. Burning your copy\u2026';
  await new Promise(r=>setTimeout(r,RM.matches?0:350));SFX.burn();A.thumb.classList.add('burning');
- setTimeout(()=>{A.thumb.classList.remove('burning');A.thumb.classList.add('burned');A.thumb.innerHTML='';STORE.burn(S.d.id);
+ setTimeout(()=>{A.thumb.classList.remove('burning');A.thumb.classList.add('burned');A.thumb.innerHTML='';if(window.STATS)STATS.handed(S.d.id);STORE.burn(S.d.id);
   $('#aRow').hidden=true;A.stat.innerHTML=`<b>BURNED</b> \u00b7 ${esc(S.d.sh)} is gone from this phone. Tombstone written.`;
   B.stat.innerHTML+=' <b class="ok">Sender confirmed \u2713</b>';$('#sendDone').hidden=false;$('#sendClose').hidden=true;
   live.textContent=`Sent. ${S.d.sh} left your box. The other phone has it now.`;$('#sendDone').focus({preventScroll:true})},RM.matches?0:780)}
@@ -108,6 +108,8 @@ function closeSend(){stopAll();if(S&&!S.accepted&&S.mode!=='receive')live.textCo
 $('#sendClose').addEventListener('click',closeSend);$('#sendDone').addEventListener('click',closeSend);
 $('#soloB').addEventListener('change',e=>document.body.classList.toggle('solo',!e.target.checked));
 $('#receive').addEventListener('click',()=>send(null,'receive'));
+$('#guess').addEventListener('click',()=>{show('guess');GUESS.open()});
+$('#guessBack').addEventListener('click',()=>{show('box');if(window.STATS)STATS.render()});
 $('#cardSend').addEventListener('click',()=>{if(VIEWER.data&&!isSample(VIEWER.data.id))send(VIEWER.data)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur==='send')closeSend()});
 // scripted run for screenshots/tests: ?view=send&card=<id>&auto=1[&stop=frames|rx|got]
@@ -119,6 +121,7 @@ function boot(){if(P.get('view')==='make'){show('make');CREATOR.preset()}
 else if(P.get('view')==='send'){const d=currentDeck().find(d=>d.id===P.get('card'));if(!d||isSample(d.id)){show('box');BOX.rebuild();BOX.initState();live.textContent=d?NO_SEND:'That card is not in your box.'}else send(d)}
 else if(P.get('view')==='receive')send(null,'receive');
 else if(P.get('view')==='packs'){show('pack');if(window.PACKS)PACKS.enter(P);else document.addEventListener('DOMContentLoaded',()=>PACKS.enter(P))} // boot can run before packs.js has loaded
+else if(P.get('view')==='guess'){show('guess');if(window.GUESS)GUESS.open()}
 else if(P.get('view')==='card'){const k=Math.max(0,Math.min(SAMPLE_DECK.length-1,(parseInt(P.get('card'),10)||1)-1));
  view(SAMPLE_DECK[k],P.get('side')==='back'?{ry:180}:null)}
 else{show('box');BOX.rebuild();BOX.initState(P.get('state'))}

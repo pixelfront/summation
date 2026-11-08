@@ -48,7 +48,7 @@ function drawSpiral(){const cv=$('#auSpiral');if(!cv||cv.hidden)return;const ctx
  const y0=Math.min(...rows.map(a=>a._b)),cx=W/2+spiralView.x,cy=H/2+spiralView.y;
  rows.forEach(a=>{const turn=(a._b-y0)/100,ang=turn*Math.PI*2-Math.PI/2,rad=(16+turn*26)*spiralView.z;a._px=cx+Math.cos(ang)*rad;a._py=cy+Math.sin(ang)*rad;
   const on=act>=0&&hits[act]&&hits[act].id===a.id;ctx.beginPath();ctx.arc(a._px,a._py,on?6:3.5,0,7);ctx.fillStyle=on?'#ff2a2a':'#f2f2f2';ctx.fill()});
- const u=hits.filter(a=>!a._b);const box=$('#auUndated');if(box){box.hidden=false;box.textContent=u.length?`Undated, not placed: ${u.slice(0,24).map(a=>a.d).join(', ')}${u.length>24?'…':''}. Pick them from the list.`:'Every writer in this search has a catalogue date.'}}
+ const u=hits.filter(a=>!a._b);const box=$('#auUndated');if(box){box.hidden=false;box.textContent=(u.length?`Undated, not placed: ${u.slice(0,24).map(a=>a.d).join(', ')}${u.length>24?'…':''}. Pick them from the list. `:'Every writer in this search has a year string. ')+'A year string in the catalogue is not a checked date.'}}
 function nodeAt(x,y){let best=null,bd=144;for(const a of placed()){if(a._px==null)continue;const d=(a._px-x)**2+(a._py-y)**2;if(d<bd){bd=d;best=a}}return best}
 inp.addEventListener('input',()=>{if(author&&inp.value!==author.d){author=null;pickd.hidden=true}act=0;search();render()});inp.addEventListener('focus',search);
 inp.addEventListener('keydown',e=>{const n=hits.length;
@@ -75,7 +75,7 @@ document.querySelectorAll('#auFilt button[data-f]').forEach(b=>b.addEventListene
 q.addEventListener('input',render);src.addEventListener('input',render);
 $('#mkFlip').addEventListener('click',()=>{flip=!flip;render()});
 $('#mkAdd').addEventListener('click',()=>{if(!(author||freeName())||!q.value.trim())return;const d=Object.assign(draft(),{id:newCardId()});
- const s=STORE.get();s.made=(s.made||[]).concat([d]);STORE.set(s);SFX.done&&SFX.done();live.textContent=`Card ${cardNo(d)} added to the box.`;
+ const s=STORE.get();s.made=(s.made||[]).concat([d]);STORE.set(s);if(window.STATS)STATS.made(d.id);SFX.done&&SFX.done();live.textContent=`Card ${cardNo(d)} added to the box.`;
  q.value='';src.value='';author=null;ownPhoto='';$('#mkImg').value='';$('#mkImgClear').hidden=true;inp.value='';pickd.hidden=true;flip=false;
  APP.show('box');BOX.rebuild();BOX.initState('open');BOX.focusId(d.id)});
 $('#mkCancel').addEventListener('click',()=>{APP.show('box')});

@@ -85,7 +85,7 @@ async function tear(){if(!cur||cur.torn||opening)return;opening=true;cur.torn=tr
  let photos=[];try{await POOL.load();photos=POOL.take(a.user?'':a.id,es.length)}catch(_){}
  const s=STORE.get();let no=nextNo();const cards=es.map((e,i)=>mkCard(a,e,no++,photos[i]));
  const rank=d=>d.rar==='h'?2:d.rar==='g'?1:0;cards.sort((x,y)=>rank(x)-rank(y)); // rares last
- s.made=(s.made||[]).concat(cards);STORE.set(s);
+ s.made=(s.made||[]).concat(cards);STORE.set(s);if(window.STATS){if(a.user)cards.forEach(c=>STATS.made(c.id));STATS.pack(cards[0].id)}
  if(a.user){const all=upacks(),u=all.find(x=>x.id===a.user.id);if(u){u.opened++;saveU(all)}}
  await wait(RM.matches?40:80);
  const fan=$('#pkFan'),N=cards.length;
