@@ -8,3 +8,11 @@
 /* M4 design fixes: red NEW tag in view headers; New card button keeps its own width when it wraps alone */
 .vhead h2 b{color:#000;background:var(--red);padding:0 6px;margin-right:.15em} /* the real space after </b> gives the rest of the gap */
 .ctlrow #make{flex:0 0 auto;min-width:130px}
+.songlist,.keyctl{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;align-items:center}
+.songlist button,.keyctl button{min-height:44px;flex:0 0 auto}
+.keyrow{display:grid;grid-template-columns:repeat(5,minmax(44px,1fr));gap:6px;margin:8px 0}
+.keyrow button{min-height:48px;font:600 14px ui-monospace,Menlo,monospace}
+.keyrow button small{display:block;font-weight:400}
+.keyctl fieldset{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:6px 8px;border:1px solid #333}
+#songPending{margin:0 0 8px;padding-left:1.1em}
+.keydeck label{display:flex;align-items:center;gap:8px;margin:0}
