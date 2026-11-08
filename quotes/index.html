@@ -25,7 +25,11 @@
 <section id="setView" class="ctl setv" hidden aria-labelledby="setH"><h2 id="setH">SETTINGS</h2>
  <div class="themebar" id="themeBar" role="radiogroup" aria-label="Theme"><button type="button" role="radio" data-theme="dark" aria-checked="true">Dark</button><button type="button" role="radio" data-theme="light" aria-checked="false">Light</button><button type="button" role="radio" data-theme="voxel" aria-checked="false">Voxel</button><button type="button" role="radio" data-theme="blueprint" aria-checked="false">Blueprint</button></div>
  <button type="button" id="musicBtn" class="mu" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 15V4l10-2v11M7 15a2.5 2.5 0 1 1-2.5-2.5A2.5 2.5 0 0 1 7 15zM17 13a2.5 2.5 0 1 1-2.5-2.5A2.5 2.5 0 0 1 17 13z"/></svg><span>Music: The Internationale (chiptune)</span><b class="mu-st">OFF</b></button>
- <p class="note">Music is off by default and only starts when you tap it. It is an original 8-bit arrangement of the 1888 melody by Pierre De Geyter (public domain), played by this phone; there is no audio file and nothing streams. SND OFF silences it too.</p>
+ <p class="note">Music is off by default and only starts when you tap it. The tunes are original chiptunes played on this phone. There is no audio file, no sample, and nothing streams. SND OFF silences them too.</p>
+ <div id="songList" class="songlist" role="group" aria-label="Songs"></div>
+ <p class="note" id="songRights"></p>
+ <ul id="songPending"></ul>
+ <div id="keyDeck"></div>
  <p class="note">Theme, music and sound choices are saved on this device only.</p>
  <button type="button" id="statReset">Reset counts to zero</button>
  <p class="note">Reset clears the counts only. Cards in the box stay. The date changes to today.</p>
@@ -157,8 +161,7 @@
 <section id="packPick" aria-label="Choose a pack">
  <p class="hint">Pick a pack. Each has 7 cards: about 1 in 10 has gold trim, about 1 in 50 is a holo rare. Cards you pull go into your box.</p>
  <div class="packgrid" id="packGrid"></div>
- <div class="ctl pdfin"><h2>PDF &#8594; PACKS</h2><p class="note">Turn a text PDF into your own packs. The text is read on this phone; the PDF and its words are never uploaded. Scanned PDFs (photos of pages) have no text to read. Mao packs already include the full <i>Quotations from Chairman Mao</i> (bundled).</p>
- <div class="row"><label class="file btn" id="pdfPickL"><input type="file" id="pdfPick" accept="application/pdf,.pdf">Import PDF</label></div><p class="note" id="pdfStat" aria-live="polite"></p></div>
+ <p class="note">Packs you already made from a PDF stay on this phone and can still be opened. Importing a new PDF has been removed. Mao packs are the bundled quotations, not a PDF.</p>
 </section>
 <section id="packOpen" hidden aria-labelledby="packOpenH">
  <h3 class="sr" id="packOpenH">Open the pack</h3>
@@ -170,16 +173,6 @@
  </div>
  <div class="row pk-row"><button type="button" id="pkOpenBtn" class="pri">Open pack</button><button type="button" id="pkCardOpen" hidden>Open</button><button type="button" id="pkTilt" aria-pressed="false">Tilt shimmer</button><button type="button" id="pkAnother" hidden>Another pack</button><button type="button" id="pkDone" hidden>Done &#183; to box</button></div>
  <p class="note" id="pkNote"></p>
-</section>
-<section id="pdfReview" hidden aria-labelledby="pdfRevH" class="ctl">
- <h2 id="pdfRevH">REVIEW QUOTES</h2>
- <p class="note" id="pdfRevInfo"></p>
- <label class="mk-lbl" for="pdfWho">Writer (goes on every card)</label><input id="pdfWho" type="text" autocomplete="off" spellcheck="false" placeholder="Who said these?">
- <label class="mk-lbl" for="pdfSrc">Source</label><input id="pdfSrc" type="text" autocomplete="off">
- <div class="row"><button type="button" id="pdfAll">Keep all</button><button type="button" id="pdfNone">Keep none</button></div>
- <ol class="pdflist" id="pdfList"></ol>
- <p class="note" id="pdfCount" aria-live="polite"></p>
- <div class="row"><button type="button" id="pdfMake" class="pri">Make packs</button><button type="button" id="pdfCancel">Cancel</button></div>
 </section>
 </main>
 <div id="burnAsk" class="burnask" role="alertdialog" aria-modal="true" aria-labelledby="burnAskH" aria-describedby="burnAskTxt" hidden><div class="ctl"><h2 id="burnAskH">BURN FOR GOOD?</h2><p id="burnAskTxt"></p><div class="row"><button type="button" id="burnYes" class="burnbtn">Burn it</button><button type="button" id="burnNo" class="pri">Keep it</button></div></div></div>
@@ -210,6 +203,7 @@
 <script src="js/guess.js"></script>
 <script src="js/app.js"></script>
 <script src="js/music.js"></script>
+<script src="js/keys.js"></script>
 <script src="js/speak.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/burn.js"></script>

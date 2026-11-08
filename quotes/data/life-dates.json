@@ -1,0 +1,3147 @@
+{
+  "retrieved": "2026-11-08",
+  "method": "English Wikipedia opening sentence, via the MediaWiki API and that site's redirects from the catalogue name. The writer-list dates field was not used. If this pass could not tie a name to one page with a life span in the opening, that person stays undated and is not placed on the spiral. A second read on 2026-11-08 replaced three namesake pages (Theodor Bergmann, Peter Petroff, Mark Starr). Alexander Lozovsky stays undated: the page reached from that name is a Soviet general (1907–1981), and the page for Solomon Lozovsky does not identify him as Alexander.",
+  "count": 314,
+  "dates": [
+    {
+      "id": "adorno",
+      "birth": 1903,
+      "death": 1969,
+      "source": "https://en.wikipedia.org/wiki/Theodor_W._Adorno",
+      "wikidata": "Q152388",
+      "page": "Theodor W. Adorno",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "alarcon",
+      "birth": 1937,
+      "death": 2022,
+      "source": "https://en.wikipedia.org/wiki/Ricardo_Alarc%C3%B3n",
+      "wikidata": "Q1345182",
+      "page": "Ricardo Alarcón",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "aldred-guy",
+      "birth": 1886,
+      "death": 1963,
+      "source": "https://en.wikipedia.org/wiki/Guy_Aldred",
+      "wikidata": "Q5622050",
+      "page": "Guy Aldred",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "alexander",
+      "birth": 1936,
+      "death": 2012,
+      "source": "https://en.wikipedia.org/wiki/Neville_Alexander",
+      "wikidata": "Q1862611",
+      "page": "Neville Alexander",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "alia",
+      "birth": 1925,
+      "death": 2011,
+      "source": "https://en.wikipedia.org/wiki/Ramiz_Alia",
+      "wikidata": "Q156833",
+      "page": "Ramiz Alia",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "allende",
+      "birth": 1908,
+      "death": 1973,
+      "source": "https://en.wikipedia.org/wiki/Salvador_Allende",
+      "wikidata": "Q440",
+      "page": "Salvador Allende",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "althusser",
+      "birth": 1918,
+      "death": 1990,
+      "source": "https://en.wikipedia.org/wiki/Louis_Althusser",
+      "wikidata": "Q184169",
+      "page": "Louis Althusser",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "andropov",
+      "birth": 1914,
+      "death": 1984,
+      "source": "https://en.wikipedia.org/wiki/Yuri_Andropov",
+      "wikidata": "Q44071",
+      "page": "Yuri Andropov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "anstey",
+      "birth": 1865,
+      "death": 1940,
+      "source": "https://en.wikipedia.org/wiki/Frank_Anstey",
+      "wikidata": "Q15516539",
+      "page": "Frank Anstey",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "antonov-ovseenko",
+      "birth": 1883,
+      "death": 1938,
+      "source": "https://en.wikipedia.org/wiki/Vladimir_Antonov-Ovseenko",
+      "wikidata": "Q532445",
+      "page": "Vladimir Antonov-Ovseenko",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "aragon",
+      "birth": 1897,
+      "death": 1982,
+      "source": "https://en.wikipedia.org/wiki/Louis_Aragon",
+      "wikidata": "Q4128",
+      "page": "Louis Aragon",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "archive",
+      "birth": 1926,
+      "death": 2016,
+      "source": "https://en.wikipedia.org/wiki/Fidel_Castro",
+      "wikidata": "Q11256",
+      "page": "Fidel Castro",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "aveling",
+      "birth": 1849,
+      "death": 1898,
+      "source": "https://en.wikipedia.org/wiki/Edward_Aveling",
+      "wikidata": "Q2735441",
+      "page": "Edward Aveling",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "azad",
+      "birth": 1952,
+      "death": 2010,
+      "source": "https://en.wikipedia.org/wiki/Azad_%28Maoist%29",
+      "wikidata": "Q4387230",
+      "page": "Azad (Maoist)",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "baracchi",
+      "birth": 1887,
+      "death": 1975,
+      "source": "https://en.wikipedia.org/wiki/Guido_Baracchi",
+      "wikidata": "Q21538494",
+      "page": "Guido Baracchi",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "barbusse",
+      "birth": 1873,
+      "death": 1935,
+      "source": "https://en.wikipedia.org/wiki/Henri_Barbusse",
+      "wikidata": "Q18404",
+      "page": "Henri Barbusse",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "barker-c",
+      "birth": 1939,
+      "death": 2019,
+      "source": "https://en.wikipedia.org/wiki/Colin_Barker",
+      "wikidata": "Q5144863",
+      "page": "Colin Barker",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bauer",
+      "birth": 1881,
+      "death": 1938,
+      "source": "https://en.wikipedia.org/wiki/Otto_Bauer",
+      "wikidata": "Q11730",
+      "page": "Otto Bauer",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bax",
+      "birth": 1854,
+      "death": 1926,
+      "source": "https://en.wikipedia.org/wiki/Ernest_Belfort_Bax",
+      "wikidata": "Q1356254",
+      "page": "Ernest Belfort Bax",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bebel",
+      "birth": 1840,
+      "death": 1913,
+      "source": "https://en.wikipedia.org/wiki/August_Bebel",
+      "wikidata": "Q76520",
+      "page": "August Bebel",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "beer",
+      "birth": 1864,
+      "death": 1943,
+      "source": "https://en.wikipedia.org/wiki/Max_Beer",
+      "wikidata": "Q113830",
+      "page": "Max Beer",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "benjamin",
+      "birth": 1892,
+      "death": 1940,
+      "source": "https://en.wikipedia.org/wiki/Walter_Benjamin",
+      "wikidata": "Q61078",
+      "page": "Walter Benjamin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bensaid",
+      "birth": 1946,
+      "death": 2010,
+      "source": "https://en.wikipedia.org/wiki/Daniel_Bensa%C3%AFd",
+      "wikidata": "Q432730",
+      "page": "Daniel Bensaïd",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bergmann",
+      "birth": 1916,
+      "death": 2017,
+      "source": "https://en.wikipedia.org/wiki/Theodor_Bergmann_(agronomist)",
+      "wikidata": "Q2417346",
+      "page": "Theodor Bergmann (agronomist)",
+      "retrieved": "2026-11-08",
+      "note": "Corrected after a namesake page was rejected. The opening of Theodor Bergmann (agronomist) gives Berlin, 7 March 1916 – Stuttgart, 12 June 2017, and calls him a witness of the German labour movement of the Weimar era. The firearms maker of the same name (1850–1931) is not this record. The catalogue dates field was not used."
+    },
+    {
+      "id": "beria",
+      "birth": 1899,
+      "death": 1953,
+      "source": "https://en.wikipedia.org/wiki/Lavrentiy_Beria",
+      "wikidata": "Q141829",
+      "page": "Lavrentiy Beria",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bernal",
+      "birth": 1901,
+      "death": 1971,
+      "source": "https://en.wikipedia.org/wiki/J._D._Bernal",
+      "wikidata": "Q168362",
+      "page": "J. D. Bernal",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bernstein",
+      "birth": 1850,
+      "death": 1932,
+      "source": "https://en.wikipedia.org/wiki/Eduard_Bernstein",
+      "wikidata": "Q75786",
+      "page": "Eduard Bernstein",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "besant",
+      "birth": 1847,
+      "death": 1933,
+      "source": "https://en.wikipedia.org/wiki/Annie_Besant",
+      "wikidata": "Q464318",
+      "page": "Annie Besant",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bhagat-singh",
+      "birth": 1907,
+      "death": 1931,
+      "source": "https://en.wikipedia.org/wiki/Bhagat_Singh",
+      "wikidata": "Q377808",
+      "page": "Bhagat Singh",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bland",
+      "birth": 1916,
+      "death": 2001,
+      "source": "https://en.wikipedia.org/wiki/Bill_Bland",
+      "wikidata": "Q861944",
+      "page": "Bill Bland",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bloch",
+      "birth": 1885,
+      "death": 1977,
+      "source": "https://en.wikipedia.org/wiki/Ernst_Bloch",
+      "wikidata": "Q57240",
+      "page": "Ernst Bloch",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "blum",
+      "birth": 1872,
+      "death": 1950,
+      "source": "https://en.wikipedia.org/wiki/L%C3%A9on_Blum",
+      "wikidata": "Q18434",
+      "page": "Léon Blum",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "borchardt",
+      "birth": 1868,
+      "death": 1932,
+      "source": "https://en.wikipedia.org/wiki/Julian_Borchardt",
+      "wikidata": "Q109233",
+      "page": "Julian Borchardt",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bordiga",
+      "birth": 1889,
+      "death": 1970,
+      "source": "https://en.wikipedia.org/wiki/Amadeo_Bordiga",
+      "wikidata": "Q451743",
+      "page": "Amadeo Bordiga",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "borochov",
+      "birth": 1881,
+      "death": 1917,
+      "source": "https://en.wikipedia.org/wiki/Ber_Borochov",
+      "wikidata": "Q720022",
+      "page": "Ber Borochov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "brandler",
+      "birth": 1881,
+      "death": 1967,
+      "source": "https://en.wikipedia.org/wiki/Heinrich_Brandler",
+      "wikidata": "Q72971",
+      "page": "Heinrich Brandler",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "branting",
+      "birth": 1860,
+      "death": 1925,
+      "source": "https://en.wikipedia.org/wiki/Hjalmar_Branting",
+      "wikidata": "Q53620",
+      "page": "Hjalmar Branting",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "braunthal",
+      "birth": 1891,
+      "death": 1972,
+      "source": "https://en.wikipedia.org/wiki/Julius_Braunthal",
+      "wikidata": "Q1470341",
+      "page": "Julius Braunthal",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "brezhnev",
+      "birth": 1906,
+      "death": 1982,
+      "source": "https://en.wikipedia.org/wiki/Leonid_Brezhnev",
+      "wikidata": "Q765165",
+      "page": "Leonid Brezhnev",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "brinton",
+      "birth": 1923,
+      "death": 2005,
+      "source": "https://en.wikipedia.org/wiki/Chris_Pallis",
+      "wikidata": "Q5107677",
+      "page": "Chris Pallis",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "broue",
+      "birth": 1926,
+      "death": 2005,
+      "source": "https://en.wikipedia.org/wiki/Pierre_Brou%C3%A9",
+      "wikidata": "Q473006",
+      "page": "Pierre Broué",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "brown-john",
+      "birth": 1800,
+      "death": 1859,
+      "source": "https://en.wikipedia.org/wiki/John_Brown",
+      "wikidata": "Q6217561",
+      "page": "John Brown",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bukharin",
+      "birth": 1888,
+      "death": 1938,
+      "source": "https://en.wikipedia.org/wiki/Nikolai_Bukharin",
+      "wikidata": "Q186709",
+      "page": "Nikolai Bukharin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bulganin",
+      "birth": 1895,
+      "death": 1975,
+      "source": "https://en.wikipedia.org/wiki/Nikolai_Bulganin",
+      "wikidata": "Q48093",
+      "page": "Nikolai Bulganin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "bunting-brian",
+      "birth": 1920,
+      "death": 2008,
+      "source": "https://en.wikipedia.org/wiki/Brian_Bunting",
+      "wikidata": "Q31739891",
+      "page": "Brian Bunting",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "burchett",
+      "birth": 1911,
+      "death": 1983,
+      "source": "https://en.wikipedia.org/wiki/Wilfred_Burchett",
+      "wikidata": "Q1324581",
+      "page": "Wilfred Burchett",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "cafiero",
+      "birth": 1846,
+      "death": 1892,
+      "source": "https://en.wikipedia.org/wiki/Carlo_Cafiero",
+      "wikidata": "Q563138",
+      "page": "Carlo Cafiero",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "camatte",
+      "birth": 1935,
+      "death": 2025,
+      "source": "https://en.wikipedia.org/wiki/Jacques_Camatte",
+      "wikidata": "Q2032731",
+      "page": "Jacques Camatte",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "carpenter",
+      "birth": 1844,
+      "death": 1929,
+      "source": "https://en.wikipedia.org/wiki/Edward_Carpenter",
+      "wikidata": "Q984217",
+      "page": "Edward Carpenter",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "castoriadis",
+      "birth": 1922,
+      "death": 1997,
+      "source": "https://en.wikipedia.org/wiki/Cornelius_Castoriadis",
+      "wikidata": "Q158030",
+      "page": "Cornelius Castoriadis",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "caudwell",
+      "birth": 1907,
+      "death": 1937,
+      "source": "https://en.wikipedia.org/wiki/Christopher_Caudwell",
+      "wikidata": "Q953782",
+      "page": "Christopher Caudwell",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "cayan",
+      "birth": 1946,
+      "death": 1972,
+      "source": "https://en.wikipedia.org/wiki/Mahir_%C3%87ayan",
+      "wikidata": "Q1307293",
+      "page": "Mahir Çayan",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "ceausescu",
+      "birth": 1918,
+      "death": 1989,
+      "source": "https://en.wikipedia.org/wiki/Nicolae_Ceau%C8%99escu",
+      "wikidata": "Q80504",
+      "page": "Nicolae Ceaușescu",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "cervetto",
+      "birth": 1927,
+      "death": 1995,
+      "source": "https://en.wikipedia.org/wiki/Arrigo_Cervetto",
+      "wikidata": "Q3623765",
+      "page": "Arrigo Cervetto",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "challinor",
+      "birth": 1929,
+      "death": 2011,
+      "source": "https://en.wikipedia.org/wiki/Raymond_Challinor",
+      "wikidata": "Q7298655",
+      "page": "Raymond Challinor",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "chavez",
+      "birth": 1954,
+      "death": 2013,
+      "source": "https://en.wikipedia.org/wiki/Hugo_Ch%C3%A1vez",
+      "wikidata": "Q8440",
+      "page": "Hugo Chávez",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "chernenko",
+      "birth": 1911,
+      "death": 1985,
+      "source": "https://en.wikipedia.org/wiki/Konstantin_Chernenko",
+      "wikidata": "Q127442",
+      "page": "Konstantin Chernenko",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "chervenkov",
+      "birth": 1900,
+      "death": 1980,
+      "source": "https://en.wikipedia.org/wiki/Valko_Chervenkov",
+      "wikidata": "Q460416",
+      "page": "Valko Chervenkov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "chicherin",
+      "birth": 1872,
+      "death": 1936,
+      "source": "https://en.wikipedia.org/wiki/Georgy_Chicherin",
+      "wikidata": "Q313623",
+      "page": "Georgy Chicherin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "ciliga",
+      "birth": 1898,
+      "death": 1992,
+      "source": "https://en.wikipedia.org/wiki/Ante_Ciliga",
+      "wikidata": "Q480037",
+      "page": "Ante Ciliga",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "cliff",
+      "birth": 1917,
+      "death": 2000,
+      "source": "https://en.wikipedia.org/wiki/Tony_Cliff",
+      "wikidata": "Q550453",
+      "page": "Tony Cliff",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "cole",
+      "birth": 1889,
+      "death": 1959,
+      "source": "https://en.wikipedia.org/wiki/G._D._H._Cole",
+      "wikidata": "Q3044933",
+      "page": "G. D. H. Cole",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "connolly",
+      "birth": 1868,
+      "death": 1916,
+      "source": "https://en.wikipedia.org/wiki/James_Connolly",
+      "wikidata": "Q213374",
+      "page": "James Connolly",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "considerant",
+      "birth": 1808,
+      "death": 1893,
+      "source": "https://en.wikipedia.org/wiki/Victor_Prosper_Considerant",
+      "wikidata": "Q2628355",
+      "page": "Victor Prosper Considerant",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "cowl",
+      "birth": 1900,
+      "death": 1997,
+      "source": "https://en.wikipedia.org/wiki/Carl_Cowl",
+      "wikidata": "Q26180005",
+      "page": "Carl Cowl",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "cunhal",
+      "birth": 1913,
+      "death": 2005,
+      "source": "https://en.wikipedia.org/wiki/%C3%81lvaro_Cunhal",
+      "wikidata": "Q250919",
+      "page": "Álvaro Cunhal",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "damen",
+      "birth": 1893,
+      "death": 1979,
+      "source": "https://en.wikipedia.org/wiki/Onorato_Damen",
+      "wikidata": "Q3352790",
+      "page": "Onorato Damen",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "dange",
+      "birth": 1899,
+      "death": 1991,
+      "source": "https://en.wikipedia.org/wiki/Shripad_Amrit_Dange",
+      "wikidata": "Q3595194",
+      "page": "Shripad Amrit Dange",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "davitt",
+      "birth": 1846,
+      "death": 1906,
+      "source": "https://en.wikipedia.org/wiki/Michael_Davitt",
+      "wikidata": "Q1387994",
+      "page": "Michael Davitt",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "debord",
+      "birth": 1931,
+      "death": 1994,
+      "source": "https://en.wikipedia.org/wiki/Guy_Debord",
+      "wikidata": "Q298075",
+      "page": "Guy Debord",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "deng-xiaoping",
+      "birth": 1904,
+      "death": 1997,
+      "source": "https://en.wikipedia.org/wiki/Deng_Xiaoping",
+      "wikidata": "Q16977",
+      "page": "Deng Xiaoping",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "deutscher",
+      "birth": 1907,
+      "death": 1967,
+      "source": "https://en.wikipedia.org/wiki/Isaac_Deutscher",
+      "wikidata": "Q465679",
+      "page": "Isaac Deutscher",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "deville",
+      "birth": 1854,
+      "death": 1940,
+      "source": "https://en.wikipedia.org/wiki/Gabriel_Deville",
+      "wikidata": "Q1489558",
+      "page": "Gabriel Deville",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "dimitrov",
+      "birth": 1882,
+      "death": 1949,
+      "source": "https://en.wikipedia.org/wiki/Georgi_Dimitrov",
+      "wikidata": "Q155074",
+      "page": "Georgi Dimitrov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "duncker",
+      "birth": 1874,
+      "death": 1960,
+      "source": "https://en.wikipedia.org/wiki/Hermann_Duncker",
+      "wikidata": "Q1610938",
+      "page": "Hermann Duncker",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "duncker-kate",
+      "birth": 1871,
+      "death": 1953,
+      "source": "https://en.wikipedia.org/wiki/K%C3%A4te_Duncker",
+      "wikidata": "Q1301555",
+      "page": "Käte Duncker",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "dutt",
+      "birth": 1896,
+      "death": 1974,
+      "source": "https://en.wikipedia.org/wiki/R._Palme_Dutt",
+      "wikidata": "Q1631452",
+      "page": "R. Palme Dutt",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "dzerzhinsky",
+      "birth": 1877,
+      "death": 1926,
+      "source": "https://en.wikipedia.org/wiki/Felix_Dzerzhinsky",
+      "wikidata": "Q188570",
+      "page": "Felix Dzerzhinsky",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "eccarius",
+      "birth": 1818,
+      "death": 1889,
+      "source": "https://en.wikipedia.org/wiki/Johann_Eccarius",
+      "wikidata": "Q95520",
+      "page": "Johann Eccarius",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "eleanor-marx",
+      "birth": 1855,
+      "death": 1898,
+      "source": "https://en.wikipedia.org/wiki/Eleanor_Marx",
+      "wikidata": "Q61412",
+      "page": "Eleanor Marx",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "engels",
+      "birth": 1820,
+      "death": 1895,
+      "source": "https://en.wikipedia.org/wiki/Friedrich_Engels",
+      "wikidata": "Q34787",
+      "page": "Friedrich Engels",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "fanon",
+      "birth": 1925,
+      "death": 1961,
+      "source": "https://en.wikipedia.org/wiki/Frantz_Fanon",
+      "wikidata": "Q193670",
+      "page": "Frantz Fanon",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "fichte",
+      "birth": 1762,
+      "death": 1814,
+      "source": "https://en.wikipedia.org/wiki/Johann_Gottlieb_Fichte",
+      "wikidata": "Q102585",
+      "page": "Johann Gottlieb Fichte",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "frank",
+      "birth": 1905,
+      "death": 1984,
+      "source": "https://en.wikipedia.org/wiki/Pierre_Frank",
+      "wikidata": "Q2702738",
+      "page": "Pierre Frank",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "freire",
+      "birth": 1921,
+      "death": 1997,
+      "source": "https://en.wikipedia.org/wiki/Paulo_Freire",
+      "wikidata": "Q164797",
+      "page": "Paulo Freire",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "freud",
+      "birth": 1856,
+      "death": 1939,
+      "source": "https://en.wikipedia.org/wiki/Sigmund_Freud",
+      "wikidata": "Q9215",
+      "page": "Sigmund Freud",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "froelich",
+      "birth": 1884,
+      "death": 1953,
+      "source": "https://en.wikipedia.org/wiki/Paul_Fr%C3%B6lich",
+      "wikidata": "Q84998",
+      "page": "Paul Frölich",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "fryer",
+      "birth": 1927,
+      "death": 2006,
+      "source": "https://en.wikipedia.org/wiki/Peter_Fryer",
+      "wikidata": "Q3379041",
+      "page": "Peter Fryer",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "gelman",
+      "birth": 1930,
+      "death": 2014,
+      "source": "https://en.wikipedia.org/wiki/Juan_Gelman",
+      "wikidata": "Q519851",
+      "page": "Juan Gelman",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "giap",
+      "birth": 1911,
+      "death": 2013,
+      "source": "https://en.wikipedia.org/wiki/V%C3%B5_Nguy%C3%AAn_Gi%C3%A1p",
+      "wikidata": "Q179910",
+      "page": "Võ Nguyên Giáp",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "gilly",
+      "birth": 1928,
+      "death": 2023,
+      "source": "https://en.wikipedia.org/wiki/Adolfo_Gilly",
+      "wikidata": "Q2163832",
+      "page": "Adolfo Gilly",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "gorbachev",
+      "birth": 1931,
+      "death": 2022,
+      "source": "https://en.wikipedia.org/wiki/Mikhail_Gorbachev",
+      "wikidata": "Q30487",
+      "page": "Mikhail Gorbachev",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "gorkin",
+      "birth": 1901,
+      "death": 1987,
+      "source": "https://en.wikipedia.org/wiki/Juli%C3%A1n_Gorkin",
+      "wikidata": "Q633010",
+      "page": "Julián Gorkin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "gorky-maxim",
+      "birth": 1868,
+      "death": 1936,
+      "source": "https://en.wikipedia.org/wiki/Maxim_Gorky",
+      "wikidata": "Q12706",
+      "page": "Maxim Gorky",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "gorter",
+      "birth": 1864,
+      "death": 1927,
+      "source": "https://en.wikipedia.org/wiki/Herman_Gorter",
+      "wikidata": "Q325191",
+      "page": "Herman Gorter",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "gorz",
+      "birth": 1923,
+      "death": 2007,
+      "source": "https://en.wikipedia.org/wiki/Andr%C3%A9_Gorz",
+      "wikidata": "Q84352",
+      "page": "André Gorz",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "gramsci",
+      "birth": 1891,
+      "death": 1937,
+      "source": "https://en.wikipedia.org/wiki/Antonio_Gramsci",
+      "wikidata": "Q83003",
+      "page": "Antonio Gramsci",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "grant",
+      "birth": 1913,
+      "death": 2006,
+      "source": "https://en.wikipedia.org/wiki/Ted_Grant",
+      "wikidata": "Q526770",
+      "page": "Ted Grant",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "grossman",
+      "birth": 1881,
+      "death": 1950,
+      "source": "https://en.wikipedia.org/wiki/Henryk_Grossman",
+      "wikidata": "Q63551",
+      "page": "Henryk Grossman",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "guesde",
+      "birth": 1845,
+      "death": 1922,
+      "source": "https://en.wikipedia.org/wiki/Jules_Guesde",
+      "wikidata": "Q379699",
+      "page": "Jules Guesde",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "guevara",
+      "birth": 1928,
+      "death": 1967,
+      "source": "https://en.wikipedia.org/wiki/Che_Guevara",
+      "wikidata": "Q5809",
+      "page": "Che Guevara",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "guyau",
+      "birth": 1854,
+      "death": 1888,
+      "source": "https://en.wikipedia.org/wiki/Jean-Marie_Guyau",
+      "wikidata": "Q707490",
+      "page": "Jean-Marie Guyau",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "habermas",
+      "birth": 1929,
+      "death": 2026,
+      "source": "https://en.wikipedia.org/wiki/J%C3%BCrgen_Habermas",
+      "wikidata": "Q76357",
+      "page": "Jürgen Habermas",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hadden",
+      "birth": 1950,
+      "death": 2010,
+      "source": "https://en.wikipedia.org/wiki/Peter_Hadden",
+      "wikidata": "Q7174470",
+      "page": "Peter Hadden",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "haldane",
+      "birth": 1892,
+      "death": 1964,
+      "source": "https://en.wikipedia.org/wiki/J._B._S._Haldane",
+      "wikidata": "Q156333",
+      "page": "J. B. S. Haldane",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hallas",
+      "birth": 1925,
+      "death": 2002,
+      "source": "https://en.wikipedia.org/wiki/Duncan_Hallas",
+      "wikidata": "Q1265394",
+      "page": "Duncan Hallas",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "harber",
+      "birth": 1909,
+      "death": 1966,
+      "source": "https://en.wikipedia.org/wiki/Denzil_Dean_Harber",
+      "wikidata": "Q5259898",
+      "page": "Denzil Dean Harber",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hardie",
+      "birth": 1856,
+      "death": 1915,
+      "source": "https://en.wikipedia.org/wiki/Keir_Hardie",
+      "wikidata": "Q332460",
+      "page": "Keir Hardie",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "harman",
+      "birth": 1942,
+      "death": 2009,
+      "source": "https://en.wikipedia.org/wiki/Chris_Harman",
+      "wikidata": "Q730190",
+      "page": "Chris Harman",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "harnecker",
+      "birth": 1937,
+      "death": 2019,
+      "source": "https://en.wikipedia.org/wiki/Marta_Harnecker",
+      "wikidata": "Q452797",
+      "page": "Marta Harnecker",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "haston",
+      "birth": 1913,
+      "death": 1986,
+      "source": "https://en.wikipedia.org/wiki/Jock_Haston",
+      "wikidata": "Q6207351",
+      "page": "Jock Haston",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "healy",
+      "birth": 1913,
+      "death": 1989,
+      "source": "https://en.wikipedia.org/wiki/Gerry_Healy",
+      "wikidata": "Q1514889",
+      "page": "Gerry Healy",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "heckert",
+      "birth": 1884,
+      "death": 1936,
+      "source": "https://en.wikipedia.org/wiki/Fritz_Heckert",
+      "wikidata": "Q108840",
+      "page": "Fritz Heckert",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hekmat-mansoor",
+      "birth": 1951,
+      "death": 2002,
+      "source": "https://en.wikipedia.org/wiki/Mansoor_Hekmat",
+      "wikidata": "Q713790",
+      "page": "Mansoor Hekmat",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "herder",
+      "birth": 1744,
+      "death": 1803,
+      "source": "https://en.wikipedia.org/wiki/Johann_Gottfried_Herder",
+      "wikidata": "Q155547",
+      "page": "Johann Gottfried Herder",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hess",
+      "birth": 1812,
+      "death": 1875,
+      "source": "https://en.wikipedia.org/wiki/Moses_Hess",
+      "wikidata": "Q213565",
+      "page": "Moses Hess",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hgwells",
+      "birth": 1866,
+      "death": 1946,
+      "source": "https://en.wikipedia.org/wiki/H._G._Wells",
+      "wikidata": "Q42511",
+      "page": "H. G. Wells",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hilferding",
+      "birth": 1877,
+      "death": 1941,
+      "source": "https://en.wikipedia.org/wiki/Rudolf_Hilferding",
+      "wikidata": "Q57848",
+      "page": "Rudolf Hilferding",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hirson",
+      "birth": 1921,
+      "death": 1999,
+      "source": "https://en.wikipedia.org/wiki/Baruch_Hirson",
+      "wikidata": "Q4865858",
+      "page": "Baruch Hirson",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "ho-chi-minh",
+      "birth": 1890,
+      "death": 1969,
+      "source": "https://en.wikipedia.org/wiki/Ho_Chi_Minh",
+      "wikidata": "Q36014",
+      "page": "Ho Chi Minh",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "honecker",
+      "birth": 1912,
+      "death": 1994,
+      "source": "https://en.wikipedia.org/wiki/Erich_Honecker",
+      "wikidata": "Q2607",
+      "page": "Erich Honecker",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "horkheimer",
+      "birth": 1895,
+      "death": 1973,
+      "source": "https://en.wikipedia.org/wiki/Max_Horkheimer",
+      "wikidata": "Q76826",
+      "page": "Max Horkheimer",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hoxha",
+      "birth": 1908,
+      "death": 1985,
+      "source": "https://en.wikipedia.org/wiki/Enver_Hoxha",
+      "wikidata": "Q53783",
+      "page": "Enver Hoxha",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hu-yaobang",
+      "birth": 1915,
+      "death": 1989,
+      "source": "https://en.wikipedia.org/wiki/Hu_Yaobang",
+      "wikidata": "Q99850",
+      "page": "Hu Yaobang",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hua-guofeng",
+      "birth": 1921,
+      "death": 2008,
+      "source": "https://en.wikipedia.org/wiki/Hua_Guofeng",
+      "wikidata": "Q41570",
+      "page": "Hua Guofeng",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "hyndman",
+      "birth": 1842,
+      "death": 1921,
+      "source": "https://en.wikipedia.org/wiki/Henry_Hyndman",
+      "wikidata": "Q548271",
+      "page": "Henry Hyndman",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "ibarruri",
+      "birth": 1895,
+      "death": 1989,
+      "source": "https://en.wikipedia.org/wiki/Dolores_Ib%C3%A1rruri",
+      "wikidata": "Q238955",
+      "page": "Dolores Ibárruri",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "ilyenkov",
+      "birth": 1924,
+      "death": 1979,
+      "source": "https://en.wikipedia.org/wiki/Evald_Ilyenkov",
+      "wikidata": "Q1382977",
+      "page": "Evald Ilyenkov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "jagan",
+      "birth": 1918,
+      "death": 1997,
+      "source": "https://en.wikipedia.org/wiki/Cheddi_Jagan",
+      "wikidata": "Q724156",
+      "page": "Cheddi Jagan",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "jakira",
+      "birth": 1889,
+      "death": 1931,
+      "source": "https://en.wikipedia.org/wiki/Abram_Jakira",
+      "wikidata": "Q4669364",
+      "page": "Abram Jakira",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "james-clr",
+      "birth": 1901,
+      "death": 1989,
+      "source": "https://en.wikipedia.org/wiki/C._L._R._James",
+      "wikidata": "Q773828",
+      "page": "C. L. R. James",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "jaures",
+      "birth": 1859,
+      "death": 1914,
+      "source": "https://en.wikipedia.org/wiki/Jean_Jaur%C3%A8s",
+      "wikidata": "Q12688",
+      "page": "Jean Jaurès",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "jiang-zemin",
+      "birth": 1926,
+      "death": 2022,
+      "source": "https://en.wikipedia.org/wiki/Jiang_Zemin",
+      "wikidata": "Q16597",
+      "page": "Jiang Zemin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "joffe",
+      "birth": 1883,
+      "death": 1927,
+      "source": "https://en.wikipedia.org/wiki/Adolph_Joffe",
+      "wikidata": "Q318330",
+      "page": "Adolph Joffe",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "jones",
+      "birth": 1883,
+      "death": 1924,
+      "source": "https://en.wikipedia.org/wiki/David_Ivon_Jones",
+      "wikidata": "Q56179420",
+      "page": "David Ivon Jones",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "jones-claudia",
+      "birth": 1915,
+      "death": 1964,
+      "source": "https://en.wikipedia.org/wiki/Claudia_Jones",
+      "wikidata": "Q5129197",
+      "page": "Claudia Jones",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "jozsef",
+      "birth": 1905,
+      "death": 1937,
+      "source": "https://en.wikipedia.org/wiki/Attila_J%C3%B3zsef",
+      "wikidata": "Q313359",
+      "page": "Attila József",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kadar",
+      "birth": 1912,
+      "death": 1989,
+      "source": "https://en.wikipedia.org/wiki/J%C3%A1nos_K%C3%A1d%C3%A1r",
+      "wikidata": "Q200850",
+      "page": "János Kádár",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kamenka",
+      "birth": 1928,
+      "death": 1994,
+      "source": "https://en.wikipedia.org/wiki/Eugene_Kamenka",
+      "wikidata": "Q2918834",
+      "page": "Eugene Kamenka",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kanafani",
+      "birth": 1936,
+      "death": 1972,
+      "source": "https://en.wikipedia.org/wiki/Ghassan_Kanafani",
+      "wikidata": "Q369696",
+      "page": "Ghassan Kanafani",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kapo",
+      "birth": 1915,
+      "death": 1979,
+      "source": "https://en.wikipedia.org/wiki/Hysni_Kapo",
+      "wikidata": "Q836508",
+      "page": "Hysni Kapo",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kautsky",
+      "birth": 1854,
+      "death": 1938,
+      "source": "https://en.wikipedia.org/wiki/Karl_Kautsky",
+      "wikidata": "Q76586",
+      "page": "Karl Kautsky",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kaysone",
+      "birth": 1920,
+      "death": 1992,
+      "source": "https://en.wikipedia.org/wiki/Kaysone_Phomvihane",
+      "wikidata": "Q320100",
+      "page": "Kaysone Phomvihane",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "keracher",
+      "birth": 1880,
+      "death": 1958,
+      "source": "https://en.wikipedia.org/wiki/John_Keracher",
+      "wikidata": "Q6242954",
+      "page": "John Keracher",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kerensky",
+      "birth": 1881,
+      "death": 1970,
+      "source": "https://en.wikipedia.org/wiki/Alexander_Kerensky",
+      "wikidata": "Q48211",
+      "page": "Alexander Kerensky",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "khrushchev",
+      "birth": 1894,
+      "death": 1971,
+      "source": "https://en.wikipedia.org/wiki/Nikita_Khrushchev",
+      "wikidata": "Q35314",
+      "page": "Nikita Khrushchev",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kidron",
+      "birth": 1930,
+      "death": 2003,
+      "source": "https://en.wikipedia.org/wiki/Michael_Kidron",
+      "wikidata": "Q6831873",
+      "page": "Michael Kidron",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kim-il-sung",
+      "birth": 1912,
+      "death": 1994,
+      "source": "https://en.wikipedia.org/wiki/Kim_Il_Sung",
+      "wikidata": "Q41117",
+      "page": "Kim Il Sung",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kim-jong-il",
+      "birth": 1941,
+      "death": 2011,
+      "source": "https://en.wikipedia.org/wiki/Kim_Jong_Il",
+      "wikidata": "Q10665",
+      "page": "Kim Jong Il",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kitz",
+      "birth": 1849,
+      "death": 1923,
+      "source": "https://en.wikipedia.org/wiki/Frank_Kitz",
+      "wikidata": "Q27886485",
+      "page": "Frank Kitz",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kollonta",
+      "birth": 1872,
+      "death": 1952,
+      "source": "https://en.wikipedia.org/wiki/Alexandra_Kollontai",
+      "wikidata": "Q179558",
+      "page": "Alexandra Kollontai",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "krupskaya",
+      "birth": 1869,
+      "death": 1939,
+      "source": "https://en.wikipedia.org/wiki/Nadezhda_Krupskaya",
+      "wikidata": "Q215637",
+      "page": "Nadezhda Krupskaya",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kun-bela",
+      "birth": 1886,
+      "death": 1938,
+      "source": "https://en.wikipedia.org/wiki/B%C3%A9la_Kun",
+      "wikidata": "Q151646",
+      "page": "Béla Kun",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "kuusinen",
+      "birth": 1881,
+      "death": 1964,
+      "source": "https://en.wikipedia.org/wiki/Otto_Kuusinen",
+      "wikidata": "Q313618",
+      "page": "Otto Kuusinen",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "labriola",
+      "birth": 1843,
+      "death": 1904,
+      "source": "https://en.wikipedia.org/wiki/Antonio_Labriola",
+      "wikidata": "Q342730",
+      "page": "Antonio Labriola",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lafargue",
+      "birth": 1842,
+      "death": 1911,
+      "source": "https://en.wikipedia.org/wiki/Paul_Lafargue",
+      "wikidata": "Q317152",
+      "page": "Paul Lafargue",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lassalle",
+      "birth": 1825,
+      "death": 1864,
+      "source": "https://en.wikipedia.org/wiki/Ferdinand_Lassalle",
+      "wikidata": "Q75784",
+      "page": "Ferdinand Lassalle",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "laufenberg",
+      "birth": 1872,
+      "death": 1932,
+      "source": "https://en.wikipedia.org/wiki/Heinrich_Laufenberg",
+      "wikidata": "Q91972",
+      "page": "Heinrich Laufenberg",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "laurat",
+      "birth": 1898,
+      "death": 1973,
+      "source": "https://en.wikipedia.org/wiki/Lucien_Laurat",
+      "wikidata": "Q3265591",
+      "page": "Lucien Laurat",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "le-duan",
+      "birth": 1907,
+      "death": 1986,
+      "source": "https://en.wikipedia.org/wiki/L%C3%AA_Du%E1%BA%A9n",
+      "wikidata": "Q466001",
+      "page": "Lê Duẩn",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lefort",
+      "birth": 1924,
+      "death": 2010,
+      "source": "https://en.wikipedia.org/wiki/Claude_Lefort",
+      "wikidata": "Q373036",
+      "page": "Claude Lefort",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lenin",
+      "birth": 1870,
+      "death": 1924,
+      "source": "https://en.wikipedia.org/wiki/Vladimir_Lenin",
+      "wikidata": "Q1394",
+      "page": "Vladimir Lenin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lessner",
+      "birth": 1825,
+      "death": 1910,
+      "source": "https://en.wikipedia.org/wiki/Frederick_Lessner",
+      "wikidata": "Q1460772",
+      "page": "Frederick Lessner",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "levi-paul",
+      "birth": 1883,
+      "death": 1930,
+      "source": "https://en.wikipedia.org/wiki/Paul_Levi",
+      "wikidata": "Q70872",
+      "page": "Paul Levi",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "levy-benny",
+      "birth": 1945,
+      "death": 2003,
+      "source": "https://en.wikipedia.org/wiki/Benny_L%C3%A9vy",
+      "wikidata": "Q631466",
+      "page": "Benny Lévy",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "li-lisan",
+      "birth": 1899,
+      "death": 1967,
+      "source": "https://en.wikipedia.org/wiki/Li_Lisan",
+      "wikidata": "Q700892",
+      "page": "Li Lisan",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "liebknecht-k",
+      "birth": 1871,
+      "death": 1919,
+      "source": "https://en.wikipedia.org/wiki/Karl_Liebknecht",
+      "wikidata": "Q75886",
+      "page": "Karl Liebknecht",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "liebknecht-w",
+      "birth": 1826,
+      "death": 1900,
+      "source": "https://en.wikipedia.org/wiki/Wilhelm_Liebknecht",
+      "wikidata": "Q20127",
+      "page": "Wilhelm Liebknecht",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "liebman",
+      "birth": 1929,
+      "death": 1986,
+      "source": "https://en.wikipedia.org/wiki/Marcel_Liebman",
+      "wikidata": "Q3289162",
+      "page": "Marcel Liebman",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lin-biao",
+      "birth": 1907,
+      "death": 1971,
+      "source": "https://en.wikipedia.org/wiki/Lin_Biao",
+      "wikidata": "Q315475",
+      "page": "Lin Biao",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "liu-shaoqi",
+      "birth": 1898,
+      "death": 1969,
+      "source": "https://en.wikipedia.org/wiki/Liu_Shaoqi",
+      "wikidata": "Q16988",
+      "page": "Liu Shaoqi",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "longuet-jean",
+      "birth": 1876,
+      "death": 1938,
+      "source": "https://en.wikipedia.org/wiki/Jean_Longuet",
+      "wikidata": "Q465386",
+      "page": "Jean Longuet",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lowenthal",
+      "birth": 1900,
+      "death": 1993,
+      "source": "https://en.wikipedia.org/wiki/Leo_L%C3%B6wenthal",
+      "wikidata": "Q77146",
+      "page": "Leo Löwenthal",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lu-xun",
+      "birth": 1881,
+      "death": 1936,
+      "source": "https://en.wikipedia.org/wiki/Lu_Xun",
+      "wikidata": "Q23114",
+      "page": "Lu Xun",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lukacs",
+      "birth": 1885,
+      "death": 1971,
+      "source": "https://en.wikipedia.org/wiki/Gy%C3%B6rgy_Luk%C3%A1cs",
+      "wikidata": "Q151523",
+      "page": "György Lukács",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lumumba",
+      "birth": 1925,
+      "death": 1961,
+      "source": "https://en.wikipedia.org/wiki/Patrice_Lumumba",
+      "wikidata": "Q161672",
+      "page": "Patrice Lumumba",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lunachar",
+      "birth": 1875,
+      "death": 1933,
+      "source": "https://en.wikipedia.org/wiki/Anatoly_Lunacharsky",
+      "wikidata": "Q18809",
+      "page": "Anatoly Lunacharsky",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "luria",
+      "birth": 1902,
+      "death": 1977,
+      "source": "https://en.wikipedia.org/wiki/Alexander_Luria",
+      "wikidata": "Q350778",
+      "page": "Alexander Luria",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "luxemburg",
+      "birth": 1871,
+      "death": 1919,
+      "source": "https://en.wikipedia.org/wiki/Rosa_Luxemburg",
+      "wikidata": "Q7231",
+      "page": "Rosa Luxemburg",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "lysenko",
+      "birth": 1898,
+      "death": 1976,
+      "source": "https://en.wikipedia.org/wiki/Trofim_Lysenko",
+      "wikidata": "Q294234",
+      "page": "Trofim Lysenko",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "makarenko",
+      "birth": 1888,
+      "death": 1939,
+      "source": "https://en.wikipedia.org/wiki/Anton_Makarenko",
+      "wikidata": "Q297448",
+      "page": "Anton Makarenko",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "malaka",
+      "birth": 1897,
+      "death": 1949,
+      "source": "https://en.wikipedia.org/wiki/Tan_Malaka",
+      "wikidata": "Q561682",
+      "page": "Tan Malaka",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "malatesta",
+      "birth": 1853,
+      "death": 1932,
+      "source": "https://en.wikipedia.org/wiki/Errico_Malatesta",
+      "wikidata": "Q215673",
+      "page": "Errico Malatesta",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "mandel",
+      "birth": 1923,
+      "death": 1995,
+      "source": "https://en.wikipedia.org/wiki/Ernest_Mandel",
+      "wikidata": "Q165121",
+      "page": "Ernest Mandel",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "mann-tom",
+      "birth": 1856,
+      "death": 1941,
+      "source": "https://en.wikipedia.org/wiki/Tom_Mann",
+      "wikidata": "Q1852204",
+      "page": "Tom Mann",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "manuilsky",
+      "birth": 1883,
+      "death": 1959,
+      "source": "https://en.wikipedia.org/wiki/Dmitry_Manuilsky",
+      "wikidata": "Q2383086",
+      "page": "Dmitry Manuilsky",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "mao",
+      "birth": 1893,
+      "death": 1976,
+      "source": "https://en.wikipedia.org/wiki/Mao_Zedong",
+      "wikidata": "Q5816",
+      "page": "Mao Zedong",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "marighella-carlos",
+      "birth": 1911,
+      "death": 1969,
+      "source": "https://en.wikipedia.org/wiki/Carlos_Marighella",
+      "wikidata": "Q712117",
+      "page": "Carlos Marighella",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "markievicz",
+      "birth": 1868,
+      "death": 1927,
+      "source": "https://en.wikipedia.org/wiki/Constance_Markievicz",
+      "wikidata": "Q195768",
+      "page": "Constance Markievicz",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "markovic",
+      "birth": 1923,
+      "death": 2010,
+      "source": "https://en.wikipedia.org/wiki/Mihailo_Markovi%C4%87",
+      "wikidata": "Q1286714",
+      "page": "Mihailo Marković",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "martov",
+      "birth": 1873,
+      "death": 1923,
+      "source": "https://en.wikipedia.org/wiki/Julius_Martov",
+      "wikidata": "Q215505",
+      "page": "Julius Martov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "marx",
+      "birth": 1818,
+      "death": 1883,
+      "source": "https://en.wikipedia.org/wiki/Karl_Marx",
+      "wikidata": "Q9061",
+      "page": "Karl Marx",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "marx-2",
+      "birth": 1844,
+      "death": 1883,
+      "source": "https://en.wikipedia.org/wiki/Jenny_Longuet",
+      "wikidata": "Q448860",
+      "page": "Jenny Longuet",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "mazumdar",
+      "birth": 1918,
+      "death": 1972,
+      "source": "https://en.wikipedia.org/wiki/Charu_Majumdar",
+      "wikidata": "Q1067913",
+      "page": "Charu Majumdar",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "mbeki",
+      "birth": 1910,
+      "death": 2001,
+      "source": "https://en.wikipedia.org/wiki/Govan_Mbeki",
+      "wikidata": "Q1396109",
+      "page": "Govan Mbeki",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "mehring",
+      "birth": 1846,
+      "death": 1919,
+      "source": "https://en.wikipedia.org/wiki/Franz_Mehring",
+      "wikidata": "Q18806",
+      "page": "Franz Mehring",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "mett",
+      "birth": 1901,
+      "death": 1973,
+      "source": "https://en.wikipedia.org/wiki/Ida_Mett",
+      "wikidata": "Q274122",
+      "page": "Ida Mett",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "miliband",
+      "birth": 1924,
+      "death": 1994,
+      "source": "https://en.wikipedia.org/wiki/Ralph_Miliband",
+      "wikidata": "Q2036385",
+      "page": "Ralph Miliband",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "milyutin",
+      "birth": 1884,
+      "death": 1937,
+      "source": "https://en.wikipedia.org/wiki/Vladimir_Milyutin",
+      "wikidata": "Q504578",
+      "page": "Vladimir Milyutin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "mishra",
+      "birth": 1947,
+      "death": 1998,
+      "source": "https://en.wikipedia.org/wiki/Vinod_Mishra",
+      "wikidata": "Q4013722",
+      "page": "Vinod Mishra",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "molotov",
+      "birth": 1890,
+      "death": 1986,
+      "source": "https://en.wikipedia.org/wiki/Vyacheslav_Molotov",
+      "wikidata": "Q132899",
+      "page": "Vyacheslav Molotov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "monatte",
+      "birth": 1881,
+      "death": 1960,
+      "source": "https://en.wikipedia.org/wiki/Pierre_Monatte",
+      "wikidata": "Q3087687",
+      "page": "Pierre Monatte",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "montefiore",
+      "birth": 1851,
+      "death": 1933,
+      "source": "https://en.wikipedia.org/wiki/Dora_Montefiore",
+      "wikidata": "Q5297436",
+      "page": "Dora Montefiore",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "moreno",
+      "birth": 1924,
+      "death": 1987,
+      "source": "https://en.wikipedia.org/wiki/Nahuel_Moreno",
+      "wikidata": "Q2617365",
+      "page": "Nahuel Moreno",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "morin",
+      "birth": 1921,
+      "death": 2026,
+      "source": "https://en.wikipedia.org/wiki/Edgar_Morin",
+      "wikidata": "Q317880",
+      "page": "Edgar Morin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "morris",
+      "birth": 1834,
+      "death": 1896,
+      "source": "https://en.wikipedia.org/wiki/William_Morris",
+      "wikidata": "Q182589",
+      "page": "William Morris",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "mugabe",
+      "birth": 1924,
+      "death": 2019,
+      "source": "https://en.wikipedia.org/wiki/Robert_Mugabe",
+      "wikidata": "Q10707",
+      "page": "Robert Mugabe",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "munis",
+      "birth": 1912,
+      "death": 1989,
+      "source": "https://en.wikipedia.org/wiki/Grandizo_Munis",
+      "wikidata": "Q1157028",
+      "page": "Grandizo Munis",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "murphy-jt",
+      "birth": 1888,
+      "death": 1965,
+      "source": "https://en.wikipedia.org/wiki/J._T._Murphy",
+      "wikidata": "Q6107199",
+      "page": "J. T. Murphy",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "namboodiripad",
+      "birth": 1909,
+      "death": 1998,
+      "source": "https://en.wikipedia.org/wiki/E._M._S._Namboodiripad",
+      "wikidata": "Q1273532",
+      "page": "E. M. S. Namboodiripad",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "nin",
+      "birth": 1892,
+      "death": 1937,
+      "source": "https://en.wikipedia.org/wiki/Andreu_Nin",
+      "wikidata": "Q317923",
+      "page": "Andreu Nin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "nizan",
+      "birth": 1905,
+      "death": 1940,
+      "source": "https://en.wikipedia.org/wiki/Paul_Nizan",
+      "wikidata": "Q723621",
+      "page": "Paul Nizan",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "nkrumah",
+      "birth": 1909,
+      "death": 1972,
+      "source": "https://en.wikipedia.org/wiki/Kwame_Nkrumah",
+      "wikidata": "Q8620",
+      "page": "Kwame Nkrumah",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "nyerere",
+      "birth": 1922,
+      "death": 1999,
+      "source": "https://en.wikipedia.org/wiki/Julius_Nyerere",
+      "wikidata": "Q186525",
+      "page": "Julius Nyerere",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "oehler",
+      "birth": 1903,
+      "death": 1983,
+      "source": "https://en.wikipedia.org/wiki/Hugo_Oehler",
+      "wikidata": "Q5934296",
+      "page": "Hugo Oehler",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "orwell",
+      "birth": 1903,
+      "death": 1950,
+      "source": "https://en.wikipedia.org/wiki/George_Orwell",
+      "wikidata": "Q3335",
+      "page": "George Orwell",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pablo",
+      "birth": 1911,
+      "death": 1996,
+      "source": "https://en.wikipedia.org/wiki/Michel_Pablo",
+      "wikidata": "Q1362259",
+      "page": "Michel Pablo",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "padmore",
+      "birth": 1903,
+      "death": 1959,
+      "source": "https://en.wikipedia.org/wiki/George_Padmore",
+      "wikidata": "Q737469",
+      "page": "George Padmore",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "palm-august",
+      "birth": 1849,
+      "death": 1922,
+      "source": "https://en.wikipedia.org/wiki/August_Palm",
+      "wikidata": "Q763359",
+      "page": "August Palm",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pankhurst-sylvia",
+      "birth": 1882,
+      "death": 1960,
+      "source": "https://en.wikipedia.org/wiki/Sylvia_Pankhurst",
+      "wikidata": "Q298213",
+      "page": "Sylvia Pankhurst",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pannekoe",
+      "birth": 1873,
+      "death": 1960,
+      "source": "https://en.wikipedia.org/wiki/Anton_Pannekoek",
+      "wikidata": "Q347930",
+      "page": "Anton Pannekoek",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pashukanis",
+      "birth": 1891,
+      "death": 1937,
+      "source": "https://en.wikipedia.org/wiki/Evgeny_Pashukanis",
+      "wikidata": "Q720900",
+      "page": "Evgeny Pashukanis",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pearce",
+      "birth": 1915,
+      "death": 2008,
+      "source": "https://en.wikipedia.org/wiki/Brian_Pearce",
+      "wikidata": "Q4965018",
+      "page": "Brian Pearce",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pelletier",
+      "birth": 1874,
+      "death": 1939,
+      "source": "https://en.wikipedia.org/wiki/Madeleine_Pelletier",
+      "wikidata": "Q528793",
+      "page": "Madeleine Pelletier",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pernerstorfer",
+      "birth": 1850,
+      "death": 1918,
+      "source": "https://en.wikipedia.org/wiki/Engelbert_Pernerstorfer",
+      "wikidata": "Q875141",
+      "page": "Engelbert Pernerstorfer",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "petroff",
+      "birth": 1884,
+      "death": 1947,
+      "source": "https://en.wikipedia.org/wiki/Peter_Petroff_(communist)",
+      "wikidata": "Q23688893",
+      "page": "Peter Petroff (communist)",
+      "retrieved": "2026-11-08",
+      "note": "Corrected after a namesake page was rejected. The opening of Peter Petroff (communist) gives 1884 – 12 June 1947 and describes the activist and journalist. The NASA inventor Peter Petroff (1919–2003) is not this record. The opening gives the birth year only. The catalogue dates field was not used."
+    },
+    {
+      "id": "petrovic",
+      "birth": 1927,
+      "death": 1993,
+      "source": "https://en.wikipedia.org/wiki/Gajo_Petrovi%C4%87",
+      "wikidata": "Q1290391",
+      "page": "Gajo Petrović",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pham",
+      "birth": 1906,
+      "death": 2000,
+      "source": "https://en.wikipedia.org/wiki/Ph%E1%BA%A1m_V%C4%83n_%C4%90%E1%BB%93ng",
+      "wikidata": "Q358051",
+      "page": "Phạm Văn Đồng",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "piatnitsky",
+      "birth": 1882,
+      "death": 1938,
+      "source": "https://en.wikipedia.org/wiki/Osip_Piatnitsky",
+      "wikidata": "Q586545",
+      "page": "Osip Piatnitsky",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pieck",
+      "birth": 1876,
+      "death": 1960,
+      "source": "https://en.wikipedia.org/wiki/Wilhelm_Pieck",
+      "wikidata": "Q65917",
+      "page": "Wilhelm Pieck",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pilger",
+      "birth": 1939,
+      "death": 2023,
+      "source": "https://en.wikipedia.org/wiki/John_Pilger",
+      "wikidata": "Q471546",
+      "page": "John Pilger",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "plekhanov",
+      "birth": 1856,
+      "death": 1918,
+      "source": "https://en.wikipedia.org/wiki/Georgi_Plekhanov",
+      "wikidata": "Q182905",
+      "page": "Georgi Plekhanov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pol-pot",
+      "birth": 1925,
+      "death": 1998,
+      "source": "https://en.wikipedia.org/wiki/Pol_Pot",
+      "wikidata": "Q39464",
+      "page": "Pol Pot",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "politzer",
+      "birth": 1903,
+      "death": 1942,
+      "source": "https://en.wikipedia.org/wiki/Georges_Politzer",
+      "wikidata": "Q601482",
+      "page": "Georges Politzer",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pollitt",
+      "birth": 1890,
+      "death": 1960,
+      "source": "https://en.wikipedia.org/wiki/Harry_Pollitt",
+      "wikidata": "Q1321066",
+      "page": "Harry Pollitt",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pottier",
+      "birth": 1816,
+      "death": 1887,
+      "source": "https://en.wikipedia.org/wiki/Eug%C3%A8ne_Pottier",
+      "wikidata": "Q312915",
+      "page": "Eugène Pottier",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pouliop",
+      "birth": 1900,
+      "death": 1943,
+      "source": "https://en.wikipedia.org/wiki/Pandelis_Pouliopoulos",
+      "wikidata": "Q2655135",
+      "page": "Pandelis Pouliopoulos",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "preobrazhensky",
+      "birth": 1886,
+      "death": 1937,
+      "source": "https://en.wikipedia.org/wiki/Yevgeni_Preobrazhensky",
+      "wikidata": "Q128511",
+      "page": "Yevgeni Preobrazhensky",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "price",
+      "birth": 1885,
+      "death": 1973,
+      "source": "https://en.wikipedia.org/wiki/M._Philips_Price",
+      "wikidata": "Q6911814",
+      "page": "M. Philips Price",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "pyat",
+      "birth": 1810,
+      "death": 1889,
+      "source": "https://en.wikipedia.org/wiki/F%C3%A9lix_Pyat",
+      "wikidata": "Q2476314",
+      "page": "Félix Pyat",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "radek",
+      "birth": 1885,
+      "death": 1939,
+      "source": "https://en.wikipedia.org/wiki/Karl_Radek",
+      "wikidata": "Q84266",
+      "page": "Karl Radek",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "rakosi",
+      "birth": 1892,
+      "death": 1971,
+      "source": "https://en.wikipedia.org/wiki/M%C3%A1ty%C3%A1s_R%C3%A1kosi",
+      "wikidata": "Q207631",
+      "page": "Mátyás Rákosi",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "rana",
+      "birth": 1942,
+      "death": 2019,
+      "source": "https://en.wikipedia.org/wiki/Santosh_Rana",
+      "wikidata": "Q7420664",
+      "page": "Santosh Rana",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "ranadive",
+      "birth": 1904,
+      "death": 1990,
+      "source": "https://en.wikipedia.org/wiki/B._T._Ranadive",
+      "wikidata": "Q4834234",
+      "page": "B. T. Ranadive",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "rappoport",
+      "birth": 1865,
+      "death": 1941,
+      "source": "https://en.wikipedia.org/wiki/Charles_Rappoport",
+      "wikidata": "Q669733",
+      "page": "Charles Rappoport",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "riazanov",
+      "birth": 1870,
+      "death": 1938,
+      "source": "https://en.wikipedia.org/wiki/David_Riazanov",
+      "wikidata": "Q597991",
+      "page": "David Riazanov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "rizzi",
+      "birth": 1901,
+      "death": 1977,
+      "source": "https://en.wikipedia.org/wiki/Bruno_Rizzi",
+      "wikidata": "Q1141914",
+      "page": "Bruno Rizzi",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "rosdolsky",
+      "birth": 1898,
+      "death": 1967,
+      "source": "https://en.wikipedia.org/wiki/Roman_Rosdolsky",
+      "wikidata": "Q214953",
+      "page": "Roman Rosdolsky",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "rosenberg",
+      "birth": 1889,
+      "death": 1943,
+      "source": "https://en.wikipedia.org/wiki/Arthur_Rosenberg",
+      "wikidata": "Q213748",
+      "page": "Arthur Rosenberg",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "rosmer",
+      "birth": 1877,
+      "death": 1964,
+      "source": "https://en.wikipedia.org/wiki/Alfred_Rosmer",
+      "wikidata": "Q1359270",
+      "page": "Alfred Rosmer",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "roy",
+      "birth": 1887,
+      "death": 1954,
+      "source": "https://en.wikipedia.org/wiki/M._N._Roy",
+      "wikidata": "Q313313",
+      "page": "M. N. Roy",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "rubin",
+      "birth": 1886,
+      "death": 1937,
+      "source": "https://en.wikipedia.org/wiki/Isaak_Rubin",
+      "wikidata": "Q1187315",
+      "page": "Isaak Rubin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "ruhle",
+      "birth": 1874,
+      "death": 1943,
+      "source": "https://en.wikipedia.org/wiki/Otto_R%C3%BChle",
+      "wikidata": "Q215955",
+      "page": "Otto Rühle",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "said",
+      "birth": 1935,
+      "death": 2003,
+      "source": "https://en.wikipedia.org/wiki/Edward_Said",
+      "wikidata": "Q201538",
+      "page": "Edward Said",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sanial",
+      "birth": 1835,
+      "death": 1927,
+      "source": "https://en.wikipedia.org/wiki/Lucien_Sanial",
+      "wikidata": "Q6697128",
+      "page": "Lucien Sanial",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sankara",
+      "birth": 1949,
+      "death": 1987,
+      "source": "https://en.wikipedia.org/wiki/Thomas_Sankara",
+      "wikidata": "Q202155",
+      "page": "Thomas Sankara",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sartre",
+      "birth": 1905,
+      "death": 1980,
+      "source": "https://en.wikipedia.org/wiki/Jean-Paul_Sartre",
+      "wikidata": "Q9364",
+      "page": "Jean-Paul Sartre",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "saville",
+      "birth": 1916,
+      "death": 2009,
+      "source": "https://en.wikipedia.org/wiki/John_Saville",
+      "wikidata": "Q784368",
+      "page": "John Saville",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "schelling",
+      "birth": 1775,
+      "death": 1854,
+      "source": "https://en.wikipedia.org/wiki/Friedrich_Wilhelm_Joseph_Schelling",
+      "wikidata": "Q60070",
+      "page": "Friedrich Wilhelm Joseph Schelling",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "secchia",
+      "birth": 1903,
+      "death": 1973,
+      "source": "https://en.wikipedia.org/wiki/Pietro_Secchia",
+      "wikidata": "Q3904254",
+      "page": "Pietro Secchia",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sedgwick",
+      "birth": 1934,
+      "death": 1983,
+      "source": "https://en.wikipedia.org/wiki/Peter_Sedgwick",
+      "wikidata": "Q10290898",
+      "page": "Peter Sedgwick",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sejake",
+      "birth": 1920,
+      "death": 2004,
+      "source": "https://en.wikipedia.org/wiki/Nimrod_Sejake",
+      "wikidata": "Q7037787",
+      "page": "Nimrod Sejake",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "semashko",
+      "birth": 1874,
+      "death": 1949,
+      "source": "https://en.wikipedia.org/wiki/Nikolai_Semashko_%28medicine%29",
+      "wikidata": "Q2361443",
+      "page": "Nikolai Semashko (medicine)",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "serge",
+      "birth": 1890,
+      "death": 1947,
+      "source": "https://en.wikipedia.org/wiki/Victor_Serge",
+      "wikidata": "Q362009",
+      "page": "Victor Serge",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "seve",
+      "birth": 1926,
+      "death": 2020,
+      "source": "https://en.wikipedia.org/wiki/Lucien_S%C3%A8ve",
+      "wikidata": "Q3265723",
+      "page": "Lucien Sève",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sharkey",
+      "birth": 1898,
+      "death": 1967,
+      "source": "https://en.wikipedia.org/wiki/Lance_Sharkey",
+      "wikidata": "Q1801806",
+      "page": "Lance Sharkey",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "shaw",
+      "birth": 1856,
+      "death": 1950,
+      "source": "https://en.wikipedia.org/wiki/George_Bernard_Shaw",
+      "wikidata": "Q19185",
+      "page": "George Bernard Shaw",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "shelley",
+      "birth": 1792,
+      "death": 1822,
+      "source": "https://en.wikipedia.org/wiki/Percy_Bysshe_Shelley",
+      "wikidata": "Q93343",
+      "page": "Percy Bysshe Shelley",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sheng",
+      "birth": 1895,
+      "death": 1970,
+      "source": "https://en.wikipedia.org/wiki/Sheng_Shicai",
+      "wikidata": "Q466972",
+      "page": "Sheng Shicai",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "siad-barre",
+      "birth": 1919,
+      "death": 1995,
+      "source": "https://en.wikipedia.org/wiki/Siad_Barre",
+      "wikidata": "Q209828",
+      "page": "Siad Barre",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sik",
+      "birth": 1919,
+      "death": 2004,
+      "source": "https://en.wikipedia.org/wiki/Ota_%C5%A0ik",
+      "wikidata": "Q124035",
+      "page": "Ota Šik",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sikder",
+      "birth": 1944,
+      "death": 1975,
+      "source": "https://en.wikipedia.org/wiki/Siraj_Sikder",
+      "wikidata": "Q3349910",
+      "page": "Siraj Sikder",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "slovo",
+      "birth": 1926,
+      "death": 1995,
+      "source": "https://en.wikipedia.org/wiki/Joe_Slovo",
+      "wikidata": "Q561520",
+      "page": "Joe Slovo",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sneevliet",
+      "birth": 1883,
+      "death": 1942,
+      "source": "https://en.wikipedia.org/wiki/Henk_Sneevliet",
+      "wikidata": "Q663465",
+      "page": "Henk Sneevliet",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sneh",
+      "birth": 1909,
+      "death": 1972,
+      "source": "https://en.wikipedia.org/wiki/Moshe_Sneh",
+      "wikidata": "Q1338975",
+      "page": "Moshe Sneh",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "sokolnikov",
+      "birth": 1888,
+      "death": 1939,
+      "source": "https://en.wikipedia.org/wiki/Grigory_Sokolnikov",
+      "wikidata": "Q521431",
+      "page": "Grigory Sokolnikov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "song",
+      "birth": 1909,
+      "death": 2005,
+      "source": "https://en.wikipedia.org/wiki/Song_Renqiong",
+      "wikidata": "Q704889",
+      "page": "Song Renqiong",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "soong",
+      "birth": 1893,
+      "death": 1981,
+      "source": "https://en.wikipedia.org/wiki/Soong_Ching-ling",
+      "wikidata": "Q17132",
+      "page": "Soong Ching-ling",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "spirkin",
+      "birth": 1918,
+      "death": 2004,
+      "source": "https://en.wikipedia.org/wiki/Alexander_Spirkin",
+      "wikidata": "Q4431319",
+      "page": "Alexander Spirkin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "stalin",
+      "birth": 1878,
+      "death": 1953,
+      "source": "https://en.wikipedia.org/wiki/Joseph_Stalin",
+      "wikidata": "Q855",
+      "page": "Joseph Stalin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "starr-mark",
+      "birth": 1894,
+      "death": 1985,
+      "source": "https://en.wikipedia.org/wiki/Mark_Starr_(labor_educationalist)",
+      "wikidata": "Q6769821",
+      "page": "Mark Starr (labor educationalist)",
+      "retrieved": "2026-11-08",
+      "note": "Corrected after a namesake page was rejected. The opening of Mark Starr (labor educationalist) gives 27 April 1894 – 24 April 1985 and names the ILGWU educational director. The wrestler Mark Starr (1962–2013) is not this record. The catalogue dates field was not used."
+    },
+    {
+      "id": "steinberg",
+      "birth": 1888,
+      "death": 1957,
+      "source": "https://en.wikipedia.org/wiki/Isaac_Steinberg",
+      "wikidata": "Q1344125",
+      "page": "Isaac Steinberg",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "supek",
+      "birth": 1913,
+      "death": 1993,
+      "source": "https://en.wikipedia.org/wiki/Rudi_Supek",
+      "wikidata": "Q566766",
+      "page": "Rudi Supek",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "suslov",
+      "birth": 1902,
+      "death": 1982,
+      "source": "https://en.wikipedia.org/wiki/Mikhail_Suslov",
+      "wikidata": "Q283451",
+      "page": "Mikhail Suslov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "tagore",
+      "birth": 1901,
+      "death": 1974,
+      "source": "https://en.wikipedia.org/wiki/Saumyendranath_Tagore",
+      "wikidata": "Q16007887",
+      "page": "Saumyendranath Tagore",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "tarrida",
+      "birth": 1861,
+      "death": 1915,
+      "source": "https://en.wikipedia.org/wiki/Fernando_Tarrida_del_M%C3%A1rmol",
+      "wikidata": "Q1374294",
+      "page": "Fernando Tarrida del Mármol",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "thalheimer",
+      "birth": 1884,
+      "death": 1948,
+      "source": "https://en.wikipedia.org/wiki/August_Thalheimer",
+      "wikidata": "Q66217",
+      "page": "August Thalheimer",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "thompson-ep",
+      "birth": 1924,
+      "death": 1993,
+      "source": "https://en.wikipedia.org/wiki/E._P._Thompson",
+      "wikidata": "Q434160",
+      "page": "E. P. Thompson",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "thorez",
+      "birth": 1900,
+      "death": 1964,
+      "source": "https://en.wikipedia.org/wiki/Maurice_Thorez",
+      "wikidata": "Q345408",
+      "page": "Maurice Thorez",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "tito",
+      "birth": 1892,
+      "death": 1980,
+      "source": "https://en.wikipedia.org/wiki/Josip_Broz_Tito",
+      "wikidata": "Q9161",
+      "page": "Josip Broz Tito",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "togliatti",
+      "birth": 1893,
+      "death": 1964,
+      "source": "https://en.wikipedia.org/wiki/Palmiro_Togliatti",
+      "wikidata": "Q310158",
+      "page": "Palmiro Togliatti",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "tomsky",
+      "birth": 1880,
+      "death": 1936,
+      "source": "https://en.wikipedia.org/wiki/Mikhail_Tomsky",
+      "wikidata": "Q449630",
+      "page": "Mikhail Tomsky",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "touma",
+      "birth": 1919,
+      "death": 1985,
+      "source": "https://en.wikipedia.org/wiki/Emile_Touma",
+      "wikidata": "Q5371601",
+      "page": "Emile Touma",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "toussaint-louverture",
+      "birth": 1743,
+      "death": 1803,
+      "source": "https://en.wikipedia.org/wiki/Toussaint_Louverture",
+      "wikidata": "Q205783",
+      "page": "Toussaint Louverture",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "trotsky",
+      "birth": 1879,
+      "death": 1940,
+      "source": "https://en.wikipedia.org/wiki/Leon_Trotsky",
+      "wikidata": "Q33391",
+      "page": "Leon Trotsky",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "truong-chinh",
+      "birth": 1907,
+      "death": 1988,
+      "source": "https://en.wikipedia.org/wiki/Tr%C6%B0%E1%BB%9Dng_Chinh",
+      "wikidata": "Q545539",
+      "page": "Trường Chinh",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "tsedenbal",
+      "birth": 1916,
+      "death": 1991,
+      "source": "https://en.wikipedia.org/wiki/Yumjaagiin_Tsedenbal",
+      "wikidata": "Q275025",
+      "page": "Yumjaagiin Tsedenbal",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "ulbricht",
+      "birth": 1893,
+      "death": 1973,
+      "source": "https://en.wikipedia.org/wiki/Walter_Ulbricht",
+      "wikidata": "Q2628",
+      "page": "Walter Ulbricht",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "vilenska",
+      "birth": 1918,
+      "death": 1975,
+      "source": "https://en.wikipedia.org/wiki/Esther_Vilenska",
+      "wikidata": "Q2910035",
+      "page": "Esther Vilenska",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "villerme",
+      "birth": 1782,
+      "death": 1863,
+      "source": "https://en.wikipedia.org/wiki/Louis-Ren%C3%A9_Villerm%C3%A9",
+      "wikidata": "Q367749",
+      "page": "Louis-René Villermé",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "vilner",
+      "birth": 1918,
+      "death": 2003,
+      "source": "https://en.wikipedia.org/wiki/Meir_Vilner",
+      "wikidata": "Q1376050",
+      "page": "Meir Vilner",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "widgery",
+      "birth": 1947,
+      "death": 1992,
+      "source": "https://en.wikipedia.org/wiki/David_Widgery",
+      "wikidata": "Q15524951",
+      "page": "David Widgery",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "wilde-oscar",
+      "birth": 1854,
+      "death": 1900,
+      "source": "https://en.wikipedia.org/wiki/Oscar_Wilde",
+      "wikidata": "Q30875",
+      "page": "Oscar Wilde",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "wolffheim",
+      "birth": 1888,
+      "death": 1942,
+      "source": "https://en.wikipedia.org/wiki/Fritz_Wolffheim",
+      "wikidata": "Q90289",
+      "page": "Fritz Wolffheim",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "wortis",
+      "birth": 1895,
+      "death": 1958,
+      "source": "https://en.wikipedia.org/wiki/Rose_Wortis",
+      "wikidata": "Q141442891",
+      "page": "Rose Wortis",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "zachariadis",
+      "birth": 1903,
+      "death": 1973,
+      "source": "https://en.wikipedia.org/wiki/Nikos_Zachariadis",
+      "wikidata": "Q462777",
+      "page": "Nikos Zachariadis",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "zack",
+      "birth": 1898,
+      "death": 1963,
+      "source": "https://en.wikipedia.org/wiki/Joseph_Zack_Kornfeder",
+      "wikidata": "Q15440412",
+      "page": "Joseph Zack Kornfeder",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "zasulich",
+      "birth": 1849,
+      "death": 1919,
+      "source": "https://en.wikipedia.org/wiki/Vera_Zasulich",
+      "wikidata": "Q234980",
+      "page": "Vera Zasulich",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "zetkin",
+      "birth": 1857,
+      "death": 1933,
+      "source": "https://en.wikipedia.org/wiki/Clara_Zetkin",
+      "wikidata": "Q75823",
+      "page": "Clara Zetkin",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "zhang",
+      "birth": 1917,
+      "death": 2005,
+      "source": "https://en.wikipedia.org/wiki/Zhang_Chunqiao",
+      "wikidata": "Q197170",
+      "page": "Zhang Chunqiao",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "zhivkov",
+      "birth": 1911,
+      "death": 1998,
+      "source": "https://en.wikipedia.org/wiki/Todor_Zhivkov",
+      "wikidata": "Q28517",
+      "page": "Todor Zhivkov",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "zhou-enlai",
+      "birth": 1898,
+      "death": 1976,
+      "source": "https://en.wikipedia.org/wiki/Zhou_Enlai",
+      "wikidata": "Q17410",
+      "page": "Zhou Enlai",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "zhu-de",
+      "birth": 1886,
+      "death": 1976,
+      "source": "https://en.wikipedia.org/wiki/Zhu_De",
+      "wikidata": "Q22513",
+      "page": "Zhu De",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    },
+    {
+      "id": "zinoviev",
+      "birth": 1883,
+      "death": 1936,
+      "source": "https://en.wikipedia.org/wiki/Grigory_Zinoviev",
+      "wikidata": "Q207459",
+      "page": "Grigory Zinoviev",
+      "retrieved": "2026-11-08",
+      "note": "Life span is the first plausible year-span in the opening of this Wikipedia page. The catalogue dates field was not used."
+    }
+  ]
+}
